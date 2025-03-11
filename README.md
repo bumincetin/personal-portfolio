@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Data Scientist Portfolio Website
+
+A modern, responsive personal website built with Next.js and Tailwind CSS to showcase your data science expertise, projects, and skills.
+
+## Features
+
+- Modern and responsive design
+- Dark mode support
+- Smooth animations and transitions
+- SEO optimized
+- Contact form with EmailJS integration
+- Interactive skill bars
+- Project showcase section
+- Mobile-friendly navigation
+
+## Tech Stack
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- EmailJS
+- React Intersection Observer
 
 ## Getting Started
 
-First, run the development server:
-
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd portfolio-website
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure EmailJS:
+   - Sign up for an account at [EmailJS](https://www.emailjs.com/)
+   - Create a new email service
+   - Create an email template
+   - Replace the credentials in `src/app/sections/Contact.tsx`:
+     ```typescript
+     emailjs.send(
+       'YOUR_SERVICE_ID',
+       'YOUR_TEMPLATE_ID',
+       {
+         from_name: formData.name,
+         from_email: formData.email,
+         message: formData.message,
+       },
+       'YOUR_PUBLIC_KEY'
+     )
+     ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Customize content:
+   - Update personal information in `src/app/sections/About.tsx`
+   - Modify projects in `src/app/sections/Projects.tsx`
+   - Adjust skills in `src/app/sections/Skills.tsx`
+   - Update social links in `src/app/sections/Contact.tsx`
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+6. Build for production:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+7. Start the production server:
+```bash
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Customization
 
-## Deploy on Vercel
+### Styling
+- Colors and theme can be customized in `tailwind.config.js`
+- Component-specific styles are in their respective files
+- Global styles are in `src/app/globals.css`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Content
+- Update the metadata in `src/app/layout.tsx`
+- Modify section content in their respective files under `src/app/sections/`
+- Add or remove sections by updating `src/app/page.tsx`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Components
+- All components are modular and can be modified independently
+- Add new components in `src/app/components/`
+- Section components are in `src/app/sections/`
+
+## Deployment
+
+The website can be deployed to various platforms:
+
+- Vercel (recommended for Next.js)
+- Netlify
+- GitHub Pages
+- Any static hosting service
+
+## License
+
+MIT License - feel free to use this template for your personal portfolio
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
