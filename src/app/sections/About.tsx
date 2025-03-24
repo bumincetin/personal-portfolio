@@ -23,7 +23,7 @@ export default function About() {
           <div className="mb-8 flex justify-center">
             <div className="relative h-64 w-64 overflow-hidden rounded-full">
               <Image
-                src="/profile.jpg"
+                src="profile.jpg"
                 alt="Bumin Cetin"
                 width={256}
                 height={256}
