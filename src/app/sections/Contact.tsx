@@ -28,7 +28,6 @@ export default function Contact() {
     try {
       setStatus({ type: 'loading', message: 'Sending message...' })
       
-      // Replace these with your EmailJS credentials
       await emailjs.send(
         'YOUR_SERVICE_ID',
         'YOUR_TEMPLATE_ID',
@@ -45,7 +44,7 @@ export default function Contact() {
         message: 'Message sent successfully!',
       })
       setFormData({ name: '', email: '', message: '' })
-    } catch (error) {
+    } catch {
       setStatus({
         type: 'error',
         message: 'Failed to send message. Please try again.',
