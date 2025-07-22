@@ -37,8 +37,8 @@ export default function About() {
             About Me
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-            AI Specialist and Data Scientist with expertise in NLP, machine learning, and business analytics.
-            Passionate about developing innovative solutions and driving data-driven decision making.
+            CEO & Co-Founder of Alvolo Consulting, AI Specialist and Data Scientist with expertise in NLP, machine learning, and business analytics.
+            Leading cross-border investment advisory services while developing innovative data-driven solutions for international business expansion.
           </p>
         </motion.div>
 
@@ -73,6 +73,11 @@ export default function About() {
               </dt>
               <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600 dark:text-gray-300">
                 <p className="flex-auto">
+                  <span className="font-semibold">ALVOLO CONSULTING</span><br />
+                  CEO & Co-Founder<br />
+                  <span className="text-sm">May 2025 - Present</span><br />
+                  <span className="text-sm italic">Leading cross-border investment advisory services for international companies entering Italy and Europe. Overseeing market-entry strategy, regulatory compliance, and EU incentive optimization.</span><br /><br />
+                  
                   <span className="font-semibold">IMPACTSCOPE</span><br />
                   AI Specialist | NLP Researcher<br />
                   <span className="text-sm">Dec 2024 - Present</span><br /><br />
