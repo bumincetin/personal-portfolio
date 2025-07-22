@@ -38,7 +38,7 @@ export default function About() {
           {/* Profile Image */}
           <div className="lg:col-span-1 flex justify-center">
             <div className="relative">
-              <div className="w-80 h-80 rounded-2xl overflow-hidden border border-gray-700">
+              <div className="w-80 h-80 rounded-2xl overflow-hidden border border-gray-700 bg-gradient-to-br from-gray-800 to-gray-900">
                 <Image
                   src="profile.jpg"
                   alt="Bumin Cetin"
@@ -46,8 +46,10 @@ export default function About() {
                   height={320}
                   style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                   priority
-                  className="hover:scale-105 transition-transform duration-300"
+                  className="hover:scale-105 transition-transform duration-300 mix-blend-luminosity opacity-90 hover:opacity-100"
                 />
+                {/* Dark overlay for better integration */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
               </div>
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-20"></div>
             </div>
@@ -62,7 +64,7 @@ export default function About() {
                 <div>
                   <h4 className="font-semibold">Bocconi University</h4>
                   <p className="text-gray-300">MSc in Data Science and Business Analytics</p>
-                  <p className="text-sm text-gray-500">Sept 2023 - Present</p>
+                  <p className="text-sm text-gray-500">Sept 2023 - July 2025</p>
                   <p className="text-sm text-gray-400 italic">Deep Learning for Computer Vision, NLP</p>
                 </div>
                 <div>
