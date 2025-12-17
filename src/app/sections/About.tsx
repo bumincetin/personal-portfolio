@@ -18,8 +18,8 @@ const About: React.FC = () => {
           className="aspect-[4/5] bg-neutral-900 rounded-[20px] overflow-hidden relative border border-glass-border group"
         >
           <img 
-            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop" 
-            alt="Portrait" 
+            src="/personal-portfolio/Bumin_resmi.jpeg" 
+            alt="Bumin Kağan Çetin" 
             className="w-full h-full object-cover filter grayscale contrast-125 opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:contrast-100 group-hover:opacity-100"
           />
         </motion.div>
@@ -34,17 +34,17 @@ const About: React.FC = () => {
           <p className="text-accent-cyan font-mono mb-4 tracking-widest text-sm">THE HUMAN VARIABLE</p>
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">Bridging the gap between code and capital.</h2>
           <p className="text-text-muted text-lg mb-6 font-light">
-            I don&apos;t just analyze numbers; I architect the systems that make them understandable. With a background in Data Science and years on the trading floor, I operate at the intersection of technical rigor and strategic foresight.
+            I don&apos;t just analyze numbers; I architect the systems that make them understandable. As CEO & Co-Founder of Alvolo Consulting, I specialize in cross-border investment advisory and machine learning solutions.
           </p>
           <p className="text-text-muted text-lg mb-10 font-light">
-            My mission is to equip you with the tools to navigate a chaotic market with the precision of an algorithm.
+            My research focuses on NLP applications in finance, including greenwashing detection and sentiment analysis for market prediction.
           </p>
 
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-text-primary font-mono text-sm">
-            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> M.S. Data Science</li>
-            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> CFA Charterholder</li>
-            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> Python Expert</li>
-            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> 10+ Years Exp.</li>
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> Data Science @ Bocconi</li>
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> CEO, Alvolo Consulting</li>
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> NLP & Deep Learning</li>
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> Python & TensorFlow</li>
           </ul>
         </motion.div>
       </div>
