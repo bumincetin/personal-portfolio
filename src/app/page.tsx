@@ -1,21 +1,28 @@
-import Hero from './sections/Hero'
-import About from './sections/About'
-import Projects from './sections/Projects'
-import Skills from './sections/Skills'
-import Contact from './sections/Contact'
 import Navbar from './components/Navbar'
+import BackgroundMesh from './components/BackgroundMesh'
+import Hero from './sections/Hero'
+import Ticker from './sections/Ticker'
+import Methodology from './sections/Methodology'
+import Assets from './sections/Assets'
+import About from './sections/About'
+import Footer from './sections/Footer'
 
 export default function Home() {
   return (
-    <>
+    <div className="font-mono text-text-primary overflow-x-hidden min-h-screen selection:bg-accent-cyan selection:text-void">
+      <BackgroundMesh />
+      
       <Navbar />
-      <div className="container mx-auto px-4">
+      
+      <main>
         <Hero />
+        <Ticker />
+        <Methodology />
+        <Assets />
         <About />
-        <Projects />
-        <Skills />
-        <Contact />
-      </div>
-    </>
+      </main>
+      
+      <Footer />
+    </div>
   )
 }

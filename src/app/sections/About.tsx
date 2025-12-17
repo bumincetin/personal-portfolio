@@ -1,131 +1,55 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import Image from 'next/image'
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
 
-export default function About() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
+const About: React.FC = () => {
   return (
-    <section id="about" className="py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto max-w-2xl text-center mb-16"
+    <section id="about" className="py-32 container mx-auto px-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        
+        {/* Visual */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="aspect-[4/5] bg-neutral-900 rounded-[20px] overflow-hidden relative border border-glass-border group"
         >
-          <h2 className="text-4xl font-bold tracking-tight mb-6">
-            About Me
-          </h2>
-          <p className="text-lg text-gray-400">
-            CEO & Co-Founder of Alvolo Consulting, AI Specialist and Data Scientist with expertise in NLP, machine learning, and business analytics.
-            Leading cross-border investment advisory services while developing innovative data-driven solutions for international business expansion.
-          </p>
+          <img 
+            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop" 
+            alt="Portrait" 
+            className="w-full h-full object-cover filter grayscale contrast-125 opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:contrast-100 group-hover:opacity-100"
+          />
         </motion.div>
 
+        {/* Content */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+           initial={{ opacity: 0, x: 50 }}
+           whileInView={{ opacity: 1, x: 0 }}
+           viewport={{ once: true, margin: "-100px" }}
+           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          {/* Profile Image */}
-          <div className="lg:col-span-1 flex justify-center">
-            <div className="relative">
-              <div className="w-80 h-80 rounded-2xl overflow-hidden border border-gray-700 bg-gradient-to-br from-gray-800 to-gray-900">
-                <Image
-                  src="profile.jpg"
-                  alt="Bumin Cetin"
-                  width={320}
-                  height={320}
-                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                  priority
-                  className="hover:scale-105 transition-transform duration-300 mix-blend-luminosity opacity-90 hover:opacity-100"
-                />
-                {/* Dark overlay for better integration */}
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>
-              </div>
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-20"></div>
-            </div>
-          </div>
+          <p className="text-accent-cyan font-mono mb-4 tracking-widest text-sm">THE HUMAN VARIABLE</p>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">Bridging the gap between code and capital.</h2>
+          <p className="text-text-muted text-lg mb-6 font-light">
+            I don&apos;t just analyze numbers; I architect the systems that make them understandable. With a background in Data Science and years on the trading floor, I operate at the intersection of technical rigor and strategic foresight.
+          </p>
+          <p className="text-text-muted text-lg mb-10 font-light">
+            My mission is to equip you with the tools to navigate a chaotic market with the precision of an algorithm.
+          </p>
 
-          {/* Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Education */}
-            <div className="card">
-              <h3 className="text-xl font-semibold mb-4 text-blue-400">Education</h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-semibold">Bocconi University</h4>
-                  <p className="text-gray-300">MSc in Data Science and Business Analytics</p>
-                  <p className="text-sm text-gray-500">Sept 2023 - July 2025</p>
-                  <p className="text-sm text-gray-400 italic">Deep Learning for Computer Vision, NLP</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">Bocconi University</h4>
-                  <p className="text-gray-300">BSc in Economics, Management, and Computer Science</p>
-                  <p className="text-sm text-gray-500">Sept 2020 - July 2023</p>
-                  <p className="text-sm text-gray-400 italic">Econometrics, Big Data, Programming</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Experience */}
-            <div className="card">
-              <h3 className="text-xl font-semibold mb-4 text-blue-400">Experience</h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-semibold">ALVOLO CONSULTING</h4>
-                  <p className="text-gray-300">CEO & Co-Founder</p>
-                  <p className="text-sm text-gray-500">May 2025 - Present</p>
-                  <p className="text-sm text-gray-400 italic">Leading cross-border investment advisory services for international companies entering Italy and Europe. Overseeing market-entry strategy, regulatory compliance, and EU incentive optimization.</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">IMPACTSCOPE</h4>
-                  <p className="text-gray-300">AI Specialist | NLP Researcher</p>
-                  <p className="text-sm text-gray-500">Dec 2024 - Present</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">FEDRIGONI SPA</h4>
-                  <p className="text-gray-300">Junior Data Scientist</p>
-                  <p className="text-sm text-gray-500">April 2024 - Oct 2024</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold">N26 BANK AG</h4>
-                  <p className="text-gray-300">Risk Management Intern</p>
-                  <p className="text-sm text-gray-500">Nov 2022 - Feb 2023</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Research Focus */}
-            <div className="card">
-              <h3 className="text-xl font-semibold mb-4 text-blue-400">Research Focus</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {[
-                  'Advanced NLP & Sentiment Analysis',
-                  'Deep Learning & Neural Networks',
-                  'Time Series Analysis',
-                  'Machine Learning for Finance',
-                  'Semantic Contradiction Analysis',
-                  'Cross-border Investment Strategy'
-                ].map((focus, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                    <span className="text-gray-300">{focus}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-text-primary font-mono text-sm">
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> M.S. Data Science</li>
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> CFA Charterholder</li>
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> Python Expert</li>
+            <li className="flex items-center gap-3"><Check size={16} className="text-accent-cyan" /> 10+ Years Exp.</li>
+          </ul>
         </motion.div>
       </div>
     </section>
-  )
-} 
+  );
+};
+
+export default About;
