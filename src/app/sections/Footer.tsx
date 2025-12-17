@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
         </div>
         
         <a 
-          href="mailto:hello@example.com" 
+          href="mailto:cetinbumink@gmail.com" 
           className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-accent-cyan text-void font-mono font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform shadow-[0_0_30px_rgba(0,240,255,0.3)]"
         >
           Initiate Protocol
