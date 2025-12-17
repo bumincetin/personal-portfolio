@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
+import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import GlassCard from '../components/ui/GlassCard';
-import { 
-  GraduationCap, Briefcase, Code, Award, Languages, Mail, Phone, Linkedin,
-  MapPin, Calendar, ExternalLink
-} from 'lucide-react';
+import GlassCard from '../../components/ui/GlassCard';
+import { GraduationCap, Briefcase, Code, Award, Languages, Mail, Phone, Linkedin, MapPin, Calendar } from 'lucide-react';
+import { getTranslation, type Locale } from '@/lib/translations';
 
 const education = [
   {
@@ -34,8 +33,8 @@ const experience = [
     location: "Remote, Switzerland",
     period: "December 2024 - December 2025",
     highlights: [
-      "Developed an internal Data Product by fine-tuning RoBERTa to automatically flag greenwashing risk, reducing manual review time by 80%",
-      "Developed a semantic contradiction index (SCI) utilizing stance detection, sentiment drift, and contextual embeddings",
+      "Developed Data Product by fine-tuning RoBERTa to flag greenwashing risk, reducing manual review time by 80%",
+      "Developed semantic contradiction index (SCI) utilizing stance detection and sentiment drift",
       "Cross-referenced sentiment-based ESG risk scores with historical greenwashing controversies"
     ]
   },
@@ -45,8 +44,8 @@ const experience = [
     location: "Milan, Italy",
     period: "March 2025 - November 2025",
     highlights: [
-      "Founded a financial advisory hub in Italy helping clients achieve their financial goals",
-      "Mastered the Italian financial system to provide accurate information and guidance",
+      "Founded financial advisory hub in Italy helping clients achieve their financial goals",
+      "Mastered Italian financial system to provide accurate information and guidance",
       "Managed full customer lifecycle from acquisition to retention"
     ]
   },
@@ -56,9 +55,9 @@ const experience = [
     location: "Milan, Italy",
     period: "April 2024 - October 2024",
     highlights: [
-      "Developed time-series algorithms and custom predictive models utilizing LSTM for business insights",
-      "Developed a custom AI model incorporating unsupervised models and NLP techniques to optimize pricing",
-      "Utilized Knime and PowerBI to operate on existing workflows and develop new analytical prototypes"
+      "Developed time-series algorithms and custom predictive models utilizing LSTM",
+      "Developed custom AI model incorporating unsupervised models and NLP to optimize pricing",
+      "Utilized Knime and PowerBI to develop new analytical prototypes"
     ]
   },
   {
@@ -67,8 +66,8 @@ const experience = [
     location: "Berlin, Germany",
     period: "November 2022 - February 2023",
     highlights: [
-      "Supported diverse processes surrounding the Internal Control System (ICS), loss database, risk register and reporting",
-      "Interacted with company-wide stakeholders supporting the New Product Process (NPP)",
+      "Supported Internal Control System (ICS), loss database, risk register and reporting",
+      "Interacted with stakeholders supporting New Product Process (NPP)",
       "Helped in identifying, assessing, mitigating and monitoring non-financial risks"
     ]
   }
@@ -102,28 +101,21 @@ const languages = [
 ];
 
 export default function AboutPage() {
+  const params = useParams();
+  const locale = (params.locale as Locale) || 'en';
+  const t = getTranslation(locale);
+
   return (
     <div className="pt-32 pb-20">
-      {/* Header */}
       <section className="container mx-auto px-6 mb-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-          {/* Photo */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-1"
-          >
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-1">
             <div className="aspect-[3/4] bg-neutral-900 rounded-[20px] overflow-hidden border border-glass-border">
-              <img 
-                src="/personal-portfolio/Bumin_resmi.jpeg" 
-                alt="Bumin Kağan Çetin" 
-                className="w-full h-full object-cover"
-              />
+              <img src="/personal-portfolio/Bumin_resmi.jpeg" alt="Bumin Kağan Çetin" className="w-full h-full object-cover" />
             </div>
             
-            {/* Contact Info */}
             <GlassCard className="mt-6 p-6">
-              <h3 className="font-serif text-xl mb-4">Contact</h3>
+              <h3 className="font-serif text-xl mb-4">{t.aboutPage.contact}</h3>
               <div className="space-y-3 text-sm">
                 <a href="mailto:bumin.cetin@studbocconi.it" className="flex items-center gap-3 text-text-muted hover:text-accent-cyan transition-colors">
                   <Mail size={16} className="text-accent-cyan" />
@@ -145,63 +137,46 @@ export default function AboutPage() {
             </GlassCard>
           </motion.div>
 
-          {/* Bio */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="lg:col-span-2"
-          >
-            <p className="text-accent-cyan font-mono mb-4 tracking-widest text-sm">ABOUT ME</p>
+          <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="lg:col-span-2">
+            <p className="text-accent-cyan font-mono mb-4 tracking-widest text-sm">{t.aboutPage.aboutMe}</p>
             <h1 className="font-serif text-5xl md:text-6xl mb-6">Bumin Kağan Çetin</h1>
             <p className="text-text-muted text-lg mb-6 font-light leading-relaxed">
-              I&apos;m a Data Scientist and AI Specialist currently pursuing my Master&apos;s in Data Science and Business Analytics at Bocconi University. My expertise lies at the intersection of Natural Language Processing, deep learning, and financial analytics.
-            </p>
-            <p className="text-text-muted text-lg mb-6 font-light leading-relaxed">
-              My research focuses on developing AI-powered solutions for real-world challenges, including my thesis work on detecting greenwashing risks in corporate communications using advanced NLP techniques like fine-tuned RoBERTa models and semantic analysis.
+              {t.about.desc1}
             </p>
             <p className="text-text-muted text-lg mb-8 font-light leading-relaxed">
-              With experience spanning risk management at N26, data science at Fedrigoni, and AI research at ImpactScope, I bring a unique blend of technical expertise and business acumen. As a founder of Alvolo Consulting, I&apos;ve also led cross-border financial advisory initiatives in Italy.
+              {t.about.desc2}
             </p>
 
-            {/* Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <GlassCard className="p-4 text-center">
                 <div className="text-3xl font-serif text-accent-cyan mb-1">4+</div>
-                <div className="text-xs text-text-muted font-mono uppercase">Languages</div>
+                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.languages}</div>
               </GlassCard>
               <GlassCard className="p-4 text-center">
                 <div className="text-3xl font-serif text-accent-cyan mb-1">7+</div>
-                <div className="text-xs text-text-muted font-mono uppercase">Certifications</div>
+                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.certifications}</div>
               </GlassCard>
               <GlassCard className="p-4 text-center">
                 <div className="text-3xl font-serif text-accent-cyan mb-1">4</div>
-                <div className="text-xs text-text-muted font-mono uppercase">Work Experiences</div>
+                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.experiences}</div>
               </GlassCard>
               <GlassCard className="p-4 text-center">
                 <div className="text-3xl font-serif text-accent-cyan mb-1">2</div>
-                <div className="text-xs text-text-muted font-mono uppercase">Degrees</div>
+                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.degrees}</div>
               </GlassCard>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Education */}
       <section className="container mx-auto px-6 mb-20">
         <div className="flex items-center gap-4 mb-8">
           <GraduationCap className="text-accent-cyan" size={28} />
-          <h2 className="font-serif text-3xl">Education</h2>
+          <h2 className="font-serif text-3xl">{t.aboutPage.education}</h2>
         </div>
         <div className="space-y-6">
           {education.map((edu, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-            >
+            <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}>
               <GlassCard className="p-8">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                   <div>
@@ -209,43 +184,26 @@ export default function AboutPage() {
                     <p className="text-accent-cyan font-mono text-sm">{edu.degree}</p>
                   </div>
                   <div className="text-right">
-                    <div className="flex items-center gap-2 text-text-muted text-sm">
-                      <MapPin size={14} />
-                      {edu.location}
-                    </div>
-                    <div className="flex items-center gap-2 text-text-muted text-sm">
-                      <Calendar size={14} />
-                      {edu.period}
-                    </div>
+                    <div className="flex items-center gap-2 text-text-muted text-sm"><MapPin size={14} />{edu.location}</div>
+                    <div className="flex items-center gap-2 text-text-muted text-sm"><Calendar size={14} />{edu.period}</div>
                   </div>
                 </div>
-                <p className="text-text-muted text-sm mb-3">
-                  <strong className="text-white">Coursework:</strong> {edu.coursework.join(", ")}
-                </p>
-                <p className="text-text-muted text-sm">
-                  <strong className="text-white">Thesis:</strong> {edu.thesis}
-                </p>
+                <p className="text-text-muted text-sm mb-3"><strong className="text-white">{t.aboutPage.coursework}:</strong> {edu.coursework.join(", ")}</p>
+                <p className="text-text-muted text-sm"><strong className="text-white">{t.aboutPage.thesis}:</strong> {edu.thesis}</p>
               </GlassCard>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Experience */}
       <section className="container mx-auto px-6 mb-20">
         <div className="flex items-center gap-4 mb-8">
           <Briefcase className="text-accent-cyan" size={28} />
-          <h2 className="font-serif text-3xl">Work Experience</h2>
+          <h2 className="font-serif text-3xl">{t.aboutPage.experience}</h2>
         </div>
         <div className="space-y-6">
           {experience.map((exp, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-            >
+            <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}>
               <GlassCard className="p-8">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                   <div>
@@ -253,14 +211,8 @@ export default function AboutPage() {
                     <p className="text-accent-cyan font-mono text-sm">{exp.role}</p>
                   </div>
                   <div className="text-right">
-                    <div className="flex items-center gap-2 text-text-muted text-sm">
-                      <MapPin size={14} />
-                      {exp.location}
-                    </div>
-                    <div className="flex items-center gap-2 text-text-muted text-sm">
-                      <Calendar size={14} />
-                      {exp.period}
-                    </div>
+                    <div className="flex items-center gap-2 text-text-muted text-sm"><MapPin size={14} />{exp.location}</div>
+                    <div className="flex items-center gap-2 text-text-muted text-sm"><Calendar size={14} />{exp.period}</div>
                   </div>
                 </div>
                 <ul className="space-y-2">
@@ -277,17 +229,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Skills & Certifications */}
       <section className="container mx-auto px-6 mb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Skills */}
           <div>
             <div className="flex items-center gap-4 mb-8">
               <Code className="text-accent-cyan" size={28} />
-              <h2 className="font-serif text-3xl">Skills</h2>
+              <h2 className="font-serif text-3xl">{t.aboutPage.skills}</h2>
             </div>
             <GlassCard className="p-8">
-              <h4 className="font-mono text-accent-cyan text-sm mb-4">PROGRAMMING</h4>
+              <h4 className="font-mono text-accent-cyan text-sm mb-4">{t.aboutPage.programming}</h4>
               <div className="space-y-4 mb-8">
                 {skills.programming.map((skill, idx) => (
                   <div key={idx}>
@@ -296,23 +246,20 @@ export default function AboutPage() {
                   </div>
                 ))}
               </div>
-              <h4 className="font-mono text-accent-cyan text-sm mb-4">TOOLS & TECHNOLOGIES</h4>
+              <h4 className="font-mono text-accent-cyan text-sm mb-4">{t.aboutPage.tools}</h4>
               <div className="flex flex-wrap gap-2">
                 {skills.tools.map((tool, idx) => (
-                  <span key={idx} className="px-3 py-1 text-sm font-mono bg-glass-surface border border-glass-border rounded-full text-text-muted">
-                    {tool}
-                  </span>
+                  <span key={idx} className="px-3 py-1 text-sm font-mono bg-glass-surface border border-glass-border rounded-full text-text-muted">{tool}</span>
                 ))}
               </div>
             </GlassCard>
           </div>
 
-          {/* Certifications & Languages */}
           <div className="space-y-8">
             <div>
               <div className="flex items-center gap-4 mb-8">
                 <Award className="text-accent-cyan" size={28} />
-                <h2 className="font-serif text-3xl">Certifications</h2>
+                <h2 className="font-serif text-3xl">{t.aboutPage.certifications}</h2>
               </div>
               <GlassCard className="p-8">
                 <ul className="space-y-3">
@@ -329,7 +276,7 @@ export default function AboutPage() {
             <div>
               <div className="flex items-center gap-4 mb-8">
                 <Languages className="text-accent-cyan" size={28} />
-                <h2 className="font-serif text-3xl">Languages</h2>
+                <h2 className="font-serif text-3xl">{t.aboutPage.languages}</h2>
               </div>
               <GlassCard className="p-8">
                 <div className="grid grid-cols-2 gap-4">

@@ -4,14 +4,24 @@ import React from 'react';
 import Link from 'next/link';
 import GlassCard from '../components/ui/GlassCard';
 import { Brain, BarChart3, Cpu, Vote, ArrowRight } from 'lucide-react';
+import { type Locale, translations } from '@/lib/translations';
 
-const Assets: React.FC = () => {
+type TranslationType = typeof translations.en;
+
+interface AssetsProps {
+  t?: TranslationType;
+  locale?: Locale;
+}
+
+const Assets: React.FC<AssetsProps> = ({ t, locale = 'en' }) => {
+  const trans = t || translations[locale];
+  
   const assets = [
     {
       icon: Brain,
       title: "Greenwashing Detection",
       desc: "AI-powered toolkit for detecting greenwashing in corporate sustainability communications using NLP.",
-      action: "View Repository",
+      action: trans.assets.viewRepo,
       url: "https://github.com/bumincetin/greenwashing-detection",
       stars: 1
     },
@@ -19,7 +29,7 @@ const Assets: React.FC = () => {
       icon: Cpu,
       title: "Multi-Task Waste Recognition",
       desc: "Deep learning project using CNN and YOLO models for garbage classification on the TACO dataset.",
-      action: "View Repository",
+      action: trans.assets.viewRepo,
       url: "https://github.com/mrliu1212/Multi-Task-Waste-Recognition",
       stars: 2
     },
@@ -27,7 +37,7 @@ const Assets: React.FC = () => {
       icon: Vote,
       title: "Turkish Election 2023",
       desc: "Bachelor thesis predicting parliamentary seat distribution for the Turkish General Election using ML.",
-      action: "View Repository",
+      action: trans.assets.viewRepo,
       url: "https://github.com/bumincetin/TurkishElection2023",
       stars: 1
     },
@@ -35,7 +45,7 @@ const Assets: React.FC = () => {
       icon: BarChart3,
       title: "MaliBot",
       desc: "MaliBot is an intelligent accounting assistant that helps with various accounting tasks.",
-      action: "View Project",
+      action: trans.assets.viewProject,
       url: "https://github.com/bumincetin/MaliBot-Agent",
       stars: 0
     }
@@ -45,11 +55,11 @@ const Assets: React.FC = () => {
     <section id="products" className="py-32 container mx-auto px-6">
       <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
         <div>
-          <p className="text-accent-cyan font-mono mb-4">02 // PROJECTS</p>
-          <h2 className="font-serif text-5xl md:text-6xl text-text-primary">Open Source Work</h2>
+          <p className="text-accent-cyan font-mono mb-4">{trans.assets.label}</p>
+          <h2 className="font-serif text-5xl md:text-6xl text-text-primary">{trans.assets.title}</h2>
         </div>
-        <Link href="/assets" className="group flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-sm hover:text-white transition-colors">
-          View All Projects <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+        <Link href={`/${locale}/assets`} className="group flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-sm hover:text-white transition-colors">
+          {trans.assets.viewAll} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
 

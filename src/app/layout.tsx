@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from './components/Navbar';
-import BackgroundMesh from './components/BackgroundMesh';
-import Footer from './sections/Footer';
 
 export const metadata: Metadata = {
-  title: "Data & Finance | Computational Etherealism",
-  description: "Leveraging advanced analytics for absolute financial clarity. Decoding value in a noisy world.",
+  title: "Bumin Kağan Çetin | Data Scientist & AI Specialist",
+  description: "Data Scientist and AI Specialist at Bocconi University, specializing in NLP and deep learning.",
 };
 
 export default function RootLayout({
@@ -17,10 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="font-mono text-text-primary overflow-x-hidden min-h-screen selection:bg-accent-cyan selection:text-void bg-void antialiased">
-        <BackgroundMesh />
-        <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );

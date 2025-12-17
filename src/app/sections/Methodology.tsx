@@ -4,17 +4,27 @@ import React from 'react';
 import Link from 'next/link';
 import GlassCard from '../components/ui/GlassCard';
 import { ArrowRight } from 'lucide-react';
+import { type Locale, translations } from '@/lib/translations';
 
-const Methodology: React.FC = () => {
+type TranslationType = typeof translations.en;
+
+interface MethodologyProps {
+  t?: TranslationType;
+  locale?: Locale;
+}
+
+const Methodology: React.FC<MethodologyProps> = ({ t, locale = 'en' }) => {
+  const trans = t || translations[locale];
+  
   return (
     <section id="services" className="py-32 container mx-auto px-6">
       <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
         <div>
-            <p className="text-accent-cyan font-mono mb-4">01 // METHODOLOGY</p>
-            <h2 className="font-serif text-5xl md:text-6xl text-text-primary">Data Meets Design</h2>
+            <p className="text-accent-cyan font-mono mb-4">{trans.methodology.label}</p>
+            <h2 className="font-serif text-5xl md:text-6xl text-text-primary">{trans.methodology.title}</h2>
         </div>
-        <Link href="/methodology" className="group flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-sm hover:text-white transition-colors">
-            Explore Full Architecture <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+        <Link href={`/${locale}/methodology`} className="group flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-sm hover:text-white transition-colors">
+            {trans.methodology.explore} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
 
@@ -27,8 +37,8 @@ const Methodology: React.FC = () => {
              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-glass-border"></div>
           </div>
           <div>
-            <h3 className="text-2xl font-serif mb-2">Financial Modeling</h3>
-            <p className="text-text-muted text-sm leading-relaxed">Building robust, stress-tested models utilizing LSTM and Time-Series analysis.</p>
+            <h3 className="text-2xl font-serif mb-2">{trans.methodology.card1Title}</h3>
+            <p className="text-text-muted text-sm leading-relaxed">{trans.methodology.card1Desc}</p>
           </div>
         </GlassCard>
 
@@ -39,8 +49,8 @@ const Methodology: React.FC = () => {
               <div className="absolute bottom-0 left-0 w-full h-[1px] bg-glass-border"></div>
            </div>
           <div>
-            <h3 className="text-2xl font-serif mb-2">NLP Pipelines</h3>
-            <p className="text-text-muted text-sm leading-relaxed">Fine-tuned RoBERTa models and Contextual Embeddings for risk detection.</p>
+            <h3 className="text-2xl font-serif mb-2">{trans.methodology.card2Title}</h3>
+            <p className="text-text-muted text-sm leading-relaxed">{trans.methodology.card2Desc}</p>
           </div>
         </GlassCard>
 
@@ -53,8 +63,8 @@ const Methodology: React.FC = () => {
              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-glass-border"></div>
           </div>
           <div>
-            <h3 className="text-2xl font-serif mb-2">Data Visualization</h3>
-            <p className="text-text-muted text-sm leading-relaxed">Translating raw data into auditable metrics via PowerBI and custom Python dashboards.</p>
+            <h3 className="text-2xl font-serif mb-2">{trans.methodology.card3Title}</h3>
+            <p className="text-text-muted text-sm leading-relaxed">{trans.methodology.card3Desc}</p>
           </div>
         </GlassCard>
       </div>

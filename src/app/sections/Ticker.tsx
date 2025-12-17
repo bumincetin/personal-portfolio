@@ -2,15 +2,24 @@
 
 import React from 'react';
 import { Terminal, BarChart2, Database, Cpu, Activity, Globe } from 'lucide-react';
+import { translations } from '@/lib/translations';
 
-const Ticker: React.FC = () => {
+type TranslationType = typeof translations.en;
+
+interface TickerProps {
+  t?: TranslationType;
+}
+
+const Ticker: React.FC<TickerProps> = ({ t }) => {
+  const trans = t || translations.en;
+  
   const items = [
-    { icon: Terminal, text: "PYTHON" },
-    { icon: BarChart2, text: "BLOOMBERG TERMINAL" },
-    { icon: Database, text: "SQL" },
-    { icon: Cpu, text: "TENSORFLOW" },
-    { icon: Activity, text: "R" },
-    { icon: Globe, text: "MACRO ECONOMICS" },
+    { icon: Terminal, text: trans.ticker.python },
+    { icon: BarChart2, text: trans.ticker.bloomberg },
+    { icon: Database, text: trans.ticker.sql },
+    { icon: Cpu, text: trans.ticker.tensorflow },
+    { icon: Activity, text: trans.ticker.r },
+    { icon: Globe, text: trans.ticker.macro },
   ];
 
   // Double the items for seamless loop
@@ -31,4 +40,3 @@ const Ticker: React.FC = () => {
 };
 
 export default Ticker;
-
