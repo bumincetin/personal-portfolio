@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { translations } from '@/lib/translations';
-
-type TranslationType = typeof translations.en;
+import { type TranslationType, translations } from '@/lib/translations';
 
 interface FooterProps {
   t?: TranslationType;

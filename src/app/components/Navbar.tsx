@@ -3,9 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type Locale, locales, translations } from '@/lib/translations';
-
-type TranslationType = typeof translations.en;
+import { type Locale, type TranslationType, locales, translations } from '@/lib/translations';
 
 interface NavbarProps {
   locale?: Locale;

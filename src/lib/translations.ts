@@ -1,7 +1,119 @@
 export const locales = ['en', 'tr', 'it'] as const;
 export type Locale = (typeof locales)[number];
 
-export const translations = {
+export interface TranslationType {
+  nav: {
+    home: string;
+    methodology: string;
+    projects: string;
+    about: string;
+    contact: string;
+  };
+  hero: {
+    title1: string;
+    title2: string;
+    subtitle: string;
+    cta: string;
+  };
+  ticker: {
+    python: string;
+    bloomberg: string;
+    sql: string;
+    tensorflow: string;
+    r: string;
+    macro: string;
+  };
+  methodology: {
+    label: string;
+    title: string;
+    explore: string;
+    card1Title: string;
+    card1Desc: string;
+    card2Title: string;
+    card2Desc: string;
+    card3Title: string;
+    card3Desc: string;
+  };
+  assets: {
+    label: string;
+    title: string;
+    viewAll: string;
+    viewRepo: string;
+    viewProject: string;
+  };
+  about: {
+    label: string;
+    title: string;
+    desc1: string;
+    desc2: string;
+    viewBio: string;
+    credential1: string;
+    credential2: string;
+    credential3: string;
+    credential4: string;
+  };
+  footer: {
+    cta: string;
+    button: string;
+    copyright: string;
+    linkedin: string;
+    email: string;
+  };
+  aboutPage: {
+    aboutMe: string;
+    contact: string;
+    education: string;
+    experience: string;
+    skills: string;
+    certifications: string;
+    languages: string;
+    programming: string;
+    tools: string;
+    coursework: string;
+    thesis: string;
+    stats: {
+      languages: string;
+      certifications: string;
+      experiences: string;
+      degrees: string;
+    };
+  };
+  assetsPage: {
+    label: string;
+    title: string;
+    subtitle: string;
+    viewGithub: string;
+    moreGithub: string;
+    moreGithubDesc: string;
+    visitProfile: string;
+  };
+  methodologyPage: {
+    label: string;
+    title: string;
+    subtitle: string;
+    section1: {
+      num: string;
+      title: string;
+      arch: string;
+      desc1: string;
+      desc2: string;
+    };
+    section2: {
+      num: string;
+      title: string;
+      arch: string;
+      desc1: string;
+      desc2: string;
+    };
+    stack: string;
+    stackLangs: string;
+    stackIntel: string;
+    stackDeploy: string;
+    stackViz: string;
+  };
+}
+
+export const translations: Record<Locale, TranslationType> = {
   en: {
     nav: {
       home: 'Home',
@@ -335,9 +447,9 @@ export const translations = {
       stackViz: 'Visualizzazione',
     },
   },
-} as const;
+};
 
-export function getTranslation(locale: Locale) {
+export function getTranslation(locale: Locale): TranslationType {
   return translations[locale] || translations.en;
 }
 

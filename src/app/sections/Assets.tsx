@@ -4,9 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import GlassCard from '../components/ui/GlassCard';
 import { Brain, BarChart3, Cpu, Vote, ArrowRight } from 'lucide-react';
-import { type Locale, translations } from '@/lib/translations';
-
-type TranslationType = typeof translations.en;
+import { type Locale, type TranslationType, translations } from '@/lib/translations';
 
 interface AssetsProps {
   t?: TranslationType;

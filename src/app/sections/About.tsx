@@ -4,9 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Check, ArrowRight } from 'lucide-react';
-import { type Locale, translations } from '@/lib/translations';
-
-type TranslationType = typeof translations.en;
+import { type Locale, type TranslationType, translations } from '@/lib/translations';
 
 interface AboutProps {
   t?: TranslationType;

@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { Terminal, BarChart2, Database, Cpu, Activity, Globe } from 'lucide-react';
-import { translations } from '@/lib/translations';
-
-type TranslationType = typeof translations.en;
+import { type TranslationType, translations } from '@/lib/translations';
 
 interface TickerProps {
   t?: TranslationType;

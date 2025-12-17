@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { type Locale, translations } from '@/lib/translations';
-
-type TranslationType = typeof translations.en;
+import { type Locale, type TranslationType, translations } from '@/lib/translations';
 
 interface HeroProps {
   t?: TranslationType;
