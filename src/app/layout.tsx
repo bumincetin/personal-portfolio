@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from './components/Navbar';
+import BackgroundMesh from './components/BackgroundMesh';
+import Footer from './sections/Footer';
 
 export const metadata: Metadata = {
   title: "Data & Finance | Computational Etherealism",
@@ -13,8 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-void text-text-primary antialiased">
+      <body className="font-mono text-text-primary overflow-x-hidden min-h-screen selection:bg-accent-cyan selection:text-void bg-void antialiased">
+        <BackgroundMesh />
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
