@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import GlassCard from '../components/ui/GlassCard';
 import { Brain, BarChart3, Cpu, Vote, ArrowRight } from 'lucide-react';
 
@@ -33,7 +34,7 @@ const Assets: React.FC = () => {
     {
       icon: BarChart3,
       title: "MaliBot",
-      desc: "MaliBot is an intelligent accounting assistant that helps with various accounting tasks. It integrates with popular accounting systems like DBS and Zirve Nova.",
+      desc: "MaliBot is an intelligent accounting assistant that helps with various accounting tasks.",
       action: "View Project",
       url: "https://github.com/bumincetin/MaliBot-Agent",
       stars: 0
@@ -42,9 +43,14 @@ const Assets: React.FC = () => {
 
   return (
     <section id="products" className="py-32 container mx-auto px-6">
-      <div className="mb-16">
-        <p className="text-accent-cyan font-mono mb-4">02 // PROJECTS</p>
-        <h2 className="font-serif text-5xl md:text-6xl text-text-primary">Open Source Work</h2>
+      <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
+        <div>
+          <p className="text-accent-cyan font-mono mb-4">02 // PROJECTS</p>
+          <h2 className="font-serif text-5xl md:text-6xl text-text-primary">Open Source Work</h2>
+        </div>
+        <Link href="/assets" className="group flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-sm hover:text-white transition-colors">
+          View All Projects <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+        </Link>
       </div>
 
       <div className="flex gap-8 overflow-x-auto pb-12 no-scrollbar snap-x snap-mandatory">
