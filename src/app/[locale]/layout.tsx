@@ -1,26 +1,16 @@
-'use client';
+import { locales, type Locale } from '@/lib/translations';
+import LocaleLayoutClient from './LocaleLayoutClient';
 
-import { useParams } from 'next/navigation';
-import { locales, type Locale, getTranslation } from '@/lib/translations';
-import Navbar from '../components/Navbar';
-import BackgroundMesh from '../components/BackgroundMesh';
-import Footer from '../sections/Footer';
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export default function LocaleLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { locale: Locale };
 }) {
-  const params = useParams();
-  const locale = (params.locale as Locale) || 'en';
-  const t = getTranslation(locale);
-
-  return (
-    <>
-      <BackgroundMesh />
-      <Navbar locale={locale} t={t} />
-      {children}
-      <Footer t={t} />
-    </>
-  );
+  return <LocaleLayoutClient locale={params.locale}>{children}</LocaleLayoutClient>;
 }
