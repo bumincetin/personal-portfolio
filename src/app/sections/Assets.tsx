@@ -16,10 +16,10 @@ const Assets: React.FC = () => {
     },
     {
       icon: Cpu,
-      title: "Garbage Classification",
+      title: "Multi-Task Waste Recognition",
       desc: "Deep learning project using CNN and YOLO models for garbage classification on the TACO dataset.",
       action: "View Repository",
-      url: "https://github.com/bumincetin/Garbage-Classification-",
+      url: "https://github.com/mrliu1212/Multi-Task-Waste-Recognition",
       stars: 2
     },
     {
@@ -32,10 +32,10 @@ const Assets: React.FC = () => {
     },
     {
       icon: BarChart3,
-      title: "ML Algorithm Comparison",
-      desc: "Final project comparing machine learning algorithms' accuracy and performance metrics.",
-      action: "View Repository",
-      url: "https://github.com/bumincetin/Machine_Learning_FinalProject",
+      title: "MaliBot",
+      desc: "MaliBot is an intelligent accounting assistant that helps with various accounting tasks. It integrates with popular accounting systems like DBS and Zirve Nova.",
+      action: "View Project",
+      url: "https://github.com/bumincetin/MaliBot-Agent",
       stars: 0
     }
   ];
