@@ -33,6 +33,8 @@ export interface TranslationType {
     card2Desc: string;
     card3Title: string;
     card3Desc: string;
+    card4Title: string;
+    card4Desc: string;
   };
   assets: {
     label: string;
@@ -91,12 +93,14 @@ export interface TranslationType {
     label: string;
     title: string;
     subtitle: string;
+    servicesLabel: string;
     section1: {
       num: string;
       title: string;
       arch: string;
       desc1: string;
       desc2: string;
+      features: string[];
     };
     section2: {
       num: string;
@@ -104,12 +108,44 @@ export interface TranslationType {
       arch: string;
       desc1: string;
       desc2: string;
+      features: string[];
+    };
+    section3: {
+      num: string;
+      title: string;
+      arch: string;
+      desc1: string;
+      desc2: string;
+      features: string[];
+    };
+    section4: {
+      num: string;
+      title: string;
+      arch: string;
+      desc1: string;
+      desc2: string;
+      features: string[];
+    };
+    processLabel: string;
+    processTitle: string;
+    process: {
+      step1Title: string;
+      step1Desc: string;
+      step2Title: string;
+      step2Desc: string;
+      step3Title: string;
+      step3Desc: string;
+      step4Title: string;
+      step4Desc: string;
     };
     stack: string;
     stackLangs: string;
     stackIntel: string;
     stackDeploy: string;
     stackViz: string;
+    ctaTitle: string;
+    ctaDesc: string;
+    ctaButton: string;
   };
 }
 
@@ -137,15 +173,17 @@ export const translations: Record<Locale, TranslationType> = {
       macro: 'MACRO ECONOMICS',
     },
     methodology: {
-      label: '01 // METHODOLOGY',
-      title: 'Data Meets Design',
-      explore: 'Explore Full Architecture',
-      card1Title: 'Financial Modeling',
-      card1Desc: 'Building robust, stress-tested models utilizing LSTM and Time-Series analysis.',
-      card2Title: 'NLP Pipelines',
-      card2Desc: 'Fine-tuned RoBERTa models and Contextual Embeddings for risk detection.',
-      card3Title: 'Data Visualization',
-      card3Desc: 'Translating raw data into auditable metrics via PowerBI and custom Python dashboards.',
+      label: '01 // SERVICES',
+      title: 'Data-Driven Solutions',
+      explore: 'Explore Full Methodology',
+      card1Title: 'Financial Analytics',
+      card1Desc: 'Predictive modeling, risk assessment, and quantitative analysis for informed investment decisions.',
+      card2Title: 'AI & NLP Solutions',
+      card2Desc: 'Custom machine learning pipelines for sentiment analysis, document processing, and automation.',
+      card3Title: 'Business Intelligence',
+      card3Desc: 'End-to-end dashboards and reporting systems transforming raw data into strategic insights.',
+      card4Title: 'Financial Consultancy',
+      card4Desc: 'Cross-border advisory, regulatory compliance guidance, and strategic financial planning.',
     },
     assets: {
       label: '02 // PROJECTS',
@@ -201,28 +239,62 @@ export const translations: Record<Locale, TranslationType> = {
       visitProfile: 'Visit GitHub Profile',
     },
     methodologyPage: {
-      label: 'SYSTEM ARCHITECTURE',
-      title: 'The Algorithmic Core',
-      subtitle: 'Deconstructing the proprietary models driving prediction, risk assessment, and sentiment analysis.',
+      label: 'METHODOLOGY & SERVICES',
+      title: 'Data Science Meets Finance',
+      subtitle: 'A systematic approach to delivering data-driven solutions that bridge cutting-edge analytics with real-world financial decision-making.',
+      servicesLabel: 'CORE SERVICE AREAS',
       section1: {
         num: '01.',
-        title: 'Semantic Risk Detection',
-        arch: 'ARCH: RoBERTa FINE-TUNING // CONTEXTUAL EMBEDDINGS',
-        desc1: 'Utilizing a fine-tuned RoBERTa architecture, this module automatically flags greenwashing risks by analyzing corporate sustainability claims. The system reduces manual review time by 80% through a custom Semantic Contradiction Index (SCI).',
-        desc2: 'The SCI leverages stance detection and sentiment drift analysis to cross-reference ESG risk scores with historical controversies, ensuring an auditable metric for clients.',
+        title: 'Financial Analytics & Modeling',
+        arch: 'PREDICTIVE MODELS // RISK QUANTIFICATION // PORTFOLIO OPTIMIZATION',
+        desc1: 'I build robust financial models that transform raw market data into actionable intelligence. From stress-tested LSTM networks for price prediction to Monte Carlo simulations for risk assessment, each model is designed for real-world deployment.',
+        desc2: 'My approach combines traditional quantitative finance with modern machine learning, ensuring models are both statistically rigorous and practically applicable to trading strategies, portfolio management, and investment decisions.',
+        features: ['Time-Series Forecasting (ARIMA, LSTM, Prophet)', 'Value-at-Risk & Stress Testing', 'Portfolio Optimization & Factor Models', 'Quantitative Trading Signals'],
       },
       section2: {
         num: '02.',
-        title: 'Time-Series & Causality',
-        arch: 'ARCH: LSTM // GRANGER CAUSALITY // BERT',
-        desc1: 'Predicting stock returns requires distinguishing signal from noise. We employ LSTM (Long Short-Term Memory) networks for their ability to learn order dependence in sequence prediction problems.',
-        desc2: 'To augment technical data, we integrate alternative datasets. Using BERT for sentiment classification on Twitter feeds, we run Granger causality tests to mathematically validate the predictive relationship between public sentiment volume and market volatility.',
+        title: 'NLP & AI Solutions',
+        arch: 'TRANSFORMER MODELS // SENTIMENT ANALYSIS // DOCUMENT INTELLIGENCE',
+        desc1: 'Leveraging state-of-the-art NLP architectures like RoBERTa and BERT, I develop custom solutions for extracting insights from unstructured text—financial reports, news feeds, social media, and corporate communications.',
+        desc2: 'My greenwashing detection system, built for ImpactScope, demonstrates this capability: fine-tuned transformers analyze sustainability claims, reducing manual review time by 80% through a proprietary Semantic Contradiction Index.',
+        features: ['Custom Sentiment Classification', 'ESG & Greenwashing Risk Detection', 'Document Summarization & Extraction', 'Chatbots & Intelligent Automation'],
       },
-      stack: 'FULL TECHNOLOGY STACK',
+      section3: {
+        num: '03.',
+        title: 'Business Intelligence & Dashboards',
+        arch: 'POWERBI // CUSTOM PYTHON // REAL-TIME ANALYTICS',
+        desc1: 'Raw data means nothing without proper visualization and storytelling. I design end-to-end BI solutions that transform complex datasets into intuitive dashboards, enabling stakeholders to make informed decisions at a glance.',
+        desc2: 'From executive-level KPI tracking to operational drill-downs, each dashboard is tailored to your specific business context, integrating multiple data sources and providing real-time insights.',
+        features: ['Executive KPI Dashboards', 'Automated Reporting Pipelines', 'Data Warehouse Design', 'Custom Visualization Development'],
+      },
+      section4: {
+        num: '04.',
+        title: 'Financial Consultancy',
+        arch: 'CROSS-BORDER ADVISORY // REGULATORY COMPLIANCE // STRATEGIC PLANNING',
+        desc1: 'As founder of Alvolo Consulting, I provide comprehensive financial advisory services bridging Italian and international markets. From navigating complex regulatory environments to optimizing cross-border investment structures.',
+        desc2: 'My consulting approach combines deep technical expertise with practical business acumen, helping clients understand not just what the data shows, but how to act on it strategically.',
+        features: ['Cross-Border Investment Advisory', 'Italian Financial System Navigation', 'Regulatory Compliance Guidance', 'Strategic Financial Planning'],
+      },
+      processLabel: 'ENGAGEMENT PROCESS',
+      processTitle: 'How We Work Together',
+      process: {
+        step1Title: 'Discovery',
+        step1Desc: 'Deep-dive into your business context, data landscape, and objectives through structured consultations.',
+        step2Title: 'Architecture',
+        step2Desc: 'Design technical specifications, data pipelines, and model architectures tailored to your requirements.',
+        step3Title: 'Development',
+        step3Desc: 'Iterative building with regular checkpoints, ensuring alignment with business goals throughout.',
+        step4Title: 'Deployment',
+        step4Desc: 'Production-ready delivery with documentation, training, and ongoing support options.',
+      },
+      stack: 'TECHNOLOGY ARSENAL',
       stackLangs: 'Languages',
       stackIntel: 'Intelligence',
       stackDeploy: 'Deployment',
       stackViz: 'Visualization',
+      ctaTitle: 'Ready to Transform Your Data?',
+      ctaDesc: 'Let\'s discuss how data science and financial expertise can drive your business forward.',
+      ctaButton: 'Start a Conversation',
     },
   },
   tr: {
@@ -248,15 +320,17 @@ export const translations: Record<Locale, TranslationType> = {
       macro: 'MAKRO EKONOMİ',
     },
     methodology: {
-      label: '01 // METODOLOJİ',
-      title: 'Veri Tasarımla Buluşuyor',
-      explore: 'Tam Mimariyi Keşfet',
-      card1Title: 'Finansal Modelleme',
-      card1Desc: 'LSTM ve Zaman Serisi analizi kullanarak sağlam, stres testinden geçmiş modeller oluşturma.',
-      card2Title: 'NLP Pipeline\'ları',
-      card2Desc: 'Risk tespiti için ince ayarlı RoBERTa modelleri ve Bağlamsal Gömüler.',
-      card3Title: 'Veri Görselleştirme',
-      card3Desc: 'Ham veriyi PowerBI ve özel Python panolarıyla denetlenebilir metriklere dönüştürme.',
+      label: '01 // HİZMETLER',
+      title: 'Veri Odaklı Çözümler',
+      explore: 'Tam Metodolojiyi Keşfet',
+      card1Title: 'Finansal Analitik',
+      card1Desc: 'Bilinçli yatırım kararları için tahminsel modelleme, risk değerlendirmesi ve kantitatif analiz.',
+      card2Title: 'AI & NLP Çözümleri',
+      card2Desc: 'Duygu analizi, belge işleme ve otomasyon için özel makine öğrenimi pipeline\'ları.',
+      card3Title: 'İş Zekası',
+      card3Desc: 'Ham veriyi stratejik içgörülere dönüştüren uçtan uca panolar ve raporlama sistemleri.',
+      card4Title: 'Finansal Danışmanlık',
+      card4Desc: 'Sınır ötesi danışmanlık, mevzuat uyumu rehberliği ve stratejik finansal planlama.',
     },
     assets: {
       label: '02 // PROJELER',
@@ -312,28 +386,62 @@ export const translations: Record<Locale, TranslationType> = {
       visitProfile: "GitHub Profilini Ziyaret Et",
     },
     methodologyPage: {
-      label: 'SİSTEM MİMARİSİ',
-      title: 'Algoritmik Çekirdek',
-      subtitle: 'Tahmin, risk değerlendirmesi ve duygu analizini yönlendiren tescilli modellerin yapısökümü.',
+      label: 'METODOLOJİ & HİZMETLER',
+      title: 'Veri Bilimi Finansla Buluşuyor',
+      subtitle: 'İleri analitikleri gerçek dünya finansal karar alma süreçleriyle birleştiren veri odaklı çözümler sunmaya yönelik sistematik bir yaklaşım.',
+      servicesLabel: 'TEMEL HİZMET ALANLARI',
       section1: {
         num: '01.',
-        title: 'Semantik Risk Tespiti',
-        arch: 'MİMARİ: RoBERTa İNCE AYAR // BAĞLAMSAL GÖMÜLER',
-        desc1: "İnce ayarlı RoBERTa mimarisi kullanarak, bu modül kurumsal sürdürülebilirlik iddialarını analiz ederek greenwashing risklerini otomatik olarak işaretler. Sistem, özel Semantik Çelişki Endeksi (SCI) aracılığıyla manuel inceleme süresini %80 azaltır.",
-        desc2: 'SCI, ESG risk puanlarını tarihsel tartışmalarla çapraz referans yaparak duygu algılama ve duygu kayması analizinden yararlanır ve müşteriler için denetlenebilir bir metrik sağlar.',
+        title: 'Finansal Analitik & Modelleme',
+        arch: 'TAHMİNSEL MODELLER // RİSK NİCELEME // PORTFÖY OPTİMİZASYONU',
+        desc1: 'Ham piyasa verisini eyleme dönüştürülebilir zekaya dönüştüren sağlam finansal modeller oluşturuyorum. Fiyat tahmini için stres testinden geçmiş LSTM ağlarından risk değerlendirmesi için Monte Carlo simülasyonlarına kadar, her model gerçek dünya uygulaması için tasarlanmıştır.',
+        desc2: 'Yaklaşımım, geleneksel kantitatif finansı modern makine öğrenimi ile birleştirerek modellerin hem istatistiksel olarak güçlü hem de ticaret stratejileri, portföy yönetimi ve yatırım kararlarına pratik olarak uygulanabilir olmasını sağlar.',
+        features: ['Zaman Serisi Tahmini (ARIMA, LSTM, Prophet)', 'Riske Maruz Değer & Stres Testi', 'Portföy Optimizasyonu & Faktör Modelleri', 'Kantitatif Ticaret Sinyalleri'],
       },
       section2: {
         num: '02.',
-        title: 'Zaman Serisi & Nedensellik',
-        arch: 'MİMARİ: LSTM // GRANGER NEDENSELLİK // BERT',
-        desc1: 'Hisse senedi getirilerini tahmin etmek, sinyali gürültüden ayırt etmeyi gerektirir. Sıra bağımlılığını öğrenme yetenekleri nedeniyle LSTM (Uzun Kısa Süreli Bellek) ağlarını kullanıyoruz.',
-        desc2: "Teknik verileri desteklemek için alternatif veri setlerini entegre ediyoruz. Twitter akışlarında duygu sınıflandırması için BERT kullanarak, kamuoyu duygu hacmi ile piyasa oynaklığı arasındaki öngörücü ilişkiyi matematiksel olarak doğrulamak için Granger nedensellik testleri yapıyoruz.",
+        title: 'NLP & AI Çözümleri',
+        arch: 'TRANSFORMER MODELLERİ // DUYGU ANALİZİ // BELGE ZEKASI',
+        desc1: 'RoBERTa ve BERT gibi son teknoloji NLP mimarilerinden yararlanarak, yapılandırılmamış metinlerden içgörü çıkarmak için özel çözümler geliştiriyorum—finansal raporlar, haber akışları, sosyal medya ve kurumsal iletişimler.',
+        desc2: 'ImpactScope için geliştirdiğim greenwashing tespit sistemi bu yeteneği gösteriyor: ince ayarlı transformerlar sürdürülebilirlik iddialarını analiz ederek, özel Semantik Çelişki Endeksi ile manuel inceleme süresini %80 azaltıyor.',
+        features: ['Özel Duygu Sınıflandırması', 'ESG & Greenwashing Risk Tespiti', 'Belge Özetleme & Çıkarma', 'Chatbotlar & Akıllı Otomasyon'],
       },
-      stack: 'TAM TEKNOLOJİ YIĞINI',
+      section3: {
+        num: '03.',
+        title: 'İş Zekası & Panolar',
+        arch: 'POWERBI // ÖZEL PYTHON // GERÇEK ZAMANLI ANALİTİK',
+        desc1: 'Ham veri, uygun görselleştirme ve hikaye anlatımı olmadan anlam ifade etmez. Karmaşık veri setlerini sezgisel panolara dönüştüren, paydaşların bir bakışta bilinçli kararlar almasını sağlayan uçtan uca BI çözümleri tasarlıyorum.',
+        desc2: 'Yönetici düzeyinde KPI takibinden operasyonel detaylara kadar, her pano sizin özel iş bağlamınıza göre uyarlanmış, birden fazla veri kaynağını entegre ediyor ve gerçek zamanlı içgörüler sağlıyor.',
+        features: ['Yönetici KPI Panoları', 'Otomatik Raporlama Pipeline\'ları', 'Veri Ambarı Tasarımı', 'Özel Görselleştirme Geliştirme'],
+      },
+      section4: {
+        num: '04.',
+        title: 'Finansal Danışmanlık',
+        arch: 'SINIR ÖTESİ DANIŞMANLIK // MEVZUAT UYUMU // STRATEJİK PLANLAMA',
+        desc1: 'Alvolo Consulting\'in kurucusu olarak, İtalyan ve uluslararası pazarları birleştiren kapsamlı finansal danışmanlık hizmetleri sunuyorum. Karmaşık düzenleyici ortamlarda yol göstermekten sınır ötesi yatırım yapılarını optimize etmeye kadar.',
+        desc2: 'Danışmanlık yaklaşımım, derin teknik uzmanlığı pratik iş zekasıyla birleştirerek müşterilerin yalnızca verinin ne gösterdiğini değil, stratejik olarak nasıl hareket edeceklerini anlamalarına yardımcı oluyor.',
+        features: ['Sınır Ötesi Yatırım Danışmanlığı', 'İtalyan Finans Sistemi Navigasyonu', 'Mevzuat Uyumu Rehberliği', 'Stratejik Finansal Planlama'],
+      },
+      processLabel: 'ÇALIŞMA SÜRECİ',
+      processTitle: 'Nasıl Birlikte Çalışıyoruz',
+      process: {
+        step1Title: 'Keşif',
+        step1Desc: 'Yapılandırılmış danışmanlıklar aracılığıyla iş bağlamınıza, veri ortamınıza ve hedeflerinize derinlemesine dalış.',
+        step2Title: 'Mimari',
+        step2Desc: 'Gereksinimlerinize uygun teknik spesifikasyonlar, veri pipeline\'ları ve model mimarileri tasarımı.',
+        step3Title: 'Geliştirme',
+        step3Desc: 'Düzenli kontrol noktalarıyla yinelemeli inşa, süreç boyunca iş hedefleriyle uyum sağlama.',
+        step4Title: 'Dağıtım',
+        step4Desc: 'Dokümantasyon, eğitim ve sürekli destek seçenekleriyle üretime hazır teslimat.',
+      },
+      stack: 'TEKNOLOJİ CEPHANELIĞI',
       stackLangs: 'Diller',
       stackIntel: 'Zeka',
       stackDeploy: 'Dağıtım',
       stackViz: 'Görselleştirme',
+      ctaTitle: 'Verinizi Dönüştürmeye Hazır mısınız?',
+      ctaDesc: 'Veri bilimi ve finansal uzmanlığın işinizi nasıl ileriye taşıyabileceğini konuşalım.',
+      ctaButton: 'Bir Görüşme Başlat',
     },
   },
   it: {
@@ -359,15 +467,17 @@ export const translations: Record<Locale, TranslationType> = {
       macro: 'MACROECONOMIA',
     },
     methodology: {
-      label: '01 // METODOLOGIA',
-      title: 'Dati Incontra Design',
-      explore: 'Esplora Architettura Completa',
-      card1Title: 'Modellazione Finanziaria',
-      card1Desc: 'Costruire modelli robusti e testati utilizzando LSTM e analisi delle serie temporali.',
-      card2Title: 'Pipeline NLP',
-      card2Desc: 'Modelli RoBERTa ottimizzati ed Embedding Contestuali per il rilevamento del rischio.',
-      card3Title: 'Visualizzazione Dati',
-      card3Desc: 'Tradurre dati grezzi in metriche verificabili tramite PowerBI e dashboard Python personalizzate.',
+      label: '01 // SERVIZI',
+      title: 'Soluzioni Data-Driven',
+      explore: 'Esplora Metodologia Completa',
+      card1Title: 'Analisi Finanziaria',
+      card1Desc: 'Modellazione predittiva, valutazione del rischio e analisi quantitativa per decisioni di investimento informate.',
+      card2Title: 'Soluzioni AI & NLP',
+      card2Desc: 'Pipeline di machine learning personalizzate per analisi del sentiment, elaborazione documenti e automazione.',
+      card3Title: 'Business Intelligence',
+      card3Desc: 'Dashboard e sistemi di reporting end-to-end che trasformano dati grezzi in insight strategici.',
+      card4Title: 'Consulenza Finanziaria',
+      card4Desc: 'Advisory transfrontaliera, guida alla conformità normativa e pianificazione finanziaria strategica.',
     },
     assets: {
       label: '02 // PROGETTI',
@@ -423,28 +533,62 @@ export const translations: Record<Locale, TranslationType> = {
       visitProfile: 'Visita Profilo GitHub',
     },
     methodologyPage: {
-      label: 'ARCHITETTURA DI SISTEMA',
-      title: 'Il Nucleo Algoritmico',
-      subtitle: 'Decostruire i modelli proprietari che guidano previsione, valutazione del rischio e analisi del sentiment.',
+      label: 'METODOLOGIA & SERVIZI',
+      title: 'Data Science Incontra Finanza',
+      subtitle: 'Un approccio sistematico per fornire soluzioni data-driven che collegano analisi all\'avanguardia con il processo decisionale finanziario reale.',
+      servicesLabel: 'AREE DI SERVIZIO PRINCIPALI',
       section1: {
         num: '01.',
-        title: 'Rilevamento Rischio Semantico',
-        arch: 'ARCH: RoBERTa FINE-TUNING // EMBEDDING CONTESTUALI',
-        desc1: "Utilizzando un'architettura RoBERTa ottimizzata, questo modulo segnala automaticamente i rischi di greenwashing analizzando le dichiarazioni di sostenibilità aziendale. Il sistema riduce i tempi di revisione manuale dell'80% attraverso un Indice di Contraddizione Semantica (SCI) personalizzato.",
-        desc2: "L'SCI sfrutta il rilevamento della posizione e l'analisi della deriva del sentiment per confrontare i punteggi di rischio ESG con le controversie storiche, garantendo una metrica verificabile per i clienti.",
+        title: 'Analisi Finanziaria & Modellazione',
+        arch: 'MODELLI PREDITTIVI // QUANTIFICAZIONE RISCHIO // OTTIMIZZAZIONE PORTAFOGLIO',
+        desc1: 'Costruisco modelli finanziari robusti che trasformano dati di mercato grezzi in intelligence azionabile. Dalle reti LSTM stress-testate per la previsione dei prezzi alle simulazioni Monte Carlo per la valutazione del rischio, ogni modello è progettato per il deployment reale.',
+        desc2: 'Il mio approccio combina finanza quantitativa tradizionale con machine learning moderno, garantendo che i modelli siano sia statisticamente rigorosi che praticamente applicabili a strategie di trading, gestione del portafoglio e decisioni di investimento.',
+        features: ['Previsione Serie Temporali (ARIMA, LSTM, Prophet)', 'Value-at-Risk & Stress Testing', 'Ottimizzazione Portafoglio & Modelli Fattoriali', 'Segnali di Trading Quantitativo'],
       },
       section2: {
         num: '02.',
-        title: 'Serie Temporali & Causalità',
-        arch: 'ARCH: LSTM // CAUSALITÀ DI GRANGER // BERT',
-        desc1: 'Prevedere i rendimenti azionari richiede di distinguere il segnale dal rumore. Utilizziamo reti LSTM (Long Short-Term Memory) per la loro capacità di apprendere la dipendenza sequenziale nei problemi di previsione.',
-        desc2: 'Per aumentare i dati tecnici, integriamo dataset alternativi. Utilizzando BERT per la classificazione del sentiment sui feed Twitter, eseguiamo test di causalità di Granger per validare matematicamente la relazione predittiva tra il volume del sentiment pubblico e la volatilità del mercato.',
+        title: 'Soluzioni NLP & AI',
+        arch: 'MODELLI TRANSFORMER // ANALISI SENTIMENT // DOCUMENT INTELLIGENCE',
+        desc1: 'Sfruttando architetture NLP all\'avanguardia come RoBERTa e BERT, sviluppo soluzioni personalizzate per estrarre insight da testo non strutturato—report finanziari, feed di notizie, social media e comunicazioni aziendali.',
+        desc2: 'Il mio sistema di rilevamento del greenwashing, costruito per ImpactScope, dimostra questa capacità: transformer ottimizzati analizzano le dichiarazioni di sostenibilità, riducendo i tempi di revisione manuale dell\'80% attraverso un Indice di Contraddizione Semantica proprietario.',
+        features: ['Classificazione Sentiment Personalizzata', 'Rilevamento Rischio ESG & Greenwashing', 'Riassunto & Estrazione Documenti', 'Chatbot & Automazione Intelligente'],
       },
-      stack: 'STACK TECNOLOGICO COMPLETO',
+      section3: {
+        num: '03.',
+        title: 'Business Intelligence & Dashboard',
+        arch: 'POWERBI // PYTHON PERSONALIZZATO // ANALISI REAL-TIME',
+        desc1: 'I dati grezzi non significano nulla senza una corretta visualizzazione e storytelling. Progetto soluzioni BI end-to-end che trasformano dataset complessi in dashboard intuitive, permettendo agli stakeholder di prendere decisioni informate a colpo d\'occhio.',
+        desc2: 'Dal tracking KPI a livello esecutivo ai drill-down operativi, ogni dashboard è personalizzata sul tuo specifico contesto aziendale, integrando multiple fonti dati e fornendo insight in tempo reale.',
+        features: ['Dashboard KPI Esecutive', 'Pipeline di Reporting Automatizzate', 'Design Data Warehouse', 'Sviluppo Visualizzazione Personalizzata'],
+      },
+      section4: {
+        num: '04.',
+        title: 'Consulenza Finanziaria',
+        arch: 'ADVISORY TRANSFRONTALIERA // CONFORMITÀ NORMATIVA // PIANIFICAZIONE STRATEGICA',
+        desc1: 'Come fondatore di Alvolo Consulting, fornisco servizi di consulenza finanziaria completi che collegano mercati italiani e internazionali. Dalla navigazione di ambienti normativi complessi all\'ottimizzazione di strutture di investimento transfrontaliere.',
+        desc2: 'Il mio approccio consulenziale combina profonda competenza tecnica con acume commerciale pratico, aiutando i clienti a capire non solo cosa mostrano i dati, ma come agire strategicamente.',
+        features: ['Advisory Investimenti Transfrontalieri', 'Navigazione Sistema Finanziario Italiano', 'Guida Conformità Normativa', 'Pianificazione Finanziaria Strategica'],
+      },
+      processLabel: 'PROCESSO DI ENGAGEMENT',
+      processTitle: 'Come Lavoriamo Insieme',
+      process: {
+        step1Title: 'Discovery',
+        step1Desc: 'Deep-dive nel tuo contesto aziendale, panorama dati e obiettivi attraverso consultazioni strutturate.',
+        step2Title: 'Architettura',
+        step2Desc: 'Design di specifiche tecniche, pipeline dati e architetture modello su misura per i tuoi requisiti.',
+        step3Title: 'Sviluppo',
+        step3Desc: 'Costruzione iterativa con checkpoint regolari, garantendo allineamento con gli obiettivi di business.',
+        step4Title: 'Deployment',
+        step4Desc: 'Consegna production-ready con documentazione, formazione e opzioni di supporto continuo.',
+      },
+      stack: 'ARSENALE TECNOLOGICO',
       stackLangs: 'Linguaggi',
       stackIntel: 'Intelligenza',
       stackDeploy: 'Deployment',
       stackViz: 'Visualizzazione',
+      ctaTitle: 'Pronto a Trasformare i Tuoi Dati?',
+      ctaDesc: 'Discutiamo come data science e competenza finanziaria possono far progredire il tuo business.',
+      ctaButton: 'Inizia una Conversazione',
     },
   },
 };
