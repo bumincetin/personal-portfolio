@@ -24,11 +24,11 @@ const Ticker: React.FC<TickerProps> = ({ t }) => {
   const tickerItems = [...items, ...items];
 
   return (
-    <div className="w-full overflow-hidden border-y border-glass-border py-6 bg-gradient-to-r from-void via-transparent to-void relative">
+    <div className="w-full overflow-hidden border-y border-glass-border py-4 md:py-6 bg-gradient-to-r from-void via-transparent to-void relative">
       <div className="flex animate-ticker whitespace-nowrap w-max">
         {tickerItems.map((item, index) => (
-          <div key={index} className="flex items-center gap-2 mx-12 text-text-muted font-mono font-semibold opacity-60">
-            <item.icon size={18} />
+          <div key={index} className="flex items-center gap-1.5 md:gap-2 mx-4 md:mx-12 text-text-muted font-mono font-semibold opacity-60 text-xs md:text-base">
+            <item.icon size={14} className="md:w-[18px] md:h-[18px]" />
             <span>{item.text}</span>
           </div>
         ))}

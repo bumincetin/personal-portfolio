@@ -103,31 +103,31 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
 
   return (
-    <div className="pt-32 pb-20">
-      <section className="container mx-auto px-6 mb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+    <div className="pt-24 md:pt-32 pb-12 md:pb-20">
+      <section className="container mx-auto px-4 md:px-6 mb-12 md:mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 items-start">
           <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-1">
-            <div className="aspect-[3/4] bg-neutral-900 rounded-[20px] overflow-hidden border border-glass-border">
+            <div className="aspect-[3/4] max-h-[350px] md:max-h-none bg-neutral-900 rounded-[16px] md:rounded-[20px] overflow-hidden border border-glass-border">
               <img src="/personal-portfolio/Bumin_resmi.jpeg" alt="Bumin Kağan Çetin" className="w-full h-full object-cover" />
             </div>
             
-            <GlassCard className="mt-6 p-6">
-              <h3 className="font-serif text-xl mb-4">{t.aboutPage.contact}</h3>
-              <div className="space-y-3 text-sm">
-                <a href="mailto:bumin.cetin@studbocconi.it" className="flex items-center gap-3 text-text-muted hover:text-accent-cyan transition-colors">
-                  <Mail size={16} className="text-accent-cyan" />
-                  bumin.cetin@studbocconi.it
+            <GlassCard className="mt-4 md:mt-6 p-4 md:p-6">
+              <h3 className="font-serif text-lg md:text-xl mb-3 md:mb-4">{t.aboutPage.contact}</h3>
+              <div className="space-y-2 md:space-y-3 text-xs md:text-sm">
+                <a href="mailto:bumin.cetin@studbocconi.it" className="flex items-center gap-2 md:gap-3 text-text-muted hover:text-accent-cyan transition-colors">
+                  <Mail size={14} className="text-accent-cyan flex-shrink-0" />
+                  <span className="truncate">bumin.cetin@studbocconi.it</span>
                 </a>
-                <a href="tel:+393481705207" className="flex items-center gap-3 text-text-muted hover:text-accent-cyan transition-colors">
-                  <Phone size={16} className="text-accent-cyan" />
+                <a href="tel:+393481705207" className="flex items-center gap-2 md:gap-3 text-text-muted hover:text-accent-cyan transition-colors">
+                  <Phone size={14} className="text-accent-cyan flex-shrink-0" />
                   +39 348 170 5207
                 </a>
-                <a href="https://linkedin.com/in/buminkcetin" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-text-muted hover:text-accent-cyan transition-colors">
-                  <Linkedin size={16} className="text-accent-cyan" />
-                  linkedin.com/in/buminkcetin
+                <a href="https://linkedin.com/in/buminkcetin" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 md:gap-3 text-text-muted hover:text-accent-cyan transition-colors">
+                  <Linkedin size={14} className="text-accent-cyan flex-shrink-0" />
+                  <span className="truncate">linkedin.com/in/buminkcetin</span>
                 </a>
-                <div className="flex items-center gap-3 text-text-muted">
-                  <MapPin size={16} className="text-accent-cyan" />
+                <div className="flex items-center gap-2 md:gap-3 text-text-muted">
+                  <MapPin size={14} className="text-accent-cyan flex-shrink-0" />
                   Milan, Italy
                 </div>
               </div>
@@ -135,87 +135,87 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="lg:col-span-2">
-            <p className="text-accent-cyan font-mono mb-4 tracking-widest text-sm">{t.aboutPage.aboutMe}</p>
-            <h1 className="font-serif text-5xl md:text-6xl mb-6">Bumin Kağan Çetin</h1>
-            <p className="text-text-muted text-lg mb-6 font-light leading-relaxed">
+            <p className="text-accent-cyan font-mono mb-2 md:mb-4 tracking-widest text-xs md:text-sm">{t.aboutPage.aboutMe}</p>
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-4 md:mb-6">Bumin Kağan Çetin</h1>
+            <p className="text-text-muted text-sm md:text-lg mb-4 md:mb-6 font-light leading-relaxed">
               {t.about.desc1}
             </p>
-            <p className="text-text-muted text-lg mb-8 font-light leading-relaxed">
+            <p className="text-text-muted text-sm md:text-lg mb-6 md:mb-8 font-light leading-relaxed">
               {t.about.desc2}
             </p>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <GlassCard className="p-4 text-center">
-                <div className="text-3xl font-serif text-accent-cyan mb-1">4+</div>
-                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.languages}</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+              <GlassCard className="p-3 md:p-4 text-center">
+                <div className="text-2xl md:text-3xl font-serif text-accent-cyan mb-1">4+</div>
+                <div className="text-[10px] md:text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.languages}</div>
               </GlassCard>
-              <GlassCard className="p-4 text-center">
-                <div className="text-3xl font-serif text-accent-cyan mb-1">7+</div>
-                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.certifications}</div>
+              <GlassCard className="p-3 md:p-4 text-center">
+                <div className="text-2xl md:text-3xl font-serif text-accent-cyan mb-1">7+</div>
+                <div className="text-[10px] md:text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.certifications}</div>
               </GlassCard>
-              <GlassCard className="p-4 text-center">
-                <div className="text-3xl font-serif text-accent-cyan mb-1">4</div>
-                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.experiences}</div>
+              <GlassCard className="p-3 md:p-4 text-center">
+                <div className="text-2xl md:text-3xl font-serif text-accent-cyan mb-1">4</div>
+                <div className="text-[10px] md:text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.experiences}</div>
               </GlassCard>
-              <GlassCard className="p-4 text-center">
-                <div className="text-3xl font-serif text-accent-cyan mb-1">2</div>
-                <div className="text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.degrees}</div>
+              <GlassCard className="p-3 md:p-4 text-center">
+                <div className="text-2xl md:text-3xl font-serif text-accent-cyan mb-1">2</div>
+                <div className="text-[10px] md:text-xs text-text-muted font-mono uppercase">{t.aboutPage.stats.degrees}</div>
               </GlassCard>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="container mx-auto px-6 mb-20">
-        <div className="flex items-center gap-4 mb-8">
-          <GraduationCap className="text-accent-cyan" size={28} />
-          <h2 className="font-serif text-3xl">{t.aboutPage.education}</h2>
+      <section className="container mx-auto px-4 md:px-6 mb-12 md:mb-20">
+        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+          <GraduationCap className="text-accent-cyan" size={24} />
+          <h2 className="font-serif text-2xl md:text-3xl">{t.aboutPage.education}</h2>
         </div>
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {education.map((edu, idx) => (
             <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}>
-              <GlassCard className="p-8">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+              <GlassCard className="p-5 md:p-8">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 md:gap-4 mb-3 md:mb-4">
                   <div>
-                    <h3 className="text-xl font-serif text-white">{edu.school}</h3>
-                    <p className="text-accent-cyan font-mono text-sm">{edu.degree}</p>
+                    <h3 className="text-lg md:text-xl font-serif text-white">{edu.school}</h3>
+                    <p className="text-accent-cyan font-mono text-xs md:text-sm">{edu.degree}</p>
                   </div>
-                  <div className="text-right">
-                    <div className="flex items-center gap-2 text-text-muted text-sm"><MapPin size={14} />{edu.location}</div>
-                    <div className="flex items-center gap-2 text-text-muted text-sm"><Calendar size={14} />{edu.period}</div>
+                  <div className="flex flex-row md:flex-col md:text-right gap-3 md:gap-1 text-text-muted text-xs md:text-sm">
+                    <div className="flex items-center gap-1 md:gap-2"><MapPin size={12} />{edu.location}</div>
+                    <div className="flex items-center gap-1 md:gap-2"><Calendar size={12} />{edu.period}</div>
                   </div>
                 </div>
-                <p className="text-text-muted text-sm mb-3"><strong className="text-white">{t.aboutPage.coursework}:</strong> {edu.coursework.join(", ")}</p>
-                <p className="text-text-muted text-sm"><strong className="text-white">{t.aboutPage.thesis}:</strong> {edu.thesis}</p>
+                <p className="text-text-muted text-xs md:text-sm mb-2 md:mb-3"><strong className="text-white">{t.aboutPage.coursework}:</strong> {edu.coursework.join(", ")}</p>
+                <p className="text-text-muted text-xs md:text-sm"><strong className="text-white">{t.aboutPage.thesis}:</strong> {edu.thesis}</p>
               </GlassCard>
             </motion.div>
           ))}
         </div>
       </section>
 
-      <section className="container mx-auto px-6 mb-20">
-        <div className="flex items-center gap-4 mb-8">
-          <Briefcase className="text-accent-cyan" size={28} />
-          <h2 className="font-serif text-3xl">{t.aboutPage.experience}</h2>
+      <section className="container mx-auto px-4 md:px-6 mb-12 md:mb-20">
+        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+          <Briefcase className="text-accent-cyan" size={24} />
+          <h2 className="font-serif text-2xl md:text-3xl">{t.aboutPage.experience}</h2>
         </div>
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {experience.map((exp, idx) => (
             <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}>
-              <GlassCard className="p-8">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+              <GlassCard className="p-5 md:p-8">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 md:gap-4 mb-3 md:mb-4">
                   <div>
-                    <h3 className="text-xl font-serif text-white">{exp.company}</h3>
-                    <p className="text-accent-cyan font-mono text-sm">{exp.role}</p>
+                    <h3 className="text-lg md:text-xl font-serif text-white">{exp.company}</h3>
+                    <p className="text-accent-cyan font-mono text-xs md:text-sm">{exp.role}</p>
                   </div>
-                  <div className="text-right">
-                    <div className="flex items-center gap-2 text-text-muted text-sm"><MapPin size={14} />{exp.location}</div>
-                    <div className="flex items-center gap-2 text-text-muted text-sm"><Calendar size={14} />{exp.period}</div>
+                  <div className="flex flex-row md:flex-col md:text-right gap-3 md:gap-1 text-text-muted text-xs md:text-sm">
+                    <div className="flex items-center gap-1 md:gap-2"><MapPin size={12} />{exp.location}</div>
+                    <div className="flex items-center gap-1 md:gap-2"><Calendar size={12} />{exp.period}</div>
                   </div>
                 </div>
                 <ul className="space-y-2">
                   {exp.highlights.map((highlight, i) => (
-                    <li key={i} className="text-text-muted text-sm flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-accent-purple rounded-full mt-2 shrink-0"></span>
+                    <li key={i} className="text-text-muted text-xs md:text-sm flex items-start gap-2 md:gap-3">
+                      <span className="w-1.5 h-1.5 bg-accent-purple rounded-full mt-1.5 shrink-0"></span>
                       {highlight}
                     </li>
                   ))}
@@ -226,43 +226,43 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      <section className="container mx-auto px-6 mb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <section className="container mx-auto px-4 md:px-6 mb-12 md:mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           <div>
-            <div className="flex items-center gap-4 mb-8">
-              <Code className="text-accent-cyan" size={28} />
-              <h2 className="font-serif text-3xl">{t.aboutPage.skills}</h2>
+            <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+              <Code className="text-accent-cyan" size={24} />
+              <h2 className="font-serif text-2xl md:text-3xl">{t.aboutPage.skills}</h2>
             </div>
-            <GlassCard className="p-8">
-              <h4 className="font-mono text-accent-cyan text-sm mb-4">{t.aboutPage.programming}</h4>
-              <div className="space-y-4 mb-8">
+            <GlassCard className="p-5 md:p-8">
+              <h4 className="font-mono text-accent-cyan text-xs md:text-sm mb-3 md:mb-4">{t.aboutPage.programming}</h4>
+              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
                 {skills.programming.map((skill, idx) => (
                   <div key={idx}>
-                    <div className="font-serif text-white mb-1">{skill.name}</div>
-                    <div className="text-text-muted text-sm">{skill.details}</div>
+                    <div className="font-serif text-white mb-1 text-sm md:text-base">{skill.name}</div>
+                    <div className="text-text-muted text-xs md:text-sm">{skill.details}</div>
                   </div>
                 ))}
               </div>
-              <h4 className="font-mono text-accent-cyan text-sm mb-4">{t.aboutPage.tools}</h4>
+              <h4 className="font-mono text-accent-cyan text-xs md:text-sm mb-3 md:mb-4">{t.aboutPage.tools}</h4>
               <div className="flex flex-wrap gap-2">
                 {skills.tools.map((tool, idx) => (
-                  <span key={idx} className="px-3 py-1 text-sm font-mono bg-glass-surface border border-glass-border rounded-full text-text-muted">{tool}</span>
+                  <span key={idx} className="px-2 md:px-3 py-1 text-xs font-mono bg-glass-surface border border-glass-border rounded-full text-text-muted">{tool}</span>
                 ))}
               </div>
             </GlassCard>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             <div>
-              <div className="flex items-center gap-4 mb-8">
-                <Award className="text-accent-cyan" size={28} />
-                <h2 className="font-serif text-3xl">{t.aboutPage.certifications}</h2>
+              <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+                <Award className="text-accent-cyan" size={24} />
+                <h2 className="font-serif text-2xl md:text-3xl">{t.aboutPage.certifications}</h2>
               </div>
-              <GlassCard className="p-8">
-                <ul className="space-y-3">
+              <GlassCard className="p-5 md:p-8">
+                <ul className="space-y-2 md:space-y-3">
                   {certifications.map((cert, idx) => (
-                    <li key={idx} className="text-text-muted text-sm flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 bg-accent-cyan rounded-full mt-2 shrink-0"></span>
+                    <li key={idx} className="text-text-muted text-xs md:text-sm flex items-start gap-2 md:gap-3">
+                      <span className="w-1.5 h-1.5 bg-accent-cyan rounded-full mt-1.5 shrink-0"></span>
                       {cert}
                     </li>
                   ))}
@@ -271,16 +271,16 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
             </div>
 
             <div>
-              <div className="flex items-center gap-4 mb-8">
-                <Languages className="text-accent-cyan" size={28} />
-                <h2 className="font-serif text-3xl">{t.aboutPage.languages}</h2>
+              <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+                <Languages className="text-accent-cyan" size={24} />
+                <h2 className="font-serif text-2xl md:text-3xl">{t.aboutPage.languages}</h2>
               </div>
-              <GlassCard className="p-8">
-                <div className="grid grid-cols-2 gap-4">
+              <GlassCard className="p-5 md:p-8">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {languages.map((lang, idx) => (
                     <div key={idx} className="text-center">
-                      <div className="font-serif text-white text-lg">{lang.lang}</div>
-                      <div className="text-text-muted text-sm">{lang.level}</div>
+                      <div className="font-serif text-white text-base md:text-lg">{lang.lang}</div>
+                      <div className="text-text-muted text-xs md:text-sm">{lang.level}</div>
                     </div>
                   ))}
                 </div>
@@ -292,4 +292,3 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
     </div>
   );
 }
-

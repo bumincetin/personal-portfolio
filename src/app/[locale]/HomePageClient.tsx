@@ -21,3 +21,4 @@ export default function HomePageClient({ locale }: { locale: Locale }) {
   );
 }
 
+

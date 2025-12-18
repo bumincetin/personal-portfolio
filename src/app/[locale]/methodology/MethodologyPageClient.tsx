@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import GlassCard from '../../components/ui/GlassCard';
 import { TrendingUp, Brain, BarChart3, Building2, Search, Cpu, Code, Rocket, ArrowRight, Mail } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
-import Link from 'next/link';
 
 const ChartLine = ({ color, delay }: { color: string, delay: number }) => (
   <motion.path
@@ -190,63 +189,63 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <div className="pt-32 pb-20">
+    <div className="pt-24 md:pt-32 pb-12 md:pb-20">
       {/* HEADER */}
-      <section className="container mx-auto px-6 mb-24 text-center">
+      <section className="container mx-auto px-4 md:px-6 mb-12 md:mb-24 text-center">
         <motion.p 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} 
-          className="text-accent-cyan font-mono mb-4 tracking-widest text-sm"
+          className="text-accent-cyan font-mono mb-2 md:mb-4 tracking-widest text-xs md:text-sm"
         >
           {t.methodologyPage.label}
         </motion.p>
         <motion.h1 
           initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }}
-          className="font-serif text-5xl md:text-7xl mb-6 bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent"
+          className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 md:mb-6 bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent px-2"
         >
           {t.methodologyPage.title}
         </motion.h1>
         <motion.p 
           initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
-          className="text-text-muted text-lg max-w-3xl mx-auto font-light leading-relaxed"
+          className="text-text-muted text-sm md:text-lg max-w-3xl mx-auto font-light leading-relaxed px-2"
         >
           {t.methodologyPage.subtitle}
         </motion.p>
       </section>
 
       {/* SERVICES LABEL */}
-      <section className="container mx-auto px-6 mb-8">
-        <p className="text-accent-purple font-mono tracking-widest text-sm">{t.methodologyPage.servicesLabel}</p>
+      <section className="container mx-auto px-4 md:px-6 mb-6 md:mb-8">
+        <p className="text-accent-purple font-mono tracking-widest text-xs md:text-sm">{t.methodologyPage.servicesLabel}</p>
       </section>
 
       {/* SERVICES */}
       {services.map((item, idx) => (
-        <section key={idx} className="container mx-auto px-6 mb-32">
-          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${idx % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+        <section key={idx} className="container mx-auto px-4 md:px-6 mb-16 md:mb-32">
+          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center ${idx % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
             <motion.div
               initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="flex items-center gap-4 mb-6">
-                <span className="text-4xl font-serif text-accent-purple/50">{item.section.num}</span>
+              <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+                <span className="text-2xl md:text-4xl font-serif text-accent-purple/50">{item.section.num}</span>
                 <div className="h-[1px] flex-1 bg-glass-border"></div>
-                <item.icon className="text-accent-cyan" size={24} />
+                <item.icon className="text-accent-cyan" size={20} />
               </div>
-              <h2 className="font-serif text-3xl md:text-4xl mb-4">{item.section.title}</h2>
-              <h3 className="font-mono text-accent-cyan text-xs mb-6 tracking-wider">{item.section.arch}</h3>
+              <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl mb-3 md:mb-4">{item.section.title}</h2>
+              <h3 className="font-mono text-accent-cyan text-[10px] md:text-xs mb-4 md:mb-6 tracking-wider">{item.section.arch}</h3>
               
-              <p className="text-text-muted mb-4 leading-relaxed">
+              <p className="text-text-muted mb-3 md:mb-4 leading-relaxed text-sm md:text-base">
                 {item.section.desc1}
               </p>
-              <p className="text-text-muted mb-8 leading-relaxed">
+              <p className="text-text-muted mb-6 md:mb-8 leading-relaxed text-sm md:text-base">
                 {item.section.desc2}
               </p>
 
-              <ul className="space-y-3">
+              <ul className="space-y-2 md:space-y-3">
                 {item.section.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-text-muted">
-                    <span className="w-1.5 h-1.5 bg-accent-cyan rounded-full"></span>
+                  <li key={i} className="flex items-start gap-2 md:gap-3 text-xs md:text-sm text-text-muted">
+                    <span className="w-1.5 h-1.5 bg-accent-cyan rounded-full mt-1.5 flex-shrink-0"></span>
                     {feature}
                   </li>
                 ))}
@@ -258,8 +257,9 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
+              className="order-first lg:order-none"
             >
-              <GlassCard className="p-8 min-h-[350px] flex items-center justify-center bg-deep/50 relative overflow-hidden">
+              <GlassCard className="p-4 md:p-8 min-h-[250px] md:min-h-[350px] flex items-center justify-center bg-deep/50 relative overflow-hidden">
                 {item.visual}
               </GlassCard>
             </motion.div>
@@ -268,18 +268,18 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
       ))}
 
       {/* PROCESS */}
-      <section className="container mx-auto px-6 py-24 border-t border-b border-glass-border mb-24">
+      <section className="container mx-auto px-4 md:px-6 py-12 md:py-24 border-t border-b border-glass-border mb-12 md:mb-24">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
-          <p className="text-accent-purple font-mono mb-4 tracking-widest text-sm">{t.methodologyPage.processLabel}</p>
-          <h2 className="font-serif text-4xl md:text-5xl">{t.methodologyPage.processTitle}</h2>
+          <p className="text-accent-purple font-mono mb-2 md:mb-4 tracking-widest text-xs md:text-sm">{t.methodologyPage.processLabel}</p>
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{t.methodologyPage.processTitle}</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {processSteps.map((step, idx) => (
             <motion.div
               key={idx}
@@ -288,13 +288,13 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
             >
-              <GlassCard className="p-8 h-full relative">
-                <span className="absolute top-4 right-4 text-5xl font-serif text-glass-border">0{idx + 1}</span>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-cyan/20 to-accent-purple/20 border border-glass-border flex items-center justify-center mb-6">
-                  <step.icon className="text-accent-cyan" size={20} />
+              <GlassCard className="p-6 md:p-8 h-full relative">
+                <span className="absolute top-3 md:top-4 right-3 md:right-4 text-3xl md:text-5xl font-serif text-glass-border">0{idx + 1}</span>
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-accent-cyan/20 to-accent-purple/20 border border-glass-border flex items-center justify-center mb-4 md:mb-6">
+                  <step.icon className="text-accent-cyan" size={18} />
                 </div>
-                <h3 className="font-serif text-xl mb-3">{step.title}</h3>
-                <p className="text-text-muted text-sm leading-relaxed">{step.desc}</p>
+                <h3 className="font-serif text-lg md:text-xl mb-2 md:mb-3">{step.title}</h3>
+                <p className="text-text-muted text-xs md:text-sm leading-relaxed">{step.desc}</p>
               </GlassCard>
             </motion.div>
           ))}
@@ -302,12 +302,12 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
       </section>
 
       {/* STACK */}
-      <section className="container mx-auto px-6 mb-24">
-        <h3 className="text-center font-mono text-text-muted mb-12 tracking-widest">{t.methodologyPage.stack}</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <section className="container mx-auto px-4 md:px-6 mb-12 md:mb-24">
+        <h3 className="text-center font-mono text-text-muted mb-8 md:mb-12 tracking-widest text-xs md:text-sm">{t.methodologyPage.stack}</h3>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 text-center">
           <div>
-            <h4 className="text-white font-serif text-xl mb-4">{t.methodologyPage.stackLangs}</h4>
-            <ul className="text-text-muted font-mono text-sm space-y-2">
+            <h4 className="text-white font-serif text-base md:text-xl mb-3 md:mb-4">{t.methodologyPage.stackLangs}</h4>
+            <ul className="text-text-muted font-mono text-xs md:text-sm space-y-1 md:space-y-2">
               <li>Python (PyTorch, TF)</li>
               <li>R (dplyr, mlr3)</li>
               <li>SQL (Snowflake)</li>
@@ -315,26 +315,26 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-serif text-xl mb-4">{t.methodologyPage.stackIntel}</h4>
-            <ul className="text-text-muted font-mono text-sm space-y-2">
-              <li>Deep Learning (CNN/RNN)</li>
+            <h4 className="text-white font-serif text-base md:text-xl mb-3 md:mb-4">{t.methodologyPage.stackIntel}</h4>
+            <ul className="text-text-muted font-mono text-xs md:text-sm space-y-1 md:space-y-2">
+              <li>Deep Learning</li>
               <li>NLP (Transformers)</li>
-              <li>Time-Series Analysis</li>
+              <li>Time-Series</li>
               <li>Statistical Modeling</li>
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-serif text-xl mb-4">{t.methodologyPage.stackDeploy}</h4>
-            <ul className="text-text-muted font-mono text-sm space-y-2">
-              <li>Docker Containers</li>
+            <h4 className="text-white font-serif text-base md:text-xl mb-3 md:mb-4">{t.methodologyPage.stackDeploy}</h4>
+            <ul className="text-text-muted font-mono text-xs md:text-sm space-y-1 md:space-y-2">
+              <li>Docker</li>
               <li>Apache Airflow</li>
               <li>AWS / Cloud</li>
               <li>Git CI/CD</li>
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-serif text-xl mb-4">{t.methodologyPage.stackViz}</h4>
-            <ul className="text-text-muted font-mono text-sm space-y-2">
+            <h4 className="text-white font-serif text-base md:text-xl mb-3 md:mb-4">{t.methodologyPage.stackViz}</h4>
+            <ul className="text-text-muted font-mono text-xs md:text-sm space-y-1 md:space-y-2">
               <li>PowerBI & Knime</li>
               <li>D3.js / React</li>
               <li>Tableau</li>
@@ -345,22 +345,22 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
       </section>
 
       {/* CTA */}
-      <section className="container mx-auto px-6">
-        <GlassCard className="p-12 md:p-16 text-center bg-gradient-to-br from-accent-purple/5 to-accent-cyan/5">
+      <section className="container mx-auto px-4 md:px-6">
+        <GlassCard className="p-8 md:p-12 lg:p-16 text-center bg-gradient-to-br from-accent-purple/5 to-accent-cyan/5">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-serif text-3xl md:text-4xl mb-4">{t.methodologyPage.ctaTitle}</h2>
-            <p className="text-text-muted max-w-xl mx-auto mb-8">{t.methodologyPage.ctaDesc}</p>
+            <h2 className="font-serif text-2xl md:text-3xl lg:text-4xl mb-3 md:mb-4">{t.methodologyPage.ctaTitle}</h2>
+            <p className="text-text-muted max-w-xl mx-auto mb-6 md:mb-8 text-sm md:text-base">{t.methodologyPage.ctaDesc}</p>
             <a 
               href="mailto:cetinbumink@gmail.com"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-accent-cyan text-void font-mono font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform"
+              className="inline-flex items-center gap-2 md:gap-3 px-6 py-3 md:px-8 md:py-4 rounded-full bg-accent-cyan text-void font-mono font-bold uppercase tracking-widest text-xs md:text-sm hover:scale-105 transition-transform"
             >
-              <Mail size={18} />
+              <Mail size={16} />
               {t.methodologyPage.ctaButton}
-              <ArrowRight size={18} />
+              <ArrowRight size={16} />
             </a>
           </motion.div>
         </GlassCard>

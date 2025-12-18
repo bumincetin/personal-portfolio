@@ -50,42 +50,47 @@ const Assets: React.FC<AssetsProps> = ({ t, locale = 'en' }) => {
   ];
 
   return (
-    <section id="products" className="py-32 container mx-auto px-6">
-      <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
+    <section id="products" className="py-16 md:py-32 container mx-auto px-4 md:px-6">
+      <div className="mb-10 md:mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-6">
         <div>
-          <p className="text-accent-cyan font-mono mb-4">{trans.assets.label}</p>
-          <h2 className="font-serif text-5xl md:text-6xl text-text-primary">{trans.assets.title}</h2>
+          <p className="text-accent-cyan font-mono mb-2 md:mb-4 text-xs md:text-base">{trans.assets.label}</p>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary">{trans.assets.title}</h2>
         </div>
-        <Link href={`/${locale}/assets`} className="group flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-sm hover:text-white transition-colors">
-          {trans.assets.viewAll} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+        <Link href={`/${locale}/assets`} className="group flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-xs md:text-sm hover:text-white transition-colors">
+          {trans.assets.viewAll} <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
         </Link>
       </div>
 
-      <div className="flex gap-8 overflow-x-auto pb-12 no-scrollbar snap-x snap-mandatory">
+      {/* Mobile: Vertical Stack, Desktop: Horizontal Scroll */}
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8 md:overflow-x-auto md:pb-12 md:no-scrollbar md:snap-x md:snap-mandatory">
         {assets.map((asset, idx) => (
           <a 
             key={idx} 
             href={asset.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block"
+            className="block w-full md:w-auto"
           >
-            <GlassCard className="min-w-[320px] md:min-w-[380px] h-[400px] p-10 flex flex-col justify-end relative shrink-0 snap-center group cursor-pointer">
-              <div className="absolute top-8 left-8 w-[60px] h-[60px] border border-glass-highlight rounded-xl flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan/10 transition-colors">
-                <asset.icon size={24} />
+            <GlassCard className="w-full md:min-w-[320px] lg:min-w-[380px] h-auto md:h-[400px] p-6 md:p-10 flex flex-col justify-between relative md:shrink-0 md:snap-center group cursor-pointer">
+              <div className="flex items-start justify-between mb-4 md:mb-auto">
+                <div className="w-[50px] h-[50px] md:w-[60px] md:h-[60px] border border-glass-highlight rounded-xl flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan/10 transition-colors">
+                  <asset.icon size={22} />
+                </div>
+                
+                {asset.stars > 0 && (
+                  <div className="flex items-center gap-1 text-text-muted text-xs md:text-sm font-mono">
+                    ⭐ {asset.stars}
+                  </div>
+                )}
               </div>
               
-              {asset.stars > 0 && (
-                <div className="absolute top-8 right-8 flex items-center gap-1 text-text-muted text-sm font-mono">
-                  ⭐ {asset.stars}
+              <div className="mt-4 md:mt-0">
+                <h3 className="text-xl md:text-2xl font-serif mb-2">{asset.title}</h3>
+                <p className="text-text-muted text-xs md:text-sm">{asset.desc}</p>
+                
+                <div className="mt-4 md:mt-8 flex items-center gap-2 text-xs md:text-sm text-accent-cyan font-mono uppercase tracking-wider group-hover:gap-4 transition-all">
+                  {asset.action} <ArrowRight size={14} />
                 </div>
-              )}
-              
-              <h3 className="text-2xl font-serif mb-2">{asset.title}</h3>
-              <p className="text-text-muted text-sm">{asset.desc}</p>
-              
-              <div className="mt-8 flex items-center gap-2 text-sm text-accent-cyan font-mono uppercase tracking-wider group-hover:gap-4 transition-all">
-                {asset.action} <ArrowRight size={16} />
               </div>
             </GlassCard>
           </a>
