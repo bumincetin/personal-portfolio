@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Check, ArrowRight, Mail, Clock, AlertCircle } from 'lucide-react';
+import { X, Calendar, Check, ArrowRight, Mail, Clock, AlertCircle, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
@@ -36,6 +36,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [name, setName] = useState('');
   const [errors, setErrors] = useState<FormErrors>({});
   const [honeypot, setHoneypot] = useState('');
+  const [emailContent, setEmailContent] = useState('');
+  const [emailSubject, setEmailSubject] = useState('');
+  const [copied, setCopied] = useState(false);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -198,13 +201,46 @@ ${name}`;
     const body = encodeURIComponent(generateEmailContent());
     const mailtoLink = `mailto:cetinbumink@gmail.com?subject=${subject}&body=${body}`;
     
-    // Open email client
-    window.location.href = mailtoLink;
+    // Store email content for fallback options
+    setEmailContent(generateEmailContent());
+    setEmailSubject(
+      locale === 'tr' 
+        ? `Görüşme Talebi - ${getServiceName(selectedService)}`
+        : locale === 'it'
+        ? `Richiesta Incontro - ${getServiceName(selectedService)}`
+        : `Consultation Request - ${getServiceName(selectedService)}`
+    );
     
-    // Show success after a short delay
-    setTimeout(() => {
+    // Open email client immediately
+    try {
+      window.location.href = mailtoLink;
+      // Show success message after opening email client
+      setTimeout(() => {
+        setStep('success');
+      }, 300);
+    } catch (error) {
+      console.error('Failed to open email client:', error);
+      // Still show success, but user can manually copy email
       setStep('success');
-    }, 500);
+    }
+  };
+
+  const copyEmailToClipboard = async () => {
+    const fullEmail = `To: cetinbumink@gmail.com\nSubject: ${emailSubject}\n\n${emailContent}`;
+    try {
+      await navigator.clipboard.writeText(fullEmail);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+    }
+  };
+
+  const openEmailManually = () => {
+    const subject = encodeURIComponent(emailSubject);
+    const body = encodeURIComponent(emailContent);
+    const mailtoLink = `mailto:cetinbumink@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
   };
 
   const handleClose = () => {
@@ -217,6 +253,9 @@ ${name}`;
       setName('');
       setHoneypot('');
       setErrors({});
+      setEmailContent('');
+      setEmailSubject('');
+      setCopied(false);
     }, 300);
   };
 
@@ -409,14 +448,35 @@ ${name}`;
             {step === 'success' && (
               <div className="p-8 md:p-12 text-center flex-1 flex flex-col items-center justify-center min-h-0 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
                 <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
-                  <Check size={28} className="text-accent" />
+                  <Mail size={28} className="text-accent" />
                 </div>
                 <h3 className="font-serif text-3xl text-charcoal mb-3">{booking.success}</h3>
-                <p className="font-mono text-sm text-muted mb-8 max-w-sm mx-auto">{booking.successDesc}</p>
+                <p className="font-mono text-sm text-muted mb-6 max-w-sm mx-auto">{booking.successDesc}</p>
+                
+                <div className="w-full space-y-3 mb-6">
+                  <button 
+                    onClick={openEmailManually}
+                    className="w-full bg-charcoal text-cream rounded-xl py-4 font-mono text-xs uppercase tracking-wider hover:bg-navy transition-all flex items-center justify-center gap-2"
+                  >
+                    <Mail size={16} />
+                    {locale === 'tr' ? 'E-postayı Aç' : locale === 'it' ? 'Apri Email' : 'Open Email'}
+                  </button>
+                  
+                  <button 
+                    onClick={copyEmailToClipboard}
+                    className="w-full border border-charcoal rounded-xl py-4 font-mono text-xs uppercase tracking-wider hover:bg-charcoal hover:text-cream transition-all flex items-center justify-center gap-2"
+                  >
+                    <Copy size={16} />
+                    {copied 
+                      ? (locale === 'tr' ? 'Kopyalandı!' : locale === 'it' ? 'Copiato!' : 'Copied!')
+                      : (locale === 'tr' ? 'E-postayı Kopyala' : locale === 'it' ? 'Copia Email' : 'Copy Email')
+                    }
+                  </button>
+                </div>
                 
                 <button 
                   onClick={handleClose} 
-                  className="w-full border border-charcoal rounded-xl py-4 font-mono text-xs uppercase tracking-wider hover:bg-charcoal hover:text-cream transition-all"
+                  className="w-full border border-border rounded-xl py-3 font-mono text-xs uppercase tracking-wider text-muted hover:text-charcoal transition-all"
                 >
                   {booking.close}
                 </button>
