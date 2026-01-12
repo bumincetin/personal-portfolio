@@ -754,7 +754,7 @@ export const translations: Record<Locale, TranslationType> = {
             {
               title: 'İç Finansal Veri Analizi & İş Zekası',
               scenario: 'Şirketiniz her gün muazzam miktarda finansal veri üretiyor—satışlar, giderler, nakit akışı, envanter—ancak bu verilerden eyleme dönüştürülebilir içgörüler çıkarmak özel veri bilimi uzmanlığı gerektirir.',
-              solution: 'İç finansal verilerinize gelişmiş analitik ve makine öğrenmesi uygulayarak, gelir tahmini, maliyet optimizasyonu ve nakit akışı yönetimi için tahmine dayalı modeller oluşturuyorum. Harcama kalıplarını belirlemekten anormallikleri tespit etmeye kadar, finansal verilerinizi stratejik zekaya dönüştürüyorum.',
+              solution: 'İç finansal verilerinize gelişmiş analitik ve makine öğrenmesi uygulayarak, gelir tahmini, maliyet optimizasyonu ve nakit akışı yönetimi için tahmine dayalı modeller oluşturulur. Harcama kalıplarını belirlemekten anormallikleri tespit etmeye kadar, finansal verileriniz stratejik zekaya dönüştürülür.',
               benefit: 'Finansal operasyonlarınızdaki gizli kalıpları ortaya çıkararak, maliyetleri optimize ederek ve tahmine dayalı içgörüler aracılığıyla karlılığı artırarak veri odaklı karar vermeyi sağlar.',
             },
             {
