@@ -406,10 +406,10 @@ export const translations: Record<Locale, TranslationType> = {
               benefit: 'Provides early warning by detecting negative news waves about a stock before it begins to decline.',
             },
             {
-              title: 'Sustainability & Greenwashing Detection (Special Expertise)',
-              scenario: 'Investors seek ESG (Environmental, Social, Governance) compliant companies, but companies sometimes distort the truth (Greenwashing).',
-              solution: 'Fine-tuned Transformer models analyze companies\' sustainability reports and marketing texts to catch inconsistencies and exaggerated claims.',
-              benefit: 'Enables you to invest only in truly sustainable companies with low risk and strong reputation management.',
+              title: 'Internal Financial Data Analysis & Business Intelligence',
+              scenario: 'Your company generates vast amounts of financial data daily—sales, expenses, cash flow, inventory—but extracting actionable insights from this data requires specialized data science expertise.',
+              solution: 'I apply advanced analytics and machine learning to your internal financial data, building predictive models for revenue forecasting, cost optimization, and cash flow management. From identifying spending patterns to detecting anomalies, I transform your financial data into strategic intelligence.',
+              benefit: 'Enables data-driven decision making by revealing hidden patterns in your financial operations, optimizing costs, and improving profitability through predictive insights.',
             },
             {
               title: 'Computer Vision for "Alternative Data" Analysis',
@@ -752,10 +752,10 @@ export const translations: Record<Locale, TranslationType> = {
               benefit: 'Bir hisse senedi düşüşe geçmeden önce, hakkında çıkan olumsuz haber dalgasını tespit ederek erken uyarı (early warning) sağlar.',
             },
             {
-              title: 'Sürdürülebilirlik ve Greenwashing Tespiti (Özel Uzmanlık)',
-              scenario: 'Yatırımcılar ESG (Çevresel, Sosyal, Yönetişim) uyumlu şirket arıyor, ancak şirketler bazen gerçeği çarpıtıyor (Greenwashing).',
-              solution: 'İnce ayarlı Transformer modelleri, şirketlerin sürdürülebilirlik raporlarını ve pazarlama metinlerini analiz ederek tutarsızlıkları ve abartılı beyanları yakalar.',
-              benefit: 'Sadece gerçekten sürdürülebilir olan, riski düşük ve itibar yönetimi güçlü şirketlere yatırım yapmanızı sağlar.',
+              title: 'İç Finansal Veri Analizi & İş Zekası',
+              scenario: 'Şirketiniz her gün muazzam miktarda finansal veri üretiyor—satışlar, giderler, nakit akışı, envanter—ancak bu verilerden eyleme dönüştürülebilir içgörüler çıkarmak özel veri bilimi uzmanlığı gerektirir.',
+              solution: 'İç finansal verilerinize gelişmiş analitik ve makine öğrenmesi uygulayarak, gelir tahmini, maliyet optimizasyonu ve nakit akışı yönetimi için tahmine dayalı modeller oluşturuyorum. Harcama kalıplarını belirlemekten anormallikleri tespit etmeye kadar, finansal verilerinizi stratejik zekaya dönüştürüyorum.',
+              benefit: 'Finansal operasyonlarınızdaki gizli kalıpları ortaya çıkararak, maliyetleri optimize ederek ve tahmine dayalı içgörüler aracılığıyla karlılığı artırarak veri odaklı karar vermeyi sağlar.',
             },
             {
               title: 'Bilgisayarlı Görü ile "Alternatif Veri" Analizi',
@@ -1100,10 +1100,10 @@ export const translations: Record<Locale, TranslationType> = {
               benefit: 'Fornisce un allarme precoce rilevando onde di notizie negative su un titolo prima che inizi a scendere.',
             },
             {
-              title: 'Sostenibilità e Rilevamento del Greenwashing (Competenza Speciale)',
-              scenario: 'Gli investitori cercano aziende conformi all\'ESG (Ambientale, Sociale, Governance), ma le aziende a volte distorcono la verità (Greenwashing).',
-              solution: 'Modelli Transformer ottimizzati analizzano i rapporti di sostenibilità e i testi di marketing delle aziende per catturare inconsistenze e affermazioni esagerate.',
-              benefit: 'Vi consente di investire solo in aziende veramente sostenibili con basso rischio e forte gestione della reputazione.',
+              title: 'Analisi Dati Finanziari Interni & Business Intelligence',
+              scenario: 'La vostra azienda genera enormi quantità di dati finanziari quotidianamente—vendite, spese, flusso di cassa, inventario—ma estrarre insight azionabili da questi dati richiede competenza specializzata in data science.',
+              solution: 'Applico analisi avanzate e machine learning ai vostri dati finanziari interni, costruendo modelli predittivi per la previsione dei ricavi, l\'ottimizzazione dei costi e la gestione del flusso di cassa. Dall\'identificazione di pattern di spesa al rilevamento di anomalie, trasformo i vostri dati finanziari in intelligence strategica.',
+              benefit: 'Consente il processo decisionale basato sui dati rivelando pattern nascosti nelle vostre operazioni finanziarie, ottimizzando i costi e migliorando la redditività attraverso insight predittivi.',
             },
             {
               title: 'Computer Vision per l\'Analisi di "Dati Alternativi"',
