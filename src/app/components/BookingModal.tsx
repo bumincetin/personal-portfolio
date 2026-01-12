@@ -416,7 +416,7 @@ ${name}`;
                   {/* Date & Time */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="font-mono text-xs text-muted uppercase tracking-wider block mb-4">
+                      <label className="font-mono text-xs text-muted uppercase tracking-wider block mb-4 break-words">
                         {booking.selectDate}
                       </label>
                       <input 
@@ -433,14 +433,14 @@ ${name}`;
                       )}
                     </div>
                     <div>
-                      <label className="font-mono text-xs text-muted uppercase tracking-wider block mb-4">
+                      <label className="font-mono text-[10px] sm:text-xs text-muted uppercase tracking-[0.05em] sm:tracking-wider block mb-4 break-words leading-tight">
                         {booking.selectTime}
                       </label>
                       <div className="relative">
                         <select
                           value={time}
                           onChange={e => setTime(e.target.value)}
-                          className={`w-full bg-white border rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-accent transition-colors appearance-none ${
+                          className={`w-full bg-white border rounded-xl px-5 py-4 pr-12 font-mono text-sm outline-none focus:border-accent transition-colors appearance-none ${
                             errors.time ? 'border-accent' : 'border-border'
                           }`}
                         >
