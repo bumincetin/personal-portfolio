@@ -56,20 +56,8 @@ export default function AINLPClient({ locale, t }: Props) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="bg-white border border-border rounded-lg shadow-editorial overflow-hidden">
-              <div className="relative aspect-[4/3]">
-                <img 
-                  src="/personal-portfolio/bumin2.png" 
-                  alt="AI & NLP Solutions" 
-                  className="w-full h-full object-cover object-center"
-                />
-                {/* Subtle overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/10 to-transparent"></div>
-                {/* Animated visual as subtle overlay */}
-                <div className="absolute inset-0 opacity-20">
-                  <NeuralNetwork className="w-full h-full" />
-                </div>
-              </div>
+            <div className="bg-white border border-border p-8 rounded-lg shadow-editorial">
+              <NeuralNetwork className="w-full h-48" />
             </div>
           </motion.div>
         </div>
