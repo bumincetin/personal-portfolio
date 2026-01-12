@@ -89,7 +89,7 @@ export default function AINLPClient({ locale, t }: Props) {
               >
                 <div className="bg-white border border-border p-4 rounded-lg shadow-editorial">
                   <img 
-                    src="/personal-portfolio/bumin2.png" 
+                    src="bumin2.png" 
                     alt="AI & Data Science" 
                     className="w-full h-auto rounded-lg"
                   />

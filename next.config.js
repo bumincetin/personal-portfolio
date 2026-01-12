@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export', // Disabled to allow AI API routes to run
-  // basePath: '/personal-portfolio', // Enable this only if deploying to a sub-path like GitHub Pages
+  // output: 'export', // REMOVED: Must be removed for API routes to work on Vercel
+  // basePath: '/personal-portfolio', // REMOVED: Not needed for Vercel
+  // assetPrefix: '/personal-portfolio/', // REMOVED: Not needed for Vercel
+  
   images: {
     remotePatterns: [
       {
@@ -9,8 +11,9 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    // unoptimized: true, // Only needed for static export
+    // unoptimized: true, // Optional: You can remove this on Vercel to get faster image loading
   },
+
   // Optimize build performance
   swcMinify: true,
   compiler: {
@@ -20,6 +23,6 @@ const nextConfig = {
   },
   // Disable source maps in production for faster builds
   productionBrowserSourceMaps: false,
-};
+}
 
 module.exports = nextConfig;

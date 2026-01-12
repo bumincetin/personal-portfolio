@@ -55,7 +55,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
                 {/* Main Image */}
                 <div className="relative bg-white overflow-hidden shadow-editorial aspect-[4/5]">
                   <img 
-                    src="/personal-portfolio/Bumin_resmi.jpeg" 
+                    src="Bumin_resmi.jpeg" 
                     alt="Bumin Kağan Çetin" 
                     className="w-full h-full object-cover"
                   />

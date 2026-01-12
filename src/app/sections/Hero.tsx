@@ -151,7 +151,7 @@ const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
                 {/* Main Image */}
                 <div className="relative bg-white overflow-hidden shadow-editorial">
                   <img 
-                    src="/personal-portfolio/bumin1.png" 
+                    src="bumin1.png" 
                     alt="Bumin Kağan Çetin - Data Scientist" 
                     className="w-full h-auto object-contain"
                   />

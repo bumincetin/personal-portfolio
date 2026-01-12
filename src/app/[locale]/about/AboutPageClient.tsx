@@ -64,7 +64,7 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
                 {/* Main Image */}
                 <div className="relative bg-white overflow-hidden shadow-editorial">
                   <img 
-                    src="/personal-portfolio/Bumin_resmi.jpeg" 
+                    src="Bumin_resmi.jpeg" 
                     alt="Bumin Kağan Çetin" 
                     className="w-full h-full object-cover"
                   />
