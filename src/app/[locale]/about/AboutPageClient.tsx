@@ -112,20 +112,49 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
             animate={{ opacity: 1, x: 0 }} 
             className="lg:col-span-4"
           >
-            {/* Portrait */}
+            {/* Portrait with enhanced framing */}
             <div className="relative max-w-[320px]">
+              {/* Background Card */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="absolute -inset-4 bg-white border border-border -z-20"
+              ></motion.div>
+              
               <div className="relative aspect-[3/4]">
                 {/* Offset decorative border */}
-                <div className="absolute top-4 left-4 right-0 bottom-0 border-2 border-accent -z-10"></div>
+                <motion.div 
+                  initial={{ opacity: 0, x: 10, y: 10 }}
+                  animate={{ opacity: 1, x: 0, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="absolute top-4 left-4 right-0 bottom-0 border-2 border-accent -z-10"
+                ></motion.div>
                 
                 {/* Main Image */}
                 <div className="relative bg-white overflow-hidden shadow-editorial">
                   <img 
-                    src="/Bumin_resmi.jpeg" 
+                    src="/personal-portfolio/Bumin_resmi.jpeg" 
                     alt="Bumin Kağan Çetin" 
                     className="w-full h-full object-cover"
                   />
+                  {/* Subtle gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/10 to-transparent"></div>
                 </div>
+                
+                {/* Corner accent */}
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: 60 }}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                  className="absolute -bottom-2 -right-2 h-[3px] bg-accent"
+                ></motion.div>
+                <motion.div 
+                  initial={{ height: 0 }}
+                  animate={{ height: 60 }}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                  className="absolute -bottom-2 -right-2 w-[3px] bg-accent"
+                ></motion.div>
               </div>
             </div>
             
