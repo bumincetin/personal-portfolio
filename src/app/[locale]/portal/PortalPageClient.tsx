@@ -4,15 +4,13 @@ import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Upload, FileText, TrendingUp,
-  CheckCircle2, RefreshCw, Filter,
-  Search, Info, Calculator, FileWarning, Globe, Scale,
-  PieChart, Activity, AlertCircle
+  Upload, FileText, TrendingUp, AlertCircle,
+  CheckCircle2, RefreshCw, Filter, BarChart3,
+  Search, Info, Calculator, FileWarning, Globe, Activity
 } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 // --- Types ---
-
 interface Props {
   locale: Locale;
   t: TranslationType;
@@ -21,14 +19,6 @@ interface Props {
 type StatementType = 'balance-sheet' | 'income-statement' | 'cash-flow';
 type AnalysisStep = 'upload' | 'processing' | 'results';
 type FilterCategory = 'all' | 'liquidity' | 'profitability' | 'efficiency' | 'leverage';
-type DocLanguage = 'en' | 'tr' | 'it';
-
-interface FinancialDataPoint {
-  label: string;
-  value: number;
-  sourceRow?: number;
-  confidence: number;
-}
 
 interface FinancialRatio {
   id: string;
@@ -42,262 +32,37 @@ interface FinancialRatio {
   sourceData: string[];
 }
 
-interface UnparsedSegment {
-  content: string;
-  location: string;
-  reason: string;
+interface GraphData {
+  available: boolean;
+  title: string;
+  labels: string[];
+  series: { label: string; data: number[] }[];
 }
 
 interface AnalysisResult {
   statementType: StatementType;
   fileName: string;
-  docLanguage: DocLanguage;
+  docLanguage: string;
   ratios: FinancialRatio[];
   insights: string[];
-  unparsed: UnparsedSegment[];
-  chartData: {
-    labels: string[];
-    datasets: { label: string; data: number[] }[];
-  };
+  graphData: GraphData;
+  unparsed: any[];
+  summary?: string;
 }
-
-// --- Dictionary for Parsing & Output ---
-
-const TERM_DICTIONARY = {
-  en: {
-    // Keywords to search in file
-    assets: ['assets', 'total assets', 'current assets'],
-    liabilities: ['liabilities', 'total liabilities', 'current liabilities'],
-    equity: ['equity', 'shareholders equity', 'total equity'],
-    revenue: ['revenue', 'sales', 'total revenue', 'gross income'],
-    netIncome: ['net income', 'profit', 'net profit'],
-    cogs: ['cost of goods', 'cogs', 'cost of sales'],
-    cash: ['cash', 'cash equivalents'],
-    // Output labels
-    ratioLabels: {
-      curr_ratio: 'Current Ratio',
-      debt_equity: 'Debt to Equity',
-      net_margin: 'Net Profit Margin',
-      gross_margin: 'Gross Margin',
-      cash_flow_ratio: 'Operating Cash Flow Ratio',
-    },
-    insights: {
-      good_liq: 'Strong liquidity position detected from balance sheet data.',
-      bad_liq: 'Current liabilities exceed assets, indicating potential liquidity risk.',
-      good_prof: 'Profit margins are healthy compared to industry benchmarks.',
-      bad_prof: 'High operational costs are impacting net profitability.',
-    },
-    interpretations: {
-      curr_ratio: 'Measures ability to pay short-term obligations.',
-      net_margin: 'Percentage of revenue left after all expenses.',
-      debt_equity: 'Relative proportion of shareholders\' equity and debt.',
-    }
-  },
-  tr: {
-    assets: ['varlıklar', 'toplam varlıklar', 'dönen varlıklar'],
-    liabilities: ['yükümlülükler', 'borçlar', 'toplam borçlar', 'kısa vadeli borçlar'],
-    equity: ['özkaynaklar', 'toplam özkaynaklar'],
-    revenue: ['gelir', 'satışlar', 'hasılat', 'net satışlar'],
-    netIncome: ['net kar', 'dönem net karı'],
-    cogs: ['satışların maliyeti', 'smm'],
-    cash: ['nakit', 'nakit ve benzerleri'],
-    ratioLabels: {
-      curr_ratio: 'Cari Oran',
-      debt_equity: 'Borç/Özkaynak Oranı',
-      net_margin: 'Net Kar Marjı',
-      gross_margin: 'Brüt Kar Marjı',
-      cash_flow_ratio: 'Nakit Akış Oranı',
-    },
-    insights: {
-      good_liq: 'Bilanço verilerine göre likidite pozisyonu güçlü.',
-      bad_liq: 'Kısa vadeli borçlar varlıkları aşıyor, likidite riski olabilir.',
-      good_prof: 'Kar marjları sektör ortalamalarına göre sağlıklı.',
-      bad_prof: 'Yüksek operasyonel maliyetler net karlılığı etkiliyor.',
-    },
-    interpretations: {
-      curr_ratio: 'Kısa vadeli yükümlülükleri ödeme gücünü ölçer.',
-      net_margin: 'Tüm giderlerden sonra kalan gelir yüzdesi.',
-      debt_equity: 'Özkaynak ve borçların oransal dağılımı.',
-    }
-  },
-  it: {
-    assets: ['attività', 'totale attività', 'attività correnti'],
-    liabilities: ['passività', 'totale passività', 'passività correnti'],
-    equity: ['patrimonio netto', 'totale patrimonio'],
-    revenue: ['ricavi', 'fatturato', 'vendite'],
-    netIncome: ['utile netto', 'risultato netto'],
-    cogs: ['costo del venduto', 'costi di vendita'],
-    cash: ['cassa', 'disponibilità liquide'],
-    ratioLabels: {
-      curr_ratio: 'Indice Corrente',
-      debt_equity: 'Rapporto Debito/Patrimonio',
-      net_margin: 'Margine Netto',
-      gross_margin: 'Margine Lordo',
-      cash_flow_ratio: 'Indice Flusso di Cassa',
-    },
-    insights: {
-      good_liq: 'Forte posizione di liquidità rilevata dai dati di bilancio.',
-      bad_liq: 'Le passività correnti superano le attività, indicando rischio liquidità.',
-      good_prof: 'I margini di profitto sono sani rispetto ai benchmark.',
-      bad_prof: 'Gli alti costi operativi stanno impattando la redditività.',
-    },
-    interpretations: {
-      curr_ratio: 'Misura la capacità di pagare gli obblighi a breve termine.',
-      net_margin: 'Percentuale di ricavi rimanente dopo tutte le spese.',
-      debt_equity: 'Proporzione relativa tra patrimonio netto e debito.',
-    }
-  }
-};
-
-// --- Helper Functions ---
-
-const detectLanguage = (text: string): DocLanguage => {
-  const lower = text.toLowerCase();
-  if (lower.includes('varlıklar') || lower.includes('gelir') || lower.includes('borçlar')) return 'tr';
-  if (lower.includes('attività') || lower.includes('ricavi') || lower.includes('passività')) return 'it';
-  return 'en'; // Default
-};
-
-const extractValue = (lines: string[], keywords: string[]): { value: number, row: number, found: boolean } => {
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].toLowerCase();
-    // Check if line contains any of the keywords
-    if (keywords.some(k => line.includes(k))) {
-      // Extract number from line
-      const match = line.match(/[\d,.]+/g); // rudimentary number matching
-      if (match) {
-        // take the last number in the line usually (e.g. "Total Assets ....... 1,000")
-        const valStr = match[match.length - 1].replace(/,/g, ''); // remove commas
-        const val = parseFloat(valStr);
-        if (!isNaN(val)) return { value: val, row: i + 1, found: true };
-      }
-    }
-  }
-  return { value: 0, row: 0, found: false };
-};
-
-const parseFinancialFile = async (file: File, type: StatementType): Promise<AnalysisResult> => {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
-      const lines = text.split('\n');
-      const docLang = detectLanguage(text);
-      const dict = TERM_DICTIONARY[docLang];
-      
-      const ratios: FinancialRatio[] = [];
-      const insights: string[] = [];
-      const unparsed: UnparsedSegment[] = [];
-
-      // Extraction Logic based on Statement Type
-      if (type === 'balance-sheet') {
-        const assets = extractValue(lines, dict.assets);
-        const liabs = extractValue(lines, dict.liabilities);
-        const equity = extractValue(lines, dict.equity);
-
-        // Fallback simulation if no real data found (so the UI doesn't break)
-        const finalAssets = assets.found ? assets.value : 150000;
-        const finalLiabs = liabs.found ? liabs.value : 80000;
-        const finalEquity = equity.found ? equity.value : 70000;
-
-        const currRatio = finalAssets / finalLiabs;
-        const deRatio = finalLiabs / finalEquity;
-
-        ratios.push({
-          id: 'curr_ratio',
-          name: dict.ratioLabels.curr_ratio,
-          value: currRatio,
-          unit: 'x',
-          category: 'liquidity',
-          status: currRatio > 1.5 ? 'good' : 'warning',
-          interpretation: dict.interpretations.curr_ratio,
-          formula: `${dict.assets[0]} / ${dict.liabilities[0]}`,
-          sourceData: assets.found 
-            ? [`Row ${assets.row}: ${lines[assets.row-1].substring(0,20)}...`, `Row ${liabs.row}: ${lines[liabs.row-1].substring(0,20)}...`]
-            : ['Simulated Data (Keywords not found)']
-        });
-
-        ratios.push({
-          id: 'debt_equity',
-          name: dict.ratioLabels.debt_equity,
-          value: deRatio,
-          unit: 'x',
-          category: 'leverage',
-          status: deRatio < 1.0 ? 'good' : 'warning',
-          interpretation: dict.interpretations.debt_equity,
-          formula: `${dict.liabilities[0]} / ${dict.equity[0]}`,
-          sourceData: liabs.found 
-            ? [`Row ${liabs.row}`, `Row ${equity.row}`]
-            : ['Simulated Data']
-        });
-
-        insights.push(currRatio > 1.5 ? dict.insights.good_liq : dict.insights.bad_liq);
-
-      } else if (type === 'income-statement') {
-        const rev = extractValue(lines, dict.revenue);
-        const inc = extractValue(lines, dict.netIncome);
-        
-        const finalRev = rev.found ? rev.value : 200000;
-        const finalInc = inc.found ? inc.value : 35000;
-        const margin = (finalInc / finalRev) * 100;
-
-        ratios.push({
-          id: 'net_margin',
-          name: dict.ratioLabels.net_margin,
-          value: margin,
-          unit: '%',
-          category: 'profitability',
-          status: margin > 15 ? 'good' : 'warning',
-          interpretation: dict.interpretations.net_margin,
-          formula: `${dict.netIncome[0]} / ${dict.revenue[0]}`,
-          sourceData: rev.found 
-            ? [`Row ${inc.row}`, `Row ${rev.row}`]
-            : ['Simulated Data']
-        });
-        
-        insights.push(margin > 15 ? dict.insights.good_prof : dict.insights.bad_prof);
-      }
-
-      // Populate "Unparsed" with random lines that looked like text but weren't data
-      lines.slice(0, 5).forEach((l, i) => {
-        if (l.length > 5 && !l.match(/\d/)) {
-          unparsed.push({ content: l.substring(0, 40), location: `Line ${i+1}`, reason: 'Header/Metadata ignored' });
-        }
-      });
-
-      resolve({
-        statementType: type,
-        fileName: file.name,
-        docLanguage: docLang,
-        ratios,
-        insights,
-        unparsed,
-        chartData: {
-          labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-          datasets: [{ label: 'Trend', data: [100, 120, 115, 140] }]
-        }
-      });
-    };
-    reader.readAsText(file);
-  });
-};
-
 
 export default function PortalPageClient({ locale, t }: Props) {
   const [step, setStep] = useState<AnalysisStep>('upload');
   const [file, setFile] = useState<File | null>(null);
   const [statementType, setStatementType] = useState<StatementType>('balance-sheet');
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
-  const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const pt = {
-    // Basic translations mapping for the UI shell (still using props for shell)
-    title: locale === 'tr' ? 'Finansal Analiz Portalı' : locale === 'it' ? 'Portale Analisi Finanziaria' : 'Financial Analysis Portal',
-    subtitle: locale === 'tr' ? 'Yapay zeka destekli doküman analizi' : locale === 'it' ? 'Analisi documenti basata su AI' : 'AI-powered document analysis',
-    upload: locale === 'tr' ? 'Finansal Tablo Yükle' : locale === 'it' ? 'Carica Bilancio' : 'Upload Financial Statement',
-    select: locale === 'tr' ? 'Tablo Türü Seçin' : locale === 'it' ? 'Seleziona Tipo' : 'Select Statement Type',
+    title: locale === 'tr' ? 'Finansal İstihbarat Portalı' : locale === 'it' ? 'Portale Intelligence Finanziaria' : 'Financial Intelligence Portal',
+    subtitle: locale === 'tr' ? 'Yapay zeka destekli IFRS/GAAP analizi' : locale === 'it' ? 'Analisi IFRS/GAAP basata su AI' : 'AI-powered IFRS/GAAP analysis',
+    upload: locale === 'tr' ? 'Tablo Yükle' : locale === 'it' ? 'Carica File' : 'Upload Statement',
+    select: locale === 'tr' ? 'Tablo Türü' : locale === 'it' ? 'Tipo Documento' : 'Statement Type',
     processing: locale === 'tr' ? 'Analiz Ediliyor...' : locale === 'it' ? 'Analisi in corso...' : 'Analyzing...',
   };
 
@@ -305,18 +70,39 @@ export default function PortalPageClient({ locale, t }: Props) {
     setFile(selectedFile);
     setStep('processing');
     
-    // Simulate slight delay for "AI processing" feel
-    await new Promise(r => setTimeout(r, 1500));
-    
-    // Run the actual client-side parser
-    const result = await parseFinancialFile(selectedFile, statementType);
-    setAnalysis(result);
-    setStep('results');
+    try {
+      const fileText = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target?.result as string);
+        reader.onerror = reject;
+        reader.readAsText(selectedFile);
+      });
+
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileContent: fileText,
+          statementType: statementType,
+          fileName: selectedFile.name
+        })
+      });
+
+      if (!response.ok) throw new Error('Analysis failed');
+
+      const aiData = await response.json();
+      setAnalysis({ ...aiData, statementType, fileName: selectedFile.name });
+      setStep('results');
+
+    } catch (error) {
+      console.error(error);
+      alert("Error analyzing file. Ensure it is a valid text-based file (CSV, TXT).");
+      setStep('upload');
+    }
   };
 
   return (
     <div className="min-h-screen bg-cream text-charcoal font-sans selection:bg-accent/20">
-      {/* Navigation Bar */}
       <nav className="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-charcoal/5">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -331,8 +117,6 @@ export default function PortalPageClient({ locale, t }: Props) {
 
       <main className="max-w-6xl mx-auto px-6 py-12">
         <AnimatePresence mode="wait">
-          
-          {/* 1. Upload & Configuration Step */}
           {step === 'upload' && (
             <motion.div 
               key="upload"
@@ -346,7 +130,6 @@ export default function PortalPageClient({ locale, t }: Props) {
                 <p className="font-mono text-sm text-muted">{pt.subtitle}</p>
               </div>
 
-              {/* Controls */}
               <div className="mb-6 bg-white p-4 border border-charcoal/10 rounded-sm shadow-sm">
                 <label className="block font-mono text-xs uppercase text-muted mb-2">{pt.select}</label>
                 <div className="relative">
@@ -355,15 +138,13 @@ export default function PortalPageClient({ locale, t }: Props) {
                     onChange={(e) => setStatementType(e.target.value as StatementType)}
                     className="w-full bg-cream border border-charcoal/20 p-3 font-mono text-sm focus:border-accent outline-none appearance-none cursor-pointer"
                   >
-                    <option value="balance-sheet">Balance Sheet / Bilanço / Stato Patrimoniale</option>
-                    <option value="income-statement">Income Statement / Gelir Tablosu / Conto Economico</option>
-                    <option value="cash-flow">Cash Flow / Nakit Akış / Flusso di Cassa</option>
+                    <option value="balance-sheet">Balance Sheet</option>
+                    <option value="income-statement">Income Statement</option>
+                    <option value="cash-flow">Cash Flow</option>
                   </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted">↓</div>
                 </div>
               </div>
 
-              {/* Drop Zone */}
               <div 
                 className={`
                   relative border-2 border-dashed rounded-sm p-12 text-center transition-all duration-300 ease-out cursor-pointer
@@ -383,21 +164,18 @@ export default function PortalPageClient({ locale, t }: Props) {
                   ref={fileInputRef} 
                   type="file" 
                   className="hidden" 
-                  accept=".xlsx,.xls,.csv,.txt,.json,.pdf,.png,.jpg,.jpeg" 
+                  accept=".csv,.txt,.json,.md" 
                   onChange={(e) => e.target.files?.[0] && processFile(e.target.files[0])}
                 />
-                
                 <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-cream border border-charcoal/10 flex items-center justify-center">
                   <Upload className="w-6 h-6 text-charcoal" />
                 </div>
-                
                 <h3 className="font-serif text-xl mb-2">{pt.upload}</h3>
-                <p className="font-mono text-xs text-muted mb-4">Supported: CSV, TXT (Analysis), PDF/XLSX (Simulation)</p>
+                <p className="font-mono text-xs text-muted mb-4">Supported: CSV, Text, JSON (Text-based analysis)</p>
               </div>
             </motion.div>
           )}
 
-          {/* 2. Processing */}
           {step === 'processing' && (
             <motion.div
               key="processing"
@@ -408,13 +186,10 @@ export default function PortalPageClient({ locale, t }: Props) {
             >
               <div className="w-16 h-16 border-2 border-charcoal/10 border-t-accent rounded-full animate-spin mb-8" />
               <h2 className="font-serif text-2xl animate-pulse">{pt.processing}</h2>
-              <p className="font-mono text-xs text-muted mt-2">
-                Reading {statementType} structure...
-              </p>
+              <p className="font-mono text-xs text-muted mt-2">Extracting Intelligence...</p>
             </motion.div>
           )}
 
-          {/* 3. Results */}
           {step === 'results' && analysis && (
             <motion.div
               key="results"
@@ -422,14 +197,14 @@ export default function PortalPageClient({ locale, t }: Props) {
               animate={{ opacity: 1 }}
               className="grid grid-cols-12 gap-8"
             >
-              {/* Header & Meta */}
+              {/* Header */}
               <div className="col-span-12 mb-4 flex justify-between items-end border-b border-charcoal/10 pb-4">
                 <div>
                    <h2 className="font-serif text-3xl mb-1">{analysis.fileName}</h2>
                    <div className="flex gap-3">
                      <span className="text-xs font-mono bg-charcoal text-white px-2 py-1 uppercase">{analysis.statementType}</span>
                      <span className="text-xs font-mono bg-accent/10 text-accent px-2 py-1 uppercase flex items-center gap-1">
-                       <Globe size={12} /> Detected Lang: {analysis.docLanguage.toUpperCase()}
+                       <Globe size={12} /> Detected: {analysis.docLanguage?.toUpperCase()}
                      </span>
                    </div>
                 </div>
@@ -441,16 +216,19 @@ export default function PortalPageClient({ locale, t }: Props) {
                 </button>
               </div>
 
-              {/* Left Column: Stats & Charts */}
+              {/* Main Column */}
               <div className="col-span-12 lg:col-span-8 space-y-6">
                 
-                {/* Insights Panel */}
+                {/* Executive Summary */}
                 <div className="bg-white p-6 border border-charcoal/5 shadow-card">
                   <h3 className="font-serif text-xl mb-4 flex items-center gap-2">
                     <Activity size={18} className="text-accent" />
-                    AI Insights ({analysis.docLanguage.toUpperCase()})
+                    Executive Summary
                   </h3>
-                  <ul className="space-y-2">
+                  <p className="text-sm text-charcoal/80 mb-4 font-serif italic leading-relaxed">
+                    "{analysis.summary}"
+                  </p>
+                  <ul className="space-y-2 border-t border-charcoal/5 pt-4">
                     {analysis.insights.map((insight, idx) => (
                       <li key={idx} className="flex gap-3 text-sm text-charcoal/80 font-light">
                         <span className="text-accent mt-1">●</span>
@@ -460,26 +238,92 @@ export default function PortalPageClient({ locale, t }: Props) {
                   </ul>
                 </div>
 
-                {/* Ratios Grid */}
+                {/* GRAPH SECTION (New for C-Level) */}
+                {analysis.graphData?.available && (
+                  <div className="bg-white p-8 border border-charcoal/5 shadow-card">
+                    <h3 className="font-serif text-xl mb-6 flex items-center gap-2">
+                      <BarChart3 className="text-accent" size={20} />
+                      {analysis.graphData.title} (Year-over-Year)
+                    </h3>
+                    
+                    <div className="h-48 flex items-end gap-12 px-8 border-b border-charcoal/10 pb-2">
+                      {/* Metric 1 Bars */}
+                      <div className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                        <div className="flex items-end gap-2 h-full w-full justify-center">
+                          {analysis.graphData.series[0].data.map((val, i) => {
+                             const max = Math.max(...analysis.graphData.series[0].data, ...analysis.graphData.series[1].data) * 1.2;
+                             return (
+                               <div key={i} className="flex flex-col items-center gap-1 w-full max-w-[60px]">
+                                 <div 
+                                   className="w-full bg-charcoal/80 hover:bg-charcoal transition-all relative group" 
+                                   style={{ height: `${(val / max) * 100}%` }}
+                                 >
+                                    <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                                      {val.toLocaleString()}
+                                    </span>
+                                 </div>
+                               </div>
+                             )
+                          })}
+                        </div>
+                        <span className="text-[10px] font-mono text-muted uppercase tracking-wider">{analysis.graphData.series[0].label}</span>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="w-[1px] h-full bg-charcoal/10" />
+
+                      {/* Metric 2 Bars */}
+                      <div className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                        <div className="flex items-end gap-2 h-full w-full justify-center">
+                          {analysis.graphData.series[1].data.map((val, i) => {
+                             const max = Math.max(...analysis.graphData.series[0].data, ...analysis.graphData.series[1].data) * 1.2;
+                             return (
+                               <div key={i} className="flex flex-col items-center gap-1 w-full max-w-[60px]">
+                                 <div 
+                                   className="w-full bg-accent hover:bg-accent/80 transition-all relative group" 
+                                   style={{ height: `${(val / max) * 100}%` }}
+                                 >
+                                    <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                                      {val.toLocaleString()}
+                                    </span>
+                                 </div>
+                               </div>
+                             )
+                          })}
+                        </div>
+                        <span className="text-[10px] font-mono text-muted uppercase tracking-wider">{analysis.graphData.series[1].label}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-between mt-2 px-12">
+                       {analysis.graphData.labels.map((l, i) => (
+                         <span key={i} className="text-xs font-mono text-muted">{l}</span>
+                       ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* KPIs */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {analysis.ratios.map((ratio) => (
                     <div key={ratio.id} className="bg-white p-6 border border-charcoal/5 hover:shadow-editorial transition-all group">
                       <div className="flex justify-between mb-2">
                         <h4 className="font-mono text-xs text-muted uppercase">{ratio.name}</h4>
-                        {ratio.status === 'warning' && <AlertCircle size={14} className="text-amber-500" />}
-                        {ratio.status === 'good' && <CheckCircle2 size={14} className="text-green-500" />}
+                        <div className={`
+                          w-2 h-2 rounded-full 
+                          ${ratio.status === 'good' ? 'bg-green-500' : ratio.status === 'bad' ? 'bg-red-500' : 'bg-amber-500'}
+                        `} />
                       </div>
                       <div className="text-3xl font-serif mb-2">
-                        {ratio.value.toFixed(1)} <span className="text-sm font-mono text-muted">{ratio.unit}</span>
+                        {ratio.value?.toFixed(2)} <span className="text-sm font-mono text-muted">{ratio.unit}</span>
                       </div>
                       <p className="text-xs text-charcoal/60 mb-4">{ratio.interpretation}</p>
                       
-                      {/* Source Provenance */}
                       <div className="bg-cream p-3 rounded-sm border border-charcoal/5">
                         <div className="flex items-center gap-1 text-[10px] font-mono text-accent mb-1 uppercase">
-                          <Search size={10} /> Extracted From:
+                          <Search size={10} /> Source:
                         </div>
-                        {ratio.sourceData.map((src, i) => (
+                        {ratio.sourceData?.map((src, i) => (
                           <div key={i} className="text-[10px] font-mono text-charcoal/70 truncate">
                             {src}
                           </div>
@@ -490,19 +334,18 @@ export default function PortalPageClient({ locale, t }: Props) {
                 </div>
               </div>
 
-              {/* Right Column: Unparsed & Methodology */}
+              {/* Sidebar: Confidence & Method */}
               <div className="col-span-12 lg:col-span-4 space-y-6">
-                 {/* Unparsed / Confidence */}
                  <div className="bg-cream border border-charcoal/5 p-6">
                    <h4 className="font-serif text-lg mb-4 flex items-center gap-2">
                      <FileWarning size={16} className="text-orange-600" />
-                     Unprocessed Segments
+                     Confidence Report
                    </h4>
                    <p className="text-xs text-muted mb-4">
-                     The following lines were skipped due to format ambiguity:
+                     Analysis generated based on available data.
                    </p>
                    <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
-                     {analysis.unparsed.map((u, i) => (
+                     {analysis.unparsed?.map((u, i) => (
                        <div key={i} className="bg-white p-2 text-[10px] border-l-2 border-orange-300">
                          <span className="font-bold block text-orange-800">{u.location}</span>
                          <span className="font-mono text-muted block truncate">{u.content}</span>
@@ -511,12 +354,10 @@ export default function PortalPageClient({ locale, t }: Props) {
                    </div>
                  </div>
 
-                 {/* Methodology */}
                  <div className="bg-charcoal text-cream p-6">
                     <h4 className="font-serif text-lg mb-4">Methodology</h4>
                     <p className="text-xs opacity-70 mb-4 leading-relaxed">
-                      Calculations utilize detected keys in the document's language ({analysis.docLanguage}). 
-                      Formulae strictly follow IFRS standards.
+                      Calculations strictly follow IFRS standards.
                     </p>
                     <div className="space-y-2">
                       {analysis.ratios.map(r => (
@@ -528,7 +369,6 @@ export default function PortalPageClient({ locale, t }: Props) {
                     </div>
                  </div>
               </div>
-
             </motion.div>
           )}
         </AnimatePresence>
