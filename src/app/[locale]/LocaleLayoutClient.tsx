@@ -2,7 +2,6 @@
 
 import { type Locale, getTranslation } from '@/lib/translations';
 import Navbar from '../components/Navbar';
-import BackgroundMesh from '../components/BackgroundMesh';
 import Footer from '../sections/Footer';
 
 export default function LocaleLayoutClient({
@@ -15,13 +14,10 @@ export default function LocaleLayoutClient({
   const t = getTranslation(locale);
 
   return (
-    <>
-      <BackgroundMesh />
+    <div className="min-h-screen bg-cream">
       <Navbar locale={locale} t={t} />
       {children}
       <Footer t={t} />
-    </>
+    </div>
   );
 }
-
-

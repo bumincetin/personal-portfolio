@@ -1,15 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #050505;
-  --foreground: #f0f0f0;
+  --background: #F9F9F7;
+  --foreground: #1A1A1A;
+  --accent: #E85D04;
+  --accent-blue: #1E3A5F;
+  --cream: #F9F9F7;
+  --charcoal: #1A1A1A;
+  --navy: #0D1B2A;
+  --muted: #6B7280;
+  --border: #E5E5E3;
 }
 
-/* Custom scrollbar hiding */
+/* Custom scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -20,20 +27,16 @@
 
 /* Base body styles */
 body {
-  background-color: #050505;
-  color: #f0f0f0;
+  background-color: var(--background);
+  color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Prevent horizontal overflow on mobile */
 html, body {
   overflow-x: hidden;
-}
-
-/* Text stroke effect for hover */
-.hover\:text-stroke-cyan:hover {
-  -webkit-text-stroke: 1px #00f0ff;
 }
 
 /* Smooth scroll behavior */
@@ -54,8 +57,8 @@ html {
 
 /* Custom selection */
 ::selection {
-  background: rgba(0, 240, 255, 0.3);
-  color: white;
+  background: rgba(232, 93, 4, 0.2);
+  color: var(--charcoal);
 }
 
 /* Mobile-friendly scrollbar for overflow areas */
@@ -68,16 +71,17 @@ html {
 /* Improve font rendering */
 h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizeLegibility;
+  font-family: 'Playfair Display', serif;
 }
 
-/* Glass card hover effect enhancement */
+/* Editorial card styles */
 @layer utilities {
-  .glass-hover {
-    @apply transition-all duration-300;
+  .editorial-card {
+    @apply bg-white border border-border rounded-sm transition-all duration-300;
   }
   
-  .glass-hover:hover {
-    @apply border-glass-highlight shadow-[0_0_30px_rgba(0,240,255,0.1)];
+  .editorial-card:hover {
+    @apply shadow-lg -translate-y-1;
   }
 }
 
@@ -97,14 +101,95 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
-/* Mobile menu transition */
-.mobile-menu-enter {
-  opacity: 0;
-  transform: translateY(-10px);
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+/* Subtle grid pattern background */
+.grid-pattern {
+  background-image: 
+    linear-gradient(rgba(26, 26, 26, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 26, 26, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
-.mobile-menu-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+/* Professional underline effect for links */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Bento grid layout */
+.bento-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Image frame styles */
+.image-frame {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Monospace data styling */
+.data-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Serif heading styling */
+.heading-serif {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* Editorial label */
+.editorial-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* Swiss design divider */
+.swiss-divider {
+  width: 60px;
+  height: 2px;
+  background-color: var(--accent);
 }

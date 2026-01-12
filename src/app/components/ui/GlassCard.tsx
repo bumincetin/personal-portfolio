@@ -3,12 +3,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-interface GlassCardProps {
+interface EditorialCardProps {
   children: React.ReactNode;
   className?: string;
+  hover?: boolean;
 }
 
-const GlassCard: React.FC<GlassCardProps> = ({ children, className = '' }) => {
+const EditorialCard: React.FC<EditorialCardProps> = ({ children, className = '', hover = true }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -16,9 +17,9 @@ const GlassCard: React.FC<GlassCardProps> = ({ children, className = '' }) => {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`
-        bg-glass-surface backdrop-blur-xl border border-glass-border rounded-xl
-        hover:border-glass-highlight hover:shadow-[0_0_30px_rgba(0,240,255,0.05)]
-        hover:-translate-y-1 transition-all duration-300 ease-out
+        bg-white border border-border
+        ${hover ? 'hover:shadow-editorial hover:-translate-y-1' : ''}
+        transition-all duration-300 ease-out
         ${className}
       `}
     >
@@ -27,5 +28,5 @@ const GlassCard: React.FC<GlassCardProps> = ({ children, className = '' }) => {
   );
 };
 
-export default GlassCard;
-
+// Keep the old name for backwards compatibility
+export default EditorialCard;

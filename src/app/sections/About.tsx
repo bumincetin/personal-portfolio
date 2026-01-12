@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 
 interface AboutProps {
@@ -15,52 +15,96 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
   const trans = t || translations[locale];
   
   return (
-    <section id="about" className="py-16 md:py-32 container mx-auto px-4 md:px-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
-        
-        {/* Visual */}
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="aspect-[4/5] max-h-[400px] md:max-h-[600px] bg-neutral-900 rounded-[16px] md:rounded-[20px] overflow-hidden relative border border-glass-border group order-2 lg:order-1"
-        >
-          <img 
-            src="/personal-portfolio/Bumin_resmi.jpeg" 
-            alt="Bumin Kağan Çetin" 
-            className="w-full h-full object-cover filter grayscale contrast-125 opacity-80 transition-all duration-700 group-hover:grayscale-0 group-hover:contrast-100 group-hover:opacity-100"
-          />
-        </motion.div>
+    <section id="about" className="py-section px-6 md:px-12 lg:px-16 bg-surface-alt">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          {/* Image Column */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-5 order-2 lg:order-1"
+          >
+            <div className="relative max-w-[400px] mx-auto lg:mx-0">
+              {/* Portrait Frame */}
+              <div className="relative aspect-[4/5]">
+                {/* Offset decorative border */}
+                <div className="absolute top-6 left-6 right-0 bottom-0 border-2 border-accent -z-10"></div>
+                
+                {/* Main Image */}
+                <div className="relative bg-white overflow-hidden shadow-editorial">
+                  <img 
+                    src="/Bumin_resmi.jpeg" 
+                    alt="Bumin Kağan Çetin" 
+                    className="w-full h-full object-cover aspect-[4/5]"
+                  />
+                </div>
+              </div>
+              
+              {/* Caption */}
+              <div className="mt-6 font-mono text-xs text-muted">
+                <p className="uppercase tracking-wider">Bumin Kağan Çetin</p>
+                <p className="mt-1">Milan, Italy — 2025</p>
+              </div>
+            </div>
+          </motion.div>
 
-        {/* Content */}
-        <motion.div
-           initial={{ opacity: 0, x: 50 }}
-           whileInView={{ opacity: 1, x: 0 }}
-           viewport={{ once: true, margin: "-100px" }}
-           transition={{ duration: 0.8, delay: 0.2 }}
-           className="order-1 lg:order-2"
-        >
-          <p className="text-accent-cyan font-mono mb-2 md:mb-4 tracking-widest text-xs md:text-sm">{trans.about.label}</p>
-          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-4 md:mb-8 leading-tight">{trans.about.title}</h2>
-          <p className="text-text-muted text-sm md:text-lg mb-4 md:mb-6 font-light">
-            {trans.about.desc1}
-          </p>
-          <p className="text-text-muted text-sm md:text-lg mb-6 md:mb-10 font-light">
-            {trans.about.desc2}
-          </p>
+          {/* Content Column */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-7 order-1 lg:order-2"
+          >
+            {/* Section Label */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-[2px] bg-accent"></div>
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {trans.about.label}
+              </span>
+            </div>
+            
+            {/* Headline */}
+            <h2 className="font-serif text-heading text-charcoal mb-8 leading-tight">
+              {trans.about.title}
+            </h2>
+            
+            {/* Bio */}
+            <div className="space-y-4 mb-10">
+              <p className="font-mono text-sm md:text-base text-muted leading-relaxed">
+                {trans.about.desc1}
+              </p>
+              <p className="font-mono text-sm md:text-base text-muted leading-relaxed">
+                {trans.about.desc2}
+              </p>
+            </div>
 
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 text-text-primary font-mono text-xs md:text-sm mb-6 md:mb-8">
-            <li className="flex items-center gap-2 md:gap-3"><Check size={14} className="text-accent-cyan flex-shrink-0" /> <span>{trans.about.credential1}</span></li>
-            <li className="flex items-center gap-2 md:gap-3"><Check size={14} className="text-accent-cyan flex-shrink-0" /> <span>{trans.about.credential2}</span></li>
-            <li className="flex items-center gap-2 md:gap-3"><Check size={14} className="text-accent-cyan flex-shrink-0" /> <span>{trans.about.credential3}</span></li>
-            <li className="flex items-center gap-2 md:gap-3"><Check size={14} className="text-accent-cyan flex-shrink-0" /> <span>{trans.about.credential4}</span></li>
-          </ul>
+            {/* Credentials Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+              {[trans.about.credential1, trans.about.credential2, trans.about.credential3, trans.about.credential4].map((credential, idx) => (
+                <div 
+                  key={idx}
+                  className="flex items-center gap-3 py-3 border-b border-border"
+                >
+                  <Check size={16} className="text-accent flex-shrink-0" />
+                  <span className="font-mono text-sm text-charcoal">{credential}</span>
+                </div>
+              ))}
+            </div>
 
-          <Link href={`/${locale}/about`} className="group inline-flex items-center gap-2 text-accent-cyan font-mono uppercase tracking-widest text-xs md:text-sm hover:text-white transition-colors">
-            {trans.about.viewBio} <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
-          </Link>
-        </motion.div>
+            {/* CTA */}
+            <Link 
+              href={`/${locale}/about`} 
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-charcoal text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-navy"
+            >
+              {trans.about.viewBio}
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
