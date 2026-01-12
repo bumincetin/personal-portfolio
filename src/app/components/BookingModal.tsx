@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Calendar, Check, ArrowRight, Mail, Clock, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type Locale, type TranslationType } from '@/lib/translations';
@@ -37,24 +37,51 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [errors, setErrors] = useState<FormErrors>({});
   const [honeypot, setHoneypot] = useState('');
 
-  const booking = t.methodologyPage.booking;
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // Defensive check for translations with fallback
+  const booking = t?.methodologyPage?.booking || {
+    title: 'Schedule a Consultation',
+    desc: 'Select a service and provide your details to request a meeting.',
+    selectService: 'Select Service',
+    yourDetails: 'Your Details',
+    yourName: 'Your Name',
+    emailAddress: 'Email Address',
+    selectDate: 'Preferred Date',
+    selectTime: 'Preferred Time',
+    confirm: 'Request Meeting',
+    close: 'Close',
+    success: 'Request Sent',
+    successDesc: 'Your consultation request has been sent. I will get back to you shortly to confirm the meeting time.',
+    loading: 'Sending Request...',
+  };
 
   const services = [
     { 
       id: 'financial-analytics', 
-      name: t.methodologyPage.section1.title,
+      name: t?.methodologyPage?.section1?.title || 'Financial Analytics & Modeling',
     },
     { 
       id: 'ai-nlp', 
-      name: t.methodologyPage.section2.title,
+      name: t?.methodologyPage?.section2?.title || 'AI & Machine Learning Solutions',
     },
     { 
       id: 'business-intelligence', 
-      name: t.methodologyPage.section3.title,
+      name: t?.methodologyPage?.section3?.title || 'Business Intelligence & Dashboards',
     },
     { 
       id: 'financial-consultancy', 
-      name: t.methodologyPage.section4.title,
+      name: t?.methodologyPage?.section4?.title || 'Financial Consultancy',
     },
   ];
 
