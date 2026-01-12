@@ -88,34 +88,26 @@ export default function PortalPageClient({ locale, t }: Props) {
             try {
               const data = e.target?.result;
               const workbook = XLSX.read(data, { type: 'array' });
-              // Get the first worksheet
               const firstSheetName = workbook.SheetNames[0];
               const worksheet = workbook.Sheets[firstSheetName];
-              // Convert to CSV text
               const csv = XLSX.utils.sheet_to_csv(worksheet);
               resolve(csv);
             } catch (err) {
-              reject(err);
+              reject(new Error("Failed to parse Excel file. Is it password protected?"));
             }
           };
-          reader.onerror = reject;
-          reader.readAsArrayBuffer(selectedFile); // Read as binary buffer, not text
+          reader.onerror = () => reject(new Error("Failed to read file"));
+          reader.readAsArrayBuffer(selectedFile); 
         });
-      } else if (selectedFile.name.endsWith('.pdf')) {
-        // PDF support requires a separate PDF parser. 
-        // For now, we throw an error if the user tries PDF without a parser.
-        throw new Error("PDF parsing requires additional setup. Please use Excel or CSV.");
       } else {
-        // Handle standard text files (CSV, TXT, JSON, MD)
         fileText = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = (e) => resolve(e.target?.result as string);
-          reader.onerror = reject;
+          reader.onerror = () => reject(new Error("Failed to read text file"));
           reader.readAsText(selectedFile);
         });
       }
 
-      // Send the extracted text (CSV or raw text) to the API
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -126,7 +118,11 @@ export default function PortalPageClient({ locale, t }: Props) {
         })
       });
 
-      if (!response.ok) throw new Error('Analysis failed');
+      if (!response.ok) {
+        // Extract the REAL error from the server
+        const errorData = await response.text();
+        throw new Error(`Server Error ${response.status}: ${errorData}`);
+      }
 
       const aiData = await response.json();
       setAnalysis({ ...aiData, statementType, fileName: selectedFile.name });
@@ -134,7 +130,10 @@ export default function PortalPageClient({ locale, t }: Props) {
 
     } catch (error) {
       console.error(error);
-      alert("Error analyzing file. For Excel, ensure it is a valid .xlsx file. For others, use CSV/TXT.");
+      // Show the ACTUAL error message to help debugging
+      let msg = "Unknown error";
+      if (error instanceof Error) msg = error.message;
+      alert(`Analysis Failed: ${msg}`);
       setStep('upload');
     }
   };
