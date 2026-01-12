@@ -7,7 +7,7 @@ import {
   Upload, FileText, TrendingUp,
   CheckCircle2, RefreshCw, Filter,
   Search, Info, Calculator, FileWarning, Globe, Scale,
-  PieChart, Activity
+  PieChart, Activity, AlertCircle
 } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
