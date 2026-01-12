@@ -211,16 +211,20 @@ ${name}`;
         : `Consultation Request - ${getServiceName(selectedService)}`
     );
     
-    // Open email client immediately
+    // Try to open email client immediately (mailto)
+    // Note: mailto links only work if user has a default email client configured
+    // Many users (especially on mobile or without email clients) will need webmail options
+    // We show the success screen with multiple options so everyone can send the email
     try {
       window.location.href = mailtoLink;
-      // Show success message after opening email client
+      // Show success screen after attempting to open email client
+      // This gives users options even if mailto didn't work
       setTimeout(() => {
         setStep('success');
-      }, 300);
+      }, 500);
     } catch (error) {
       console.error('Failed to open email client:', error);
-      // Still show success, but user can manually copy email
+      // Show success screen with webmail options
       setStep('success');
     }
   };
@@ -241,6 +245,27 @@ ${name}`;
     const body = encodeURIComponent(emailContent);
     const mailtoLink = `mailto:cetinbumink@gmail.com?subject=${subject}&body=${body}`;
     window.location.href = mailtoLink;
+  };
+
+  const openGmail = () => {
+    const subject = encodeURIComponent(emailSubject);
+    const body = encodeURIComponent(emailContent);
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=cetinbumink@gmail.com&su=${subject}&body=${body}`;
+    window.open(gmailLink, '_blank');
+  };
+
+  const openOutlook = () => {
+    const subject = encodeURIComponent(emailSubject);
+    const body = encodeURIComponent(emailContent);
+    const outlookLink = `https://outlook.live.com/mail/0/deeplink/compose?to=cetinbumink@gmail.com&subject=${subject}&body=${body}`;
+    window.open(outlookLink, '_blank');
+  };
+
+  const openYandex = () => {
+    const subject = encodeURIComponent(emailSubject);
+    const body = encodeURIComponent(emailContent);
+    const yandexLink = `https://mail.yandex.com/compose?to=cetinbumink@gmail.com&subject=${subject}&body=${body}`;
+    window.open(yandexLink, '_blank');
   };
 
   const handleClose = () => {
@@ -446,37 +471,83 @@ ${name}`;
             )}
 
             {step === 'success' && (
-              <div className="p-8 md:p-12 text-center flex-1 flex flex-col items-center justify-center min-h-0 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
+              <div className="p-6 sm:p-8 md:p-12 text-center flex-1 flex flex-col min-h-0 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
                   <Mail size={28} className="text-accent" />
                 </div>
-                <h3 className="font-serif text-3xl text-charcoal mb-3">{booking.success}</h3>
-                <p className="font-mono text-sm text-muted mb-6 max-w-sm mx-auto">{booking.successDesc}</p>
+                <h3 className="font-serif text-2xl sm:text-3xl text-charcoal mb-2">{booking.success}</h3>
+                <p className="font-mono text-xs sm:text-sm text-muted mb-6 max-w-sm mx-auto">
+                  {locale === 'tr' 
+                    ? 'E-postanızı göndermek için aşağıdaki seçeneklerden birini kullanın:'
+                    : locale === 'it'
+                    ? 'Usa una delle opzioni seguenti per inviare la tua email:'
+                    : 'Choose one of the options below to send your email:'}
+                </p>
                 
-                <div className="w-full space-y-3 mb-6">
+                <div className="w-full space-y-2.5 mb-4">
+                  {/* Gmail */}
                   <button 
-                    onClick={openEmailManually}
-                    className="w-full bg-charcoal text-cream rounded-xl py-4 font-mono text-xs uppercase tracking-wider hover:bg-navy transition-all flex items-center justify-center gap-2"
+                    onClick={openGmail}
+                    className="w-full bg-[#EA4335] text-white rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#C5221F] transition-all flex items-center justify-center gap-2"
                   >
                     <Mail size={16} />
-                    {locale === 'tr' ? 'E-postayı Aç' : locale === 'it' ? 'Apri Email' : 'Open Email'}
+                    {locale === 'tr' ? 'Gmail ile Gönder' : locale === 'it' ? 'Invia con Gmail' : 'Send with Gmail'}
                   </button>
                   
+                  {/* Outlook */}
+                  <button 
+                    onClick={openOutlook}
+                    className="w-full bg-[#0078D4] text-white rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#005A9E] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Mail size={16} />
+                    {locale === 'tr' ? 'Outlook ile Gönder' : locale === 'it' ? 'Invia con Outlook' : 'Send with Outlook'}
+                  </button>
+                  
+                  {/* Yandex */}
+                  <button 
+                    onClick={openYandex}
+                    className="w-full bg-[#FC3F1D] text-white rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#D32F1A] transition-all flex items-center justify-center gap-2"
+                  >
+                    <Mail size={16} />
+                    {locale === 'tr' ? 'Yandex ile Gönder' : locale === 'it' ? 'Invia con Yandex' : 'Send with Yandex'}
+                  </button>
+                  
+                  {/* Default Email Client */}
+                  <button 
+                    onClick={openEmailManually}
+                    className="w-full border-2 border-charcoal text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-charcoal hover:text-cream transition-all flex items-center justify-center gap-2"
+                  >
+                    <Mail size={16} />
+                    {locale === 'tr' ? 'Varsayılan E-posta İstemcisi' : locale === 'it' ? 'Client Email Predefinito' : 'Default Email Client'}
+                  </button>
+                  
+                  {/* Copy to Clipboard */}
                   <button 
                     onClick={copyEmailToClipboard}
-                    className="w-full border border-charcoal rounded-xl py-4 font-mono text-xs uppercase tracking-wider hover:bg-charcoal hover:text-cream transition-all flex items-center justify-center gap-2"
+                    className="w-full border border-border text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-surface-alt transition-all flex items-center justify-center gap-2"
                   >
                     <Copy size={16} />
                     {copied 
-                      ? (locale === 'tr' ? 'Kopyalandı!' : locale === 'it' ? 'Copiato!' : 'Copied!')
-                      : (locale === 'tr' ? 'E-postayı Kopyala' : locale === 'it' ? 'Copia Email' : 'Copy Email')
+                      ? (locale === 'tr' ? '✓ Kopyalandı!' : locale === 'it' ? '✓ Copiato!' : '✓ Copied!')
+                      : (locale === 'tr' ? 'E-postayı Kopyala' : locale === 'it' ? 'Copia Email' : 'Copy Email Content')
                     }
                   </button>
                 </div>
                 
+                <div className="mt-4 p-4 bg-surface-alt rounded-xl border border-border">
+                  <p className="font-mono text-[10px] text-muted mb-2">
+                    {locale === 'tr' 
+                      ? 'E-posta Adresi:'
+                      : locale === 'it'
+                      ? 'Indirizzo Email:'
+                      : 'Email Address:'}
+                  </p>
+                  <p className="font-mono text-xs text-charcoal break-all">cetinbumink@gmail.com</p>
+                </div>
+                
                 <button 
                   onClick={handleClose} 
-                  className="w-full border border-border rounded-xl py-3 font-mono text-xs uppercase tracking-wider text-muted hover:text-charcoal transition-all"
+                  className="w-full mt-4 border border-border rounded-xl py-3 font-mono text-xs uppercase tracking-wider text-muted hover:text-charcoal transition-all"
                 >
                   {booking.close}
                 </button>
