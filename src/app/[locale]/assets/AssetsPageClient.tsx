@@ -23,6 +23,22 @@ const projects = [
     featured: true
   },
   {
+    title: "HandyPro",
+    description: "Professional project management and productivity tool designed to streamline workflow and enhance team collaboration with intelligent task management and analytics.",
+    tags: ["Web Development", "Productivity", "Project Management"],
+    url: "https://github.com/bumincetin/HandyPro",
+    stars: 0,
+    featured: false
+  },
+  {
+    title: "Fashion Consultancy",
+    description: "Fashion industry consultancy platform providing data-driven insights for trend analysis, market research, and strategic planning in the fashion sector.",
+    tags: ["Data Analysis", "Fashion", "Consulting", "Market Research"],
+    url: "https://github.com/bumincetin/fashion-consultancy",
+    stars: 0,
+    featured: false
+  },
+  {
     title: "Turkish Election 2023",
     description: "Bachelor thesis project predicting parliamentary seat distribution for the Turkish General Election using machine learning techniques and historical voting data analysis.",
     tags: ["Python", "Machine Learning", "Political Science", "Statistics"],
