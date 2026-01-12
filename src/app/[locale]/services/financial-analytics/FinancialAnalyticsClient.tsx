@@ -63,7 +63,7 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
         </div>
       </section>
 
-      {/* For Everyone Section */}
+      {/* Expanded Description Section */}
       <section className="bg-white py-16 mb-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <motion.div
@@ -72,50 +72,82 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-[2px] bg-accent"></div>
+            <div className="prose prose-lg max-w-none">
+              <p className="font-mono text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
+                {section.expandedDesc}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="bg-surface-alt py-16 mb-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-center gap-3 mb-12">
+              <div className="w-12 h-[2px] bg-accent"></div>
               <span className="font-mono text-xs text-accent uppercase tracking-wider">
-                {locale === 'tr' ? 'Herkes İçin Açıklama' : locale === 'it' ? 'Per Tutti' : 'For Everyone'}
+                {section.useCases.title}
               </span>
             </div>
             
-            <h2 className="font-serif text-2xl md:text-3xl text-charcoal mb-8">
-              {locale === 'tr' ? 'Bu Hizmet Ne İşe Yarar?' : locale === 'it' ? 'A Cosa Serve Questo Servizio?' : 'What Does This Service Do?'}
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <p className="font-mono text-base text-muted leading-relaxed">
-                  {locale === 'tr' 
-                    ? 'Finansal veri analizi, geçmiş verileri kullanarak gelecekteki piyasa hareketlerini tahmin etmeye çalışır. Tıpkı bir hava durumu tahmini gibi, ancak para piyasaları için.'
-                    : locale === 'it'
-                    ? 'L\'analisi finanziaria utilizza dati storici per prevedere i movimenti futuri del mercato. Come le previsioni meteo, ma per i mercati finanziari.'
-                    : 'Financial analytics uses historical data to predict future market movements. Think of it like weather forecasting, but for financial markets.'
-                  }
-                </p>
-                <p className="font-mono text-base text-muted leading-relaxed">
-                  {locale === 'tr'
-                    ? 'Size sunduğum modeller, yatırım kararlarınızı desteklemek için riskleri ölçer ve fırsatları belirler. Karmaşık matematiksel hesaplamaları anlaşılır önerilere dönüştürüyorum.'
-                    : locale === 'it'
-                    ? 'I modelli che offro misurano i rischi e identificano opportunità per supportare le vostre decisioni di investimento. Trasformo calcoli matematici complessi in raccomandazioni comprensibili.'
-                    : 'The models I build measure risks and identify opportunities to support your investment decisions. I transform complex mathematical calculations into understandable recommendations.'
-                  }
-                </p>
-              </div>
-              
-              <div className="bg-surface-alt p-6 rounded-lg">
-                <h3 className="font-serif text-lg text-charcoal mb-4">
-                  {locale === 'tr' ? 'Gerçek Hayat Örneği' : locale === 'it' ? 'Esempio Reale' : 'Real-World Example'}
-                </h3>
-                <p className="font-mono text-sm text-muted leading-relaxed">
-                  {locale === 'tr'
-                    ? 'Bir yatırım fonu, portföyündeki riskleri anlamak istiyor. Model, piyasa düşüşlerinde ne kadar kayıp yaşanabileceğini hesaplıyor ve hangi varlıkların daha güvenli olduğunu gösteriyor.'
-                    : locale === 'it'
-                    ? 'Un fondo di investimento vuole capire i rischi nel suo portafoglio. Il modello calcola quanta perdita potrebbe verificarsi durante i cali di mercato e mostra quali asset sono più sicuri.'
-                    : 'An investment fund wants to understand risks in their portfolio. The model calculates how much loss could occur during market downturns and shows which assets are safer.'
-                  }
-                </p>
-              </div>
+            <div className="space-y-12">
+              {section.useCases.scenarios.map((useCase, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  className="bg-white border border-border p-8 md:p-10 rounded-lg"
+                >
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="font-serif text-lg text-accent">{idx + 1}</span>
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-xl md:text-2xl text-charcoal mb-4">
+                        {useCase.title}
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Senaryo' : locale === 'it' ? 'Scenario' : 'Scenario'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.scenario}
+                      </p>
+                    </div>
+                    
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Çözüm' : locale === 'it' ? 'Soluzione' : 'Solution'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.solution}
+                      </p>
+                    </div>
+                    
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Fayda' : locale === 'it' ? 'Beneficio' : 'Benefit'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.benefit}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -196,19 +228,29 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
         </motion.div>
       </section>
 
+      {/* Closing Message */}
+      <section className="max-w-6xl mx-auto px-6 md:px-12 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-charcoal text-cream p-8 md:p-12 rounded-lg text-center"
+        >
+          <p className="font-serif text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
+            {section.closingMessage}
+          </p>
+        </motion.div>
+      </section>
+
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-6 md:px-12">
         <div className="bg-surface-alt border border-border p-8 md:p-12 text-center rounded-lg">
           <h3 className="font-serif text-2xl md:text-3xl text-charcoal mb-4">
-            {locale === 'tr' ? 'Bu Hizmet Sizin İçin Uygun mu?' : locale === 'it' ? 'Questo Servizio Fa Per Te?' : 'Is This Service Right For You?'}
+            {t.methodologyPage.ctaTitle}
           </h3>
           <p className="font-mono text-sm text-muted mb-8 max-w-xl mx-auto">
-            {locale === 'tr'
-              ? 'Finansal veri analizinin işletmenize nasıl değer katabileceğini konuşalım.'
-              : locale === 'it'
-              ? 'Discutiamo come l\'analisi finanziaria può aggiungere valore al tuo business.'
-              : 'Let\'s discuss how financial analytics can add value to your business.'
-            }
+            {t.methodologyPage.ctaDesc}
           </p>
           <a 
             href="mailto:cetinbumink@gmail.com"

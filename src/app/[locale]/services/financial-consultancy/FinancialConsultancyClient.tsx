@@ -85,7 +85,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
         </div>
       </section>
 
-      {/* For Everyone Section */}
+      {/* Expanded Description Section */}
       <section className="bg-white py-16 mb-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <motion.div
@@ -94,62 +94,82 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-[2px] bg-accent"></div>
+            <div className="prose prose-lg max-w-none">
+              <p className="font-mono text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
+                {section.expandedDesc}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="bg-surface-alt py-16 mb-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-center gap-3 mb-12">
+              <div className="w-12 h-[2px] bg-accent"></div>
               <span className="font-mono text-xs text-accent uppercase tracking-wider">
-                {locale === 'tr' ? 'Herkes İçin Açıklama' : locale === 'it' ? 'Per Tutti' : 'For Everyone'}
+                {section.useCases.title}
               </span>
             </div>
             
-            <h2 className="font-serif text-2xl md:text-3xl text-charcoal mb-8">
-              {locale === 'tr' ? 'Finansal Danışmanlık Nedir?' : locale === 'it' ? 'Cos\'è la Consulenza Finanziaria?' : 'What is Financial Consultancy?'}
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <p className="font-mono text-base text-muted leading-relaxed">
-                  {locale === 'tr' 
-                    ? 'Finansal danışmanlık, özellikle farklı ülkelerde iş yapmak isteyenler için karmaşık finansal süreçlerde rehberlik etmektir. İtalya\'da yatırım yapmak, şirket kurmak veya vergi sistemi hakkında bilgi almak isteyenlere yardımcı oluyorum.'
-                    : locale === 'it'
-                    ? 'La consulenza finanziaria guida attraverso processi finanziari complessi, specialmente per chi vuole fare business in diversi paesi. Aiuto chi vuole investire in Italia, aprire un\'azienda o ottenere informazioni sul sistema fiscale.'
-                    : 'Financial consultancy guides you through complex financial processes, especially for those who want to do business in different countries. I help those who want to invest in Italy, establish a company, or learn about the tax system.'
-                  }
-                </p>
-                <p className="font-mono text-base text-muted leading-relaxed">
-                  {locale === 'tr'
-                    ? 'Alvolo Consulting\'in kurucusu olarak, özellikle Türkiye-İtalya arasında köprü kuruyorum. Dil, kültür ve yasal farklılıkları aşmanıza yardımcı oluyorum.'
-                    : locale === 'it'
-                    ? 'Come fondatore di Alvolo Consulting, faccio da ponte in particolare tra Turchia e Italia. Aiuto a superare le differenze linguistiche, culturali e legali.'
-                    : 'As the founder of Alvolo Consulting, I specifically bridge between Turkey and Italy. I help you overcome language, cultural, and legal differences.'
-                  }
-                </p>
-              </div>
-              
-              <div className="bg-surface-alt p-6 rounded-lg">
-                <h3 className="font-serif text-lg text-charcoal mb-4">
-                  {locale === 'tr' ? 'Kimler İçin Uygun?' : locale === 'it' ? 'Per Chi È Adatto?' : 'Who Is It For?'}
-                </h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 size={18} className="text-accent mt-0.5 flex-shrink-0" />
-                    <span className="font-mono text-sm text-muted">
-                      {locale === 'tr' ? 'İtalya\'da yatırım yapmak isteyenler' : locale === 'it' ? 'Chi vuole investire in Italia' : 'Those who want to invest in Italy'}
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 size={18} className="text-accent mt-0.5 flex-shrink-0" />
-                    <span className="font-mono text-sm text-muted">
-                      {locale === 'tr' ? 'Uluslararası ticaret yapan şirketler' : locale === 'it' ? 'Aziende che fanno commercio internazionale' : 'Companies engaged in international trade'}
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 size={18} className="text-accent mt-0.5 flex-shrink-0" />
-                    <span className="font-mono text-sm text-muted">
-                      {locale === 'tr' ? 'Yasal uyum konusunda destek arayanlar' : locale === 'it' ? 'Chi cerca supporto per la compliance' : 'Those seeking compliance support'}
-                    </span>
-                  </li>
-                </ul>
-              </div>
+            <div className="space-y-12">
+              {section.useCases.scenarios.map((useCase, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  className="bg-white border border-border p-8 md:p-10 rounded-lg"
+                >
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="font-serif text-lg text-accent">{idx + 1}</span>
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-xl md:text-2xl text-charcoal mb-4">
+                        {useCase.title}
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Sorun' : locale === 'it' ? 'Problema' : 'Problem'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.problem}
+                      </p>
+                    </div>
+                    
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Çözüm' : locale === 'it' ? 'Soluzione' : 'Solution'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.solution}
+                      </p>
+                    </div>
+                    
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Fayda' : locale === 'it' ? 'Beneficio' : 'Benefit'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.benefit}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -232,19 +252,29 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
         </motion.div>
       </section>
 
+      {/* Closing Message */}
+      <section className="max-w-6xl mx-auto px-6 md:px-12 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-charcoal text-cream p-8 md:p-12 rounded-lg text-center"
+        >
+          <p className="font-serif text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
+            {section.closingMessage}
+          </p>
+        </motion.div>
+      </section>
+
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-6 md:px-12">
         <div className="bg-surface-alt border border-border p-8 md:p-12 text-center rounded-lg">
           <h3 className="font-serif text-2xl md:text-3xl text-charcoal mb-4">
-            {locale === 'tr' ? 'Finansal Hedeflerinizi Konuşalım' : locale === 'it' ? 'Parliamo dei Tuoi Obiettivi Finanziari' : 'Let\'s Discuss Your Financial Goals'}
+            {t.methodologyPage.ctaTitle}
           </h3>
           <p className="font-mono text-sm text-muted mb-8 max-w-xl mx-auto">
-            {locale === 'tr'
-              ? 'Uluslararası finansal süreçlerinizde size nasıl yardımcı olabileceğimi anlatalım.'
-              : locale === 'it'
-              ? 'Scopriamo come posso aiutarti nei tuoi processi finanziari internazionali.'
-              : 'Let me explain how I can help you with your international financial processes.'
-            }
+            {t.methodologyPage.ctaDesc}
           </p>
           <a 
             href="mailto:cetinbumink@gmail.com"

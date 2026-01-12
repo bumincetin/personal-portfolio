@@ -63,7 +63,7 @@ export default function AINLPClient({ locale, t }: Props) {
         </div>
       </section>
 
-      {/* For Everyone Section */}
+      {/* Expanded Description Section */}
       <section className="bg-white py-16 mb-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <motion.div
@@ -72,50 +72,82 @@ export default function AINLPClient({ locale, t }: Props) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-[2px] bg-accent"></div>
+            <div className="prose prose-lg max-w-none">
+              <p className="font-mono text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
+                {section.expandedDesc}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="bg-surface-alt py-16 mb-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-center gap-3 mb-12">
+              <div className="w-12 h-[2px] bg-accent"></div>
               <span className="font-mono text-xs text-accent uppercase tracking-wider">
-                {locale === 'tr' ? 'Herkes İçin Açıklama' : locale === 'it' ? 'Per Tutti' : 'For Everyone'}
+                {section.useCases.title}
               </span>
             </div>
             
-            <h2 className="font-serif text-2xl md:text-3xl text-charcoal mb-8">
-              {locale === 'tr' ? 'Yapay Zeka ile Metin Analizi Nedir?' : locale === 'it' ? 'Cos\'è l\'Analisi del Testo con AI?' : 'What is AI-Powered Text Analysis?'}
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <p className="font-mono text-base text-muted leading-relaxed">
-                  {locale === 'tr' 
-                    ? 'Yapay zeka, bilgisayarların insan gibi düşünmesini sağlayan bir teknoloji. Metin analizi (NLP) ise bu teknolojiyi yazılı içerikleri anlamak için kullanıyor.'
-                    : locale === 'it'
-                    ? 'L\'intelligenza artificiale è una tecnologia che permette ai computer di pensare come gli umani. L\'analisi del testo (NLP) utilizza questa tecnologia per comprendere i contenuti scritti.'
-                    : 'Artificial intelligence is technology that enables computers to think like humans. Text analysis (NLP) uses this technology to understand written content.'
-                  }
-                </p>
-                <p className="font-mono text-base text-muted leading-relaxed">
-                  {locale === 'tr'
-                    ? 'Bu sayede binlerce belgeyi saniyeler içinde okuyabilir, müşteri yorumlarındaki duyguları anlayabilir ve tekrar eden işleri otomatikleştirebilirsiniz.'
-                    : locale === 'it'
-                    ? 'Questo permette di leggere migliaia di documenti in pochi secondi, comprendere i sentimenti nelle recensioni dei clienti e automatizzare attività ripetitive.'
-                    : 'This allows you to read thousands of documents in seconds, understand sentiments in customer reviews, and automate repetitive tasks.'
-                  }
-                </p>
-              </div>
-              
-              <div className="bg-surface-alt p-6 rounded-lg">
-                <h3 className="font-serif text-lg text-charcoal mb-4">
-                  {locale === 'tr' ? 'Gerçek Hayat Örneği' : locale === 'it' ? 'Esempio Reale' : 'Real-World Example'}
-                </h3>
-                <p className="font-mono text-sm text-muted leading-relaxed">
-                  {locale === 'tr'
-                    ? 'ImpactScope için geliştirdiğim sistem, şirketlerin sürdürülebilirlik raporlarını otomatik olarak analiz ediyor ve "yeşil yıkama" (yanıltıcı çevre iddiaları) yapanları tespit ediyor. Manuel inceleme süresi %80 azaldı.'
-                    : locale === 'it'
-                    ? 'Il sistema che ho sviluppato per ImpactScope analizza automaticamente i report di sostenibilità delle aziende e rileva il "greenwashing" (affermazioni ambientali fuorvianti). Il tempo di revisione manuale è diminuito dell\'80%.'
-                    : 'The system I developed for ImpactScope automatically analyzes company sustainability reports and detects "greenwashing" (misleading environmental claims). Manual review time decreased by 80%.'
-                  }
-                </p>
-              </div>
+            <div className="space-y-12">
+              {section.useCases.scenarios.map((useCase, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  className="bg-white border border-border p-8 md:p-10 rounded-lg"
+                >
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="font-serif text-lg text-accent">{idx + 1}</span>
+                    </div>
+                    <div>
+                      <h3 className="font-serif text-xl md:text-2xl text-charcoal mb-4">
+                        {useCase.title}
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Sorun' : locale === 'it' ? 'Problema' : 'Problem'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.problem}
+                      </p>
+                    </div>
+                    
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Çözüm' : locale === 'it' ? 'Soluzione' : 'Solution'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.solution}
+                      </p>
+                    </div>
+                    
+                    <div className="md:col-span-1">
+                      <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
+                        {locale === 'tr' ? 'Fayda' : locale === 'it' ? 'Beneficio' : 'Benefit'}
+                      </h4>
+                      <p className="font-mono text-sm text-muted leading-relaxed">
+                        {useCase.benefit}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -196,19 +228,29 @@ export default function AINLPClient({ locale, t }: Props) {
         </motion.div>
       </section>
 
+      {/* Closing Message */}
+      <section className="max-w-6xl mx-auto px-6 md:px-12 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-charcoal text-cream p-8 md:p-12 rounded-lg text-center"
+        >
+          <p className="font-serif text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
+            {section.closingMessage}
+          </p>
+        </motion.div>
+      </section>
+
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-6 md:px-12">
         <div className="bg-surface-alt border border-border p-8 md:p-12 text-center rounded-lg">
           <h3 className="font-serif text-2xl md:text-3xl text-charcoal mb-4">
-            {locale === 'tr' ? 'Yapay Zeka Projeniz İçin Hazır mısınız?' : locale === 'it' ? 'Pronto per il Tuo Progetto AI?' : 'Ready for Your AI Project?'}
+            {t.methodologyPage.ctaTitle}
           </h3>
           <p className="font-mono text-sm text-muted mb-8 max-w-xl mx-auto">
-            {locale === 'tr'
-              ? 'Metin analizi ve yapay zekanın işletmenize nasıl değer katabileceğini konuşalım.'
-              : locale === 'it'
-              ? 'Discutiamo come l\'analisi del testo e l\'AI possono aggiungere valore al tuo business.'
-              : 'Let\'s discuss how text analysis and AI can add value to your business.'
-            }
+            {t.methodologyPage.ctaDesc}
           </p>
           <a 
             href="mailto:cetinbumink@gmail.com"

@@ -125,6 +125,17 @@ export interface TranslationType {
       desc1: string;
       desc2: string;
       features: string[];
+      expandedDesc: string;
+      useCases: {
+        title: string;
+        scenarios: {
+          title: string;
+          scenario: string;
+          solution: string;
+          benefit: string;
+        }[];
+      };
+      closingMessage: string;
     };
     section2: {
       num: string;
@@ -133,6 +144,17 @@ export interface TranslationType {
       desc1: string;
       desc2: string;
       features: string[];
+      expandedDesc: string;
+      useCases: {
+        title: string;
+        scenarios: {
+          title: string;
+          problem: string;
+          solution: string;
+          benefit: string;
+        }[];
+      };
+      closingMessage: string;
     };
     section3: {
       num: string;
@@ -141,6 +163,17 @@ export interface TranslationType {
       desc1: string;
       desc2: string;
       features: string[];
+      expandedDesc: string;
+      useCases: {
+        title: string;
+        scenarios: {
+          title: string;
+          problem: string;
+          solution: string;
+          benefit: string;
+        }[];
+      };
+      closingMessage: string;
     };
     section4: {
       num: string;
@@ -149,6 +182,17 @@ export interface TranslationType {
       desc1: string;
       desc2: string;
       features: string[];
+      expandedDesc: string;
+      useCases: {
+        title: string;
+        scenarios: {
+          title: string;
+          problem: string;
+          solution: string;
+          benefit: string;
+        }[];
+      };
+      closingMessage: string;
     };
     processLabel: string;
     processTitle: string;
@@ -351,6 +395,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'I build robust financial models that transform raw market data into actionable intelligence. From stress-tested LSTM networks for price prediction to Monte Carlo simulations for risk assessment, each model is designed for real-world deployment.',
         desc2: 'My approach combines traditional quantitative finance with modern machine learning, ensuring models are both statistically rigorous and practically applicable to trading strategies, portfolio management, and investment decisions.',
         features: ['Time-Series Forecasting (ARIMA, LSTM, Prophet)', 'Value-at-Risk & Stress Testing', 'Portfolio Optimization & Factor Models', 'Quantitative Trading Signals'],
+        expandedDesc: 'Financial data analysis is the art of finding order within the chaos of markets. Just as advanced meteorological models track pressure changes in the atmosphere to predict storms in advance; we analyze historical data, market sentiment, and visual signals to model the financial climate.\n\nThe solution I offer processes complex mathematical algorithms and multi-layered datasets (text, image, numerical data) to "separate signal from noise". My goal is not to overwhelm you with data; it is to provide the compass that will transform these complex calculations into clear, strategic, and profitable investment decisions.',
+        useCases: {
+          title: 'Use Cases',
+          scenarios: [
+            {
+              title: 'News & Sentiment Analysis (NLP for Market Pulse)',
+              scenario: 'Markets move not just with numbers, but with news.',
+              solution: 'My NLP models scan central bank minutes, CEO statements, or tens of thousands of news headlines in seconds, measuring the market\'s "sentiment".',
+              benefit: 'Provides early warning by detecting negative news waves about a stock before it begins to decline.',
+            },
+            {
+              title: 'Sustainability & Greenwashing Detection (Special Expertise)',
+              scenario: 'Investors seek ESG (Environmental, Social, Governance) compliant companies, but companies sometimes distort the truth (Greenwashing).',
+              solution: 'Fine-tuned Transformer models analyze companies\' sustainability reports and marketing texts to catch inconsistencies and exaggerated claims.',
+              benefit: 'Enables you to invest only in truly sustainable companies with low risk and strong reputation management.',
+            },
+            {
+              title: 'Computer Vision for "Alternative Data" Analysis',
+              scenario: 'How do you measure a retail chain\'s or factory\'s performance before financial statements are released?',
+              solution: 'Algorithms processing satellite images count parking lot occupancy rates of retail stores or analyze container movement activity in ports.',
+              benefit: 'You gain leading indicators about a company\'s operational performance months before official financial reports are published.',
+            },
+            {
+              title: 'Algorithmic Risk Management & Portfolio Optimization',
+              scenario: 'Knowing which assets are correlated with each other and where hidden risks lie.',
+              solution: 'Deep learning models that simulate historical price movements and volatility test how your portfolio would be affected in "Black Swan" (unexpected crisis) scenarios.',
+              benefit: 'Protects your capital by establishing the return-risk balance most suitable to your risk appetite.',
+            },
+          ],
+        },
+        closingMessage: 'Data is the new oil; but it doesn\'t turn into fuel until it\'s processed. I help you chart your course in uncertain markets by transforming raw data into strategic intelligence.',
       },
       section2: {
         num: '02.',
@@ -359,6 +434,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Leveraging state-of-the-art NLP architectures like RoBERTa and BERT, I develop custom solutions for extracting insights from unstructured text—financial reports, news feeds, social media, and corporate communications.',
         desc2: 'My greenwashing detection system, built for ImpactScope, demonstrates this capability: fine-tuned transformers analyze sustainability claims, reducing manual review time by 80% through a proprietary Semantic Contradiction Index.',
         features: ['Custom Sentiment Classification', 'ESG & Greenwashing Risk Detection', 'Document Summarization & Extraction', 'Chatbots & Intelligent Automation'],
+        expandedDesc: 'AI-Powered Text Analysis (NLP) is the technology that transforms unstructured data piles (emails, reports, news) into meaningful and manageable information. Artificial intelligence combines the ability to understand the complexity, nuances, and context of human language with the super processing speed of machines.\n\nThis technology processes the vast information pool (Dark Data) that your company owns but cannot use, completing analyses that would take months manually in seconds. We don\'t just "read" words; we analyze between the lines to reveal the "big picture" necessary for your strategic decisions.',
+        useCases: {
+          title: 'Use Cases',
+          scenarios: [
+            {
+              title: 'Due Diligence & Contract Analysis',
+              problem: 'In merger and acquisition (M&A) processes or major investments, thousands of pages of legal and financial documents need to be reviewed.',
+              solution: 'Our NLP models scan thousands of contracts in seconds; automatically flagging critical clauses, hidden risks, maturity dates, and non-standard obligations.',
+              benefit: 'Reduces legal review costs by up to 70% and minimizes risks overlooked due to human error.',
+            },
+            {
+              title: 'Brand Reputation & Market Sentiment Analysis',
+              problem: 'Understanding what customers or the market think about your brand requires reading thousands of tweets or news articles.',
+              solution: 'Our systems analyze tens of thousands of comments on social media, news sites, and forums, not just making "positive/negative" distinctions; they categorize the root causes of complaints (price, quality, customer service).',
+              benefit: 'Enables you to detect crises before they grow and proactively intervene in customer dissatisfaction.',
+            },
+            {
+              title: 'Automatic Information Extraction & Classification',
+              problem: 'Manually entering documents like incoming invoices, CVs, or customer request forms into the system is a waste of time.',
+              solution: 'AI automatically extracts critical data such as names, dates, amounts, IBANs from PDFs or scanned images (OCR + NLP) and processes them into your database.',
+              benefit: 'Increases operational efficiency and allows your qualified employees to focus on value-added work instead of data entry.',
+            },
+            {
+              title: 'Greenwashing & Compliance Auditing (Your Expertise)',
+              problem: 'Manually auditing the accuracy and consistency of corporate sustainability reports is difficult.',
+              solution: 'Our custom transformer models detect exaggerated, ambiguous, or contradictory statements (greenwashing signals) in corporate communications.',
+              benefit: 'Provides transparency for investors and accelerates the compliance process for companies.',
+            },
+          ],
+        },
+        closingMessage: 'In business, information is power, but only when it\'s accessible. We liberate data trapped within texts and make your business smarter, faster, and more predictive.',
       },
       section3: {
         num: '03.',
@@ -367,6 +473,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Raw data means nothing without proper visualization and storytelling. I design end-to-end BI solutions that transform complex datasets into intuitive dashboards, enabling stakeholders to make informed decisions at a glance.',
         desc2: 'From executive-level KPI tracking to operational drill-downs, each dashboard is tailored to your specific business context, integrating multiple data sources and providing real-time insights.',
         features: ['Executive KPI Dashboards', 'Automated Reporting Pipelines', 'Data Warehouse Design', 'Custom Visualization Development'],
+        expandedDesc: 'Business Intelligence (BI) is the process of collecting data fragments scattered across different departments of your company and transforming them into a "Single Source of Truth".\n\nWe liberate data from static and hard-to-manage Excel files, moving it to living and breathing dynamic dashboards. This is not just about getting "beautiful reports"; it\'s about eliminating corporate blindness by seeing your company\'s past and present with X-ray precision. BI doesn\'t just tell you "how much you sold"; it shows you "why you sold there" and "where profitability comes from".',
+        useCases: {
+          title: 'Use Cases',
+          scenarios: [
+            {
+              title: 'Real-Time Performance Tracking (Escape from Excel Chaos)',
+              problem: 'Waiting for end-of-month reports, manually merging data in Excel, and dealing with formula errors slows down your decision-making speed.',
+              solution: 'We integrate all your sales, marketing, and financial data into a single live screen (dashboard). Data is updated through automatic API connections, not manual entry.',
+              benefit: 'Keeps your company\'s pulse in real-time, allowing you to correct your course without waiting for month-end. You spend time "making decisions" rather than "preparing data".',
+            },
+            {
+              title: 'Profitability & Regional Analysis (Deep Dive)',
+              problem: 'You see total revenue increasing, but you can\'t see which region or product is actually eroding your profit margin.',
+              solution: 'With interactive maps and drill-down analyses, you can go from the overall table down to the smallest store or product detail.',
+              benefit: 'You use your resources efficiently by identifying which region needs marketing support or which product is creating inventory costs.',
+            },
+            {
+              title: 'Cross-Department Integration (Silo Breaker)',
+              problem: 'While the marketing department increases advertising spending, they may be unaware that warehouse stocks are insufficient.',
+              solution: 'BI breaks down walls between departments. It reveals correlations by visualizing marketing data and inventory data in the same chart.',
+              benefit: 'Predicts operational bottlenecks before they form, ensuring departments work in sync rather than in isolation from each other.',
+            },
+            {
+              title: 'Customer Segmentation & Loyalty Analysis',
+              problem: 'Answering "Who are our best customers?" based only on revenue can be misleading.',
+              solution: 'We identify the most valuable customer segments by visualizing customer behavior through metrics such as purchase frequency, basket value, and payment patterns.',
+              benefit: 'Allows you to focus your marketing budget on the audience with the highest conversion rate, not everyone.',
+            },
+          ],
+        },
+        closingMessage: 'Stop driving in the dark. With our Business Intelligence solutions, we transform your company\'s data from a rearview mirror into a powerful navigation system.',
       },
       section4: {
         num: '04.',
@@ -375,6 +512,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'As founder of Alvolo Consulting, I provide comprehensive financial advisory services bridging Italian and international markets. From navigating complex regulatory environments to optimizing cross-border investment structures.',
         desc2: 'My consulting approach combines deep technical expertise with practical business acumen, helping clients understand not just what the data shows, but how to act on it strategically.',
         features: ['Cross-Border Investment Advisory', 'Italian Financial System Navigation', 'Regulatory Compliance Guidance', 'Strategic Financial Planning'],
+        expandedDesc: 'Cross-Border Financial Consultancy is a strategic compass that guides you in uncharted waters. Doing business in a different country requires not just capital, but mastery of that country\'s regulations, tax system, and business culture.\n\nAs the Founder of Alvolo Consulting, I provide end-to-end guidance to businesses in the Turkey-Italy trade corridor. By managing language barriers, complex bureaucracy, and cultural differences on your behalf, I move your investment process from "problem-solving mode" to "value-creation mode". For those who want to incorporate, invest, or benefit from tax advantages in the Italian market, I work like a local partner.',
+        useCases: {
+          title: 'Use Cases',
+          scenarios: [
+            {
+              title: 'Turnkey Company Formation & Market Entry',
+              problem: 'Establishing a company in Italy involves complex, multilingual bureaucracy including notary procedures, tax office registrations, and bank account openings.',
+              solution: 'We manage the entire process from determining the company type (S.r.l, S.p.A, etc.) to completing registration procedures.',
+              benefit: 'While you focus on your business plan, we set up the legal infrastructure flawlessly, preventing time and cost losses.',
+            },
+            {
+              title: 'Tax Optimization & Incentive Advisory',
+              problem: 'Double Taxation Prevention Agreements between Italy and Turkey and local incentives (e.g., R&D incentives, Start-up visas) are complex.',
+              solution: 'We structure the tax framework most suitable for your business model and identify government incentives and grants you can benefit from.',
+              benefit: 'Minimizes your tax burden within the legal framework while strengthening your working capital with government support.',
+            },
+            {
+              title: 'Cultural & Commercial Negotiation Management',
+              problem: 'In Italian business culture, trust, relationships, and communication style are as important as contracts. A wrong communication can break the deal on the table.',
+              solution: 'We translate not just the language, but also the way of doing business. We build cultural bridges in meetings with local suppliers, banks, or partners.',
+              benefit: 'Eliminates misunderstandings and enables you to build trust-based, long-term commercial relationships with local stakeholders.',
+            },
+            {
+              title: 'Real Estate & Asset Management Investments',
+              problem: 'Investment property purchases or asset management in Italy are subject to complex property and inheritance laws.',
+              solution: 'We provide end-to-end financial and legal support from investment return (ROI) calculations to property transfer procedures.',
+              benefit: 'Ensures the legal security of your investments and preserves the value of your assets in Italy.',
+            },
+          ],
+        },
+        closingMessage: 'You don\'t need to speak Italian to do business in Italy; you need a partner who speaks the language of business. With Alvolo Consulting, we remove borders and shorten the trade route between Turkey and Italy for you.',
       },
       processLabel: 'Engagement Process',
       processTitle: 'How We Work Together',
@@ -573,6 +741,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Piyasa verilerini anlamlı öngörülere dönüştüren güçlü finansal modeller kuruyorum. Fiyat tahminleri için yapay sinir ağlarından risk ölçümü için simülasyonlara kadar, her model gerçek hayatta kullanılmak üzere tasarlanıyor.',
         desc2: 'Geleneksel finans bilgisini modern yapay zeka teknikleriyle birleştirerek, hem matematiksel olarak sağlam hem de uygulamada işe yarayan çözümler üretiyorum.',
         features: ['Fiyat ve Trend Tahmini (ARIMA, LSTM, Prophet)', 'Risk Ölçümü ve Stres Testleri', 'Portföy Optimizasyonu', 'Yatırım Sinyalleri Üretimi'],
+        expandedDesc: 'Finansal veri analizi, piyasaların kaosunun içinde bir düzen bulma sanatıdır. Tıpkı gelişmiş meteorolojik modellerin atmosferdeki basınç değişimlerini izleyerek fırtınayı önceden haber vermesi gibi; biz de geçmiş verileri, piyasa duyarlılığını ve görsel sinyalleri analiz ederek finansal iklimi modelliyoruz.\n\nSize sunduğum çözüm, karmaşık matematiksel algoritmaları ve çok katmanlı veri setlerini (metin, görüntü, sayısal veri) işleyerek "gürültüden sinyali ayırır". Amacım, sizi veri yığınına boğmak değil; bu karmaşık hesaplamaları net, stratejik ve kârlı yatırım kararlarına dönüştürecek pusulayı sağlamaktır.',
+        useCases: {
+          title: 'Kullanım Senaryoları',
+          scenarios: [
+            {
+              title: 'Haber ve Duygu Analizi (NLP ile Piyasa Nabzı)',
+              scenario: 'Piyasa sadece rakamlarla değil, haberlerle hareket eder.',
+              solution: 'Merkez bankası tutanaklarını, CEO açıklamalarını veya on binlerce haber başlığını saniyeler içinde tarayan NLP modellerim, piyasanın "duygusunu" (sentiment) ölçer.',
+              benefit: 'Bir hisse senedi düşüşe geçmeden önce, hakkında çıkan olumsuz haber dalgasını tespit ederek erken uyarı (early warning) sağlar.',
+            },
+            {
+              title: 'Sürdürülebilirlik ve Greenwashing Tespiti (Özel Uzmanlık)',
+              scenario: 'Yatırımcılar ESG (Çevresel, Sosyal, Yönetişim) uyumlu şirket arıyor, ancak şirketler bazen gerçeği çarpıtıyor (Greenwashing).',
+              solution: 'İnce ayarlı Transformer modelleri, şirketlerin sürdürülebilirlik raporlarını ve pazarlama metinlerini analiz ederek tutarsızlıkları ve abartılı beyanları yakalar.',
+              benefit: 'Sadece gerçekten sürdürülebilir olan, riski düşük ve itibar yönetimi güçlü şirketlere yatırım yapmanızı sağlar.',
+            },
+            {
+              title: 'Bilgisayarlı Görü ile "Alternatif Veri" Analizi',
+              scenario: 'Bilançolar açıklanmadan önce bir perakende zincirinin veya fabrikanın performansını nasıl ölçersiniz?',
+              solution: 'Uydu görüntülerini işleyen algoritmalarımız, perakende mağazalarının otopark doluluk oranlarını sayar veya limanlardaki konteyner hareketliliğini analiz eder.',
+              benefit: 'Resmi finansal raporlar yayınlanmadan aylar önce, şirketin operasyonel performansı hakkında öncü verilere (leading indicators) sahip olursunuz.',
+            },
+            {
+              title: 'Algoritmik Risk Yönetimi ve Portföy Optimizasyonu',
+              scenario: 'Hangi varlıkların birbiriyle korelasyon içinde olduğunu ve gizli risklerin nerede yattığını bilmek.',
+              solution: 'Geçmiş fiyat hareketlerini ve volatiliteyi simüle eden derin öğrenme modelleri, "Siyah Kuğu" (beklenmedik kriz) senaryolarında portföyünüzün nasıl etkileneceğini test eder.',
+              benefit: 'Risk iştahınıza en uygun getiri-risk dengesini kurarak sermayenizi korur.',
+            },
+          ],
+        },
+        closingMessage: 'Veri, yeni petroldür; ancak işlenmediği sürece yakıta dönüşmez. Ben, ham veriyi stratejik zekaya dönüştürerek belirsiz piyasalarda rotanızı çizmenize yardımcı oluyorum.',
       },
       section2: {
         num: '02.',
@@ -581,6 +780,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'RoBERTa ve BERT gibi son teknoloji yapay zeka modellerini kullanarak metinlerden değerli bilgiler çıkarıyorum. Finansal raporlar, haberler, sosyal medya paylaşımları ve şirket duyurularını analiz ediyorum.',
         desc2: 'ImpactScope için geliştirdiğim "yeşil yıkama" tespit sistemi bu alandaki uzmanlığımı gösteriyor: Yapay zeka ile şirketlerin sürdürülebilirlik iddialarını analiz ederek manuel inceleme süresini %80 azalttım.',
         features: ['Metin Duygu Analizi', 'Sürdürülebilirlik Risk Tespiti', 'Otomatik Belge Özetleme', 'Akıllı Sohbet Botları'],
+        expandedDesc: 'AI Destekli Metin Analizi (NLP), yapılandırılmamış veri yığınlarını (e-postalar, raporlar, haberler) anlamlı ve yönetilebilir bilgilere dönüştürme teknolojisidir. Yapay zeka, insan dilinin karmaşıklığını, nüanslarını ve bağlamını anlama yeteneğini, makinelerin süper işlem hızıyla birleştirir.\n\nBu teknoloji, şirketinizin sahip olduğu ancak kullanamadığı devasa bilgi havuzunu (Dark Data) işleyerek, manuel olarak aylar sürecek analizleri saniyeler içinde tamamlar. Biz, kelimeleri sadece "okumuyoruz"; satır aralarını analiz ederek stratejik kararlarınız için gerekli olan "büyük resmi" ortaya çıkarıyoruz.',
+        useCases: {
+          title: 'Kullanım Senaryoları',
+          scenarios: [
+            {
+              title: 'Due Diligence (Durum Tespiti) ve Sözleşme Analizi',
+              problem: 'Birleşme ve satın alma süreçlerinde (M&A) veya büyük yatırımlarda, binlerce sayfalık yasal ve finansal belgenin incelenmesi gerekir.',
+              solution: 'NLP modellerimiz, binlerce sözleşmeyi saniyeler içinde tarar; kritik maddeleri, gizli riskleri, vade tarihlerini ve standart dışı yükümlülükleri otomatik olarak işaretler.',
+              benefit: 'Hukuki inceleme maliyetlerini %70\'e varan oranlarda düşürür ve insan hatasından kaynaklı gözden kaçan riskleri minimize eder.',
+            },
+            {
+              title: 'Marka İtibarı ve Piyasa Duyarlılığı (Sentiment Analysis)',
+              problem: 'Müşterilerin veya piyasanın markanız hakkında ne düşündüğünü anlamak, binlerce tweet veya haberi okumayı gerektirir.',
+              solution: 'Sistemlerimiz, sosyal medya, haber siteleri ve forumlardaki on binlerce yorumu analiz ederek, sadece "olumlu/olumsuz" ayrımı yapmaz; şikayetlerin kök nedenlerini (fiyat, kalite, müşteri hizmetleri) kategorize eder.',
+              benefit: 'Krizleri büyümeden tespit etmenizi ve müşteri memnuniyetsizliğine proaktif müdahale etmenizi sağlar.',
+            },
+            {
+              title: 'Otomatik Bilgi Çıkarımı ve Sınıflandırma (IE)',
+              problem: 'Gelen faturalar, CV\'ler veya müşteri talep formları gibi dokümanların manuel olarak sisteme girilmesi zaman kaybıdır.',
+              solution: 'Yapay zeka, PDF\'ler veya taranmış görseller (OCR + NLP) içindeki isim, tarih, tutar, IBAN gibi kritik verileri otomatik olarak çeker ve veritabanınıza işler.',
+              benefit: 'Operasyonel verimliliği artırır ve nitelikli çalışanlarınızın veri girişi yerine katma değerli işlere odaklanmasını sağlar.',
+            },
+            {
+              title: 'Greenwashing ve Uyumluluk Denetimi (Sizin Uzmanlığınız)',
+              problem: 'Kurumsal sürdürülebilirlik raporlarının doğruluğunu ve tutarlılığını manuel olarak denetlemek zordur.',
+              solution: 'Geliştirdiğimiz özel transformer modelleri, kurumsal iletişimdeki abartılı, belirsiz veya çelişkili ifadeleri (greenwashing sinyalleri) tespit eder.',
+              benefit: 'Yatırımcılar için şeffaflık sağlar, şirketler için ise regülasyonlara uyum sürecini hızlandırır.',
+            },
+          ],
+        },
+        closingMessage: 'İş dünyasında bilgi güçtür, ancak sadece erişilebilir olduğunda. Biz, metinlerin içine hapsolmuş veriyi özgürleştiriyor ve işletmenizi daha akıllı, daha hızlı ve daha öngörülü hale getiriyoruz.',
       },
       section3: {
         num: '03.',
@@ -589,6 +819,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Ham veriler doğru görselleştirilmeden anlam ifade etmez. Karmaşık veri kümelerini herkesin anlayabileceği panolara dönüştürerek hızlı ve doğru kararlar almanızı sağlıyorum.',
         desc2: 'Üst yönetim için özet göstergelerden detaylı operasyonel raporlara kadar, her panoyu sizin ihtiyaçlarınıza göre özelleştiriyorum.',
         features: ['Yönetici Panoları', 'Otomatik Rapor Sistemleri', 'Veri Deposu Tasarımı', 'Özel Görsel Çözümler'],
+        expandedDesc: 'İş Zekası (Business Intelligence), şirketinizin farklı departmanlarına dağılmış veri parçalarını toplayıp, onları "Tek Bir Hakikat Kaynağına" (Single Source of Truth) dönüştürme sürecidir.\n\nBiz, veriyi statik ve yönetimi zor Excel dosyalarından kurtarıp, yaşayan ve nefes alan dinamik panolara taşıyoruz. Bu sadece "güzel raporlar" almakla ilgili değildir; bu, şirketinizin geçmişini ve bugününü röntgen hassasiyetinde görerek, kurumsal körlüğü ortadan kaldırmakla ilgilidir. BI, size sadece "ne kadar sattığınızı" söylemez; "neden orada sattığınızı" ve "kârlılığın nereden geldiğini" gösterir.',
+        useCases: {
+          title: 'Kullanım Senaryoları',
+          scenarios: [
+            {
+              title: 'Gerçek Zamanlı Performans Takibi (Excel Kaosundan Kaçış)',
+              problem: 'Ay sonu raporlarını beklemek, verileri Excel\'de manuel olarak birleştirmek ve formül hatalarıyla uğraşmak, karar alma hızınızı yavaşlatır.',
+              solution: 'Tüm satış, pazarlama ve finans verilerinizi tek bir canlı ekrana (dashboard) entegre ediyoruz. Veriler manuel girişle değil, otomatik API bağlantılarıyla güncellenir.',
+              benefit: 'Şirketin nabzını anlık olarak tutar, ay sonunu beklemeden rotanızı düzeltebilirsiniz. "Veri hazırlamakla" değil, "karar vermekle" zaman harcarsınız.',
+            },
+            {
+              title: 'Kârlılık ve Bölgesel Analiz (Derinlemesine Bakış)',
+              problem: 'Toplam cironun arttığını görüyorsunuz ama hangi bölgenin veya ürünün aslında kâr marjınızı erittiğini göremiyorsunuz.',
+              solution: 'İnteraktif haritalar ve kırılımlı (drill-down) analizlerle, genel tablodan en küçük mağaza veya ürün detayına kadar inebilirsiniz.',
+              benefit: 'Hangi bölgenin pazarlama desteğine ihtiyacı olduğunu veya hangi ürünün stok maliyeti yarattığını tespit ederek kaynaklarınızı verimli kullanırsınız.',
+            },
+            {
+              title: 'Çapraz Departman Entegrasyonu (Silo Yıkıcı)',
+              problem: 'Pazarlama departmanı reklam harcamalarını artırırken, depo stoklarının yetersiz olduğundan habersiz olabilir.',
+              solution: 'BI, departmanlar arası duvarları yıkar. Pazarlama verileri ile stok verilerini aynı grafikte görselleştirerek korelasyonları ortaya koyar.',
+              benefit: 'Operasyonel darboğazları oluşmadan öngörür, departmanların birbirinden habersiz değil, senkronize çalışmasını sağlar.',
+            },
+            {
+              title: 'Müşteri Segmentasyonu ve Sadakat Analizi',
+              problem: '"En iyi müşterilerimiz kimler?" sorusuna sadece ciro bazlı cevap vermek yanıltıcı olabilir.',
+              solution: 'Müşteri davranışlarını; satın alma sıklığı, sepet tutarı ve ödeme düzeni gibi metriklerle görselleştirerek en değerli müşteri segmentlerini belirleriz.',
+              benefit: 'Pazarlama bütçenizi herkese değil, dönüşüm oranı en yüksek kitleye odaklamanızı sağlar.',
+            },
+          ],
+        },
+        closingMessage: 'Karanlıkta araba kullanmayı bırakın. İş Zekası çözümlerimizle, şirketinizin verilerini dikiz aynasına değil, güçlü bir navigasyon sistemine dönüştürüyoruz.',
       },
       section4: {
         num: '04.',
@@ -597,6 +858,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Alvolo Consulting\'in kurucusu olarak, İtalya ve uluslararası pazarlar arasında köprü kuran danışmanlık hizmetleri sunuyorum. Karmaşık yasal süreçlerde rehberlik etmekten yatırım yapılarını optimize etmeye kadar geniş bir yelpazede destek sağlıyorum.',
         desc2: 'Teknik bilgiyi iş dünyası deneyimiyle birleştirerek, müşterilerime sadece verilerin ne söylediğini değil, nasıl harekete geçmeleri gerektiğini de gösteriyorum.',
         features: ['Uluslararası Yatırım Danışmanlığı', 'İtalya Finans Sistemi Rehberliği', 'Yasal Uyum Desteği', 'Finansal Strateji Planlaması'],
+        expandedDesc: 'Sınır Ötesi Finansal Danışmanlık, bilmediğiniz sularda size rehberlik eden stratejik bir pusuladır. Farklı bir ülkede iş yapmak; sadece sermaye değil, o ülkenin mevzuatına, vergi sistemine ve iş kültürüne hakimiyet gerektirir.\n\nAlvolo Consulting\'in Kurucusu olarak, Türkiye ve İtalya ticaret koridorunda işletmelere uçtan uca rehberlik ediyorum. Dil bariyerlerini, karmaşık bürokrasiyi ve kültürel farkları sizin adınıza yöneterek, yatırım sürecinizi "sorun çözme" modundan "değer yaratma" moduna taşıyorum. İtalya pazarında şirketleşmek, yatırım yapmak veya vergi avantajlarından yararlanmak isteyenler için yerel bir ortak gibi çalışıyorum.',
+        useCases: {
+          title: 'Kullanım Senaryoları',
+          scenarios: [
+            {
+              title: 'Anahtar Teslim Şirket Kuruluşu ve Pazar Girişi',
+              problem: 'İtalya\'da şirket kurmak; noter işlemleri, vergi dairesi kayıtları ve banka hesap açılışları gibi karmaşık ve çok dilli bir bürokrasi içerir.',
+              solution: 'Şirket türünün belirlenmesinden (S.r.l, S.p.A vb.) tescil işlemlerinin tamamlanmasına kadar tüm süreci yönetiyoruz.',
+              benefit: 'Siz iş planınıza odaklanırken, biz yasal altyapıyı hatasız bir şekilde kurarak zaman ve maliyet kaybını önleriz.',
+            },
+            {
+              title: 'Vergi Optimizasyonu ve Teşvik Danışmanlığı',
+              problem: 'İtalya ve Türkiye arasındaki Çifte Vergilendirmeyi Önleme Anlaşmaları ve yerel teşvikler (Örn: AR-GE teşvikleri, Start-up vizeleri) karmaşıktır.',
+              solution: 'İş modelinize en uygun vergi yapısını kurguluyor, yararlanabileceğiniz devlet teşviklerini ve hibeleri belirliyoruz.',
+              benefit: 'Yasal çerçevede vergi yükünüzü minimize ederken, işletme sermayenizi devlet destekleriyle güçlendirmenizi sağlar.',
+            },
+            {
+              title: 'Kültürel ve Ticari Müzakere Yönetimi',
+              problem: 'İtalyan iş kültüründe güven, ilişkiler ve iletişim tarzı, en az sözleşmeler kadar önemlidir. Yanlış bir iletişim, masadaki anlaşmayı bozabilir.',
+              solution: 'Sadece dili değil, iş yapış biçimini de tercüme ediyoruz. Yerel tedarikçiler, bankalar veya ortaklarla yapılan görüşmelerde kültürel köprü kuruyoruz.',
+              benefit: 'Yanlış anlaşılmaları ortadan kaldırır, yerel paydaşlarla güvene dayalı, uzun vadeli ticari ilişkiler kurmanızı sağlar.',
+            },
+            {
+              title: 'Gayrimenkul ve Varlık Yönetimi Yatırımları',
+              problem: 'İtalya\'da yatırım amaçlı mülk alımı veya varlık yönetimi, karmaşık tapu ve veraset yasalarına tabidir.',
+              solution: 'Yatırım geri dönüş (ROI) hesaplamalarından tapu devir işlemlerine kadar uçtan uca finansal ve hukuki destek sunuyoruz.',
+              benefit: 'Yatırımlarınızın hukuki güvenliğini sağlar ve İtalya\'daki varlıklarınızın değerini korur.',
+            },
+          ],
+        },
+        closingMessage: 'İtalya\'da iş yapmak için İtalyanca bilmenize gerek yok; işin dilini bilen bir ortağa ihtiyacınız var. Alvolo Consulting ile sınırları kaldırıyor, Türkiye ve İtalya arasındaki ticaret yolunu sizin için kısaltıyoruz.',
       },
       processLabel: 'Çalışma Sürecim',
       processTitle: 'Birlikte Nasıl Çalışıyoruz',
@@ -797,6 +1089,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Costruisco modelli finanziari robusti che trasformano dati di mercato grezzi in intelligence azionabile. Dalle reti LSTM stress-testate per la previsione dei prezzi alle simulazioni Monte Carlo per la valutazione del rischio, ogni modello è progettato per il deployment reale.',
         desc2: 'Il mio approccio combina finanza quantitativa tradizionale con machine learning moderno, garantendo che i modelli siano sia statisticamente rigorosi che praticamente applicabili a strategie di trading, gestione del portafoglio e decisioni di investimento.',
         features: ['Previsione Serie Temporali (ARIMA, LSTM, Prophet)', 'Value-at-Risk & Stress Testing', 'Ottimizzazione Portafoglio & Modelli Fattoriali', 'Segnali di Trading Quantitativo'],
+        expandedDesc: 'L\'analisi dei dati finanziari è l\'arte di trovare ordine nel caos dei mercati. Proprio come i modelli meteorologici avanzati tracciano i cambiamenti di pressione nell\'atmosfera per prevedere le tempeste in anticipo; noi analizziamo dati storici, sentiment di mercato e segnali visivi per modellare il clima finanziario.\n\nLa soluzione che offro elabora algoritmi matematici complessi e dataset multistrato (testo, immagine, dati numerici) per "separare il segnale dal rumore". Il mio obiettivo non è sommergervi con i dati; è fornire la bussola che trasformerà questi calcoli complessi in decisioni di investimento chiare, strategiche e redditizie.',
+        useCases: {
+          title: 'Casi d\'Uso',
+          scenarios: [
+            {
+              title: 'Analisi di Notizie e Sentiment (NLP per il Polso del Mercato)',
+              scenario: 'I mercati si muovono non solo con i numeri, ma con le notizie.',
+              solution: 'I miei modelli NLP scansionano verbali delle banche centrali, dichiarazioni dei CEO o decine di migliaia di titoli di notizie in secondi, misurando il "sentiment" del mercato.',
+              benefit: 'Fornisce un allarme precoce rilevando onde di notizie negative su un titolo prima che inizi a scendere.',
+            },
+            {
+              title: 'Sostenibilità e Rilevamento del Greenwashing (Competenza Speciale)',
+              scenario: 'Gli investitori cercano aziende conformi all\'ESG (Ambientale, Sociale, Governance), ma le aziende a volte distorcono la verità (Greenwashing).',
+              solution: 'Modelli Transformer ottimizzati analizzano i rapporti di sostenibilità e i testi di marketing delle aziende per catturare inconsistenze e affermazioni esagerate.',
+              benefit: 'Vi consente di investire solo in aziende veramente sostenibili con basso rischio e forte gestione della reputazione.',
+            },
+            {
+              title: 'Computer Vision per l\'Analisi di "Dati Alternativi"',
+              scenario: 'Come si misura la performance di una catena di vendita al dettaglio o di una fabbrica prima che vengano pubblicati i bilanci?',
+              solution: 'Algoritmi che elaborano immagini satellitari contano i tassi di occupazione dei parcheggi dei negozi al dettaglio o analizzano l\'attività di movimento dei container nei porti.',
+              benefit: 'Ottenete indicatori anticipatori sulla performance operativa di un\'azienda mesi prima che vengano pubblicati i rapporti finanziari ufficiali.',
+            },
+            {
+              title: 'Gestione del Rischio Algoritmica e Ottimizzazione del Portafoglio',
+              scenario: 'Sapere quali asset sono correlati tra loro e dove si nascondono i rischi nascosti.',
+              solution: 'Modelli di deep learning che simulano movimenti di prezzo storici e volatilità testano come il vostro portafoglio sarebbe influenzato in scenari di "Cigno Nero" (crisi inaspettata).',
+              benefit: 'Protegge il vostro capitale stabilendo l\'equilibrio rendimento-rischio più adatto alla vostra propensione al rischio.',
+            },
+          ],
+        },
+        closingMessage: 'I dati sono il nuovo petrolio; ma non si trasformano in carburante finché non vengono elaborati. Vi aiuto a tracciare la vostra rotta in mercati incerti trasformando dati grezzi in intelligence strategica.',
       },
       section2: {
         num: '02.',
@@ -805,6 +1128,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Sfruttando architetture NLP all\'avanguardia come RoBERTa e BERT, sviluppo soluzioni personalizzate per estrarre insight da testo non strutturato—report finanziari, feed di notizie, social media e comunicazioni aziendali.',
         desc2: 'Il mio sistema di rilevamento del greenwashing, costruito per ImpactScope, dimostra questa capacità: transformer ottimizzati analizzano le dichiarazioni di sostenibilità, riducendo i tempi di revisione manuale dell\'80% attraverso un Indice di Contraddizione Semantica proprietario.',
         features: ['Classificazione Sentiment Personalizzata', 'Rilevamento Rischio ESG & Greenwashing', 'Riassunto & Estrazione Documenti', 'Chatbot & Automazione Intelligente'],
+        expandedDesc: 'L\'Analisi del Testo Assistita dall\'AI (NLP) è la tecnologia che trasforma pile di dati non strutturati (email, report, notizie) in informazioni significative e gestibili. L\'intelligenza artificiale combina la capacità di comprendere la complessità, le sfumature e il contesto del linguaggio umano con la super velocità di elaborazione delle macchine.\n\nQuesta tecnologia elabora l\'enorme pool di informazioni (Dark Data) che la vostra azienda possiede ma non può utilizzare, completando analisi che richiederebbero mesi manualmente in pochi secondi. Noi non "leggiamo" semplicemente le parole; analizziamo tra le righe per rivelare il "quadro generale" necessario per le vostre decisioni strategiche.',
+        useCases: {
+          title: 'Casi d\'Uso',
+          scenarios: [
+            {
+              title: 'Due Diligence & Analisi Contratti',
+              problem: 'Nei processi di fusione e acquisizione (M&A) o negli investimenti importanti, migliaia di pagine di documenti legali e finanziari devono essere esaminate.',
+              solution: 'I nostri modelli NLP scansionano migliaia di contratti in secondi; segnalando automaticamente clausole critiche, rischi nascosti, date di scadenza e obblighi non standard.',
+              benefit: 'Riduce i costi di revisione legale fino al 70% e minimizza i rischi trascurati a causa di errori umani.',
+            },
+            {
+              title: 'Reputazione del Brand & Analisi Sentiment di Mercato',
+              problem: 'Comprendere cosa pensano i clienti o il mercato del vostro brand richiede la lettura di migliaia di tweet o articoli di notizie.',
+              solution: 'I nostri sistemi analizzano decine di migliaia di commenti su social media, siti di notizie e forum, non solo facendo distinzioni "positive/negative"; categorizzano le cause alla radice dei reclami (prezzo, qualità, servizio clienti).',
+              benefit: 'Vi consente di rilevare le crisi prima che crescano e intervenire proattivamente nell\'insoddisfazione del cliente.',
+            },
+            {
+              title: 'Estrazione Automatica delle Informazioni & Classificazione',
+              problem: 'Inserire manualmente documenti come fatture in arrivo, CV o moduli di richiesta clienti nel sistema è una perdita di tempo.',
+              solution: 'L\'AI estrae automaticamente dati critici come nomi, date, importi, IBAN da PDF o immagini scansionate (OCR + NLP) e li elabora nel vostro database.',
+              benefit: 'Aumenta l\'efficienza operativa e consente ai vostri dipendenti qualificati di concentrarsi su lavori a valore aggiunto invece che sull\'inserimento dati.',
+            },
+            {
+              title: 'Greenwashing & Audit di Conformità (Vostra Competenza)',
+              problem: 'Auditare manualmente l\'accuratezza e la coerenza dei report di sostenibilità aziendale è difficile.',
+              solution: 'I nostri modelli transformer personalizzati rilevano dichiarazioni esagerate, ambigue o contraddittorie (segnali di greenwashing) nelle comunicazioni aziendali.',
+              benefit: 'Fornisce trasparenza per gli investitori e accelera il processo di conformità per le aziende.',
+            },
+          ],
+        },
+        closingMessage: 'Nel business, l\'informazione è potere, ma solo quando è accessibile. Noi liberiamo i dati intrappolati nei testi e rendiamo la vostra azienda più intelligente, più veloce e più predittiva.',
       },
       section3: {
         num: '03.',
@@ -813,6 +1167,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'I dati grezzi non significano nulla senza una corretta visualizzazione e storytelling. Progetto soluzioni BI end-to-end che trasformano dataset complessi in dashboard intuitive, permettendo agli stakeholder di prendere decisioni informate a colpo d\'occhio.',
         desc2: 'Dal tracking KPI a livello esecutivo ai drill-down operativi, ogni dashboard è personalizzata sul tuo specifico contesto aziendale, integrando multiple fonti dati e fornendo insight in tempo reale.',
         features: ['Dashboard KPI Esecutive', 'Pipeline di Reporting Automatizzate', 'Design Data Warehouse', 'Sviluppo Visualizzazione Personalizzata'],
+        expandedDesc: 'La Business Intelligence (BI) è il processo di raccogliere frammenti di dati sparsi tra i diversi dipartimenti della vostra azienda e trasformarli in una "Fonte Unica di Verità" (Single Source of Truth).\n\nNoi liberiamo i dati da file Excel statici e difficili da gestire, spostandoli su dashboard dinamiche vive e funzionanti. Non si tratta solo di ottenere "report belli"; si tratta di eliminare la cecità aziendale vedendo il passato e il presente della vostra azienda con precisione radiografica. La BI non vi dice solo "quanto avete venduto"; vi mostra "perché avete venduto lì" e "da dove proviene la redditività".',
+        useCases: {
+          title: 'Casi d\'Uso',
+          scenarios: [
+            {
+              title: 'Monitoraggio Performance Real-Time (Fuga dal Caos Excel)',
+              problem: 'Aspettare i report di fine mese, unire manualmente i dati in Excel e affrontare errori di formula rallenta la velocità delle vostre decisioni.',
+              solution: 'Integriamo tutti i vostri dati di vendita, marketing e finanza in un\'unica schermata live (dashboard). I dati vengono aggiornati tramite connessioni API automatiche, non inserimento manuale.',
+              benefit: 'Mantiene il polso della vostra azienda in tempo reale, permettendovi di correggere la rotta senza aspettare la fine del mese. Passate tempo "prendendo decisioni" piuttosto che "preparando dati".',
+            },
+            {
+              title: 'Analisi Redditività & Regionale (Approfondimento)',
+              problem: 'Vedete il fatturato totale aumentare, ma non riuscite a vedere quale regione o prodotto sta effettivamente erodendo il vostro margine di profitto.',
+              solution: 'Con mappe interattive e analisi drill-down, potete scendere dalla tabella generale fino al dettaglio del negozio o prodotto più piccolo.',
+              benefit: 'Utilizzate le vostre risorse in modo efficiente identificando quale regione ha bisogno di supporto marketing o quale prodotto sta creando costi di inventario.',
+            },
+            {
+              title: 'Integrazione Cross-Dipartimentale (Demolitore di Silos)',
+              problem: 'Mentre il dipartimento marketing aumenta la spesa pubblicitaria, potrebbe essere inconsapevole che le scorte del magazzino sono insufficienti.',
+              solution: 'La BI abbatte i muri tra i dipartimenti. Rivela correlazioni visualizzando dati di marketing e dati di inventario nello stesso grafico.',
+              benefit: 'Predice i colli di bottiglia operativi prima che si formino, assicurando che i dipartimenti lavorino in sincronia piuttosto che isolati l\'uno dall\'altro.',
+            },
+            {
+              title: 'Segmentazione Clienti & Analisi Fedeltà',
+              problem: 'Rispondere a "Chi sono i nostri migliori clienti?" basandosi solo sul fatturato può essere fuorviante.',
+              solution: 'Identifichiamo i segmenti di clienti più preziosi visualizzando il comportamento dei clienti attraverso metriche come frequenza di acquisto, valore del carrello e pattern di pagamento.',
+              benefit: 'Vi consente di concentrare il vostro budget marketing sul pubblico con il tasso di conversione più alto, non su tutti.',
+            },
+          ],
+        },
+        closingMessage: 'Smettete di guidare al buio. Con le nostre soluzioni di Business Intelligence, trasformiamo i dati della vostra azienda da uno specchietto retrovisore in un potente sistema di navigazione.',
       },
       section4: {
         num: '04.',
@@ -821,6 +1206,37 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Come fondatore di Alvolo Consulting, fornisco servizi di consulenza finanziaria completi che collegano mercati italiani e internazionali. Dalla navigazione di ambienti normativi complessi all\'ottimizzazione di strutture di investimento transfrontaliere.',
         desc2: 'Il mio approccio consulenziale combina profonda competenza tecnica con acume commerciale pratico, aiutando i clienti a capire non solo cosa mostrano i dati, ma come agire strategicamente.',
         features: ['Advisory Investimenti Transfrontalieri', 'Navigazione Sistema Finanziario Italiano', 'Guida Conformità Normativa', 'Pianificazione Finanziaria Strategica'],
+        expandedDesc: 'La Consulenza Finanziaria Transfrontaliera è una bussola strategica che vi guida in acque sconosciute. Fare business in un paese diverso richiede non solo capitale, ma padronanza delle normative, del sistema fiscale e della cultura aziendale di quel paese.\n\nCome Fondatore di Alvolo Consulting, fornisco guida end-to-end alle aziende nel corridoio commerciale Turchia-Italia. Gestendo barriere linguistiche, burocrazia complessa e differenze culturali per vostro conto, sposto il vostro processo di investimento dalla modalità "risoluzione problemi" alla modalità "creazione di valore". Per coloro che vogliono incorporare, investire o beneficiare di vantaggi fiscali nel mercato italiano, lavoro come un partner locale.',
+        useCases: {
+          title: 'Casi d\'Uso',
+          scenarios: [
+            {
+              title: 'Costituzione Aziendale Chiavi in Mano & Ingresso nel Mercato',
+              problem: 'Costituire un\'azienda in Italia comporta una burocrazia complessa e multilingue che include procedure notarili, registrazioni presso l\'ufficio fiscale e aperture di conti bancari.',
+              solution: 'Gestiamo l\'intero processo dalla determinazione del tipo di azienda (S.r.l, S.p.A, ecc.) al completamento delle procedure di registrazione.',
+              benefit: 'Mentre vi concentrate sul vostro business plan, noi configuriamo l\'infrastruttura legale senza errori, prevenendo perdite di tempo e costi.',
+            },
+            {
+              title: 'Ottimizzazione Fiscale & Consulenza Incentivi',
+              problem: 'Gli Accordi di Prevenzione della Doppia Imposizione tra Italia e Turchia e gli incentivi locali (es. incentivi R&S, visti Start-up) sono complessi.',
+              solution: 'Strutturiamo il quadro fiscale più adatto al vostro modello di business e identifichiamo incentivi governativi e sovvenzioni di cui potete beneficiare.',
+              benefit: 'Minimizza il vostro onere fiscale nel quadro legale rafforzando il vostro capitale operativo con il supporto governativo.',
+            },
+            {
+              title: 'Gestione Negoziazioni Culturali & Commerciali',
+              problem: 'Nella cultura aziendale italiana, fiducia, relazioni e stile di comunicazione sono importanti quanto i contratti. Una comunicazione sbagliata può rompere l\'accordo sul tavolo.',
+              solution: 'Traduciamo non solo la lingua, ma anche il modo di fare business. Costruiamo ponti culturali negli incontri con fornitori locali, banche o partner.',
+              benefit: 'Elimina malintesi e vi consente di costruire relazioni commerciali a lungo termine basate sulla fiducia con gli stakeholder locali.',
+            },
+            {
+              title: 'Investimenti Immobiliari & Gestione Patrimoniale',
+              problem: 'L\'acquisto di proprietà per investimento o la gestione patrimoniale in Italia sono soggetti a leggi complesse su proprietà e successione.',
+              solution: 'Forniamo supporto finanziario e legale end-to-end dai calcoli del ritorno sull\'investimento (ROI) alle procedure di trasferimento della proprietà.',
+              benefit: 'Garantisce la sicurezza legale dei vostri investimenti e preserva il valore dei vostri asset in Italia.',
+            },
+          ],
+        },
+        closingMessage: 'Non avete bisogno di parlare italiano per fare business in Italia; avete bisogno di un partner che parla la lingua del business. Con Alvolo Consulting, rimuoviamo i confini e accorciamo la rotta commerciale tra Turchia e Italia per voi.',
       },
       processLabel: 'Processo di Engagement',
       processTitle: 'Come Lavoriamo Insieme',
