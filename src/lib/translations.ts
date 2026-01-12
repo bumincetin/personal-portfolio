@@ -171,6 +171,7 @@ export interface TranslationType {
     ctaDesc: string;
     ctaButton: string;
     keyCapabilities: string;
+    viewDetails: string;
   };
 }
 
@@ -396,6 +397,7 @@ export const translations: Record<Locale, TranslationType> = {
       ctaDesc: 'Let\'s discuss how data science and financial expertise can drive your business forward.',
       ctaButton: 'Start a Conversation',
       keyCapabilities: 'Key Capabilities',
+      viewDetails: 'View Details',
     },
   },
   tr: {
@@ -496,19 +498,19 @@ export const translations: Record<Locale, TranslationType> = {
           location: "Milano, İtalya",
           period: "2020 - 2023",
           coursework: ["Ekonometri", "Büyük Veri ve Veritabanları", "Programlama", "Bilişim Hukuku", "Makine Öğrenmesi"],
-          thesis: "Parlamento Seçimleri için Tahmin Teknikleri: Türkiye Büyük Millet Meclisi Örneği"
+          thesis: "Parlamento Seçimleri için Analitik Tahmin Teknikleri: 2023 Türkiye Genel Seçimleri Örneği"
         }
       ],
       experienceData: [
         {
           company: "IMPACTSCOPE",
-          role: "Yapay Zeka Uzmanı | NLP Araştırmacısı",
+          role: "Yapay Zeka Uzmanı & NLP Araştırmacısı",
           location: "Uzaktan, İsviçre",
           period: "Aralık 2024 - Aralık 2025",
           highlights: [
-            "RoBERTa modelini ince ayarlayarak greenwashing riskini tespit eden veri ürünü geliştirdim, manuel inceleme süresini %80 azalttım",
-            "Duruş tespiti ve duygu kayması kullanarak semantik çelişki endeksi (SCI) geliştirdim",
-            "Duygu tabanlı ESG risk skorlarını geçmiş greenwashing tartışmalarıyla karşılaştırdım"
+            "Kurumsal sürdürülebilirlik iddialarını analiz ederek greenwashing riskini otomatikleştirmek için RoBERTa'ya ince ayar yaparak bir ürün geliştirdim, bu sayede inceleme süresini %80 azalttım ve müşteriler için bir denetlenebilir metrik sağladım.",
+            "Duruş tespiti ve duygu kayması kullanarak anlamsal çelişki endeksi (SCI) geliştirdim",
+            "Duygu tabanlı ESG risk puanlarını geçmiş \"greenwashing\" tartışmalarıyla çapraz referanslayarak, kamuoyu duygu kutupluluğu ile greenwashing suçlamaları arasında güçlü bir korelasyon olduğunu gösterdim."
           ]
         },
         {
@@ -517,9 +519,7 @@ export const translations: Record<Locale, TranslationType> = {
           location: "Milano, İtalya",
           period: "Mart 2025 - Kasım 2025",
           highlights: [
-            "İtalya'da müşterilerin finansal hedeflerine ulaşmalarına yardımcı olan finansal danışmanlık merkezi kurdum",
-            "Doğru bilgi ve rehberlik sağlamak için İtalyan finans sisteminde uzmanlaştım",
-            "Müşteri kazanımından elde tutmaya kadar tüm müşteri döngüsünü yönettim"
+            "Müşterilerin finansal hedeflerine ulaşmalarına yardımcı olan, İtalya'daki bir finansal danışmanlık merkezi. İtalyan sisteminde uzmanlaşarak, müşterilerimize en doğru bilgileri sağlamaya ve başarı hikayelerinin bir parçası olmaya kendimizi adadık. Geri bildirimlere dayalı olarak kendimizi yineleyerek, edinimden tutundurmaya kadar tüm müşteri yaşam döngüsünü yönettik."
           ]
         },
         {
@@ -528,9 +528,9 @@ export const translations: Record<Locale, TranslationType> = {
           location: "Milano, İtalya",
           period: "Nisan 2024 - Ekim 2024",
           highlights: [
-            "LSTM kullanarak zaman serisi algoritmaları ve özel tahmin modelleri geliştirdim",
-            "Fiyatlamayı optimize etmek için denetimsiz modeller ve NLP içeren özel yapay zeka modeli geliştirdim",
-            "Yeni analitik prototipler geliştirmek için Knime ve PowerBI kullandım"
+            "İş içgörüleri ve önerileri sunmak için en son derin öğrenme yöntemlerini (LSTM) kullanarak zaman serisi algoritmaları ve özel tahmin modelleri geliştirdim.",
+            "Fiyatlamayı optimize etmek için denetimsiz modeller ve Doğal Dil İşleme (NLP) içeren özel yapay zeka modeli geliştirdim.",
+            "Yeni analitik prototipler geliştirmek için Knime ve PowerBI gibi araçları kullanarak, verileri daha iyi anlamlandırıp, müşterilerimize daha iyi hizmet sunmak için çalıştım."
           ]
         },
         {
@@ -619,6 +619,7 @@ export const translations: Record<Locale, TranslationType> = {
       ctaDesc: 'Veri bilimi ve finans uzmanlığımın işinize nasıl katkı sağlayabileceğini konuşalım.',
       ctaButton: 'Görüşme Ayarla',
       keyCapabilities: 'Temel Yetenekler',
+      viewDetails: 'Detayları Gör',
     },
   },
   it: {
@@ -842,6 +843,7 @@ export const translations: Record<Locale, TranslationType> = {
       ctaDesc: 'Discutiamo come data science e competenza finanziaria possono far progredire il tuo business.',
       ctaButton: 'Inizia una Conversazione',
       keyCapabilities: 'Capacità Chiave',
+      viewDetails: 'Vedi Dettagli',
     },
   },
 };

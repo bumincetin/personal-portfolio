@@ -123,7 +123,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                 {trans.methodology.card1Desc}
               </p>
               <span className="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider">
-                {locale === 'tr' ? 'Detayları Gör' : locale === 'it' ? 'Vedi Dettagli' : 'View Details'}
+                {trans.methodologyPage.viewDetails}
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
@@ -162,7 +162,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                 {trans.methodology.card2Desc}
               </p>
               <span className="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider">
-                {locale === 'tr' ? 'Detayları Gör' : locale === 'it' ? 'Vedi Dettagli' : 'View Details'}
+                {trans.methodologyPage.viewDetails}
                 <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
@@ -204,7 +204,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               
               {/* Bottom CTA */}
               <span className="inline-flex items-center gap-2 font-mono text-sm text-cream mt-8 group-hover:text-accent transition-colors relative">
-                {locale === 'tr' ? 'Detayları Gör' : locale === 'it' ? 'Vedi Dettagli' : 'View Details'}
+                {trans.methodologyPage.viewDetails}
                 <motion.span
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -244,7 +244,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                   {trans.methodology.card4Desc}
                 </p>
                 <span className="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider">
-                  {locale === 'tr' ? 'Detayları Gör' : locale === 'it' ? 'Vedi Dettagli' : 'View Details'}
+                  {trans.methodologyPage.viewDetails}
                   <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>

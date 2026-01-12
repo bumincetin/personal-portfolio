@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
@@ -10,10 +11,10 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
   const mp = t.methodologyPage;
 
   const sections = [
-    { ...mp.section1, color: 'accent' },
-    { ...mp.section2, color: 'navy' },
-    { ...mp.section3, color: 'accent' },
-    { ...mp.section4, color: 'navy' },
+    { ...mp.section1, color: 'accent', href: `/${locale}/services/financial-analytics` },
+    { ...mp.section2, color: 'navy', href: `/${locale}/services/ai-nlp` },
+    { ...mp.section3, color: 'accent', href: `/${locale}/services/business-intelligence` },
+    { ...mp.section4, color: 'navy', href: `/${locale}/services/financial-consultancy` },
   ];
 
   const processSteps = [
@@ -80,9 +81,11 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
               {/* Number & Title */}
               <div className={`lg:col-span-4 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
                 <span className="font-serif text-6xl md:text-7xl text-border">{section.num}</span>
-                <h3 className="font-serif text-2xl md:text-3xl text-charcoal mt-2 mb-3">
-                  {section.title}
-                </h3>
+                <Link href={section.href} className="group block">
+                  <h3 className="font-serif text-2xl md:text-3xl text-charcoal mt-2 mb-3 group-hover:text-accent transition-colors">
+                    {section.title}
+                  </h3>
+                </Link>
                 <p className="font-mono text-xs uppercase tracking-wider text-muted">
                   {section.arch}
                 </p>
@@ -90,7 +93,7 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
 
               {/* Content */}
               <div className={`lg:col-span-8 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
-                <div className="bg-white border border-border p-6 md:p-8">
+                <div className="bg-white border border-border p-6 md:p-8 hover:border-charcoal hover:shadow-editorial transition-all duration-300">
                   <p className="font-mono text-sm text-muted leading-relaxed mb-4">
                     {section.desc1}
                   </p>
@@ -100,9 +103,9 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
                   
                   <div className="border-t border-border pt-6">
                     <h4 className="font-mono text-xs uppercase tracking-wider text-charcoal mb-4">
-                      Key Capabilities
+                      {mp.keyCapabilities}
                     </h4>
-                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                       {section.features.map((feature, i) => (
                         <li key={i} className="flex items-start gap-3 font-mono text-sm text-muted">
                           <Check size={14} className="text-accent mt-0.5 shrink-0" />
@@ -110,6 +113,14 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
                         </li>
                       ))}
                     </ul>
+                    
+                    <Link 
+                      href={section.href}
+                      className="group inline-flex items-center gap-2 font-mono text-sm text-accent hover:text-charcoal transition-colors"
+                    >
+                      {mp.viewDetails}
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
                 </div>
               </div>
