@@ -64,6 +64,12 @@ export default function PortalPageClient({ locale, t }: Props) {
     upload: locale === 'tr' ? 'Tablo Yükle' : locale === 'it' ? 'Carica File' : 'Upload Statement',
     select: locale === 'tr' ? 'Tablo Türü' : locale === 'it' ? 'Tipo Documento' : 'Statement Type',
     processing: locale === 'tr' ? 'Analiz Ediliyor...' : locale === 'it' ? 'Analisi in corso...' : 'Analyzing...',
+    statementTypes: {
+      'balance-sheet': locale === 'tr' ? 'Bilanço' : locale === 'it' ? 'Stato Patrimoniale' : 'Balance Sheet',
+      'income-statement': locale === 'tr' ? 'Gelir Tablosu' : locale === 'it' ? 'Conto Economico' : 'Income Statement',
+      'cash-flow': locale === 'tr' ? 'Nakit Akış Tablosu' : locale === 'it' ? 'Rendiconto Finanziario' : 'Cash Flow Statement',
+    },
+    supportedFormats: locale === 'tr' ? 'Desteklenen: Excel, CSV, Metin, JSON, PDF' : locale === 'it' ? 'Supportati: Excel, CSV, Testo, JSON, PDF' : 'Supported: Excel, CSV, Text, JSON, PDF',
   };
 
   const processFile = async (selectedFile: File) => {
@@ -138,9 +144,9 @@ export default function PortalPageClient({ locale, t }: Props) {
                     onChange={(e) => setStatementType(e.target.value as StatementType)}
                     className="w-full bg-cream border border-charcoal/20 p-3 font-mono text-sm focus:border-accent outline-none appearance-none cursor-pointer"
                   >
-                    <option value="balance-sheet">Balance Sheet</option>
-                    <option value="income-statement">Income Statement</option>
-                    <option value="cash-flow">Cash Flow</option>
+                    <option value="balance-sheet">{pt.statementTypes['balance-sheet']}</option>
+                    <option value="income-statement">{pt.statementTypes['income-statement']}</option>
+                    <option value="cash-flow">{pt.statementTypes['cash-flow']}</option>
                   </select>
                 </div>
               </div>
@@ -164,14 +170,14 @@ export default function PortalPageClient({ locale, t }: Props) {
                   ref={fileInputRef} 
                   type="file" 
                   className="hidden" 
-                  accept=".csv,.txt,.json,.md" 
+                  accept=".xlsx,.xls,.csv,.txt,.json,.md,.pdf" 
                   onChange={(e) => e.target.files?.[0] && processFile(e.target.files[0])}
                 />
                 <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-cream border border-charcoal/10 flex items-center justify-center">
                   <Upload className="w-6 h-6 text-charcoal" />
                 </div>
                 <h3 className="font-serif text-xl mb-2">{pt.upload}</h3>
-                <p className="font-mono text-xs text-muted mb-4">Supported: CSV, Text, JSON (Text-based analysis)</p>
+                <p className="font-mono text-xs text-muted mb-4">{pt.supportedFormats}</p>
               </div>
             </motion.div>
           )}
