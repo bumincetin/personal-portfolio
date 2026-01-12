@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { type Locale, type TranslationType, locales, translations } from '@/lib/translations';
+import { BookingModal } from './BookingModal';
 
 interface NavbarProps {
   locale?: Locale;
@@ -22,6 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
   const trans = t || translations[locale];
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   
   // Handle scroll effect
   useEffect(() => {
@@ -101,12 +103,12 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                   {link.name}
                 </Link>
               ))}
-              <a 
-                href="mailto:cetinbumink@gmail.com"
+              <button 
+                onClick={() => setIsBookingModalOpen(true)}
                 className="font-mono text-xs uppercase tracking-wider px-5 py-2.5 bg-charcoal text-cream hover:bg-navy transition-colors duration-300"
               >
                 {trans.nav.contact}
-              </a>
+              </button>
               
               {/* Language Switcher */}
               <div className="flex items-center gap-1 ml-2 pl-4 border-l border-border">
@@ -188,10 +190,12 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                 {link.name}
               </Link>
             ))}
-            <a
-              href="mailto:cetinbumink@gmail.com"
-              onClick={() => setIsOpen(false)}
-              className="py-4 font-serif text-2xl text-accent"
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                setIsBookingModalOpen(true);
+              }}
+              className="py-4 font-serif text-2xl text-accent text-left"
               style={{
                 transitionDelay: isOpen ? `${links.length * 50}ms` : '0ms',
                 transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
@@ -199,7 +203,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
               }}
             >
               {trans.nav.contact}
-            </a>
+            </button>
           </nav>
           
           {/* Social Links */}
@@ -219,6 +223,14 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        locale={locale}
+        t={trans}
+      />
     </>
   );
 };
