@@ -5,72 +5,6 @@ import { motion } from 'framer-motion';
 import { GraduationCap, Briefcase, Code, Award, Languages, Mail, Phone, Linkedin, MapPin, Calendar, ArrowRight } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 
-const education = [
-  {
-    school: "Bocconi University",
-    degree: "Master of Science in Data Science and Business Analytics",
-    location: "Milan, Italy",
-    period: "2023 - 2025",
-    coursework: ["Deep Learning for Computer Vision", "Simulation & Modeling", "Natural Language Processing"],
-    thesis: "Auditable Detection of Greenwashing Risk in Corporate Communications"
-  },
-  {
-    school: "Bocconi University",
-    degree: "Bachelor of Science in Economics, Management, and Computer Science",
-    location: "Milan, Italy",
-    period: "2020 - 2023",
-    coursework: ["Econometrics", "Big Data and Databases", "Programming", "IT Law", "Machine Learning"],
-    thesis: "A Study of Predictive Techniques for Parliamentary Elections: A Case Study of Turkish Parliament"
-  }
-];
-
-const experience = [
-  {
-    company: "IMPACTSCOPE",
-    role: "AI Specialist | NLP Researcher",
-    location: "Remote, Switzerland",
-    period: "December 2024 - December 2025",
-    highlights: [
-      "Developed Data Product by fine-tuning RoBERTa to flag greenwashing risk, reducing manual review time by 80%",
-      "Developed semantic contradiction index (SCI) utilizing stance detection and sentiment drift",
-      "Cross-referenced sentiment-based ESG risk scores with historical greenwashing controversies"
-    ]
-  },
-  {
-    company: "ALVOLO CONSULTING",
-    role: "Founder",
-    location: "Milan, Italy",
-    period: "March 2025 - November 2025",
-    highlights: [
-      "Founded financial advisory hub in Italy helping clients achieve their financial goals",
-      "Mastered Italian financial system to provide accurate information and guidance",
-      "Managed full customer lifecycle from acquisition to retention"
-    ]
-  },
-  {
-    company: "FEDRIGONI SPA",
-    role: "Junior Data Scientist",
-    location: "Milan, Italy",
-    period: "April 2024 - October 2024",
-    highlights: [
-      "Developed time-series algorithms and custom predictive models utilizing LSTM",
-      "Developed custom AI model incorporating unsupervised models and NLP to optimize pricing",
-      "Utilized Knime and PowerBI to develop new analytical prototypes"
-    ]
-  },
-  {
-    company: "N26 BANK AG",
-    role: "Risk Management Intern",
-    location: "Berlin, Germany",
-    period: "November 2022 - February 2023",
-    highlights: [
-      "Supported Internal Control System (ICS), loss database, risk register and reporting",
-      "Interacted with stakeholders supporting New Product Process (NPP)",
-      "Helped in identifying, assessing, mitigating and monitoring non-financial risks"
-    ]
-  }
-];
-
 const skills = {
   programming: [
     { name: "Python", details: "Scikit-Learn, PyTorch, PySpark, Apache Airflow, TensorFlow, Keras" },
@@ -91,15 +25,11 @@ const certifications = [
   "Data Pipelines"
 ];
 
-const languages = [
-  { lang: "Turkish", level: "Native" },
-  { lang: "English", level: "Native" },
-  { lang: "Italian", level: "Advanced (C1)" },
-  { lang: "German", level: "Intermediate (B1)" }
-];
-
 export default function AboutPageClient({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
+  const education = t.aboutPage.educationData;
+  const experience = t.aboutPage.experienceData;
+  const languages = t.aboutPage.languageData;
 
   return (
     <div className="pt-24 md:pt-32 pb-12 md:pb-20 bg-cream">
@@ -176,7 +106,7 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
                 </a>
                 <div className="flex items-center gap-3 text-muted">
                   <MapPin size={14} className="text-accent flex-shrink-0" />
-                  Milan, Italy
+                  {locale === 'tr' ? 'Milano, İtalya' : locale === 'it' ? 'Milano, Italia' : 'Milan, Italy'}
                 </div>
               </div>
             </div>
@@ -381,16 +311,16 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
       <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="bg-charcoal p-8 md:p-12 text-center">
           <h3 className="font-serif text-2xl md:text-3xl text-cream mb-4">
-            Interested in working together?
+            {t.aboutPage.ctaTitle}
           </h3>
           <p className="font-mono text-sm text-cream/70 mb-8 max-w-lg mx-auto">
-            Whether you need data science expertise, financial consulting, or AI solutions—let's discuss your project.
+            {t.aboutPage.ctaDesc}
           </p>
           <a 
             href="mailto:cetinbumink@gmail.com"
             className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90"
           >
-            Get in Touch
+            {t.aboutPage.ctaButton}
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </a>
         </div>

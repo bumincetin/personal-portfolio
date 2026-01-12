@@ -56,6 +56,8 @@ export interface TranslationType {
   };
   footer: {
     cta: string;
+    ctaTitle: string;
+    ctaDesc: string;
     button: string;
     copyright: string;
     linkedin: string;
@@ -79,6 +81,28 @@ export interface TranslationType {
       experiences: string;
       degrees: string;
     };
+    ctaTitle: string;
+    ctaDesc: string;
+    ctaButton: string;
+    educationData: {
+      school: string;
+      degree: string;
+      location: string;
+      period: string;
+      coursework: string[];
+      thesis: string;
+    }[];
+    experienceData: {
+      company: string;
+      role: string;
+      location: string;
+      period: string;
+      highlights: string[];
+    }[];
+    languageData: {
+      lang: string;
+      level: string;
+    }[];
   };
   assetsPage: {
     label: string;
@@ -146,6 +170,7 @@ export interface TranslationType {
     ctaTitle: string;
     ctaDesc: string;
     ctaButton: string;
+    keyCapabilities: string;
   };
 }
 
@@ -205,6 +230,8 @@ export const translations: Record<Locale, TranslationType> = {
     },
     footer: {
       cta: 'Get in Touch',
+      ctaTitle: 'Ready to transform your data into insights?',
+      ctaDesc: 'Whether you need financial analytics, AI solutions, or strategic consulting—let\'s discuss how we can work together.',
       button: 'Contact Me',
       copyright: '© 2025 Bumin Kağan Çetin. All rights reserved.',
       linkedin: 'LinkedIn',
@@ -228,6 +255,79 @@ export const translations: Record<Locale, TranslationType> = {
         experiences: 'Work Experiences',
         degrees: 'Degrees',
       },
+      ctaTitle: 'Interested in working together?',
+      ctaDesc: 'Whether you need data science expertise, financial consulting, or AI solutions—let\'s discuss your project.',
+      ctaButton: 'Get in Touch',
+      educationData: [
+        {
+          school: "Bocconi University",
+          degree: "Master of Science in Data Science and Business Analytics",
+          location: "Milan, Italy",
+          period: "2023 - 2025",
+          coursework: ["Deep Learning for Computer Vision", "Simulation & Modeling", "Natural Language Processing"],
+          thesis: "Auditable Detection of Greenwashing Risk in Corporate Communications"
+        },
+        {
+          school: "Bocconi University",
+          degree: "Bachelor of Science in Economics, Management, and Computer Science",
+          location: "Milan, Italy",
+          period: "2020 - 2023",
+          coursework: ["Econometrics", "Big Data and Databases", "Programming", "IT Law", "Machine Learning"],
+          thesis: "A Study of Predictive Techniques for Parliamentary Elections: A Case Study of Turkish Parliament"
+        }
+      ],
+      experienceData: [
+        {
+          company: "IMPACTSCOPE",
+          role: "AI Specialist | NLP Researcher",
+          location: "Remote, Switzerland",
+          period: "December 2024 - December 2025",
+          highlights: [
+            "Developed Data Product by fine-tuning RoBERTa to flag greenwashing risk, reducing manual review time by 80%",
+            "Developed semantic contradiction index (SCI) utilizing stance detection and sentiment drift",
+            "Cross-referenced sentiment-based ESG risk scores with historical greenwashing controversies"
+          ]
+        },
+        {
+          company: "ALVOLO CONSULTING",
+          role: "Founder",
+          location: "Milan, Italy",
+          period: "March 2025 - November 2025",
+          highlights: [
+            "Founded financial advisory hub in Italy helping clients achieve their financial goals",
+            "Mastered Italian financial system to provide accurate information and guidance",
+            "Managed full customer lifecycle from acquisition to retention"
+          ]
+        },
+        {
+          company: "FEDRIGONI SPA",
+          role: "Junior Data Scientist",
+          location: "Milan, Italy",
+          period: "April 2024 - October 2024",
+          highlights: [
+            "Developed time-series algorithms and custom predictive models utilizing LSTM",
+            "Developed custom AI model incorporating unsupervised models and NLP to optimize pricing",
+            "Utilized Knime and PowerBI to develop new analytical prototypes"
+          ]
+        },
+        {
+          company: "N26 BANK AG",
+          role: "Risk Management Intern",
+          location: "Berlin, Germany",
+          period: "November 2022 - February 2023",
+          highlights: [
+            "Supported Internal Control System (ICS), loss database, risk register and reporting",
+            "Interacted with stakeholders supporting New Product Process (NPP)",
+            "Helped in identifying, assessing, mitigating and monitoring non-financial risks"
+          ]
+        }
+      ],
+      languageData: [
+        { lang: "Turkish", level: "Native" },
+        { lang: "English", level: "Native" },
+        { lang: "Italian", level: "Advanced (C1)" },
+        { lang: "German", level: "Intermediate (B1)" }
+      ],
     },
     assetsPage: {
       label: 'Research & Projects',
@@ -295,13 +395,14 @@ export const translations: Record<Locale, TranslationType> = {
       ctaTitle: 'Ready to Transform Your Data?',
       ctaDesc: 'Let\'s discuss how data science and financial expertise can drive your business forward.',
       ctaButton: 'Start a Conversation',
+      keyCapabilities: 'Key Capabilities',
     },
   },
   tr: {
     nav: {
       home: 'Ana Sayfa',
       methodology: 'Hizmetler',
-      projects: 'Araştırma',
+      projects: 'Araştırmalarım',
       about: 'Hakkımda',
       contact: 'İletişim',
     },
@@ -309,7 +410,7 @@ export const translations: Record<Locale, TranslationType> = {
       title1: 'Kod ile sermaye',
       title2: 'arasında köprü',
       subtitle: 'Veri Bilimci & Yapay Zeka Uzmanı',
-      cta: 'Araştırmalarımı İncele',
+      cta: 'Hizmetlerimi Görüntüle',
     },
     ticker: {
       python: 'PYTHON',
@@ -342,16 +443,18 @@ export const translations: Record<Locale, TranslationType> = {
     about: {
       label: 'Danışman Hakkında',
       title: 'Kod ile sermaye arasında köprü kurmak.',
-      desc1: "Bocconi Üniversitesi'nde NLP ve derin öğrenme konularında uzmanlaşmış bir Veri Bilimci ve Yapay Zeka Uzmanıyım. Alvolo Consulting'in CEO'su ve Kurucu Ortağı olarak, sınır ötesi yatırım danışmanlığını makine öğrenimi çözümleriyle birleştiriyorum.",
-      desc2: 'Araştırmam, ince ayarlı transformer modelleri kullanarak kurumsal iletişimlerdeki greenwashing risklerini tespit etmeye odaklanıyor.',
+      desc1: "Alvolo Consulting'in CEO'su olarak, sınır ötesi yatırımları yapay zeka ile yeniden tanımlıyorum. Bocconi Üniversitesi'ndeki çalışmalarım ışığında, NLP ve Derin Öğrenme yetkinliklerimi Bilgisayarlı Görü ile birleştirerek finansal verileri bütüncül bir yaklaşımla analiz ediyorum.",
+      desc2: 'Araştırma odağım, sürdürülebilirlik raporlarındaki greenwashing girişimlerini tespit eden dil modellerinden, karmaşık finansal veri setlerini ve görsel verileri işleyen çok modlu (multimodal) analiz sistemlerine kadar uzanmaktadır.',
       viewBio: 'Tam Biyografiyi Gör',
       credential1: 'Veri Bilimi Y.L. @ Bocconi',
-      credential2: 'YZ Uzmanı @ ImpactScope',
+      credential2: 'Yapay Zeka Uzmanı & NLP Araştırmacısı @ ImpactScope',
       credential3: 'NLP & Derin Öğrenme',
       credential4: 'Kurucu, Alvolo Consulting',
     },
     footer: {
       cta: 'İletişime Geç',
+      ctaTitle: 'Verilerinizi değere dönüştürmeye hazır mısınız?',
+      ctaDesc: 'Finansal analitik, yapay zeka çözümleri veya stratejik danışmanlık—nasıl birlikte çalışabileceğimizi konuşalım.',
       button: 'Benimle İletişime Geç',
       copyright: '© 2025 Bumin Kağan Çetin. Tüm hakları saklıdır.',
       linkedin: 'LinkedIn',
@@ -375,6 +478,79 @@ export const translations: Record<Locale, TranslationType> = {
         experiences: 'İş Deneyimi',
         degrees: 'Diploma',
       },
+      ctaTitle: 'Birlikte çalışmak ister misiniz?',
+      ctaDesc: 'Veri bilimi, finansal danışmanlık veya yapay zeka çözümleri—projenizi konuşalım.',
+      ctaButton: 'İletişime Geç',
+      educationData: [
+        {
+          school: "Bocconi Üniversitesi",
+          degree: "Veri Bilimi ve İş Analitiği Yüksek Lisansı",
+          location: "Milano, İtalya",
+          period: "2023 - 2025",
+          coursework: ["Bilgisayarlı Görü için Derin Öğrenme", "Simülasyon ve Modelleme", "Doğal Dil İşleme"],
+          thesis: "Kurumsal İletişimlerde Greenwashing Riskinin Denetlenebilir Tespiti"
+        },
+        {
+          school: "Bocconi Üniversitesi",
+          degree: "Ekonomi, Yönetim ve Bilgisayar Bilimleri Lisansı",
+          location: "Milano, İtalya",
+          period: "2020 - 2023",
+          coursework: ["Ekonometri", "Büyük Veri ve Veritabanları", "Programlama", "Bilişim Hukuku", "Makine Öğrenmesi"],
+          thesis: "Parlamento Seçimleri için Tahmin Teknikleri: Türkiye Büyük Millet Meclisi Örneği"
+        }
+      ],
+      experienceData: [
+        {
+          company: "IMPACTSCOPE",
+          role: "Yapay Zeka Uzmanı | NLP Araştırmacısı",
+          location: "Uzaktan, İsviçre",
+          period: "Aralık 2024 - Aralık 2025",
+          highlights: [
+            "RoBERTa modelini ince ayarlayarak greenwashing riskini tespit eden veri ürünü geliştirdim, manuel inceleme süresini %80 azalttım",
+            "Duruş tespiti ve duygu kayması kullanarak semantik çelişki endeksi (SCI) geliştirdim",
+            "Duygu tabanlı ESG risk skorlarını geçmiş greenwashing tartışmalarıyla karşılaştırdım"
+          ]
+        },
+        {
+          company: "ALVOLO CONSULTING",
+          role: "Kurucu",
+          location: "Milano, İtalya",
+          period: "Mart 2025 - Kasım 2025",
+          highlights: [
+            "İtalya'da müşterilerin finansal hedeflerine ulaşmalarına yardımcı olan finansal danışmanlık merkezi kurdum",
+            "Doğru bilgi ve rehberlik sağlamak için İtalyan finans sisteminde uzmanlaştım",
+            "Müşteri kazanımından elde tutmaya kadar tüm müşteri döngüsünü yönettim"
+          ]
+        },
+        {
+          company: "FEDRIGONI SPA",
+          role: "Junior Veri Bilimci",
+          location: "Milano, İtalya",
+          period: "Nisan 2024 - Ekim 2024",
+          highlights: [
+            "LSTM kullanarak zaman serisi algoritmaları ve özel tahmin modelleri geliştirdim",
+            "Fiyatlamayı optimize etmek için denetimsiz modeller ve NLP içeren özel yapay zeka modeli geliştirdim",
+            "Yeni analitik prototipler geliştirmek için Knime ve PowerBI kullandım"
+          ]
+        },
+        {
+          company: "N26 BANK AG",
+          role: "Risk Yönetimi Stajyeri",
+          location: "Berlin, Almanya",
+          period: "Kasım 2022 - Şubat 2023",
+          highlights: [
+            "İç Kontrol Sistemi (İKS), kayıp veritabanı, risk kaydı ve raporlamayı destekledim",
+            "Yeni Ürün Sürecini (NPP) destekleyen paydaşlarla etkileşim kurdum",
+            "Finansal olmayan risklerin belirlenmesi, değerlendirilmesi, azaltılması ve izlenmesine yardımcı oldum"
+          ]
+        }
+      ],
+      languageData: [
+        { lang: "Türkçe", level: "Ana Dil" },
+        { lang: "İngilizce", level: "Ana Dil" },
+        { lang: "İtalyanca", level: "İleri (C1)" },
+        { lang: "Almanca", level: "Orta (B1)" }
+      ],
     },
     assetsPage: {
       label: 'Araştırma & Projeler',
@@ -442,6 +618,7 @@ export const translations: Record<Locale, TranslationType> = {
       ctaTitle: 'Verilerinizi Değere Dönüştürelim',
       ctaDesc: 'Veri bilimi ve finans uzmanlığımın işinize nasıl katkı sağlayabileceğini konuşalım.',
       ctaButton: 'Görüşme Ayarla',
+      keyCapabilities: 'Temel Yetenekler',
     },
   },
   it: {
@@ -499,6 +676,8 @@ export const translations: Record<Locale, TranslationType> = {
     },
     footer: {
       cta: 'Contattami',
+      ctaTitle: 'Pronto a trasformare i tuoi dati in insight?',
+      ctaDesc: 'Che tu abbia bisogno di analisi finanziaria, soluzioni AI o consulenza strategica—parliamo di come possiamo lavorare insieme.',
       button: 'Contattami',
       copyright: '© 2025 Bumin Kağan Çetin. Tutti i diritti riservati.',
       linkedin: 'LinkedIn',
@@ -522,6 +701,79 @@ export const translations: Record<Locale, TranslationType> = {
         experiences: 'Esperienze Lavorative',
         degrees: 'Lauree',
       },
+      ctaTitle: 'Interessato a lavorare insieme?',
+      ctaDesc: 'Che tu abbia bisogno di competenze in data science, consulenza finanziaria o soluzioni AI—parliamo del tuo progetto.',
+      ctaButton: 'Contattami',
+      educationData: [
+        {
+          school: "Università Bocconi",
+          degree: "Laurea Magistrale in Data Science and Business Analytics",
+          location: "Milano, Italia",
+          period: "2023 - 2025",
+          coursework: ["Deep Learning per Computer Vision", "Simulazione e Modellazione", "Elaborazione del Linguaggio Naturale"],
+          thesis: "Rilevamento Verificabile del Rischio di Greenwashing nelle Comunicazioni Aziendali"
+        },
+        {
+          school: "Università Bocconi",
+          degree: "Laurea Triennale in Economia, Management e Informatica",
+          location: "Milano, Italia",
+          period: "2020 - 2023",
+          coursework: ["Econometria", "Big Data e Database", "Programmazione", "Diritto Informatico", "Machine Learning"],
+          thesis: "Studio delle Tecniche Predittive per le Elezioni Parlamentari: Caso Studio del Parlamento Turco"
+        }
+      ],
+      experienceData: [
+        {
+          company: "IMPACTSCOPE",
+          role: "Specialista AI | Ricercatore NLP",
+          location: "Remoto, Svizzera",
+          period: "Dicembre 2024 - Dicembre 2025",
+          highlights: [
+            "Sviluppato prodotto dati tramite fine-tuning di RoBERTa per segnalare il rischio di greenwashing, riducendo i tempi di revisione manuale dell'80%",
+            "Sviluppato indice di contraddizione semantica (SCI) utilizzando rilevamento di posizione e deriva del sentiment",
+            "Confrontato punteggi di rischio ESG basati sul sentiment con storiche controversie di greenwashing"
+          ]
+        },
+        {
+          company: "ALVOLO CONSULTING",
+          role: "Fondatore",
+          location: "Milano, Italia",
+          period: "Marzo 2025 - Novembre 2025",
+          highlights: [
+            "Fondato hub di consulenza finanziaria in Italia aiutando i clienti a raggiungere i loro obiettivi finanziari",
+            "Padroneggiato il sistema finanziario italiano per fornire informazioni e guida accurate",
+            "Gestito l'intero ciclo di vita del cliente dall'acquisizione alla fidelizzazione"
+          ]
+        },
+        {
+          company: "FEDRIGONI SPA",
+          role: "Junior Data Scientist",
+          location: "Milano, Italia",
+          period: "Aprile 2024 - Ottobre 2024",
+          highlights: [
+            "Sviluppato algoritmi di serie temporali e modelli predittivi personalizzati utilizzando LSTM",
+            "Sviluppato modello AI personalizzato incorporando modelli non supervisionati e NLP per ottimizzare i prezzi",
+            "Utilizzato Knime e PowerBI per sviluppare nuovi prototipi analitici"
+          ]
+        },
+        {
+          company: "N26 BANK AG",
+          role: "Stagista Risk Management",
+          location: "Berlino, Germania",
+          period: "Novembre 2022 - Febbraio 2023",
+          highlights: [
+            "Supportato il Sistema di Controllo Interno (ICS), database perdite, registro rischi e reporting",
+            "Interagito con stakeholder supportando il New Product Process (NPP)",
+            "Aiutato nell'identificazione, valutazione, mitigazione e monitoraggio dei rischi non finanziari"
+          ]
+        }
+      ],
+      languageData: [
+        { lang: "Turco", level: "Madrelingua" },
+        { lang: "Inglese", level: "Madrelingua" },
+        { lang: "Italiano", level: "Avanzato (C1)" },
+        { lang: "Tedesco", level: "Intermedio (B1)" }
+      ],
     },
     assetsPage: {
       label: 'Ricerca & Progetti',
@@ -589,6 +841,7 @@ export const translations: Record<Locale, TranslationType> = {
       ctaTitle: 'Pronto a Trasformare i Tuoi Dati?',
       ctaDesc: 'Discutiamo come data science e competenza finanziaria possono far progredire il tuo business.',
       ctaButton: 'Inizia una Conversazione',
+      keyCapabilities: 'Capacità Chiave',
     },
   },
 };

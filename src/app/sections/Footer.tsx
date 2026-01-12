@@ -33,10 +33,10 @@ const Footer: React.FC<FooterProps> = ({ t }) => {
                 </span>
               </div>
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-cream leading-tight mb-6">
-                Ready to transform your data into insights?
+                {trans.footer.ctaTitle}
               </h2>
               <p className="font-mono text-sm text-cream/70 max-w-lg">
-                Whether you need financial analytics, AI solutions, or strategic consulting—let's discuss how we can work together.
+                {trans.footer.ctaDesc}
               </p>
             </div>
             

@@ -81,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href={`/${locale}`} className="font-serif text-xl md:text-2xl text-charcoal tracking-tight">
-              Bumin K. Çetin
+              Bumin Kağan Çetin
             </Link>
             
             {/* Desktop Links */}

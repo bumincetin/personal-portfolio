@@ -146,7 +146,7 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
               </p>
               
               <h3 className="font-serif text-xl text-charcoal mb-4">
-                {locale === 'tr' ? 'Temel Yetenekler' : locale === 'it' ? 'Capacità Chiave' : 'Key Capabilities'}
+                {t.methodologyPage.keyCapabilities}
               </h3>
               <ul className="space-y-3">
                 {section.features.map((feature, idx) => (
