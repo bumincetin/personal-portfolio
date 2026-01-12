@@ -6,6 +6,7 @@ export interface TranslationType {
     home: string;
     methodology: string;
     projects: string;
+    portal: string;
     about: string;
     contact: string;
   };
@@ -240,6 +241,7 @@ export const translations: Record<Locale, TranslationType> = {
       home: 'Home',
       methodology: 'Services',
       projects: 'Research',
+      portal: 'Demo Portal',
       about: 'About',
       contact: 'Contact',
     },
@@ -603,6 +605,7 @@ export const translations: Record<Locale, TranslationType> = {
       home: 'Ana Sayfa',
       methodology: 'Hizmetler',
       projects: 'Araştırmalarım',
+      portal: 'Demo Portal',
       about: 'Hakkımda',
       contact: 'İletişim',
     },
@@ -964,6 +967,7 @@ export const translations: Record<Locale, TranslationType> = {
       home: 'Home',
       methodology: 'Servizi',
       projects: 'Ricerca',
+      portal: 'Demo Portal',
       about: 'Chi Sono',
       contact: 'Contatto',
     },

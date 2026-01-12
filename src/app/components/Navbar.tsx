@@ -65,6 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
     { name: trans.nav.home, href: `/${locale}` },
     { name: trans.nav.methodology, href: `/${locale}/methodology` },
     { name: trans.nav.projects, href: `/${locale}/assets` },
+    { name: trans.nav.portal || 'Portal', href: `/${locale}/portal` },
     { name: trans.nav.about, href: `/${locale}/about` },
   ];
 
