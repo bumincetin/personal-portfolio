@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
+import * as XLSX from 'xlsx'; // Import the xlsx library
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Upload, FileText, TrendingUp, AlertCircle,
@@ -69,7 +70,7 @@ export default function PortalPageClient({ locale, t }: Props) {
       'income-statement': locale === 'tr' ? 'Gelir Tablosu' : locale === 'it' ? 'Conto Economico' : 'Income Statement',
       'cash-flow': locale === 'tr' ? 'Nakit Akış Tablosu' : locale === 'it' ? 'Rendiconto Finanziario' : 'Cash Flow Statement',
     },
-    supportedFormats: locale === 'tr' ? 'Desteklenen: Excel, CSV, Metin, JSON, PDF' : locale === 'it' ? 'Supportati: Excel, CSV, Testo, JSON, PDF' : 'Supported: Excel, CSV, Text, JSON, PDF',
+    supportedFormats: locale === 'tr' ? 'Desteklenen: Excel, CSV, Metin, JSON' : locale === 'it' ? 'Supportati: Excel, CSV, Testo, JSON' : 'Supported: Excel, CSV, Text, JSON',
   };
 
   const processFile = async (selectedFile: File) => {
@@ -77,13 +78,44 @@ export default function PortalPageClient({ locale, t }: Props) {
     setStep('processing');
     
     try {
-      const fileText = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target?.result as string);
-        reader.onerror = reject;
-        reader.readAsText(selectedFile);
-      });
+      let fileText = '';
 
+      // Check if the file is Excel (.xlsx or .xls)
+      if (selectedFile.name.endsWith('.xlsx') || selectedFile.name.endsWith('.xls')) {
+        fileText = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              const data = e.target?.result;
+              const workbook = XLSX.read(data, { type: 'array' });
+              // Get the first worksheet
+              const firstSheetName = workbook.SheetNames[0];
+              const worksheet = workbook.Sheets[firstSheetName];
+              // Convert to CSV text
+              const csv = XLSX.utils.sheet_to_csv(worksheet);
+              resolve(csv);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(selectedFile); // Read as binary buffer, not text
+        });
+      } else if (selectedFile.name.endsWith('.pdf')) {
+        // PDF support requires a separate PDF parser. 
+        // For now, we throw an error if the user tries PDF without a parser.
+        throw new Error("PDF parsing requires additional setup. Please use Excel or CSV.");
+      } else {
+        // Handle standard text files (CSV, TXT, JSON, MD)
+        fileText = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target?.result as string);
+          reader.onerror = reject;
+          reader.readAsText(selectedFile);
+        });
+      }
+
+      // Send the extracted text (CSV or raw text) to the API
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -102,7 +134,7 @@ export default function PortalPageClient({ locale, t }: Props) {
 
     } catch (error) {
       console.error(error);
-      alert("Error analyzing file. Ensure it is a valid text-based file (CSV, TXT).");
+      alert("Error analyzing file. For Excel, ensure it is a valid .xlsx file. For others, use CSV/TXT.");
       setStep('upload');
     }
   };
@@ -170,7 +202,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                   ref={fileInputRef} 
                   type="file" 
                   className="hidden" 
-                  accept=".xlsx,.xls,.csv,.txt,.json,.md,.pdf" 
+                  accept=".xlsx,.xls,.csv,.txt,.json,.md" 
                   onChange={(e) => e.target.files?.[0] && processFile(e.target.files[0])}
                 />
                 <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-cream border border-charcoal/10 flex items-center justify-center">
