@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { type Locale, type TranslationType, locales, translations } from '@/lib/translations';
@@ -82,10 +83,24 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
       }`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link href={`/${locale}`} className="font-serif text-xl md:text-2xl text-charcoal tracking-tight">
-              Bumin Kağan Çetin
+            {/* --- UPDATED LOGO SECTION START --- */}
+            <Link 
+              href={`/${locale}`} 
+              className="flex items-center gap-3 font-serif text-xl md:text-2xl text-charcoal tracking-tight hover:opacity-80 transition-opacity"
+            >
+              {/* Replace '/logo.png' with your actual file name in the public folder */}
+              <div className="relative w-8 h-8 md:w-10 md:h-10">
+                <Image 
+                  src="/BuminLogo.png" 
+                  alt="Bumin Kağan Çetin Logo" 
+                  fill
+                  className="object-contain" // Keeps aspect ratio intact
+                  priority // Loads image immediately
+                />
+              </div>
+              <span>Bumin Kağan Çetin</span>
             </Link>
+            {/* --- UPDATED LOGO SECTION END --- */}
             
             {/* Desktop Links */}
             <div className="hidden md:flex items-center gap-8">
