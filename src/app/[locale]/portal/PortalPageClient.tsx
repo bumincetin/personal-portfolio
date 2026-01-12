@@ -383,7 +383,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                   ref={fileInputRef} 
                   type="file" 
                   className="hidden" 
-                  accept=".csv,.txt,.json" 
+                  accept=".xlsx,.xls,.csv,.txt,.json,.pdf,.png,.jpg,.jpeg" 
                   onChange={(e) => e.target.files?.[0] && processFile(e.target.files[0])}
                 />
                 
