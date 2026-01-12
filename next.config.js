@@ -1,17 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  basePath: '/personal-portfolio',
+  // output: 'export', // Disabled to allow AI API routes to run
+  // basePath: '/personal-portfolio', // Enable this only if deploying to a sub-path like GitHub Pages
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**',
       },
     ],
+    // unoptimized: true, // Only needed for static export
   },
-  assetPrefix: '/personal-portfolio/',
   // Optimize build performance
   swcMinify: true,
   compiler: {
@@ -21,6 +20,6 @@ const nextConfig = {
   },
   // Disable source maps in production for faster builds
   productionBrowserSourceMaps: false,
-}
+};
 
 module.exports = nextConfig;
