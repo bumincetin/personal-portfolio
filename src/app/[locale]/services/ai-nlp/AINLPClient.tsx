@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Brain, MessageSquare, FileText, Zap, CheckCircle2 } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 import { NeuralNetwork, DataFlow } from '@/app/components/AnimatedVisuals';
+import { BookingModal } from '@/app/components/BookingModal';
 
 interface Props {
   locale: Locale;
@@ -14,6 +15,7 @@ interface Props {
 
 export default function AINLPClient({ locale, t }: Props) {
   const section = t.methodologyPage.section2;
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   return (
     <div className="pt-24 md:pt-32 pb-16 bg-cream min-h-screen">
@@ -72,10 +74,27 @@ export default function AINLPClient({ locale, t }: Props) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="prose prose-lg max-w-none">
-              <p className="font-mono text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
-                {section.expandedDesc}
-              </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="prose prose-lg max-w-none">
+                <p className="font-mono text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
+                  {section.expandedDesc}
+                </p>
+              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative"
+              >
+                <div className="bg-white border border-border p-4 rounded-lg shadow-editorial">
+                  <img 
+                    src="/personal-portfolio/bumin2.png" 
+                    alt="AI & Data Science" 
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -252,15 +271,23 @@ export default function AINLPClient({ locale, t }: Props) {
           <p className="font-mono text-sm text-muted mb-8 max-w-xl mx-auto">
             {t.methodologyPage.ctaDesc}
           </p>
-          <a 
-            href="mailto:cetinbumink@gmail.com"
+          <button 
+            onClick={() => setIsBookingModalOpen(true)}
             className="group inline-flex items-center gap-3 px-8 py-4 bg-charcoal text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-navy"
           >
             {t.methodologyPage.ctaButton}
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </a>
+          </button>
         </div>
       </section>
+
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        locale={locale}
+        t={t}
+        selectedService="ai-nlp"
+      />
     </div>
   );
 }

@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BarChart3, PieChart, Activity, Database, CheckCircle2 } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 import { DashboardChart } from '@/app/components/AnimatedVisuals';
+import { BookingModal } from '@/app/components/BookingModal';
 
 interface Props {
   locale: Locale;
@@ -14,6 +15,7 @@ interface Props {
 
 export default function BusinessIntelligenceClient({ locale, t }: Props) {
   const section = t.methodologyPage.section3;
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   return (
     <div className="pt-24 md:pt-32 pb-16 bg-cream min-h-screen">
@@ -259,15 +261,23 @@ export default function BusinessIntelligenceClient({ locale, t }: Props) {
           <p className="font-mono text-sm text-muted mb-8 max-w-xl mx-auto">
             {t.methodologyPage.ctaDesc}
           </p>
-          <a 
-            href="mailto:cetinbumink@gmail.com"
+          <button 
+            onClick={() => setIsBookingModalOpen(true)}
             className="group inline-flex items-center gap-3 px-8 py-4 bg-charcoal text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-navy"
           >
             {t.methodologyPage.ctaButton}
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </a>
+          </button>
         </div>
       </section>
+
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        locale={locale}
+        t={t}
+        selectedService="business-intelligence"
+      />
     </div>
   );
 }

@@ -216,6 +216,21 @@ export interface TranslationType {
     ctaButton: string;
     keyCapabilities: string;
     viewDetails: string;
+    booking: {
+      title: string;
+      desc: string;
+      selectService: string;
+      yourDetails: string;
+      yourName: string;
+      emailAddress: string;
+      selectDate: string;
+      selectTime: string;
+      confirm: string;
+      close: string;
+      success: string;
+      successDesc: string;
+      loading: string;
+    };
   };
 }
 
@@ -566,6 +581,21 @@ export const translations: Record<Locale, TranslationType> = {
       ctaButton: 'Start a Conversation',
       keyCapabilities: 'Key Capabilities',
       viewDetails: 'View Details',
+      booking: {
+        title: 'Schedule a Consultation',
+        desc: 'Select a service and provide your details to request a meeting.',
+        selectService: 'Select Service',
+        yourDetails: 'Your Details',
+        yourName: 'Your Name',
+        emailAddress: 'Email Address',
+        selectDate: 'Preferred Date',
+        selectTime: 'Preferred Time',
+        confirm: 'Request Meeting',
+        close: 'Close',
+        success: 'Request Sent',
+        successDesc: 'Your consultation request has been sent. I will get back to you shortly to confirm the meeting time.',
+        loading: 'Sending Request...',
+      },
     },
   },
   tr: {
@@ -912,6 +942,21 @@ export const translations: Record<Locale, TranslationType> = {
       ctaButton: 'Görüşme Ayarla',
       keyCapabilities: 'Temel Yetenekler',
       viewDetails: 'Detayları Gör',
+      booking: {
+        title: 'Görüşme Planla',
+        desc: 'Bir hizmet seçin ve görüşme talebi için bilgilerinizi girin.',
+        selectService: 'Hizmet Seçin',
+        yourDetails: 'Bilgileriniz',
+        yourName: 'Adınız',
+        emailAddress: 'E-posta Adresi',
+        selectDate: 'Tercih Edilen Tarih',
+        selectTime: 'Tercih Edilen Saat',
+        confirm: 'Görüşme Talebi Gönder',
+        close: 'Kapat',
+        success: 'Talep Gönderildi',
+        successDesc: 'Görüşme talebiniz gönderildi. Kısa süre içinde görüşme zamanını onaylamak için size geri döneceğim.',
+        loading: 'Talep Gönderiliyor...',
+      },
     },
   },
   it: {
@@ -1260,6 +1305,21 @@ export const translations: Record<Locale, TranslationType> = {
       ctaButton: 'Inizia una Conversazione',
       keyCapabilities: 'Capacità Chiave',
       viewDetails: 'Vedi Dettagli',
+      booking: {
+        title: 'Prenota una Consulenza',
+        desc: 'Seleziona un servizio e fornisci i tuoi dettagli per richiedere un incontro.',
+        selectService: 'Seleziona Servizio',
+        yourDetails: 'I Tuoi Dettagli',
+        yourName: 'Il Tuo Nome',
+        emailAddress: 'Indirizzo Email',
+        selectDate: 'Data Preferita',
+        selectTime: 'Ora Preferita',
+        confirm: 'Richiedi Incontro',
+        close: 'Chiudi',
+        success: 'Richiesta Inviata',
+        successDesc: 'La tua richiesta di consulenza è stata inviata. Ti risponderò a breve per confermare l\'orario dell\'incontro.',
+        loading: 'Invio Richiesta...',
+      },
     },
   },
 };
