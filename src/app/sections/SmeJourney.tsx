@@ -347,48 +347,51 @@ const PhaseCard = ({
   const phaseEnd = (index + 1) * 0.33;
   const phaseMid = (phaseStart + phaseEnd) / 2;
   
+  // Reduced fade for better readability - cards are fully opaque when active
   const opacity = useTransform(
     progress,
     [
-      phaseStart - 0.1,
+      phaseStart - 0.05,
       phaseStart,
       phaseMid,
       phaseEnd,
-      phaseEnd + 0.1
+      phaseEnd + 0.05
     ],
-    [0, 0.3, 1, 0.3, 0]
+    [0, 0.8, 1, 0.8, 0]
   );
   
+  // Subtle vertical movement
   const y = useTransform(
     progress,
     [
-      phaseStart - 0.1,
+      phaseStart - 0.05,
       phaseStart,
       phaseMid,
       phaseEnd,
-      phaseEnd + 0.1
+      phaseEnd + 0.05
     ],
-    [50, 30, 0, -30, -50]
+    [20, 10, 0, -10, -20]
   );
   
+  // Minimal scale change
   const scale = useTransform(
     progress,
     [
-      phaseStart - 0.1,
+      phaseStart - 0.05,
       phaseStart,
       phaseMid,
       phaseEnd,
-      phaseEnd + 0.1
+      phaseEnd + 0.05
     ],
-    [0.9, 0.95, 1, 0.95, 0.9]
+    [0.98, 0.99, 1, 0.99, 0.98]
   );
 
   return (
     <motion.div
-      className="relative p-6 md:p-8 rounded-2xl bg-white border border-border transition-all duration-500"
+      className="absolute inset-0 p-6 md:p-8 rounded-2xl bg-white border border-border transition-all duration-500 flex items-center"
       style={{ opacity, y, scale }}
     >
-      <div className="relative z-10">
+      <div className="relative z-10 w-full">
         {/* Phase indicator */}
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent text-charcoal">
@@ -502,7 +505,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
           <div className="hidden lg:flex h-full flex-row items-center justify-center gap-16 py-20">
             
             {/* Left side - Single phase card that changes */}
-            <div className="w-1/2 flex flex-col justify-center items-center">
+            <div className="w-1/2 flex flex-col justify-center">
               {/* Section header - Always visible */}
               <div className="mb-8 w-full">
                 <div className="flex items-center gap-3 mb-4">
@@ -520,8 +523,8 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
                 </h2>
               </div>
               
-              {/* Single phase card container - shows one at a time */}
-              <div className="relative w-full min-h-[400px] flex items-center justify-center">
+              {/* Single phase card container - shows one at a time, uses full space */}
+              <div className="relative w-full h-[500px]">
                 {phases.map((phase, index) => (
                   <PhaseCard
                     key={index}
@@ -556,16 +559,16 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
           </div>
 
           {/* Mobile Layout - Stacked vertically */}
-          <div className="lg:hidden flex flex-col h-full py-8 sm:py-12">
+          <div className="lg:hidden flex flex-col h-full py-6 sm:py-8 overflow-hidden">
             {/* Section header - Always visible at top */}
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-4">
+            <div className="mb-4 flex-shrink-0">
+              <div className="flex items-center gap-3 mb-3">
                 <div className="w-12 h-[2px] bg-accent"></div>
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
                   {locale === 'tr' ? 'Dönüşüm' : locale === 'it' ? 'Trasformazione' : 'The Journey'}
                 </span>
               </div>
-              <h2 className="font-serif text-2xl sm:text-3xl text-charcoal leading-tight">
+              <h2 className="font-serif text-xl sm:text-2xl text-charcoal leading-tight">
                 {locale === 'tr' 
                   ? 'Veri Kaosunu Sermayeye Dönüştürmek' 
                   : locale === 'it' 
@@ -574,9 +577,9 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
               </h2>
             </div>
 
-            {/* Visual animation area - Fixed height */}
-            <div className="flex-1 flex items-center justify-center relative min-h-[250px] sm:min-h-[300px] mb-6">
-              <div className="relative w-full h-full max-h-[300px]">
+            {/* Visual animation area - Fixed height, no overflow */}
+            <div className="flex-shrink-0 flex items-center justify-center relative h-[200px] sm:h-[250px] mb-4">
+              <div className="relative w-full h-full">
                 {/* Data points scattered across viewport */}
                 {dataLabels.map((label, index) => (
                   <DataPoint
@@ -595,8 +598,8 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
               </div>
             </div>
 
-            {/* Phase cards - Single card that changes, positioned below visual */}
-            <div className="relative w-full min-h-[300px] flex items-center justify-center">
+            {/* Phase cards - Single card that changes, uses full remaining space */}
+            <div className="relative flex-1 w-full min-h-[300px] overflow-hidden">
               {phases.map((phase, index) => (
                 <PhaseCard
                   key={index}
