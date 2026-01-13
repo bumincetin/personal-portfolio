@@ -297,16 +297,6 @@ const DataCube = ({
   // Face styles for the cube
   const faceBaseStyle = "absolute w-full h-full border-2 border-charcoal backdrop-blur-sm";
   
-  // Final message text
-  const finalMessage = locale === 'tr' 
-    ? 'İş Değerinin Veri Rönesansı'
-    : locale === 'it' 
-    ? 'Rinascimento dei Dati del Valore Aziendale'
-    : 'A Data Renaissance of Business Value';
-  
-  const finalMessageOpacity = useTransform(progress, [0.85, 0.95, 1], [0, 1, 1]);
-  const finalMessageScale = useTransform(progress, [0.85, 0.95], [0.5, 1]);
-  
   return (
     <div 
       className="relative preserve-3d border-2 border-charcoal"
@@ -461,34 +451,6 @@ const DataCube = ({
           scale: useTransform(progress, [0, 0.5, 1], [0.7, 1.1, 1]),
         }}
       />
-      
-      {/* Final Message - Phase 4 (end) - rendered outside 3D context for crisp text */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
-        style={{
-          opacity: finalMessageOpacity,
-          scale: finalMessageScale,
-        }}
-      >
-        <div 
-          className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
-          style={{ 
-            willChange: 'auto',
-            transform: 'translateZ(0)', // Force hardware acceleration without 3D
-          }}
-        >
-          <p 
-            className="font-serif text-lg md:text-xl lg:text-2xl text-charcoal leading-relaxed font-bold"
-            style={{ 
-              textRendering: 'optimizeLegibility',
-              WebkitFontSmoothing: 'antialiased',
-              MozOsxFontSmoothing: 'grayscale',
-            }}
-          >
-            {finalMessage}
-          </p>
-        </div>
-      </motion.div>
     </div>
   );
 };
@@ -750,7 +712,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
             </div>
 
             {/* Center: 3D Cube */}
-            <div className="flex-shrink-0 flex items-center justify-center z-10">
+            <div className="flex-shrink-0 flex items-center justify-center z-10 relative">
               <DataCube
                 progress={smoothProgress}
                 rotateX={rotateX}
@@ -763,6 +725,38 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                 borderRadius={borderRadius}
                 locale={locale}
               />
+              
+              {/* Final Message - Phase 4 (end) - rendered outside cube */}
+              <motion.div
+                className="absolute -top-32 left-1/2 -translate-x-1/2 pointer-events-none z-20"
+                style={{
+                  opacity: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 1, 1]),
+                  scale: useTransform(smoothProgress, [0.85, 0.95], [0.5, 1]),
+                }}
+              >
+                <div 
+                  className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
+                  style={{ 
+                    willChange: 'auto',
+                    transform: 'translateZ(0)',
+                  }}
+                >
+                  <p 
+                    className="font-serif text-lg md:text-xl lg:text-2xl text-charcoal leading-relaxed font-bold whitespace-nowrap"
+                    style={{ 
+                      textRendering: 'optimizeLegibility',
+                      WebkitFontSmoothing: 'antialiased',
+                      MozOsxFontSmoothing: 'grayscale',
+                    }}
+                  >
+                    {locale === 'tr' 
+                      ? 'İş Değerinin Veri Rönesansı'
+                      : locale === 'it' 
+                      ? 'Rinascimento dei Dati del Valore Aziendale'
+                      : 'A Data Renaissance of Business Value'}
+                  </p>
+                </div>
+              </motion.div>
             </div>
 
             {/* Right: Phase Cards */}
