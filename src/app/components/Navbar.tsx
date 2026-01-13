@@ -82,15 +82,15 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? 'bg-cream/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
       }`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="flex items-center justify-between h-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+          <div className="flex items-center justify-between h-20 min-w-0">
             {/* --- UPDATED LOGO SECTION START --- */}
             <Link 
               href={`/${locale}`} 
-              className="flex items-center gap-3 font-serif text-xl md:text-2xl text-charcoal tracking-tight hover:opacity-80 transition-opacity"
+              className="flex items-center gap-2 lg:gap-3 font-serif text-lg md:text-xl lg:text-2xl text-charcoal tracking-tight hover:opacity-80 transition-opacity flex-shrink-0"
             >
               {/* Replace '/logo.png' with your actual file name in the public folder */}
-              <div className="relative w-8 h-8 md:w-10 md:h-10">
+              <div className="relative w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10">
                 <Image 
                   src="/BuminLogo.png" 
                   alt="Bumin Kağan Çetin Logo" 
@@ -99,18 +99,19 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                   priority // Loads image immediately
                 />
               </div>
-              <span>Bumin Kağan Çetin</span>
+              <span className="hidden lg:inline">Bumin Kağan Çetin</span>
+              <span className="lg:hidden">BKC</span>
             </Link>
             {/* --- UPDATED LOGO SECTION END --- */}
             
             {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-6 flex-shrink-0">
               {links.map((link) => (
                 <Link 
                   key={link.name}
                   href={link.href}
                   className={`
-                    font-mono text-xs uppercase tracking-wider transition-colors duration-300 relative
+                    font-mono text-[10px] lg:text-xs uppercase tracking-wider transition-colors duration-300 relative whitespace-nowrap
                     ${isActive(link.href) 
                       ? 'text-charcoal after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-accent' 
                       : 'text-muted hover:text-charcoal'
@@ -122,19 +123,19 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
               ))}
               <button 
                 onClick={() => setIsBookingModalOpen(true)}
-                className="font-mono text-xs uppercase tracking-wider px-5 py-2.5 bg-charcoal text-cream hover:bg-navy transition-colors duration-300"
+                className="font-mono text-[10px] lg:text-xs uppercase tracking-wider px-3 lg:px-4 xl:px-5 py-2 bg-charcoal text-cream hover:bg-navy transition-colors duration-300 whitespace-nowrap"
               >
                 {trans.nav.contact}
               </button>
               
               {/* Language Switcher */}
-              <div className="flex items-center gap-1 ml-2 pl-4 border-l border-border">
+              <div className="flex items-center gap-1 ml-1 lg:ml-2 pl-2 lg:pl-4 border-l border-border">
                 {locales.map((loc) => (
                   <Link
                     key={loc}
                     href={`/${loc}${currentPath}`}
                     className={`
-                      px-2 py-1 font-mono text-xs transition-all
+                      px-1.5 lg:px-2 py-1 font-mono text-[10px] lg:text-xs transition-all
                       ${locale === loc 
                         ? 'text-charcoal font-medium' 
                         : 'text-muted hover:text-charcoal'
