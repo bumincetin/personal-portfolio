@@ -226,12 +226,24 @@ const DataPoint = ({
 };
 
 // Converged value visualization
-const ConvergedValue = ({ progress }: { progress: ReturnType<typeof useSpring> }) => {
+const ConvergedValue = ({ 
+  progress, 
+  locale 
+}: { 
+  progress: ReturnType<typeof useSpring>;
+  locale: Locale;
+}) => {
   const opacity = useTransform(progress, [0.85, 0.95, 1], [0, 1, 1]);
   const scale = useTransform(progress, [0.85, 0.95], [0.3, 1]);
   const y = useTransform(progress, [0.85, 0.95], [30, 0]);
   
   const glowIntensity = useTransform(progress, [0.9, 1], [0.3, 0.8]);
+  
+  const businessValueText = locale === 'tr' 
+    ? 'İş Değeri' 
+    : locale === 'it' 
+    ? 'Valore Business' 
+    : 'Business Value';
   
   return (
     <motion.div
@@ -262,7 +274,7 @@ const ConvergedValue = ({ progress }: { progress: ReturnType<typeof useSpring> }
           }}
         >
           <span className="font-serif text-lg md:text-xl text-charcoal font-medium">
-            Business Value
+            {businessValueText}
           </span>
         </motion.div>
       </motion.div>
@@ -408,7 +420,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
   const phases = [
     {
       phase: locale === 'tr' ? 'Faz 1' : locale === 'it' ? 'Fase 1' : 'Phase 1',
-      title: locale === 'tr' ? 'Veri Kaos' : locale === 'it' ? 'Caos dei Dati' : 'Data Chaos',
+      title: locale === 'tr' ? 'Veri Kaosu' : locale === 'it' ? 'Caos dei Dati' : 'Data Chaos',
       description: locale === 'tr' 
         ? 'Dağınık elektronik tablolar, tutarsız raporlar ve çelişkili metrikler. Değerli içgörüler, yapılandırılmamış bilgi yığınlarının altında gömülü duruyor.'
         : locale === 'it'
@@ -438,10 +450,10 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
   return (
     <section 
       ref={containerRef}
-      className="relative bg-cream min-h-[300vh]"
+      className="relative bg-cream min-h-[400vh] md:min-h-[350vh] pt-20 md:pt-24"
     >
       {/* Sticky container */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-screen overflow-hidden z-10">
         {/* Background - matching homepage */}
         <div className="absolute inset-0 bg-cream" />
         
@@ -459,17 +471,17 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
         
         {/* Content */}
         <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16">
-          <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 py-20">
+          <div className="h-full flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-center gap-6 lg:gap-16 pt-24 md:pt-32 lg:pt-20 pb-8 lg:pb-20">
             
             {/* Left side - Text cards */}
-            <div className="w-full lg:w-1/2 space-y-6 lg:space-y-8 order-2 lg:order-1 z-10">
+            <div className="w-full lg:w-1/2 space-y-4 md:space-y-6 lg:space-y-8 order-2 lg:order-1 z-10 overflow-y-auto lg:overflow-visible max-h-[calc(100vh-8rem)] lg:max-h-none">
               {/* Section header */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="mb-8 lg:mb-12"
+                className="mb-6 md:mb-8 lg:mb-12"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-[2px] bg-accent"></div>
@@ -498,8 +510,8 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
             </div>
             
             {/* Right side - Visual animation area */}
-            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex items-center justify-center relative">
-              <div className="relative w-full h-96 md:h-[500px] lg:h-[600px]">
+            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex items-center justify-center relative h-96 md:h-[500px] lg:h-full">
+              <div className="relative w-full h-full max-h-[500px] lg:max-h-none">
                 {/* Data points scattered across viewport */}
                 {dataLabels.map((label, index) => (
                   <DataPoint
@@ -514,14 +526,14 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
                 ))}
                 
                 {/* Converged value visualization */}
-                <ConvergedValue progress={smoothProgress} />
+                <ConvergedValue progress={smoothProgress} locale={locale} />
               </div>
             </div>
           </div>
         </div>
         
         {/* Scroll progress indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+        <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}
@@ -537,9 +549,9 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
           ))}
         </div>
         
-        {/* Scroll hint */}
+        {/* Scroll hint - hidden on mobile */}
         <motion.div
-          className="absolute bottom-8 right-8 font-mono text-xs text-muted z-20"
+          className="hidden md:block absolute bottom-8 right-8 font-mono text-xs text-muted z-20"
           style={{
             opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]),
           }}
