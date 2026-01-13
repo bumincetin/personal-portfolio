@@ -448,7 +448,6 @@ const DataCube = ({
           </motion.div>
         </motion.div>
 
-        {/* Final Message - Phase 4 (end) - rendered outside 3D context */}
       </motion.div>
 
       {/* Outer glow ring */}
@@ -462,6 +461,34 @@ const DataCube = ({
           scale: useTransform(progress, [0, 0.5, 1], [0.7, 1.1, 1]),
         }}
       />
+      
+      {/* Final Message - Phase 4 (end) - rendered outside 3D context for crisp text */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+        style={{
+          opacity: finalMessageOpacity,
+          scale: finalMessageScale,
+        }}
+      >
+        <div 
+          className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
+          style={{ 
+            willChange: 'auto',
+            transform: 'translateZ(0)', // Force hardware acceleration without 3D
+          }}
+        >
+          <p 
+            className="font-serif text-lg md:text-xl lg:text-2xl text-charcoal leading-relaxed font-bold"
+            style={{ 
+              textRendering: 'optimizeLegibility',
+              WebkitFontSmoothing: 'antialiased',
+              MozOsxFontSmoothing: 'grayscale',
+            }}
+          >
+            {finalMessage}
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 };
