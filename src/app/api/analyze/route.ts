@@ -84,13 +84,34 @@ export async function POST(req: NextRequest) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     
-    // Sanitize JSON output (stripping Markdown if Gemini includes it)
-    const text = response.text().replace(/```json/g, '').replace(/```/g, '').trim();
-    
-    return NextResponse.json(JSON.parse(text));
+    // 3. Safety Check: If AI blocked the request, text() will throw an error
+    let text = '';
+    try {
+      text = response.text();
+    } catch (e) {
+      console.error("AI Blocked Response:", response.promptFeedback);
+      throw new Error(`AI Safety Block. Reason: ${response.promptFeedback?.blockReason || 'Unknown'}`);
+    }
 
-  } catch (error) {
+    // 4. Clean & Parse JSON
+    const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    
+    let data;
+    try {
+      data = JSON.parse(cleanText);
+    } catch (e) {
+      console.error("JSON Parse Error. Received:", cleanText);
+      throw new Error("AI returned invalid JSON. Try a clearer document.");
+    }
+    
+    return NextResponse.json(data);
+
+  } catch (error: any) {
     console.error('Gemini API Error:', error);
-    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 });
+    // RETURN THE REAL ERROR MESSAGE TO THE FRONTEND
+    return NextResponse.json(
+      { error: error.message || 'Unknown Server Error' }, 
+      { status: 500 }
+    );
   }
 }
