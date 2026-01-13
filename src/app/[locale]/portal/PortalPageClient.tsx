@@ -52,8 +52,10 @@ interface AnalysisResult {
 }
 
 // Component for expandable unparsed items
-function UnparsedItem({ item }: { item: any }) {
+function UnparsedItem({ item, locale }: { item: any; locale: Locale }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  const reasonLabel = locale === 'tr' ? 'Sebep:' : locale === 'it' ? 'Motivo:' : 'Reason:';
   
   return (
     <div className="bg-white p-3 border-l-2 border-orange-300">
@@ -67,7 +69,7 @@ function UnparsedItem({ item }: { item: any }) {
         </button>
       </div>
       <div className="text-xs text-muted mb-1">
-        <span className="font-semibold">{locale === 'tr' ? 'Sebep:' : locale === 'it' ? 'Motivo:' : 'Reason:'}</span> {item.reason || 'Unknown'}
+        <span className="font-semibold">{reasonLabel}</span> {item.reason || 'Unknown'}
       </div>
       <div className={`text-xs font-mono text-charcoal/70 ${isExpanded ? '' : 'line-clamp-2'}`}>
         {item.content || 'No content available'}
@@ -411,7 +413,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                    {analysis.unparsed && analysis.unparsed.length > 0 ? (
                      <div className="space-y-3">
                        {analysis.unparsed.map((u, i) => (
-                         <UnparsedItem key={i} item={u} />
+                         <UnparsedItem key={i} item={u} locale={locale} />
                        ))}
                      </div>
                    ) : (
