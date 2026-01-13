@@ -31,38 +31,38 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
         }} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16 relative">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-12 md:mb-16 lg:mb-20"
         >
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-12 h-[2px] bg-accent"></div>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 md:mb-6">
+            <div className="w-8 sm:w-12 h-[2px] bg-accent"></div>
+            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-accent">
               {sme.label}
             </span>
-            <div className="w-12 h-[2px] bg-accent"></div>
+            <div className="w-8 sm:w-12 h-[2px] bg-accent"></div>
           </div>
           
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-charcoal mb-6 max-w-4xl mx-auto leading-tight">
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-charcoal mb-4 md:mb-6 max-w-4xl mx-auto leading-tight px-2">
             {sme.title}
           </h2>
           
-          <p className="font-serif text-xl md:text-2xl text-accent italic mb-8">
+          <p className="font-serif text-lg sm:text-xl md:text-2xl text-accent italic mb-6 md:mb-8 px-2">
             {sme.subtitle}
           </p>
           
-          <p className="font-mono text-sm md:text-base text-muted max-w-3xl mx-auto leading-relaxed">
+          <p className="font-mono text-xs sm:text-sm md:text-base text-muted max-w-3xl mx-auto leading-relaxed px-2">
             {sme.intro}
           </p>
         </motion.div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-12 md:mb-16">
           {sme.benefits.map((benefit, idx) => (
             <motion.div
               key={benefit.id}
@@ -71,37 +71,39 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               className={`
-                bg-cream border border-border p-6 md:p-8 
+                bg-cream border border-border p-4 sm:p-6 md:p-8 
                 hover:border-charcoal hover:shadow-editorial transition-all duration-300
                 ${benefit.examples ? 'row-span-1' : ''}
               `}
             >
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
-                  {iconMap[benefit.id]}
+              <div className="flex items-start gap-3 sm:gap-4 mb-3 md:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
+                  <div className="scale-75 sm:scale-100">
+                    {iconMap[benefit.id]}
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-serif text-xl md:text-2xl text-charcoal mb-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-charcoal mb-2">
                     {benefit.title}
                   </h3>
                 </div>
               </div>
               
-              <p className="font-mono text-sm text-muted leading-relaxed mb-4">
+              <p className="font-mono text-xs sm:text-sm text-muted leading-relaxed mb-3 md:mb-4">
                 {benefit.desc}
               </p>
               
               {/* Expandable Examples */}
               {benefit.examples && benefit.examples.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-border">
+                <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-border">
                   <button
                     onClick={() => setExpandedCard(expandedCard === benefit.id ? null : benefit.id)}
-                    className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-accent hover:text-charcoal transition-colors w-full justify-between"
+                    className="flex items-center gap-2 font-mono text-[10px] sm:text-xs uppercase tracking-wider text-accent hover:text-charcoal transition-colors w-full justify-between py-2"
                   >
-                    <span>
+                    <span className="text-left">
                       {locale === 'tr' ? 'Gerçek Örnekler' : locale === 'it' ? 'Esempi Reali' : 'Real-World Examples'}
                     </span>
-                    {expandedCard === benefit.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    {expandedCard === benefit.id ? <ChevronUp size={14} className="flex-shrink-0 sm:w-4 sm:h-4" /> : <ChevronDown size={14} className="flex-shrink-0 sm:w-4 sm:h-4" />}
                   </button>
                   
                   <motion.div
@@ -113,11 +115,11 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <ul className="mt-4 space-y-3">
+                    <ul className="mt-3 md:mt-4 space-y-2 md:space-y-3">
                       {benefit.examples.map((example, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <CheckCircle2 size={16} className="text-accent mt-0.5 flex-shrink-0" />
-                          <span className="font-mono text-xs text-charcoal/80 leading-relaxed">
+                        <li key={i} className="flex items-start gap-2 sm:gap-3">
+                          <CheckCircle2 size={14} className="text-accent mt-0.5 flex-shrink-0 sm:w-4 sm:h-4" />
+                          <span className="font-mono text-[10px] sm:text-xs text-charcoal/80 leading-relaxed">
                             {example}
                           </span>
                         </li>
@@ -136,47 +138,47 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-charcoal text-cream p-8 md:p-12 lg:p-16 relative overflow-hidden"
+          className="bg-charcoal text-cream p-6 sm:p-8 md:p-12 lg:p-16 relative overflow-hidden"
         >
-          {/* Decorative Elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+          {/* Decorative Elements - Hidden on mobile */}
+          <div className="hidden md:block absolute top-0 right-0 w-48 md:w-64 h-48 md:h-64 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="hidden md:block absolute bottom-0 left-0 w-32 md:w-48 h-32 md:h-48 bg-accent/5 rounded-full translate-y-1/2 -translate-x-1/2" />
           
-          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-center">
             <div className="lg:col-span-7">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-[2px] bg-accent"></div>
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 md:mb-4">
+                <div className="w-8 sm:w-12 h-[2px] bg-accent"></div>
+                <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-accent">
                   {locale === 'tr' ? 'Hibrit Avantaj' : locale === 'it' ? 'Vantaggio Ibrido' : 'The Hybrid Advantage'}
                 </span>
               </div>
               
-              <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-cream mb-6 leading-tight">
+              <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-cream mb-4 md:mb-6 leading-tight">
                 {sme.hybridTitle}
               </h3>
               
-              <p className="font-mono text-sm md:text-base text-cream/80 leading-relaxed">
+              <p className="font-mono text-xs sm:text-sm md:text-base text-cream/80 leading-relaxed">
                 {sme.hybridDesc}
               </p>
             </div>
             
-            <div className="lg:col-span-5">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/5 backdrop-blur-sm p-4 text-center border border-white/10">
-                  <div className="font-serif text-3xl text-accent mb-1">+</div>
-                  <div className="font-mono text-xs text-cream/70 uppercase tracking-wider">
+            <div className="lg:col-span-5 mt-6 lg:mt-0">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="bg-white/5 backdrop-blur-sm p-3 sm:p-4 text-center border border-white/10">
+                  <div className="font-serif text-2xl sm:text-3xl text-accent mb-1">+</div>
+                  <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
                     {locale === 'tr' ? 'Veri Bilimi' : locale === 'it' ? 'Data Science' : 'Data Science'}
                   </div>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm p-4 text-center border border-white/10">
-                  <div className="font-serif text-3xl text-accent mb-1">+</div>
-                  <div className="font-mono text-xs text-cream/70 uppercase tracking-wider">
+                <div className="bg-white/5 backdrop-blur-sm p-3 sm:p-4 text-center border border-white/10">
+                  <div className="font-serif text-2xl sm:text-3xl text-accent mb-1">+</div>
+                  <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
                     {locale === 'tr' ? 'Finans' : locale === 'it' ? 'Finanza' : 'Finance'}
                   </div>
                 </div>
-                <div className="col-span-2 bg-accent/20 backdrop-blur-sm p-4 text-center border border-accent/30">
-                  <div className="font-serif text-xl text-cream mb-1">=</div>
-                  <div className="font-mono text-xs text-cream uppercase tracking-wider">
+                <div className="col-span-2 bg-accent/20 backdrop-blur-sm p-3 sm:p-4 text-center border border-accent/30">
+                  <div className="font-serif text-lg sm:text-xl text-cream mb-1">=</div>
+                  <div className="font-mono text-[10px] sm:text-xs text-cream uppercase tracking-wider">
                     {locale === 'tr' ? 'İş Değeri' : locale === 'it' ? 'Valore Business' : 'Business Value'}
                   </div>
                 </div>
@@ -191,17 +193,19 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mt-12 md:mt-16"
+          className="text-center mt-8 md:mt-12 lg:mt-16"
         >
-          <p className="font-mono text-sm md:text-base text-charcoal mb-6 max-w-2xl mx-auto">
+          <p className="font-mono text-xs sm:text-sm md:text-base text-charcoal mb-4 md:mb-6 max-w-2xl mx-auto px-2">
             {sme.cta}
           </p>
           <Link 
             href={`/${locale}/why-sme`}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90 hover:shadow-editorial"
+            className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-accent text-cream font-mono text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90 hover:shadow-editorial min-h-[44px]"
           >
-            {locale === 'tr' ? 'Detayları Gör' : locale === 'it' ? 'Vedi Dettagli' : 'Learn More'}
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            <span className="whitespace-nowrap">
+              {locale === 'tr' ? 'Detayları Gör' : locale === 'it' ? 'Vedi Dettagli' : 'Learn More'}
+            </span>
+            <ArrowRight size={14} className="sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
           </Link>
         </motion.div>
       </div>
