@@ -538,7 +538,12 @@ const PhaseCard = ({
 const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewportSize, setViewportSize] = useState({ width: 1920, height: 1080 });
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
 
   useEffect(() => {
     const updateSize = () => {
