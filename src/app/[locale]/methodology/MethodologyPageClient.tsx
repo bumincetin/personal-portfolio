@@ -1,14 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
+import { BookingModal } from '@/app/components/BookingModal';
 
 export default function MethodologyPageClient({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
   const mp = t.methodologyPage;
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const sections = [
     { ...mp.section1, color: 'accent', href: `/${locale}/services/financial-analytics` },
@@ -222,16 +224,23 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
             </p>
           </div>
           <div className="lg:text-right">
-            <a 
-              href="mailto:cetinbumink@gmail.com"
+            <button 
+              onClick={() => setIsBookingModalOpen(true)}
               className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90"
             >
               {mp.ctaButton}
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </a>
+            </button>
           </div>
         </div>
       </section>
+      
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        locale={locale}
+        t={t}
+      />
     </div>
   );
 }

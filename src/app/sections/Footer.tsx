@@ -1,16 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Mail, Linkedin, Github } from 'lucide-react';
-import { type TranslationType, translations } from '@/lib/translations';
+import { type Locale, type TranslationType, translations } from '@/lib/translations';
+import { BookingModal } from '@/app/components/BookingModal';
 
 interface FooterProps {
   t?: TranslationType;
+  locale?: Locale;
 }
 
-const Footer: React.FC<FooterProps> = ({ t }) => {
-  const trans = t || translations.en;
+const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
+  const trans = t || translations[locale];
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   
   return (
     <footer id="contact" className="bg-charcoal text-cream">
@@ -42,19 +45,22 @@ const Footer: React.FC<FooterProps> = ({ t }) => {
             
             {/* Right - Contact Button */}
             <div className="flex flex-col items-start lg:items-end gap-6">
-              <a 
-                href="mailto:cetinbumink@gmail.com" 
+              <button 
+                onClick={() => setIsBookingModalOpen(true)}
                 className="group inline-flex items-center gap-3 px-10 py-5 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90"
               >
                 {trans.footer.button}
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
               
               {/* Quick Contact */}
               <div className="flex flex-col gap-2 font-mono text-sm text-cream/60">
-                <a href="mailto:cetinbumink@gmail.com" className="hover:text-cream transition-colors">
+                <button 
+                  onClick={() => setIsBookingModalOpen(true)}
+                  className="hover:text-cream transition-colors text-left"
+                >
                   cetinbumink@gmail.com
-                </a>
+                </button>
                 <span>Milan, Italy</span>
               </div>
             </div>
@@ -102,6 +108,13 @@ const Footer: React.FC<FooterProps> = ({ t }) => {
           </div>
         </div>
       </div>
+      
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        locale={locale}
+        t={trans}
+      />
     </footer>
   );
 };

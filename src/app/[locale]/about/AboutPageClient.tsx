@@ -309,25 +309,6 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="bg-charcoal p-8 md:p-12 text-center">
-          <h3 className="font-serif text-2xl md:text-3xl text-cream mb-4">
-            {t.aboutPage.ctaTitle}
-          </h3>
-          <p className="font-mono text-sm text-cream/70 mb-8 max-w-lg mx-auto">
-            {t.aboutPage.ctaDesc}
-          </p>
-          <a 
-            href="mailto:cetinbumink@gmail.com"
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90"
-          >
-            {t.aboutPage.ctaButton}
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
-      </section>
     </div>
   );
 }

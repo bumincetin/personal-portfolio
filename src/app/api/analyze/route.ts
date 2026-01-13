@@ -41,121 +41,109 @@ export async function POST(req: NextRequest) {
     const genAI = new GoogleGenAI({ apiKey });
 
     // 2. Construct Enhanced Prompt for Financial Analysis
-    const prompt = `You are a Senior Financial Analyst with expertise in IFRS, GAAP, and international accounting standards. Analyze the financial statement "${fileName}" (Type: ${statementType}).
+    const prompt = `
+      You are a Senior Financial Analyst with expertise in IFRS, GAAP, and international accounting standards. Analyze the financial statement "${fileName}" (Type: ${statementType}).
 
-CRITICAL REQUIREMENTS:
-1. DETECT DOCUMENT TYPE: First, identify if this is a Trial Balance (Mizan / Bilancio di Verifica). If it is:
-   - Convert it to an IFRS-compliant Balance Sheet structure
-   - Group accounts into: Current Assets, Non-Current Assets, Current Liabilities, Non-Current Liabilities, Equity
-   - Apply proper IFRS classifications (e.g., Property, Plant & Equipment, Intangible Assets, etc.)
-   - Calculate totals for each section
-   - Note in the summary that a Trial Balance was converted to IFRS Balance Sheet format
+      CRITICAL REQUIREMENTS:
+      1. DETECT DOCUMENT TYPE: First, identify if this is a Trial Balance (Mizan / Bilancio di Verifica). If it is:
+         - Convert it to an IFRS-compliant Balance Sheet structure
+         - Group accounts into: Current Assets, Non-Current Assets, Current Liabilities, Non-Current Liabilities, Equity
+         - Apply proper IFRS classifications (e.g., Property, Plant & Equipment, Intangible Assets, etc.)
+         - Calculate totals for each section
+         - Note in the summary that a Trial Balance was converted to IFRS Balance Sheet format
 
-2. DETECT DOCUMENT LANGUAGE: Identify if the document is in English (en), Turkish (tr), or Italian (it) based on content
+      2. DETECT DOCUMENT LANGUAGE: Identify if the document is in English (en), Turkish (tr), or Italian (it) based on content
 
-3. EXTRACT ALL METRICS: Parse ALL financial values, dates, periods, and line items from the document. Be extremely thorough - extract every number, account name, and classification.
+      3. EXTRACT ALL METRICS: Parse ALL financial values, dates, periods, and line items from the document. Be extremely thorough - extract every number, account name, and classification.
 
-4. IDENTIFY COMPARATIVES: Look for "Previous Year", "Prior Period", "Önceki Dönem", "Periodo Precedente", "Prior Year", "PY", "Önceki Yıl" columns or sections
+      4. IDENTIFY COMPARATIVES: Look for "Previous Year", "Prior Period", "Önceki Dönem", "Periodo Precedente", "Prior Year", "PY", "Önceki Yıl" columns or sections
 
-5. CALCULATE COMPREHENSIVE RATIOS: Calculate a wide range of financial ratios. For each ratio, you MUST:
-   - Calculate the exact value using the formula
-   - List EXACT source data locations with full context (e.g., "Total Current Assets: €250,000 (Balance Sheet, Assets section, line 15, Current Period column)", "Total Current Liabilities: €135,000 (Balance Sheet, Liabilities section, line 28, Current Period column)")
-   - Determine status: "good" if above industry average, "warning" if near average, "bad" if below average
-   - Provide detailed interpretation explaining what the ratio means for the company's financial health
+      5. CALCULATE COMPREHENSIVE RATIOS: Calculate a wide range of financial ratios. For each ratio, you MUST:
+         - Calculate the exact value using the formula
+         - List EXACT source data locations with full context
+         - Determine status: "good", "warning", or "bad"
+         - Provide detailed interpretation
 
-6. TRACK DATA SOURCES: For EVERY ratio, the sourceData array must contain specific references like:
-   - "Revenue: €1,200,000 (Income Statement, line 5, Current Period column)"
-   - "Cost of Goods Sold: €720,000 (Income Statement, line 12, Current Period column)"
+      6. TRACK DATA SOURCES: For EVERY ratio, the sourceData array must contain specific references.
 
-7. GENERATE DETAILED INSIGHTS: Provide at least 5-7 comprehensive insights covering:
-   - Financial health assessment
-   - Liquidity position
-   - Profitability trends
-   - Leverage and solvency
-   - Operational efficiency
-   - Risk factors
-   - Growth opportunities or concerns
+      7. GENERATE DETAILED INSIGHTS: Provide at least 5-7 comprehensive insights covering financial health, liquidity, profitability, leverage, efficiency, risk, and growth.
 
-8. IDENTIFY UNPARSED SECTIONS: List ANY parts that couldn't be understood with:
-   - Exact content/text that was unclear (include full text, not truncated)
-   - Location (page number, section, line numbers if available)
-   - Reason why it couldn't be parsed (e.g., "Missing labels", "Unclear formatting", "Language not recognized")
+      8. IDENTIFY UNPARSED SECTIONS: List ANY parts that couldn't be understood.
 
-OUTPUT FORMAT (STRICT JSON - NO MARKDOWN, NO CODE BLOCKS, NO EXPLANATIONS):
-{
-  "docLanguage": "en" | "tr" | "it",
-  "summary": "A comprehensive executive summary (4-6 sentences) providing a detailed analysis of financial health, trends, key findings, liquidity position, profitability, and overall business performance. Write in the detected document language. Be specific with numbers and percentages where available.",
-  "ratios": [
-    {
-      "id": "current-ratio",
-      "name": "Current Ratio" | "Cari Oran" | "Indice Corrente",
-      "value": 1.85,
-      "unit": "x" | "%" | "€" | "days",
-      "category": "liquidity" | "profitability" | "efficiency" | "leverage",
-      "status": "good" | "warning" | "bad",
-      "interpretation": "Brief interpretation explaining what this ratio means for the company, in the document language",
-      "formula": "Current Assets / Current Liabilities",
-      "sourceData": [
-        "Total Current Assets: €250,000 (Balance Sheet, Assets section, line 15, Current Period)",
-        "Total Current Liabilities: €135,000 (Balance Sheet, Liabilities section, line 28, Current Period)"
-      ]
-    }
-  ],
-  "insights": [
-    "Detailed insight 1 explaining financial health with specific numbers and context (in document language)",
-    "Detailed insight 2 about liquidity position with ratios and implications (in document language)",
-    "Detailed insight 3 about profitability trends with percentages and comparisons (in document language)",
-    "Detailed insight 4 about leverage and solvency with risk assessment (in document language)",
-    "Detailed insight 5 about operational efficiency with metrics (in document language)",
-    "Detailed insight 6 about risk factors or concerns with specific examples (in document language)",
-    "Detailed insight 7 about growth opportunities or strategic recommendations (in document language)"
-  ],
-  "graphData": {
-    "available": true | false,
-    "title": "Revenue vs Net Income" | "Gelir vs Net Kar" | "Ricavi vs Utile Netto",
-    "labels": ["Q1 2023", "Q2 2023", "Q3 2023", "Q4 2023"] | ["Previous Period", "Current Period"],
-    "series": [
-      { "label": "Revenue" | "Gelir" | "Ricavi", "data": [100000, 120000, 115000, 140000] },
-      { "label": "Net Income" | "Net Kar" | "Utile Netto", "data": [15000, 18000, 17000, 22000] }
-    ]
-  },
-  "unparsed": [
-    {
-      "content": "Exact text or section that couldn't be parsed",
-      "location": "Page 2, Section 3, Lines 45-50" | "Row 15-20, Column D",
-      "reason": "Unclear formatting or missing labels" | "Language not recognized" | "Incomplete data"
-    }
-  ]
-}
+      -------------------------------------------------------------------------
+      NEW REQUIREMENT: MIZAN (TRIAL BALANCE) ACCOUNTING LOGIC
+      -------------------------------------------------------------------------
+      If analyzing a "Mizan" (Trial Balance), you must strictly distinguish between MAIN ACCOUNTS (Ana Hesaplar) and SUB-ACCOUNTS (Tali/Muavin Hesaplar).
+      - LOGIC: A code like "100" or "600" is a MAIN CATEGORY. A code like "100.001" or "600.01" is a SUB-CATEGORY.
+      - AGGREGATION RULE: If the document contains both the Main Account total AND the Sub-Account details, ONLY USE THE MAIN ACCOUNT TOTAL for calculations to avoid double counting.
+      - Example: If "100 Kasa" is 1000 and "100.01 TL Kasa" is 1000, Total Cash is 1000, NOT 2000.
+      
+      -------------------------------------------------------------------------
+      NEW REQUIREMENT: INTERACTIVE DROPDOWN TRACEABILITY
+      -------------------------------------------------------------------------
+      You must generate a "traceabilityMap" object. This is a dictionary where the keys are standard financial concepts (e.g., 'total_assets', 'gross_profit', 'current_liabilities') and the value is an array of the specific rows used to calculate that number.
+      - This allows the user to click a dropdown menu item (e.g., "Total Assets") and see the exact lines in the document you used.
+      - Include the raw text and the value for each line in this map.
 
-STATEMENT TYPE SPECIFIC REQUIREMENTS:
-- Balance Sheet: Calculate Current Ratio, Quick Ratio, Debt-to-Equity, Debt-to-Assets, Equity Ratio, Asset Turnover, Working Capital, Current Assets to Total Assets ratio. Graph: Total Assets vs Total Liabilities (or Current Assets vs Current Liabilities if time series available)
-- Income Statement: Calculate Gross Margin, Net Margin, EBITDA Margin, Operating Margin, ROE, ROA, Operating Expense Ratio, Revenue Growth Rate. Graph: Revenue vs Net Income over periods (or Revenue vs Expenses if only 2 periods)
-- Cash Flow: Calculate Operating Cash Flow Ratio, Free Cash Flow, Cash Conversion Cycle, Operating Cash Flow Margin, Cash Flow to Debt Ratio. Graph: Operating Cash Flow vs Free Cash Flow over periods
-- Trial Balance (Mizan / Bilancio di Verifica): 
-  * FIRST: Convert the trial balance to an IFRS-compliant Balance Sheet structure
-  * Group all accounts into proper IFRS categories: Current Assets, Non-Current Assets, Current Liabilities, Non-Current Liabilities, Equity
-  * Apply IFRS classifications (Property Plant & Equipment, Intangible Assets, Trade Receivables, etc.)
-  * Calculate section totals and ensure Assets = Liabilities + Equity
-  * THEN: Calculate all Balance Sheet ratios listed above
-  * Note in summary: "This analysis converted a Trial Balance to IFRS-compliant Balance Sheet format before performing financial ratio analysis."
+      OUTPUT FORMAT (STRICT JSON - NO MARKDOWN):
+      {
+        "docLanguage": "en" | "tr" | "it",
+        "summary": "A comprehensive executive summary (4-6 sentences)...",
+        
+        "traceabilityMap": {
+          "total_assets": [ { "rowText": "100 KASA ... 50.000", "value": 50000 }, { "rowText": "102 BANKALAR ... 100.000", "value": 100000 } ],
+          "total_liabilities": [ { "rowText": "300 BANKA KREDİLERİ ... 20.000", "value": 20000 } ],
+          "gross_revenue": [ { "rowText": "600 YURTİÇİ SATIŞLAR ... 500.000", "value": 500000 } ],
+          "net_income": [ { "rowText": "590 DÖNEM NET KARI ... 45.000", "value": 45000 } ]
+          // Add keys for all major calculated fields found in the document
+        },
 
-CALCULATION RULES:
-- For ratios, use standard formulas (e.g., Current Ratio = Current Assets / Current Liabilities)
-- Round values to 2 decimal places for ratios, whole numbers for currency
-- If comparative data exists, calculate trends and include in insights
-- If data is incomplete, note it in unparsed and set graphData.available = false
+        "ratios": [
+          {
+            "id": "current-ratio",
+            "name": "Current Ratio",
+            "value": 1.85,
+            "unit": "x",
+            "category": "liquidity",
+            "status": "good",
+            "interpretation": "Brief interpretation...",
+            "formula": "Current Assets / Current Liabilities",
+            "sourceData": [ "Total Current Assets: €250,000", "Total Current Liabilities: €135,000" ]
+          }
+        ],
+        "insights": [ "Detailed insight 1...", "Detailed insight 2..." ],
+        "graphData": {
+          "available": true,
+          "title": "Revenue vs Net Income",
+          "labels": ["Previous", "Current"],
+          "series": [
+            { "label": "Revenue", "data": [100000, 120000] },
+            { "label": "Net Income", "data": [15000, 18000] }
+          ]
+        },
+        "unparsed": [
+          {
+            "content": "Exact text...",
+            "location": "Page 2...",
+            "reason": "Unclear formatting..."
+          }
+        ]
+      }
 
-DOCUMENT CONTENT (first 100000 characters):
-${fileContent ? fileContent.substring(0, 100000) : "NO CONTENT PROVIDED"}
+      STATEMENT TYPE SPECIFIC REQUIREMENTS:
+      - Balance Sheet: Calculate Current Ratio, Quick Ratio, Debt-to-Equity, etc.
+      - Income Statement: Calculate Gross Margin, Net Margin, EBITDA Margin, etc.
+      - Trial Balance: Convert to IFRS Balance Sheet first, then calculate Balance Sheet ratios.
 
-CRITICAL: 
-- Return ONLY valid JSON, no markdown, no code blocks, no explanations outside JSON
-- All text (summary, insights, interpretations) must be in the detected document language
-- sourceData MUST list exact locations where each value was found
-- unparsed MUST include ALL sections that couldn't be understood
-- If no comparative data, set graphData.available = false and use single period data
-`;
+      CALCULATION RULES:
+      - Use standard formulas.
+      - Round values to 2 decimal places.
+      - If comparative data exists, calculate trends.
+      - If data is incomplete, note it in unparsed.
+
+      DOCUMENT CONTENT (first 100000 characters):
+      ${fileContent ? fileContent.substring(0, 100000) : "NO CONTENT PROVIDED"}
+    `;
 
     // 3. Try Models with Fallback Strategy using new API structure
     let lastError: any = null;

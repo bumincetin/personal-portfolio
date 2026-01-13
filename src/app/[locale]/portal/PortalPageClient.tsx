@@ -40,6 +40,11 @@ interface GraphData {
   series: { label: string; data: number[] }[];
 }
 
+interface TraceabilityRow {
+  rowText: string;
+  value: number;
+}
+
 interface AnalysisResult {
   statementType: StatementType;
   fileName: string;
@@ -49,6 +54,7 @@ interface AnalysisResult {
   graphData: GraphData;
   unparsed: any[];
   summary?: string;
+  traceabilityMap?: Record<string, TraceabilityRow[]>;
 }
 
 // Component for expandable unparsed items
@@ -84,6 +90,7 @@ export default function PortalPageClient({ locale, t }: Props) {
   const [statementType, setStatementType] = useState<StatementType>('balance-sheet');
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [highlightedRows, setHighlightedRows] = useState<TraceabilityRow[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const pt = {
@@ -99,6 +106,16 @@ export default function PortalPageClient({ locale, t }: Props) {
       'trial-balance': locale === 'tr' ? 'Mizan (Trial Balance)' : locale === 'it' ? 'Bilancio di Verifica' : 'Trial Balance',
     },
     supportedFormats: locale === 'tr' ? 'Desteklenen: Excel, CSV, Metin, JSON' : locale === 'it' ? 'Supportati: Excel, CSV, Testo, JSON' : 'Supported: Excel, CSV, Text, JSON',
+  };
+
+  // Example Handler
+  const handleDropdownSelect = (selectedKey: string) => {
+    if (analysis?.traceabilityMap && analysis.traceabilityMap[selectedKey]) {
+      const auditTrail = analysis.traceabilityMap[selectedKey];
+      setHighlightedRows(auditTrail);
+    } else {
+      setHighlightedRows([]);
+    }
   };
 
   const processFile = async (selectedFile: File) => {
@@ -153,7 +170,8 @@ export default function PortalPageClient({ locale, t }: Props) {
       }
 
       const aiData = await response.json();
-      setAnalysis({ ...aiData, statementType, fileName: selectedFile.name });
+      const apiResponse = { ...aiData, statementType, fileName: selectedFile.name };
+      setAnalysis(apiResponse);
       setStep('results');
 
     } catch (error) {

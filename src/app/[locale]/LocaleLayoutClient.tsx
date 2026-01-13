@@ -17,7 +17,7 @@ export default function LocaleLayoutClient({
     <div className="min-h-screen bg-cream">
       <Navbar locale={locale} t={t} />
       {children}
-      <Footer t={t} />
+      <Footer t={t} locale={locale} />
     </div>
   );
 }

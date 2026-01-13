@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
+import { BookingModal } from '@/app/components/BookingModal';
 
 interface HeroProps {
   t?: TranslationType;
@@ -12,6 +13,7 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
   const trans = t || translations[locale];
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   
   return (
     <section className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 pt-24 lg:pt-0 relative overflow-hidden">
@@ -93,12 +95,12 @@ const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
                 {trans.hero.cta}
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </a>
-              <a 
-                href="mailto:cetinbumink@gmail.com" 
+              <button 
+                onClick={() => setIsBookingModalOpen(true)}
                 className="group inline-flex items-center justify-center gap-3 px-8 py-4 border border-charcoal text-charcoal font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-charcoal hover:text-cream"
               >
                 {trans.nav.contact}
-              </a>
+              </button>
             </motion.div>
           </motion.div>
 
@@ -172,6 +174,13 @@ const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
           </motion.div>
         </div>
       </div>
+      
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        locale={locale}
+        t={trans}
+      />
     </section>
   );
 };
