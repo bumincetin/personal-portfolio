@@ -151,11 +151,9 @@ const DataPoint = ({
   const Icon = getIconForLabel(label, index);
   
   // Start positions - scattered across the entire viewport
-  // Use viewport dimensions to place them across the screen
   const startX = (index % 5) * (viewportWidth / 5) - viewportWidth / 2 + (Math.random() * 100 - 50);
   const startY = (Math.floor(index / 5)) * (viewportHeight / 4) - viewportHeight / 2 + (Math.random() * 100 - 50);
   
-  // Ensure they start from edges and corners
   const edgeFactor = 1.2;
   const finalX = 0;
   const finalY = 0;
@@ -330,41 +328,70 @@ const ConvergedValue = ({
   );
 };
 
-// Phase card component
+// Phase card component - now with scroll-based visibility
 const PhaseCard = ({ 
   phase, 
   title, 
   description, 
-  isActive,
-  index 
+  index,
+  progress
 }: { 
   phase: string;
   title: string;
   description: string;
-  isActive: boolean;
   index: number;
+  progress: ReturnType<typeof useSpring>;
 }) => {
+  // Each phase is visible for 1/3 of the scroll
+  const phaseStart = index * 0.33;
+  const phaseEnd = (index + 1) * 0.33;
+  const phaseMid = (phaseStart + phaseEnd) / 2;
+  
+  const opacity = useTransform(
+    progress,
+    [
+      phaseStart - 0.1,
+      phaseStart,
+      phaseMid,
+      phaseEnd,
+      phaseEnd + 0.1
+    ],
+    [0, 0.3, 1, 0.3, 0]
+  );
+  
+  const y = useTransform(
+    progress,
+    [
+      phaseStart - 0.1,
+      phaseStart,
+      phaseMid,
+      phaseEnd,
+      phaseEnd + 0.1
+    ],
+    [50, 30, 0, -30, -50]
+  );
+  
+  const scale = useTransform(
+    progress,
+    [
+      phaseStart - 0.1,
+      phaseStart,
+      phaseMid,
+      phaseEnd,
+      phaseEnd + 0.1
+    ],
+    [0.9, 0.95, 1, 0.95, 0.9]
+  );
+
   return (
     <motion.div
-      className={`
-        relative p-6 md:p-8 rounded-2xl 
-        bg-white border border-border
-        transition-all duration-500
-        ${isActive ? 'border-accent/50 shadow-lg' : 'opacity-70'}
-      `}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-20%' }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      className="relative p-6 md:p-8 rounded-2xl bg-white border border-border transition-all duration-500"
+      style={{ opacity, y, scale }}
     >
       <div className="relative z-10">
         {/* Phase indicator */}
         <div className="flex items-center gap-3 mb-4">
-          <div className={`
-            w-10 h-10 rounded-xl flex items-center justify-center
-            ${isActive ? 'bg-accent text-charcoal' : 'bg-cream text-charcoal/60'}
-            transition-colors duration-300
-          `}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent text-charcoal">
             <span className="font-serif text-lg font-medium">{index + 1}</span>
           </div>
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
@@ -474,10 +501,10 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
           {/* Desktop Layout */}
           <div className="hidden lg:flex h-full flex-row items-center justify-center gap-16 py-20">
             
-            {/* Left side - Text cards */}
-            <div className="w-1/2 flex flex-col justify-center space-y-8">
+            {/* Left side - Single phase card that changes */}
+            <div className="w-1/2 flex flex-col justify-center items-center">
               {/* Section header - Always visible */}
-              <div className="mb-8">
+              <div className="mb-8 w-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-[2px] bg-accent"></div>
                   <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
@@ -493,14 +520,14 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
                 </h2>
               </div>
               
-              {/* Phase cards - Scrollable container */}
-              <div className="space-y-8 max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar">
+              {/* Single phase card container - shows one at a time */}
+              <div className="relative w-full min-h-[400px] flex items-center justify-center">
                 {phases.map((phase, index) => (
                   <PhaseCard
                     key={index}
                     {...phase}
-                    isActive={true}
                     index={index}
+                    progress={smoothProgress}
                   />
                 ))}
               </div>
@@ -528,8 +555,8 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
             </div>
           </div>
 
-          {/* Mobile Layout */}
-          <div className="lg:hidden flex flex-col h-full py-20">
+          {/* Mobile Layout - Stacked vertically */}
+          <div className="lg:hidden flex flex-col h-full py-8 sm:py-12">
             {/* Section header - Always visible at top */}
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-4">
@@ -548,7 +575,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
             </div>
 
             {/* Visual animation area - Fixed height */}
-            <div className="flex-1 flex items-center justify-center relative min-h-[300px] mb-6">
+            <div className="flex-1 flex items-center justify-center relative min-h-[250px] sm:min-h-[300px] mb-6">
               <div className="relative w-full h-full max-h-[300px]">
                 {/* Data points scattered across viewport */}
                 {dataLabels.map((label, index) => (
@@ -563,19 +590,19 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
                   />
                 ))}
                 
-                {/* Converged value visualization */}
+                {/* Converged value visualization - appears at end */}
                 <ConvergedValue progress={smoothProgress} locale={locale} />
               </div>
             </div>
 
-            {/* Phase cards - Scrollable */}
-            <div className="space-y-4 max-h-[40vh] overflow-y-auto pr-2">
+            {/* Phase cards - Single card that changes, positioned below visual */}
+            <div className="relative w-full min-h-[300px] flex items-center justify-center">
               {phases.map((phase, index) => (
                 <PhaseCard
                   key={index}
                   {...phase}
-                  isActive={true}
                   index={index}
+                  progress={smoothProgress}
                 />
               ))}
             </div>
@@ -609,23 +636,6 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
           {locale === 'tr' ? 'Keşfetmek için kaydırın' : locale === 'it' ? 'Scorri per esplorare' : 'Scroll to explore'}
         </motion.div>
       </div>
-
-      {/* Custom scrollbar styles */}
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(201, 169, 106, 0.3);
-          border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(201, 169, 106, 0.5);
-        }
-      `}</style>
     </section>
   );
 };
