@@ -713,50 +713,57 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
 
             {/* Center: 3D Cube */}
             <div className="flex-shrink-0 flex items-center justify-center z-10 relative">
-              <DataCube
-                progress={smoothProgress}
-                rotateX={rotateX}
-                rotateY={rotateY}
-                scale={scale}
-                glitchIntensity={glitchIntensity}
-                scanProgress={scanProgress}
-                phaseColor={phaseColor}
-                glowColor={glowColor}
-                borderRadius={borderRadius}
-                locale={locale}
-              />
-              
-              {/* Final Message - Phase 4 (end) - rendered outside cube */}
-              <motion.div
-                className="absolute -top-32 left-1/2 -translate-x-1/2 pointer-events-none z-20"
-                style={{
-                  opacity: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 1, 1]),
-                  scale: useTransform(smoothProgress, [0.85, 0.95], [0.5, 1]),
-                }}
-              >
-                <div 
-                  className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
-                  style={{ 
-                    willChange: 'auto',
-                    transform: 'translateZ(0)',
+              <div className="relative" style={{ width: 200, height: 200 }}>
+                <DataCube
+                  progress={smoothProgress}
+                  rotateX={rotateX}
+                  rotateY={rotateY}
+                  scale={scale}
+                  glitchIntensity={glitchIntensity}
+                  scanProgress={scanProgress}
+                  phaseColor={phaseColor}
+                  glowColor={glowColor}
+                  borderRadius={borderRadius}
+                  locale={locale}
+                />
+                
+                {/* Final Message - Phase 4 (end) - positioned on top of cube, rotating with it, coming out */}
+                <motion.div
+                  className="absolute left-1/2 pointer-events-none"
+                  style={{
+                    x: '-50%',
+                    y: useTransform(smoothProgress, [0.85, 0.95, 1], ['-100px', '-120px', '-140px']),
+                    opacity: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 1, 1]),
+                    scale: useTransform(smoothProgress, [0.85, 0.95], [0.8, 1]),
+                    rotateX,
+                    rotateY,
+                    transformStyle: 'preserve-3d',
+                    perspective: '1000px',
+                    z: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 20, 40]),
                   }}
                 >
-                  <p 
-                    className="font-serif text-lg md:text-xl lg:text-2xl text-charcoal leading-relaxed font-bold whitespace-nowrap"
+                  <div 
+                    className="text-center px-4 py-3 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
                     style={{ 
+                      width: '180px',
+                      willChange: 'auto',
                       textRendering: 'optimizeLegibility',
                       WebkitFontSmoothing: 'antialiased',
                       MozOsxFontSmoothing: 'grayscale',
                     }}
                   >
-                    {locale === 'tr' 
-                      ? 'İş Değerinin Veri Rönesansı'
-                      : locale === 'it' 
-                      ? 'Rinascimento dei Dati del Valore Aziendale'
-                      : 'A Data Renaissance of Business Value'}
-                  </p>
-                </div>
-              </motion.div>
+                    <p 
+                      className="font-serif text-sm md:text-base lg:text-lg text-charcoal leading-tight font-bold"
+                    >
+                      {locale === 'tr' 
+                        ? 'İş Değerinin Veri Rönesansı'
+                        : locale === 'it' 
+                        ? 'Rinascimento dei Dati del Valore Aziendale'
+                        : 'A Data Renaissance of Business Value'}
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
             </div>
 
             {/* Right: Phase Cards */}
