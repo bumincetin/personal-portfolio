@@ -450,7 +450,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
   return (
     <section 
       ref={containerRef}
-      className="relative bg-cream min-h-[400vh] md:min-h-[350vh] pt-20 md:pt-24"
+      className="relative bg-cream min-h-[500vh] md:min-h-[450vh]"
     >
       {/* Sticky container */}
       <div className="sticky top-0 h-screen overflow-hidden z-10">
@@ -471,18 +471,13 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
         
         {/* Content */}
         <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-16">
-          <div className="h-full flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-center gap-6 lg:gap-16 pt-24 md:pt-32 lg:pt-20 pb-8 lg:pb-20">
+          {/* Desktop Layout */}
+          <div className="hidden lg:flex h-full flex-row items-center justify-center gap-16 py-20">
             
             {/* Left side - Text cards */}
-            <div className="w-full lg:w-1/2 space-y-4 md:space-y-6 lg:space-y-8 order-2 lg:order-1 z-10 overflow-y-auto lg:overflow-visible max-h-[calc(100vh-8rem)] lg:max-h-none">
-              {/* Section header */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="mb-6 md:mb-8 lg:mb-12"
-              >
+            <div className="w-1/2 flex flex-col justify-center space-y-8">
+              {/* Section header - Always visible */}
+              <div className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-[2px] bg-accent"></div>
                   <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
@@ -496,22 +491,24 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
                     ? 'Trasformare il Caos dei Dati in Capitale'
                     : 'Turning Data Chaos into Capital'}
                 </h2>
-              </motion.div>
+              </div>
               
-              {/* Phase cards */}
-              {phases.map((phase, index) => (
-                <PhaseCard
-                  key={index}
-                  {...phase}
-                  isActive={true}
-                  index={index}
-                />
-              ))}
+              {/* Phase cards - Scrollable container */}
+              <div className="space-y-8 max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar">
+                {phases.map((phase, index) => (
+                  <PhaseCard
+                    key={index}
+                    {...phase}
+                    isActive={true}
+                    index={index}
+                  />
+                ))}
+              </div>
             </div>
             
             {/* Right side - Visual animation area */}
-            <div className="w-full lg:w-1/2 order-1 lg:order-2 flex items-center justify-center relative h-96 md:h-[500px] lg:h-full">
-              <div className="relative w-full h-full max-h-[500px] lg:max-h-none">
+            <div className="w-1/2 flex items-center justify-center relative h-full">
+              <div className="relative w-full h-full max-h-[600px]">
                 {/* Data points scattered across viewport */}
                 {dataLabels.map((label, index) => (
                   <DataPoint
@@ -528,6 +525,59 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
                 {/* Converged value visualization */}
                 <ConvergedValue progress={smoothProgress} locale={locale} />
               </div>
+            </div>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="lg:hidden flex flex-col h-full py-20">
+            {/* Section header - Always visible at top */}
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-[2px] bg-accent"></div>
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+                  {locale === 'tr' ? 'Dönüşüm' : locale === 'it' ? 'Trasformazione' : 'The Journey'}
+                </span>
+              </div>
+              <h2 className="font-serif text-2xl sm:text-3xl text-charcoal leading-tight">
+                {locale === 'tr' 
+                  ? 'Veri Kaosunu Sermayeye Dönüştürmek' 
+                  : locale === 'it' 
+                  ? 'Trasformare il Caos dei Dati in Capitale'
+                  : 'Turning Data Chaos into Capital'}
+              </h2>
+            </div>
+
+            {/* Visual animation area - Fixed height */}
+            <div className="flex-1 flex items-center justify-center relative min-h-[300px] mb-6">
+              <div className="relative w-full h-full max-h-[300px]">
+                {/* Data points scattered across viewport */}
+                {dataLabels.map((label, index) => (
+                  <DataPoint
+                    key={index}
+                    label={label}
+                    index={index}
+                    progress={smoothProgress}
+                    totalPoints={dataLabels.length}
+                    viewportWidth={viewportSize.width}
+                    viewportHeight={viewportSize.height}
+                  />
+                ))}
+                
+                {/* Converged value visualization */}
+                <ConvergedValue progress={smoothProgress} locale={locale} />
+              </div>
+            </div>
+
+            {/* Phase cards - Scrollable */}
+            <div className="space-y-4 max-h-[40vh] overflow-y-auto pr-2">
+              {phases.map((phase, index) => (
+                <PhaseCard
+                  key={index}
+                  {...phase}
+                  isActive={true}
+                  index={index}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -559,6 +609,23 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
           {locale === 'tr' ? 'Keşfetmek için kaydırın' : locale === 'it' ? 'Scorri per esplorare' : 'Scroll to explore'}
         </motion.div>
       </div>
+
+      {/* Custom scrollbar styles */}
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(201, 169, 106, 0.3);
+          border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(201, 169, 106, 0.5);
+        }
+      `}</style>
     </section>
   );
 };
