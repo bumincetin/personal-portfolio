@@ -457,15 +457,10 @@ const DataCube = ({
             scale: finalMessageScale,
           }}
         >
-          <div className="text-center px-6 py-4 bg-white/95 backdrop-blur-sm rounded-lg border-2 border-charcoal shadow-xl">
-            <motion.p
-              className="font-serif text-base md:text-lg lg:text-xl text-charcoal leading-relaxed font-semibold"
-              style={{
-                textShadow: useTransform(glowColor, (c: string) => `0 0 15px ${c}30, 0 2px 4px rgba(0,0,0,0.1)`),
-              }}
-            >
+          <div className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl">
+            <p className="font-serif text-lg md:text-xl lg:text-2xl text-charcoal leading-relaxed font-bold">
               {finalMessage}
-            </motion.p>
+            </p>
           </div>
         </motion.div>
       </motion.div>
