@@ -2,10 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Initialize Gemini
-// Ensure you have added GEMINI_API_KEY to your Vercel Environment Variables
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-// Configuration for consistent JSON output
+// List of models to try in order of preference
+// This prevents the "404 Model Not Found" error if an alias is deprecated or region-locked
+const MODEL_FALLBACKS = [
+  "gemini-1.5-flash",        // Standard alias
+  "gemini-1.5-flash-latest", // Bleeding edge
+  "gemini-1.5-flash-001",    // Specific stable version
+  "gemini-1.5-flash-002",    // Newer stable version
+  "gemini-pro"               // Fallback to 1.0 if all else fails
+];
+
 const generationConfig = {
   temperature: 0.2,
   topP: 0.8,
@@ -16,11 +24,10 @@ const generationConfig = {
 
 export async function POST(req: NextRequest) {
   try {
-    // Parse the incoming JSON body
     const body = await req.json();
     const { fileContent, statementType, fileName } = body;
     
-    // Check for API Key in environment
+    // 1. Critical Check: API Key
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { error: 'Server API Key missing. Please set GEMINI_API_KEY in Vercel Environment Variables.' }, 
@@ -28,11 +35,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
-      generationConfig 
-    });
-
+    // 2. Construct Prompt
     const prompt = `
       ROLE:
       Senior Financial Analyst. Analyze the "${fileName}" (${statementType}).
@@ -81,36 +84,58 @@ export async function POST(req: NextRequest) {
       ${fileContent ? fileContent.substring(0, 50000) : "NO CONTENT"}
     `;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
+    // 3. Try Models with Fallback Strategy
+    let lastError = null;
     
-    // 3. Safety Check: If AI blocked the request, text() will throw an error
-    let text = '';
-    try {
-      text = response.text();
-    } catch (e) {
-      console.error("AI Blocked Response:", response.promptFeedback);
-      throw new Error(`AI Safety Block. Reason: ${response.promptFeedback?.blockReason || 'Unknown'}`);
+    for (const modelName of MODEL_FALLBACKS) {
+      try {
+        console.log(`Attempting analysis with model: ${modelName}`);
+        
+        const model = genAI.getGenerativeModel({ 
+          model: modelName,
+          generationConfig 
+        });
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text(); // This throws if blocked by safety
+        
+        // If we get here, it worked! Clean and return.
+        const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        const data = JSON.parse(cleanText);
+        
+        return NextResponse.json(data);
+        
+      } catch (error: any) {
+        console.warn(`Failed with ${modelName}:`, error.message);
+        
+        // If it's a "Not Found" error (404), try the next model.
+        // If it's a "Safety" block or "Auth" error, stop and report it.
+        if (error.message.includes("404") || error.message.includes("not found")) {
+          lastError = error;
+          continue; // Try next model
+        } else {
+          // Fatal error (Safety, Quota, Key Invalid) -> Throw immediately
+          throw error;
+        }
+      }
     }
 
-    // 4. Clean & Parse JSON
-    const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    
-    let data;
-    try {
-      data = JSON.parse(cleanText);
-    } catch (e) {
-      console.error("JSON Parse Error. Received:", cleanText);
-      throw new Error("AI returned invalid JSON. Try a clearer document.");
-    }
-    
-    return NextResponse.json(data);
+    // If loop finishes without success
+    throw lastError || new Error("All model attempts failed. Please check your API Key region.");
 
   } catch (error: any) {
-    console.error('Gemini API Error:', error);
-    // RETURN THE REAL ERROR MESSAGE TO THE FRONTEND
+    console.error('Final API Error:', error);
+    
+    // Detailed error messaging for the frontend
+    let errorMessage = "Analysis Failed";
+    
+    if (error.message.includes("404")) errorMessage = "Model Not Found (Check API Key Region)";
+    if (error.message.includes("403")) errorMessage = "Invalid API Key or Quota Exceeded";
+    if (error.message.includes("Safety")) errorMessage = "AI Safety Block (Content flagged)";
+    
     return NextResponse.json(
-      { error: error.message || 'Unknown Server Error' }, 
+      { error: `${errorMessage}: ${error.message}` }, 
       { status: 500 }
     );
   }

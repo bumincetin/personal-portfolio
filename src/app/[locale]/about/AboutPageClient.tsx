@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { GraduationCap, Briefcase, Code, Award, Languages, Mail, Phone, Linkedin, MapPin, Calendar, ArrowRight } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
+import Image from 'next/image';
 
 const skills = {
   programming: [
@@ -63,10 +64,12 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
                 
                 {/* Main Image */}
                 <div className="relative bg-white overflow-hidden shadow-editorial">
-                  <img 
-                    src="Bumin_resmi.jpeg" 
+                  <Image 
+                    src="/Bumin_resmi.jpeg" 
                     alt="Bumin Kağan Çetin" 
                     className="w-full h-full object-cover"
+                    width={320}
+                    height={320}
                   />
                   {/* Subtle gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/10 to-transparent"></div>

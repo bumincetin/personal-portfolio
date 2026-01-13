@@ -306,7 +306,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           <div className="space-y-3 font-mono text-sm">
             {[
               { tech: 'Python', detail: 'PyTorch, TensorFlow' },
-              { tech: 'R', detail: locale === 'tr' ? 'İstatistik Analizi' : locale === 'it' ? 'Analisi Statistica' : 'Statistical Analysis' },
+              { tech: 'R', detail: locale === 'tr' ? 'İstatistiksel Analiz' : locale === 'it' ? 'Analisi Statistica' : 'Statistical Analysis' },
               { tech: 'SQL', detail: 'PostgreSQL, Snowflake' },
               { tech: 'Cloud', detail: 'Docker, Git' },
             ].map((item, idx) => (
