@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 import { getGeminiApiKey } from '@/lib/gemini-config';
 
 // List of models to try in order of preference
-// Updated to use correct Gemini 1.5 model names (v1beta API)
+// Updated to use latest Gemini 2.x and 1.5 model names
 const MODEL_FALLBACKS = [
-  "gemini-1.5-flash",        // Fast and efficient model (most commonly available)
+  "gemini-2.5-flash",        // Latest fast model (Gemini 2.5)
+  "gemini-2.0-flash",        // Gemini 2.0 fast model
+  "gemini-1.5-flash",        // Fast and efficient model (1.5 series)
   "gemini-1.5-pro",          // More capable model for complex analysis
   "gemini-1.5-flash-002",    // Specific stable version
   "gemini-1.5-pro-002"       // Specific stable version of pro
@@ -35,8 +37,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Initialize Gemini with API key
-    const genAI = new GoogleGenerativeAI(apiKey);
+    // Initialize Gemini with API key using new @google/genai package
+    const genAI = new GoogleGenAI({ apiKey });
 
     // 2. Construct Enhanced Prompt for Financial Analysis
     const prompt = `You are a Senior Financial Analyst with expertise in IFRS, GAAP, and international accounting standards. Analyze the financial statement "${fileName}" (Type: ${statementType}).
@@ -122,21 +124,35 @@ CRITICAL:
 - If no comparative data, set graphData.available = false and use single period data
 `;
 
-    // 3. Try Models with Fallback Strategy
+    // 3. Try Models with Fallback Strategy using new API structure
     let lastError: any = null;
     
     for (const modelName of MODEL_FALLBACKS) {
       try {
         console.log(`Attempting analysis with model: ${modelName}`);
         
-        const model = genAI.getGenerativeModel({ 
+        // Use new @google/genai API structure (matching official documentation)
+        const response = await genAI.models.generateContent({
           model: modelName,
-          generationConfig 
+          contents: prompt,
+          ...generationConfig // Spread config properties if supported
         });
-
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text(); // This throws if blocked by safety
+        
+        // Extract text from response - check different possible structures
+        let text: string;
+        if (typeof response.text === 'string') {
+          text = response.text;
+        } else if (response.text && typeof response.text === 'object' && 'text' in response.text) {
+          text = (response.text as any).text;
+        } else if (response.candidates && response.candidates[0]?.content?.parts?.[0]?.text) {
+          text = response.candidates[0].content.parts[0].text;
+        } else {
+          text = String(response);
+        }
+        
+        if (!text || text.trim().length === 0) {
+          throw new Error('Empty response from model');
+        }
         
         // Clean the response text (remove markdown code blocks if present)
         let cleanText = text.trim();
