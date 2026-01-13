@@ -448,26 +448,7 @@ const DataCube = ({
           </motion.div>
         </motion.div>
 
-        {/* Final Message - Phase 4 (end) */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{
-            opacity: finalMessageOpacity,
-            scale: finalMessageScale,
-          }}
-        >
-          <div 
-            className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
-            style={{
-              transform: `translateZ(${halfSize + 2}px)`,
-              transformStyle: 'preserve-3d',
-            }}
-          >
-            <p className="font-serif text-lg md:text-xl lg:text-2xl text-charcoal leading-relaxed font-bold">
-              {finalMessage}
-            </p>
-          </div>
-        </motion.div>
+        {/* Final Message - Phase 4 (end) - rendered outside 3D context */}
       </motion.div>
 
       {/* Outer glow ring */}
