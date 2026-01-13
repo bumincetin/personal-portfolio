@@ -1,16 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
-import { BookingModal } from '@/app/components/BookingModal';
 
 export default function MethodologyPageClient({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
   const mp = t.methodologyPage;
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const sections = [
     { ...mp.section1, color: 'accent', href: `/${locale}/services/financial-analytics` },
@@ -211,36 +209,6 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
           </div>
         </motion.div>
       </section>
-
-      {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="bg-charcoal p-8 md:p-12 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl text-cream mb-4">
-              {mp.ctaTitle}
-            </h3>
-            <p className="font-mono text-sm text-cream/70 max-w-lg">
-              {mp.ctaDesc}
-            </p>
-          </div>
-          <div className="lg:text-right">
-            <button 
-              onClick={() => setIsBookingModalOpen(true)}
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90"
-            >
-              {mp.ctaButton}
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </div>
-      </section>
-      
-      <BookingModal
-        isOpen={isBookingModalOpen}
-        onClose={() => setIsBookingModalOpen(false)}
-        locale={locale}
-        t={t}
-      />
     </div>
   );
 }
