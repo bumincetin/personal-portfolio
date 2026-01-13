@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mail, Linkedin, Github } from 'lucide-react';
+import { ArrowRight, Mail, Linkedin, Github, MessageCircle } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 import { BookingModal } from '@/app/components/BookingModal';
 
@@ -61,6 +61,15 @@ const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
                 >
                   cetinbumink@gmail.com
                 </button>
+                <a
+                  href="https://wa.me/393481705207"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 hover:text-cream transition-colors text-left group"
+                >
+                  <MessageCircle size={14} className="group-hover:scale-110 transition-transform" />
+                  <span>+39 348 170 5207</span>
+                </a>
                 <span>Milan, Italy</span>
               </div>
             </div>
@@ -79,6 +88,16 @@ const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
             
             {/* Social Links */}
             <div className="flex items-center gap-6">
+              <a 
+                href="https://wa.me/393481705207"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 font-mono text-xs text-cream/50 hover:text-cream transition-colors"
+                title="WhatsApp"
+              >
+                <MessageCircle size={14} />
+                WhatsApp
+              </a>
               <a 
                 href="https://linkedin.com/in/buminkcetin" 
                 target="_blank" 

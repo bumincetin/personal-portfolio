@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Briefcase, Code, Award, Languages, Mail, Phone, Linkedin, MapPin, Calendar, ArrowRight } from 'lucide-react';
+import { GraduationCap, Briefcase, Code, Award, Languages, Mail, Phone, Linkedin, MapPin, Calendar, ArrowRight, MessageCircle } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 import Image from 'next/image';
 
@@ -98,6 +98,10 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
                 <a href="mailto:bumin.cetin@studbocconi.it" className="flex items-center gap-3 text-muted hover:text-accent transition-colors">
                   <Mail size={14} className="text-accent flex-shrink-0" />
                   <span className="truncate">bumin.cetin@studbocconi.it</span>
+                </a>
+                <a href="https://wa.me/393481705207" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-muted hover:text-accent transition-colors">
+                  <MessageCircle size={14} className="text-accent flex-shrink-0" />
+                  <span>+39 348 170 5207 (WhatsApp)</span>
                 </a>
                 <a href="tel:+393481705207" className="flex items-center gap-3 text-muted hover:text-accent transition-colors">
                   <Phone size={14} className="text-accent flex-shrink-0" />
