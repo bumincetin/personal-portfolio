@@ -279,6 +279,7 @@ const DataCube = ({
   glowColor,
   borderRadius,
   locale,
+  isMobile = false,
 }: {
   progress: MotionValue<number>;
   rotateX: MotionValue<number>;
@@ -290,8 +291,10 @@ const DataCube = ({
   glowColor: MotionValue<string>;
   borderRadius: MotionValue<string>;
   locale: Locale;
+  isMobile?: boolean;
 }) => {
-  const cubeSize = 200; // px
+  // Responsive cube size
+  const cubeSize = isMobile ? 140 : 200;
   const halfSize = cubeSize / 2;
 
   // Face styles for the cube
@@ -303,7 +306,7 @@ const DataCube = ({
       style={{ 
         width: cubeSize, 
         height: cubeSize,
-        perspective: '1000px',
+        perspective: isMobile ? '500px' : '1000px',
       }}
     >
       {/* Glitch layers - only visible in Phase 1 */}
@@ -463,6 +466,7 @@ const PhaseCard = ({
   icon: Icon,
   progress,
   phaseIndex,
+  isMobile = false,
 }: {
   phase: string;
   title: string;
@@ -470,6 +474,7 @@ const PhaseCard = ({
   icon: React.ElementType;
   progress: MotionValue<number>;
   phaseIndex: number;
+  isMobile?: boolean;
 }) => {
   const phaseStart = phaseIndex * 0.33;
   const phaseEnd = (phaseIndex + 1) * 0.33;
@@ -499,30 +504,30 @@ const PhaseCard = ({
       className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
       style={{ opacity, y, pointerEvents: 'none' }}
     >
-      <div className="w-full max-w-md p-6 md:p-8 rounded-lg bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg">
+      <div className={`w-full max-w-md rounded-lg bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg ${isMobile ? 'p-4' : 'p-6 md:p-8'}`}>
         {/* Phase badge */}
-        <div className="flex items-center gap-2.5 mb-4">
+        <div className={`flex items-center gap-2.5 ${isMobile ? 'mb-3' : 'mb-4'}`}>
           <div className={`
-            w-9 h-9 rounded-lg flex items-center justify-center
+            ${isMobile ? 'w-7 h-7' : 'w-9 h-9'} rounded-lg flex items-center justify-center
             bg-gradient-to-br ${gradientColors[phaseIndex]}
           `}>
-            <Icon size={18} className="text-white" />
+            <Icon size={isMobile ? 14 : 18} className="text-white" />
           </div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+          <span className={`font-mono uppercase tracking-[0.15em] text-muted ${isMobile ? 'text-[9px]' : 'text-[10px]'}`}>
             {phase}
           </span>
         </div>
 
         {/* Title with gradient */}
         <h3 className={`
-          font-serif text-xl md:text-2xl mb-3 leading-tight
+          font-serif ${isMobile ? 'text-base' : 'text-xl md:text-2xl'} ${isMobile ? 'mb-2' : 'mb-3'} leading-tight
           bg-gradient-to-r ${gradientColors[phaseIndex]} bg-clip-text text-transparent
         `}>
           {title}
         </h3>
 
         {/* Description */}
-        <p className="font-mono text-xs md:text-sm text-charcoal/70 leading-relaxed">
+        <p className={`font-mono text-charcoal/70 leading-relaxed ${isMobile ? 'text-[10px]' : 'text-xs md:text-sm'}`}>
           {description}
         </p>
       </div>
@@ -554,11 +559,11 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
     restDelta: 0.001,
   });
 
-  // Cube transformations - more organic, less perfect
-  const rotateX = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [-12, 2, 8, 0]);
-  const rotateY = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [-20, 42, 175, 360]);
-  const scale = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [0.85, 1, 1.08, 1.15]);
-  const borderRadius = useTransform(smoothProgress, [0, 0.33, 0.66, 1], ['3px', '6px', '10px', '14px']);
+  // Cube transformations - more organic, less perfect, reduced on mobile
+  const rotateX = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? [-8, 1, 5, 0] : [-12, 2, 8, 0]);
+  const rotateY = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? [-15, 30, 120, 360] : [-20, 42, 175, 360]);
+  const scale = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? [0.9, 1, 1.05, 1.1] : [0.85, 1, 1.08, 1.15]);
+  const borderRadius = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? ['2px', '4px', '6px', '8px'] : ['3px', '6px', '10px', '14px']);
 
   // Phase-specific effects
   const glitchIntensity = useTransform(smoothProgress, [0, 0.3], [4, 0]);
@@ -632,15 +637,15 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
           }}
         />
 
-        {/* Converging Data Points */}
+        {/* Converging Data Points - fewer on mobile for performance */}
         <div className="absolute inset-0 pointer-events-none">
-          {dataLabels.slice(0, 20).map((label, index) => (
+          {dataLabels.slice(0, isMobile ? 12 : 20).map((label, index) => (
             <DataPoint
               key={index}
               label={label}
               index={index}
               progress={smoothProgress}
-              totalPoints={20}
+              totalPoints={isMobile ? 12 : 20}
               viewportWidth={viewportSize.width}
               viewportHeight={viewportSize.height}
             />
@@ -713,7 +718,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
 
             {/* Center: 3D Cube */}
             <div className="flex-shrink-0 flex items-center justify-center z-10 relative">
-              <div className="relative" style={{ width: 200, height: 200 }}>
+              <div className="relative" style={{ width: isMobile ? 140 : 200, height: isMobile ? 140 : 200 }}>
                 <DataCube
                   progress={smoothProgress}
                   rotateX={rotateX}
@@ -725,6 +730,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                   glowColor={glowColor}
                   borderRadius={borderRadius}
                   locale={locale}
+                  isMobile={isMobile}
                 />
                 
                 {/* Final Message - Phase 4 (end) - positioned on top of cube, rotating with it, coming out */}
@@ -732,20 +738,21 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                   className="absolute left-1/2 pointer-events-none"
                   style={{
                     x: '-50%',
-                    y: useTransform(smoothProgress, [0.85, 0.95, 1], ['-100px', '-120px', '-140px']),
+                    y: useTransform(smoothProgress, [0.85, 0.95, 1], isMobile ? ['-70px', '-85px', '-100px'] : ['-100px', '-120px', '-140px']),
                     opacity: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 1, 1]),
                     scale: useTransform(smoothProgress, [0.85, 0.95], [0.8, 1]),
-                    rotateX,
-                    rotateY,
+                    rotateX: isMobile ? useTransform(rotateX, (v) => v * 0.7) : rotateX,
+                    rotateY: isMobile ? useTransform(rotateY, (v) => v * 0.7) : rotateY,
                     transformStyle: 'preserve-3d',
-                    perspective: '1000px',
-                    z: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 20, 40]),
+                    perspective: isMobile ? '500px' : '1000px',
+                    z: useTransform(smoothProgress, [0.85, 0.95, 1], isMobile ? [0, 15, 30] : [0, 20, 40]),
                   }}
                 >
                   <div 
-                    className="relative text-center px-5 py-4 bg-gradient-to-b from-amber-50 via-white to-amber-50/30 rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
+                    className="relative text-center bg-gradient-to-b from-amber-50 via-white to-amber-50/30 rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
                     style={{ 
-                      width: '200px',
+                      width: isMobile ? '140px' : '200px',
+                      padding: isMobile ? '12px 16px' : '16px 20px',
                       willChange: 'auto',
                       textRendering: 'optimizeLegibility',
                       WebkitFontSmoothing: 'antialiased',
@@ -755,25 +762,25 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                       borderBottom: '3px solid #D97706',
                     }}
                   >
-                    {/* Decorative corner flourishes */}
-                    <div className="absolute top-1 left-1 w-3 h-3 border-l-2 border-t-2 border-charcoal/40"></div>
-                    <div className="absolute top-1 right-1 w-3 h-3 border-r-2 border-t-2 border-charcoal/40"></div>
-                    <div className="absolute bottom-1 left-1 w-3 h-3 border-l-2 border-b-2 border-charcoal/40"></div>
-                    <div className="absolute bottom-1 right-1 w-3 h-3 border-r-2 border-b-2 border-charcoal/40"></div>
+                    {/* Decorative corner flourishes - smaller on mobile */}
+                    <div className={`absolute top-1 left-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-l-2 border-t-2 border-charcoal/40`}></div>
+                    <div className={`absolute top-1 right-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-r-2 border-t-2 border-charcoal/40`}></div>
+                    <div className={`absolute bottom-1 left-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-l-2 border-b-2 border-charcoal/40`}></div>
+                    <div className={`absolute bottom-1 right-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-r-2 border-b-2 border-charcoal/40`}></div>
                     
                     {/* Ornate divider lines */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent"></div>
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent"></div>
+                    <div className={`absolute top-0 left-1/2 -translate-x-1/2 ${isMobile ? 'w-12' : 'w-16'} h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent`}></div>
+                    <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 ${isMobile ? 'w-12' : 'w-16'} h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent`}></div>
                     
                     {/* Decorative dots */}
                     <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-600/60"></div>
                     <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-600/60"></div>
                     
                     <p 
-                      className="font-serif text-sm md:text-base lg:text-lg text-charcoal leading-relaxed font-semibold italic tracking-wide"
+                      className={`font-serif text-charcoal leading-relaxed font-semibold italic tracking-wide ${isMobile ? 'text-xs' : 'text-sm md:text-base lg:text-lg'}`}
                       style={{
                         fontVariant: 'small-caps',
-                        letterSpacing: '0.05em',
+                        letterSpacing: isMobile ? '0.03em' : '0.05em',
                         textShadow: '0 1px 2px rgba(0,0,0,0.05)',
                       }}
                     >
@@ -789,13 +796,14 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
             </div>
 
             {/* Right: Phase Cards */}
-            <div className="w-full lg:w-1/3 relative h-[400px] lg:h-[500px]">
+            <div className="w-full lg:w-1/3 relative h-[300px] sm:h-[350px] lg:h-[500px]">
               {phases.map((phase, index) => (
                 <PhaseCard
                   key={index}
                   {...phase}
                   progress={smoothProgress}
                   phaseIndex={index}
+                  isMobile={isMobile}
                 />
               ))}
             </div>
