@@ -34,6 +34,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# Google API credentials (security sensitive)
+client_secret_*.json
+*credentials*.json
+
 # vercel
 .vercel
 
