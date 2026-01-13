@@ -17,7 +17,7 @@ interface Props {
   t: TranslationType;
 }
 
-type StatementType = 'balance-sheet' | 'income-statement' | 'cash-flow';
+type StatementType = 'balance-sheet' | 'income-statement' | 'cash-flow' | 'trial-balance';
 type AnalysisStep = 'upload' | 'processing' | 'results';
 type FilterCategory = 'all' | 'liquidity' | 'profitability' | 'efficiency' | 'leverage';
 
@@ -51,6 +51,31 @@ interface AnalysisResult {
   summary?: string;
 }
 
+// Component for expandable unparsed items
+function UnparsedItem({ item }: { item: any }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  return (
+    <div className="bg-white p-3 border-l-2 border-orange-300">
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <span className="font-bold text-xs text-orange-800">{item.location || 'Unknown Location'}</span>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-orange-600 hover:text-orange-800 text-xs font-mono"
+        >
+          {isExpanded ? '▼' : '▶'}
+        </button>
+      </div>
+      <div className="text-xs text-muted mb-1">
+        <span className="font-semibold">{locale === 'tr' ? 'Sebep:' : locale === 'it' ? 'Motivo:' : 'Reason:'}</span> {item.reason || 'Unknown'}
+      </div>
+      <div className={`text-xs font-mono text-charcoal/70 ${isExpanded ? '' : 'line-clamp-2'}`}>
+        {item.content || 'No content available'}
+      </div>
+    </div>
+  );
+}
+
 export default function PortalPageClient({ locale, t }: Props) {
   const [step, setStep] = useState<AnalysisStep>('upload');
   const [file, setFile] = useState<File | null>(null);
@@ -69,6 +94,7 @@ export default function PortalPageClient({ locale, t }: Props) {
       'balance-sheet': locale === 'tr' ? 'Bilanço' : locale === 'it' ? 'Stato Patrimoniale' : 'Balance Sheet',
       'income-statement': locale === 'tr' ? 'Gelir Tablosu' : locale === 'it' ? 'Conto Economico' : 'Income Statement',
       'cash-flow': locale === 'tr' ? 'Nakit Akış Tablosu' : locale === 'it' ? 'Rendiconto Finanziario' : 'Cash Flow Statement',
+      'trial-balance': locale === 'tr' ? 'Mizan (Trial Balance)' : locale === 'it' ? 'Bilancio di Verifica' : 'Trial Balance',
     },
     supportedFormats: locale === 'tr' ? 'Desteklenen: Excel, CSV, Metin, JSON' : locale === 'it' ? 'Supportati: Excel, CSV, Testo, JSON' : 'Supported: Excel, CSV, Text, JSON',
   };
@@ -178,6 +204,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                     <option value="balance-sheet">{pt.statementTypes['balance-sheet']}</option>
                     <option value="income-statement">{pt.statementTypes['income-statement']}</option>
                     <option value="cash-flow">{pt.statementTypes['cash-flow']}</option>
+                    <option value="trial-balance">{pt.statementTypes['trial-balance']}</option>
                   </select>
                 </div>
               </div>
@@ -260,10 +287,10 @@ export default function PortalPageClient({ locale, t }: Props) {
                 <div className="bg-white p-6 border border-charcoal/5 shadow-card">
                   <h3 className="font-serif text-xl mb-4 flex items-center gap-2">
                     <Activity size={18} className="text-accent" />
-                    Executive Summary
+                    {t.methodologyPage.portal.executiveSummary}
                   </h3>
-                  <p className="text-sm text-charcoal/80 mb-4 font-serif italic leading-relaxed">
-                    "{analysis.summary}"
+                  <p className="text-base text-charcoal leading-relaxed mb-4 font-serif" style={{ fontFamily: 'Playfair Display, serif', lineHeight: '1.8' }}>
+                    {analysis.summary}
                   </p>
                   <ul className="space-y-2 border-t border-charcoal/5 pt-4">
                     {analysis.insights.map((insight, idx) => (
@@ -376,25 +403,29 @@ export default function PortalPageClient({ locale, t }: Props) {
                  <div className="bg-cream border border-charcoal/5 p-6">
                    <h4 className="font-serif text-lg mb-4 flex items-center gap-2">
                      <FileWarning size={16} className="text-orange-600" />
-                     Confidence Report
+                     {t.methodologyPage.portal.confidenceReport}
                    </h4>
                    <p className="text-xs text-muted mb-4">
-                     Analysis generated based on available data.
+                     {t.methodologyPage.portal.confidenceReportDesc}
                    </p>
-                   <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
-                     {analysis.unparsed?.map((u, i) => (
-                       <div key={i} className="bg-white p-2 text-[10px] border-l-2 border-orange-300">
-                         <span className="font-bold block text-orange-800">{u.location}</span>
-                         <span className="font-mono text-muted block truncate">{u.content}</span>
-                       </div>
-                     ))}
-                   </div>
+                   {analysis.unparsed && analysis.unparsed.length > 0 ? (
+                     <div className="space-y-3">
+                       {analysis.unparsed.map((u, i) => (
+                         <UnparsedItem key={i} item={u} />
+                       ))}
+                     </div>
+                   ) : (
+                     <div className="bg-white p-4 text-xs text-charcoal/60 border border-green-200 rounded-sm">
+                       <CheckCircle2 size={16} className="text-green-600 inline mr-2" />
+                       {locale === 'tr' ? 'Tüm veriler başarıyla analiz edildi.' : locale === 'it' ? 'Tutti i dati sono stati analizzati con successo.' : 'All data successfully analyzed.'}
+                     </div>
+                   )}
                  </div>
 
                  <div className="bg-charcoal text-cream p-6">
-                    <h4 className="font-serif text-lg mb-4">Methodology</h4>
+                    <h4 className="font-serif text-lg mb-4">{t.methodologyPage.portal.methodology}</h4>
                     <p className="text-xs opacity-70 mb-4 leading-relaxed">
-                      Calculations strictly follow IFRS standards.
+                      {t.methodologyPage.portal.methodologyDesc}
                     </p>
                     <div className="space-y-2">
                       {analysis.ratios.map(r => (

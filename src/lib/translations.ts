@@ -232,6 +232,15 @@ export interface TranslationType {
       successDesc: string;
       loading: string;
     };
+    portal: {
+      executiveSummary: string;
+      confidenceReport: string;
+      methodology: string;
+      confidenceReportDesc: string;
+      methodologyDesc: string;
+      trialBalance: string;
+      ifrsBalanceSheet: string;
+    };
   };
 }
 
@@ -598,6 +607,15 @@ export const translations: Record<Locale, TranslationType> = {
         successDesc: 'Your email client should open with a pre-filled message. Please review and send the email to complete your consultation request.',
         loading: 'Sending Request...',
       },
+      portal: {
+        executiveSummary: 'Executive Summary',
+        confidenceReport: 'Confidence Report',
+        methodology: 'Methodology',
+        confidenceReportDesc: 'Analysis generated based on available data.',
+        methodologyDesc: 'Calculations strictly follow IFRS standards.',
+        trialBalance: 'Trial Balance',
+        ifrsBalanceSheet: 'IFRS Balance Sheet',
+      },
     },
   },
   tr: {
@@ -959,6 +977,15 @@ export const translations: Record<Locale, TranslationType> = {
         success: 'Talep Gönderildi',
         successDesc: 'E-posta istemciniz önceden doldurulmuş bir mesajla açılmalıdır. Lütfen e-postayı gözden geçirin ve görüşme talebinizi tamamlamak için gönderin.',
         loading: 'Talep Gönderiliyor...',
+      },
+      portal: {
+        executiveSummary: 'Özet Değerlendirme',
+        confidenceReport: 'Güven Raporu',
+        methodology: 'Hesaplama Yöntemi',
+        confidenceReportDesc: 'Mevcut verilere dayalı olarak oluşturulan analiz.',
+        methodologyDesc: 'Hesaplamalar IFRS standartlarına sıkı sıkıya uygundur.',
+        trialBalance: 'Mizan',
+        ifrsBalanceSheet: 'IFRS Bilançosu',
       },
     },
   },
@@ -1323,6 +1350,15 @@ export const translations: Record<Locale, TranslationType> = {
         success: 'Richiesta Inviata',
         successDesc: 'Il tuo client email dovrebbe aprirsi con un messaggio precompilato. Si prega di rivedere e inviare l\'email per completare la richiesta di consulenza.',
         loading: 'Invio Richiesta...',
+      },
+      portal: {
+        executiveSummary: 'Riassunto Esecutivo',
+        confidenceReport: 'Rapporto di Confidenza',
+        methodology: 'Metodologia',
+        confidenceReportDesc: 'Analisi generata sulla base dei dati disponibili.',
+        methodologyDesc: 'I calcoli seguono rigorosamente gli standard IFRS.',
+        trialBalance: 'Bilancio di Verifica',
+        ifrsBalanceSheet: 'Stato Patrimoniale IFRS',
       },
     },
   },

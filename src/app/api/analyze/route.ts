@@ -44,25 +44,47 @@ export async function POST(req: NextRequest) {
     const prompt = `You are a Senior Financial Analyst with expertise in IFRS, GAAP, and international accounting standards. Analyze the financial statement "${fileName}" (Type: ${statementType}).
 
 CRITICAL REQUIREMENTS:
-1. DETECT DOCUMENT LANGUAGE: Identify if the document is in English (en), Turkish (tr), or Italian (it) based on content
-2. EXTRACT ALL METRICS: Parse all financial values, dates, periods, and line items from the document
-3. IDENTIFY COMPARATIVES: Look for "Previous Year", "Prior Period", "Önceki Dönem", "Periodo Precedente", "Prior Year", "PY" columns or sections
-4. CALCULATE RATIOS: Use standard financial ratio formulas. For each ratio, you MUST:
+1. DETECT DOCUMENT TYPE: First, identify if this is a Trial Balance (Mizan / Bilancio di Verifica). If it is:
+   - Convert it to an IFRS-compliant Balance Sheet structure
+   - Group accounts into: Current Assets, Non-Current Assets, Current Liabilities, Non-Current Liabilities, Equity
+   - Apply proper IFRS classifications (e.g., Property, Plant & Equipment, Intangible Assets, etc.)
+   - Calculate totals for each section
+   - Note in the summary that a Trial Balance was converted to IFRS Balance Sheet format
+
+2. DETECT DOCUMENT LANGUAGE: Identify if the document is in English (en), Turkish (tr), or Italian (it) based on content
+
+3. EXTRACT ALL METRICS: Parse ALL financial values, dates, periods, and line items from the document. Be extremely thorough - extract every number, account name, and classification.
+
+4. IDENTIFY COMPARATIVES: Look for "Previous Year", "Prior Period", "Önceki Dönem", "Periodo Precedente", "Prior Year", "PY", "Önceki Yıl" columns or sections
+
+5. CALCULATE COMPREHENSIVE RATIOS: Calculate a wide range of financial ratios. For each ratio, you MUST:
    - Calculate the exact value using the formula
-   - List EXACT source data locations (e.g., "Total Current Assets: €250,000 (Balance Sheet, Assets section, line 15)", "Total Current Liabilities: €135,000 (Balance Sheet, Liabilities section, line 28)")
+   - List EXACT source data locations with full context (e.g., "Total Current Assets: €250,000 (Balance Sheet, Assets section, line 15, Current Period column)", "Total Current Liabilities: €135,000 (Balance Sheet, Liabilities section, line 28, Current Period column)")
    - Determine status: "good" if above industry average, "warning" if near average, "bad" if below average
-5. TRACK DATA SOURCES: For EVERY ratio, the sourceData array must contain specific references like:
+   - Provide detailed interpretation explaining what the ratio means for the company's financial health
+
+6. TRACK DATA SOURCES: For EVERY ratio, the sourceData array must contain specific references like:
    - "Revenue: €1,200,000 (Income Statement, line 5, Current Period column)"
    - "Cost of Goods Sold: €720,000 (Income Statement, line 12, Current Period column)"
-6. IDENTIFY UNPARSED SECTIONS: List ANY parts that couldn't be understood with:
-   - Exact content/text that was unclear
+
+7. GENERATE DETAILED INSIGHTS: Provide at least 5-7 comprehensive insights covering:
+   - Financial health assessment
+   - Liquidity position
+   - Profitability trends
+   - Leverage and solvency
+   - Operational efficiency
+   - Risk factors
+   - Growth opportunities or concerns
+
+8. IDENTIFY UNPARSED SECTIONS: List ANY parts that couldn't be understood with:
+   - Exact content/text that was unclear (include full text, not truncated)
    - Location (page number, section, line numbers if available)
    - Reason why it couldn't be parsed (e.g., "Missing labels", "Unclear formatting", "Language not recognized")
 
 OUTPUT FORMAT (STRICT JSON - NO MARKDOWN, NO CODE BLOCKS, NO EXPLANATIONS):
 {
   "docLanguage": "en" | "tr" | "it",
-  "summary": "A comprehensive executive summary (2-3 sentences) analyzing the financial health, trends, and key findings. Write in the detected document language.",
+  "summary": "A comprehensive executive summary (4-6 sentences) providing a detailed analysis of financial health, trends, key findings, liquidity position, profitability, and overall business performance. Write in the detected document language. Be specific with numbers and percentages where available.",
   "ratios": [
     {
       "id": "current-ratio",
@@ -80,9 +102,13 @@ OUTPUT FORMAT (STRICT JSON - NO MARKDOWN, NO CODE BLOCKS, NO EXPLANATIONS):
     }
   ],
   "insights": [
-    "Key insight 1 explaining financial health, trends, or risks (in document language)",
-    "Key insight 2 with actionable observations (in document language)",
-    "Key insight 3 highlighting opportunities or concerns (in document language)"
+    "Detailed insight 1 explaining financial health with specific numbers and context (in document language)",
+    "Detailed insight 2 about liquidity position with ratios and implications (in document language)",
+    "Detailed insight 3 about profitability trends with percentages and comparisons (in document language)",
+    "Detailed insight 4 about leverage and solvency with risk assessment (in document language)",
+    "Detailed insight 5 about operational efficiency with metrics (in document language)",
+    "Detailed insight 6 about risk factors or concerns with specific examples (in document language)",
+    "Detailed insight 7 about growth opportunities or strategic recommendations (in document language)"
   ],
   "graphData": {
     "available": true | false,
@@ -103,9 +129,16 @@ OUTPUT FORMAT (STRICT JSON - NO MARKDOWN, NO CODE BLOCKS, NO EXPLANATIONS):
 }
 
 STATEMENT TYPE SPECIFIC REQUIREMENTS:
-- Balance Sheet: Calculate Current Ratio, Quick Ratio, Debt-to-Equity, Asset Turnover. Graph: Total Assets vs Total Liabilities (or Current Assets vs Current Liabilities if time series available)
-- Income Statement: Calculate Gross Margin, Net Margin, EBITDA Margin, Operating Margin, ROE. Graph: Revenue vs Net Income over periods (or Revenue vs Expenses if only 2 periods)
-- Cash Flow: Calculate Operating Cash Flow Ratio, Free Cash Flow, Cash Conversion Cycle. Graph: Operating Cash Flow vs Free Cash Flow over periods
+- Balance Sheet: Calculate Current Ratio, Quick Ratio, Debt-to-Equity, Debt-to-Assets, Equity Ratio, Asset Turnover, Working Capital, Current Assets to Total Assets ratio. Graph: Total Assets vs Total Liabilities (or Current Assets vs Current Liabilities if time series available)
+- Income Statement: Calculate Gross Margin, Net Margin, EBITDA Margin, Operating Margin, ROE, ROA, Operating Expense Ratio, Revenue Growth Rate. Graph: Revenue vs Net Income over periods (or Revenue vs Expenses if only 2 periods)
+- Cash Flow: Calculate Operating Cash Flow Ratio, Free Cash Flow, Cash Conversion Cycle, Operating Cash Flow Margin, Cash Flow to Debt Ratio. Graph: Operating Cash Flow vs Free Cash Flow over periods
+- Trial Balance (Mizan / Bilancio di Verifica): 
+  * FIRST: Convert the trial balance to an IFRS-compliant Balance Sheet structure
+  * Group all accounts into proper IFRS categories: Current Assets, Non-Current Assets, Current Liabilities, Non-Current Liabilities, Equity
+  * Apply IFRS classifications (Property Plant & Equipment, Intangible Assets, Trade Receivables, etc.)
+  * Calculate section totals and ensure Assets = Liabilities + Equity
+  * THEN: Calculate all Balance Sheet ratios listed above
+  * Note in summary: "This analysis converted a Trial Balance to IFRS-compliant Balance Sheet format before performing financial ratio analysis."
 
 CALCULATION RULES:
 - For ratios, use standard formulas (e.g., Current Ratio = Current Assets / Current Liabilities)
