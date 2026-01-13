@@ -3,13 +3,12 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getGeminiApiKey } from '@/lib/gemini-config';
 
 // List of models to try in order of preference
-// This prevents the "404 Model Not Found" error if an alias is deprecated or region-locked
+// Updated to use correct Gemini 1.5 model names (v1beta API)
 const MODEL_FALLBACKS = [
-  "gemini-1.5-flash",        // Standard alias
-  "gemini-1.5-flash-latest", // Bleeding edge
-  "gemini-1.5-flash-001",    // Specific stable version
-  "gemini-1.5-flash-002",    // Newer stable version
-  "gemini-pro"               // Fallback to 1.0 if all else fails
+  "gemini-1.5-flash",        // Fast and efficient model (most commonly available)
+  "gemini-1.5-pro",          // More capable model for complex analysis
+  "gemini-1.5-flash-002",    // Specific stable version
+  "gemini-1.5-pro-002"       // Specific stable version of pro
 ];
 
 const generationConfig = {
@@ -124,7 +123,7 @@ CRITICAL:
 `;
 
     // 3. Try Models with Fallback Strategy
-    let lastError = null;
+    let lastError: any = null;
     
     for (const modelName of MODEL_FALLBACKS) {
       try {
@@ -191,7 +190,7 @@ CRITICAL:
     }
 
     // If loop finishes without success
-    throw lastError || new Error("All model attempts failed. Please check your API Key region.");
+    throw lastError || new Error("All model attempts failed. Please check your API Key region and ensure you have access to Gemini 1.5 models.");
 
   } catch (error: any) {
     console.error('Final API Error:', error);
