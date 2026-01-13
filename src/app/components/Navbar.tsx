@@ -82,7 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? 'bg-cream/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="max-w-7xl mx-auto pl-4 sm:pl-6 md:pl-8 lg:pl-10 xl:pl-12 pr-4 sm:pr-6 md:pr-8 lg:pr-12 xl:pr-16">
           <div className="flex items-center justify-between h-20 min-w-0">
             {/* --- UPDATED LOGO SECTION START --- */}
             <Link 
@@ -90,7 +90,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
               className="flex items-center gap-2 lg:gap-3 font-serif text-lg md:text-xl lg:text-2xl text-charcoal tracking-tight hover:opacity-80 transition-opacity flex-shrink-0"
             >
               {/* Replace '/logo.png' with your actual file name in the public folder */}
-              <div className="relative w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10">
+              <div className="relative w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12">
                 <Image 
                   src="/BuminLogo.png" 
                   alt="Bumin Kağan Çetin Logo" 
@@ -105,7 +105,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
             {/* --- UPDATED LOGO SECTION END --- */}
             
             {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-6 flex-shrink-0">
+            <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-6 flex-shrink-0 ml-6 lg:ml-8">
               {links.map((link) => (
                 <Link 
                   key={link.name}
