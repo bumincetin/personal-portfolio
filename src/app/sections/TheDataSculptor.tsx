@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
 import { Database, Cpu, Gem, ArrowDown } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
@@ -15,8 +15,8 @@ const GlitchLayer = ({
   progress,
   glitchIntensity,
 }: {
-  progress: ReturnType<typeof useSpring>;
-  glitchIntensity: ReturnType<typeof useTransform>;
+  progress: MotionValue<number>;
+  glitchIntensity: MotionValue<number>;
 }) => {
   const [time, setTime] = useState(0);
 
@@ -28,12 +28,11 @@ const GlitchLayer = ({
   }, []);
 
   const opacity = useTransform(progress, [0, 0.3], [0.5, 0]);
-  const intensity = useTransform(glitchIntensity, (v: number) => v);
   
-  const x1 = useTransform(intensity, (v: number) => Math.sin(time * 0.01) * v * 3);
-  const y1 = useTransform(intensity, (v: number) => Math.cos(time * 0.01) * v * 2);
-  const x2 = useTransform(intensity, (v: number) => Math.cos(time * 0.008) * v * -3);
-  const y2 = useTransform(intensity, (v: number) => Math.sin(time * 0.008) * v * -2);
+  const x1 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.01) * v * 3);
+  const y1 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.01) * v * 2);
+  const x2 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.008) * v * -3);
+  const y2 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.008) * v * -2);
 
   return (
     <motion.div
@@ -64,15 +63,15 @@ const DataCube = ({
   glowColor,
   borderRadius,
 }: {
-  progress: ReturnType<typeof useSpring>;
-  rotateX: ReturnType<typeof useTransform>;
-  rotateY: ReturnType<typeof useTransform>;
-  scale: ReturnType<typeof useTransform>;
-  glitchIntensity: ReturnType<typeof useTransform>;
-  scanProgress: ReturnType<typeof useTransform>;
-  phaseColor: ReturnType<typeof useTransform>;
-  glowColor: ReturnType<typeof useTransform>;
-  borderRadius: ReturnType<typeof useTransform>;
+  progress: MotionValue<number>;
+  rotateX: MotionValue<number>;
+  rotateY: MotionValue<number>;
+  scale: MotionValue<number>;
+  glitchIntensity: MotionValue<number>;
+  scanProgress: MotionValue<number>;
+  phaseColor: MotionValue<string>;
+  glowColor: MotionValue<string>;
+  borderRadius: MotionValue<string>;
 }) => {
   const cubeSize = 180; // px
   const halfSize = cubeSize / 2;
@@ -244,7 +243,7 @@ const PhaseCard = ({
   title: string;
   description: string;
   icon: React.ElementType;
-  progress: ReturnType<typeof useSpring>;
+  progress: MotionValue<number>;
   phaseIndex: number;
 }) => {
   const phaseStart = phaseIndex * 0.33;
