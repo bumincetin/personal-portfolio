@@ -457,12 +457,11 @@ const DataCube = ({
             scale: finalMessageScale,
           }}
         >
-          <div className="text-center px-4">
+          <div className="text-center px-6 py-4 bg-white/95 backdrop-blur-sm rounded-lg border-2 border-charcoal shadow-xl">
             <motion.p
-              className="font-serif text-sm md:text-base text-charcoal leading-tight font-medium"
+              className="font-serif text-base md:text-lg lg:text-xl text-charcoal leading-relaxed font-semibold"
               style={{
-                color: useTransform(phaseColor, (c: string) => c),
-                textShadow: useTransform(glowColor, (c: string) => `0 0 20px ${c}40`),
+                textShadow: useTransform(glowColor, (c: string) => `0 0 15px ${c}30, 0 2px 4px rgba(0,0,0,0.1)`),
               }}
             >
               {finalMessage}
