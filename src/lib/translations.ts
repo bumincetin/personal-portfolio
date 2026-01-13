@@ -716,12 +716,12 @@ export const translations: Record<Locale, TranslationType> = {
   tr: {
     nav: {
       home: 'Ana Sayfa',
-      methodology: 'Hizmetler',
+      methodology: 'HİZMETLER',
       projects: 'Araştırmalarım',
       portal: 'Demo Portal',
-      whySME: 'KOBİ\'ler İçin',
+      whySME: 'KOBİ\'LER İÇİN',
       about: 'Hakkımda',
-      contact: 'İletişim',
+      contact: 'İLETİŞİM',
     },
     hero: {
       title1: 'Kod ile sermaye',
