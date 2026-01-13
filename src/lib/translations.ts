@@ -774,7 +774,7 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Piyasa verilerini anlamlı öngörülere dönüştüren güçlü finansal modeller kuruyorum. Fiyat tahminleri için yapay sinir ağlarından risk ölçümü için simülasyonlara kadar, her model gerçek hayatta kullanılmak üzere tasarlanıyor.',
         desc2: 'Geleneksel finans bilgisini modern yapay zeka teknikleriyle birleştirerek, hem matematiksel olarak sağlam hem de uygulamada işe yarayan çözümler üretiyorum.',
         features: ['Fiyat ve Trend Tahmini (ARIMA, LSTM, Prophet)', 'Risk Ölçümü ve Stres Testleri', 'Portföy Optimizasyonu', 'Yatırım Sinyalleri Üretimi'],
-        expandedDesc: 'Finansal veri analizi, piyasaların kaosunun içinde bir düzen bulma sanatıdır. Tıpkı gelişmiş meteorolojik modellerin atmosferdeki basınç değişimlerini izleyerek fırtınayı önceden haber vermesi gibi; biz de geçmiş verileri, piyasa duyarlılığını ve görsel sinyalleri analiz ederek finansal iklimi modelliyoruz.\n\nSize sunduğum çözüm, karmaşık matematiksel algoritmaları ve çok katmanlı veri setlerini (metin, görüntü, sayısal veri) işleyerek "gürültüden sinyali ayırır". Amacım, sizi veri yığınına boğmak değil; bu karmaşık hesaplamaları net, stratejik ve kârlı yatırım kararlarına dönüştürecek pusulayı sağlamaktır.',
+        expandedDesc: 'Finansal veri analizi, piyasaların kaosunun içinde bir düzen bulma sanatıdır. Tıpkı gelişmiş meteorolojik modellerin atmosferdeki basınç değişimlerini izleyerek fırtınayı önceden haber vermesi gibi; ben de geçmiş verileri, piyasa duyarlılığını ve görsel sinyalleri analiz ederek finansal iklimi modelliyorum.\n\nSize sunduğum çözüm, karmaşık matematiksel algoritmaları ve çok katmanlı veri setlerini (metin, görüntü, sayısal veri) işleyerek "gürültüden sinyali ayırır". Amacım, sizi veri yığınına boğmak değil; bu karmaşık hesaplamaları net, stratejik ve kârlı yatırım kararlarına dönüştürecek pusulayı sağlamaktır.',
         useCases: {
           title: 'Kullanım Senaryoları',
           scenarios: [
@@ -852,14 +852,14 @@ export const translations: Record<Locale, TranslationType> = {
         desc1: 'Ham veriler doğru görselleştirilmeden anlam ifade etmez. Karmaşık veri kümelerini herkesin anlayabileceği panolara dönüştürerek hızlı ve doğru kararlar almanızı sağlıyorum.',
         desc2: 'Üst yönetim için özet göstergelerden detaylı operasyonel raporlara kadar, her panoyu sizin ihtiyaçlarınıza göre özelleştiriyorum.',
         features: ['Yönetici Panoları', 'Otomatik Rapor Sistemleri', 'Veri Deposu Tasarımı', 'Özel Görsel Çözümler'],
-        expandedDesc: 'İş Zekası (Business Intelligence), şirketinizin farklı departmanlarına dağılmış veri parçalarını toplayıp, onları "Tek Bir Hakikat Kaynağına" (Single Source of Truth) dönüştürme sürecidir.\n\nBiz, veriyi statik ve yönetimi zor Excel dosyalarından kurtarıp, yaşayan ve nefes alan dinamik panolara taşıyoruz. Bu sadece "güzel raporlar" almakla ilgili değildir; bu, şirketinizin geçmişini ve bugününü röntgen hassasiyetinde görerek, kurumsal körlüğü ortadan kaldırmakla ilgilidir. BI, size sadece "ne kadar sattığınızı" söylemez; "neden orada sattığınızı" ve "kârlılığın nereden geldiğini" gösterir.',
+        expandedDesc: 'İş Zekası (Business Intelligence), şirketinizin farklı departmanlarına dağılmış veri parçalarını toplayıp, onları "Tek Bir Hakikat Kaynağına" (Single Source of Truth) dönüştürme sürecidir.\n\nBen, veriyi statik ve yönetimi zor Excel dosyalarından kurtarıp, yaşayan ve nefes alan dinamik panolara taşıyorum. Bu sadece "güzel raporlar" almakla ilgili değildir; bu, şirketinizin geçmişini ve bugününü röntgen hassasiyetinde görerek, kurumsal körlüğü ortadan kaldırmakla ilgilidir. BI, size sadece "ne kadar sattığınızı" söylemez; "neden orada sattığınızı" ve "kârlılığın nereden geldiğini" gösterir.',
         useCases: {
           title: 'Kullanım Senaryoları',
           scenarios: [
             {
               title: 'Gerçek Zamanlı Performans Takibi (Excel Kaosundan Kaçış)',
               problem: 'Ay sonu raporlarını beklemek, verileri Excel\'de manuel olarak birleştirmek ve formül hatalarıyla uğraşmak, karar alma hızınızı yavaşlatır.',
-              solution: 'Tüm satış, pazarlama ve finans verilerinizi tek bir canlı ekrana (dashboard) entegre ediyoruz. Veriler manuel girişle değil, otomatik API bağlantılarıyla güncellenir.',
+              solution: 'Tüm satış, pazarlama ve finans verilerinizi tek bir canlı ekrana (dashboard) entegre ediyorum. Veriler manuel girişle değil, otomatik API bağlantılarıyla güncellenir.',
               benefit: 'Şirketin nabzını anlık olarak tutar, ay sonunu beklemeden rotanızı düzeltebilirsiniz. "Veri hazırlamakla" değil, "karar vermekle" zaman harcarsınız.',
             },
             {
@@ -898,19 +898,19 @@ export const translations: Record<Locale, TranslationType> = {
             {
               title: 'Anahtar Teslim Şirket Kuruluşu ve Pazar Girişi',
               problem: 'İtalya\'da şirket kurmak; noter işlemleri, vergi dairesi kayıtları ve banka hesap açılışları gibi karmaşık ve çok dilli bir bürokrasi içerir.',
-              solution: 'Şirket türünün belirlenmesinden (S.r.l, S.p.A vb.) tescil işlemlerinin tamamlanmasına kadar tüm süreci yönetiyoruz.',
-              benefit: 'Siz iş planınıza odaklanırken, biz yasal altyapıyı hatasız bir şekilde kurarak zaman ve maliyet kaybını önleriz.',
+              solution: 'Şirket türünün belirlenmesinden (S.r.l, S.p.A vb.) tescil işlemlerinin tamamlanmasına kadar tüm süreci yönetiyorum.',
+              benefit: 'Siz iş planınıza odaklanırken, ben yasal altyapıyı hatasız bir şekilde kurarak zaman ve maliyet kaybını önlerim.',
             },
             {
               title: 'Vergi Optimizasyonu ve Teşvik Danışmanlığı',
               problem: 'İtalya ve Türkiye arasındaki Çifte Vergilendirmeyi Önleme Anlaşmaları ve yerel teşvikler (Örn: AR-GE teşvikleri, Start-up vizeleri) karmaşıktır.',
-              solution: 'İş modelinize en uygun vergi yapısını kurguluyor, yararlanabileceğiniz devlet teşviklerini ve hibeleri belirliyoruz.',
+              solution: 'İş modelinize en uygun vergi yapısını kurguluyor, yararlanabileceğiniz devlet teşviklerini ve hibeleri belirliyorum.',
               benefit: 'Yasal çerçevede vergi yükünüzü minimize ederken, işletme sermayenizi devlet destekleriyle güçlendirmenizi sağlar.',
             },
             {
               title: 'Kültürel ve Ticari Müzakere Yönetimi',
               problem: 'İtalyan iş kültüründe güven, ilişkiler ve iletişim tarzı, en az sözleşmeler kadar önemlidir. Yanlış bir iletişim, masadaki anlaşmayı bozabilir.',
-              solution: 'Sadece dili değil, iş yapış biçimini de tercüme ediyoruz. Yerel tedarikçiler, bankalar veya ortaklarla yapılan görüşmelerde kültürel köprü kuruyoruz.',
+              solution: 'Sadece dili değil, iş yapış biçimini de tercüme ediyorum. Yerel tedarikçiler, bankalar veya ortaklarla yapılan görüşmelerde kültürel köprü kuruyorum.',
               benefit: 'Yanlış anlaşılmaları ortadan kaldırır, yerel paydaşlarla güvene dayalı, uzun vadeli ticari ilişkiler kurmanızı sağlar.',
             },
             {
@@ -924,10 +924,10 @@ export const translations: Record<Locale, TranslationType> = {
         closingMessage: 'İtalya\'da iş yapmak için İtalyanca bilmenize gerek yok; işin dilini bilen bir ortağa ihtiyacınız var. Alvolo Consulting ile sınırları kaldırıyor, Türkiye ve İtalya arasındaki ticaret yolunu sizin için kısaltıyoruz.',
       },
       processLabel: 'Çalışma Sürecim',
-      processTitle: 'Birlikte Nasıl Çalışıyoruz',
+      processTitle: 'Nasıl Çalışıyorum',
       process: {
         step1Title: 'Tanışma',
-        step1Desc: 'İşinizi, verilerinizi ve hedeflerinizi anlamak için detaylı görüşmeler yapıyoruz.',
+        step1Desc: 'İşinizi, verilerinizi ve hedeflerinizi anlamak için detaylı görüşmeler yapıyorum.',
         step2Title: 'Planlama',
         step2Desc: 'İhtiyaçlarınıza uygun teknik çözümler ve veri akışları tasarlıyorum.',
         step3Title: 'Geliştirme',
