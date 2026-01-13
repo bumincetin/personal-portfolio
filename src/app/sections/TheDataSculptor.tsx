@@ -295,7 +295,7 @@ const DataCube = ({
   const halfSize = cubeSize / 2;
 
   // Face styles for the cube
-  const faceBaseStyle = "absolute w-full h-full border backdrop-blur-sm";
+  const faceBaseStyle = "absolute w-full h-full border-2 border-charcoal backdrop-blur-sm";
   
   // Final message text
   const finalMessage = locale === 'tr' 
@@ -370,8 +370,7 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateZ(-${halfSize}px) rotateY(180deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}08`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}25`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}15`),
             borderRadius,
           }}
         />
@@ -381,8 +380,7 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateX(${halfSize}px) rotateY(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}10`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}18`),
             borderRadius,
           }}
         />
@@ -392,8 +390,7 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateX(-${halfSize}px) rotateY(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}10`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}18`),
             borderRadius,
           }}
         />
@@ -403,8 +400,7 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateY(-${halfSize}px) rotateX(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}06`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}20`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
             borderRadius,
           }}
         />
@@ -414,8 +410,7 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateY(${halfSize}px) rotateX(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}15`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}40`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}22`),
             borderRadius,
             boxShadow: useTransform(glowColor, (c: string) => `0 0 35px ${c}35`),
           }}
