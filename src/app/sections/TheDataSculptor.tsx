@@ -452,12 +452,17 @@ const DataCube = ({
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
           style={{
-            transform: `translateZ(${halfSize + 2}px)`,
             opacity: finalMessageOpacity,
             scale: finalMessageScale,
           }}
         >
-          <div className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl">
+          <div 
+            className="text-center px-8 py-6 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
+            style={{
+              transform: `translateZ(${halfSize + 2}px)`,
+              transformStyle: 'preserve-3d',
+            }}
+          >
             <p className="font-serif text-lg md:text-xl lg:text-2xl text-charcoal leading-relaxed font-bold">
               {finalMessage}
             </p>
@@ -618,7 +623,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
       phase: locale === 'tr' ? 'Faz II' : locale === 'it' ? 'Fase II' : 'Phase II',
       title: locale === 'tr' ? 'Arıtma' : locale === 'it' ? 'Raffinamento' : 'The Refinement',
       description: locale === 'tr'
-        ? 'Yapay zeka algoritmaları devreye giriyor. Makine öğrenmesi modelleri veriyi tarar, kalıpları tanımlar, anormallikleri tespit eder. NLP sistemleri yapılandırılmamış metinleri anlamlandırır, bilgisayarlı görü sistemleri görsellerden veri çıkarır. Kaos içinden düzen doğuyor. Her satır, her sütun, her veri noktası artık bir anlam taşıyor. Otomasyon başlıyor, verimlilik artıyor, hatalar azalıyor. Veri işleniyor, temizleniyor, zenginleştiriliyor.'
+        ? 'Yapay zeka algoritmaları devreye giriyor. Makine öğrenmesi modelleri veriyi tarıyor, kalıpları tanımlıyor, anormallikleri tespit ediyor. NLP sistemleri yapılandırılmamış metinleri anlamlandırıyor, bilgisayarlı görü sistemleri görsellerden veri çıkarıyor. Kaos içinden düzen doğuyor. Her satır, her sütun, her veri noktası artık bir anlam taşıyor. Otomasyon başlıyor, verimlilik artıyor, hatalar azalıyor. Veri işleniyor, temizleniyor, zenginleştiriliyor.'
         : locale === 'it'
         ? 'Gli algoritmi di intelligenza artificiale entrano in gioco. I modelli di machine learning scansionano i dati, identificano pattern, rilevano anomalie. I sistemi NLP danno significato ai testi non strutturati, la computer vision estrae dati dalle immagini. L\'ordine nasce dal caos. Ogni riga, ogni colonna, ogni punto dati ora porta significato. L\'automazione inizia, l\'efficienza aumenta, gli errori diminuiscono. I dati vengono elaborati, puliti, arricchiti.'
         : 'AI algorithms come into play. Machine learning models scan data, identify patterns, detect anomalies. NLP systems give meaning to unstructured text, computer vision extracts data from images. Order emerges from chaos. Every row, every column, every data point now carries meaning. Automation begins, efficiency rises, errors decrease. Data is processed, cleaned, enriched.',
@@ -628,7 +633,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
       phase: locale === 'tr' ? 'Faz III' : locale === 'it' ? 'Fase III' : 'Phase III',
       title: locale === 'tr' ? 'Değerli Varlık' : locale === 'it' ? 'L\'Asset Prezioso' : 'The Precious Asset',
       description: locale === 'tr'
-        ? 'İşlenmiş veri artık altın gibi parıldıyor. Eyleme dönüştürülebilir içgörüler, stratejik kararlar ve ölçülebilir iş değeri yaratıldı. Tahmine dayalı modeller geleceği öngörüyor, risk analizi şirketi koruyor, optimizasyon algoritmaları maliyetleri düşürüyor. Müşteri segmentasyonu pazarlama bütçesini maksimize ediyor, finansal modeller yatırım kararlarını yönlendiriyor. Veri artık sadece bilgi değil, rekabet avantajı. Sadece rapor değil, stratejik pusula. Sadece sayılar değil, sermaye.'
+        ? 'İşlenmiş veri artık altın gibi parıldıyor. Eyleme dönüştürülebilir içgörüler, stratejik kararlar ve ölçülebilir iş değeri yaratılıyor. Tahmine dayalı modeller geleceği öngörüyor, risk analizi şirketi koruyor, optimizasyon algoritmaları maliyetleri düşürüyor. Müşteri segmentasyonu pazarlama bütçesini maksimize ediyor, finansal modeller yatırım kararlarını yönlendiriyor. Veri artık sadece bilgi değil, rekabet avantajı. Sadece rapor değil, stratejik pusula. Sadece sayılar değil, sermaye.'
         : locale === 'it'
         ? 'I dati elaborati ora brillano come oro. Insight azionabili, decisioni strategiche e valore aziendale misurabile sono stati creati. I modelli predittivi prevedono il futuro, l\'analisi del rischio protegge l\'azienda, gli algoritmi di ottimizzazione riducono i costi. La segmentazione dei clienti massimizza il budget di marketing, i modelli finanziari guidano le decisioni di investimento. I dati non sono più solo informazioni, ma vantaggio competitivo. Non solo rapporti, ma bussola strategica. Non solo numeri, ma capitale.'
         : 'Processed data now shines like gold. Actionable insights, strategic decisions, and measurable business value have been forged. Predictive models forecast the future, risk analysis protects the company, optimization algorithms reduce costs. Customer segmentation maximizes marketing budget, financial models guide investment decisions. Data is no longer just information, but competitive advantage. Not just reports, but strategic compass. Not just numbers, but capital.',
