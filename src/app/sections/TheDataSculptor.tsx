@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Database, Cpu, Gem, ArrowDown } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
@@ -9,6 +9,48 @@ interface TheDataSculptorProps {
   locale: Locale;
   t: TranslationType;
 }
+
+// Glitch layer component for Phase 1
+const GlitchLayer = ({
+  progress,
+  glitchIntensity,
+}: {
+  progress: ReturnType<typeof useSpring>;
+  glitchIntensity: ReturnType<typeof useTransform>;
+}) => {
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(Date.now());
+    }, 16); // ~60fps
+    return () => clearInterval(interval);
+  }, []);
+
+  const opacity = useTransform(progress, [0, 0.3], [0.5, 0]);
+  const intensity = useTransform(glitchIntensity, (v: number) => v);
+  
+  const x1 = useTransform(intensity, (v: number) => Math.sin(time * 0.01) * v * 3);
+  const y1 = useTransform(intensity, (v: number) => Math.cos(time * 0.01) * v * 2);
+  const x2 = useTransform(intensity, (v: number) => Math.cos(time * 0.008) * v * -3);
+  const y2 = useTransform(intensity, (v: number) => Math.sin(time * 0.008) * v * -2);
+
+  return (
+    <motion.div
+      className="absolute inset-0 preserve-3d"
+      style={{ opacity }}
+    >
+      <motion.div 
+        className="absolute inset-0 border border-red-500/30"
+        style={{ x: x1, y: y1 }}
+      />
+      <motion.div 
+        className="absolute inset-0 border border-cyan-500/30"
+        style={{ x: x2, y: y2 }}
+      />
+    </motion.div>
+  );
+};
 
 // The 3D Cube Component with 6 faces
 const DataCube = ({ 
@@ -48,23 +90,7 @@ const DataCube = ({
       }}
     >
       {/* Glitch layers - only visible in Phase 1 */}
-      <motion.div
-        className="absolute inset-0 preserve-3d"
-        style={{
-          opacity: useTransform(progress, [0, 0.3], [0.5, 0]),
-          x: useTransform(glitchIntensity, (v) => Math.sin(Date.now() * 0.01) * v * 3),
-          y: useTransform(glitchIntensity, (v) => Math.cos(Date.now() * 0.01) * v * 2),
-        }}
-      >
-        <div 
-          className="absolute inset-0 border border-red-500/30"
-          style={{ transform: 'translateX(3px) translateY(-2px)' }}
-        />
-        <div 
-          className="absolute inset-0 border border-cyan-500/30"
-          style={{ transform: 'translateX(-3px) translateY(2px)' }}
-        />
-      </motion.div>
+      <GlitchLayer progress={progress} glitchIntensity={glitchIntensity} />
 
       {/* Main Cube Container */}
       <motion.div
@@ -81,10 +107,10 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateZ(${halfSize}px)`,
-            backgroundColor: useTransform(phaseColor, (c) => `${c}15`),
-            borderColor: useTransform(phaseColor, (c) => `${c}40`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}15`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}40`),
             borderRadius,
-            boxShadow: useTransform(glowColor, (c) => `0 0 30px ${c}30, inset 0 0 30px ${c}10`),
+            boxShadow: useTransform(glowColor, (c: string) => `0 0 30px ${c}30, inset 0 0 30px ${c}10`),
           }}
         >
           {/* Grid pattern */}
@@ -94,7 +120,7 @@ const DataCube = ({
                 key={i}
                 className="border"
                 style={{
-                  borderColor: useTransform(phaseColor, (c) => `${c}30`),
+                  borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
                   borderRadius: useTransform(progress, [0.6, 1], ['0px', '2px']),
                 }}
               />
@@ -117,8 +143,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateZ(-${halfSize}px) rotateY(180deg)`,
-            backgroundColor: useTransform(phaseColor, (c) => `${c}10`),
-            borderColor: useTransform(phaseColor, (c) => `${c}30`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}10`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
             borderRadius,
           }}
         />
@@ -128,8 +154,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateX(${halfSize}px) rotateY(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c) => `${c}12`),
-            borderColor: useTransform(phaseColor, (c) => `${c}35`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}35`),
             borderRadius,
           }}
         />
@@ -139,8 +165,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateX(-${halfSize}px) rotateY(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c) => `${c}12`),
-            borderColor: useTransform(phaseColor, (c) => `${c}35`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}35`),
             borderRadius,
           }}
         />
@@ -150,8 +176,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateY(-${halfSize}px) rotateX(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c) => `${c}08`),
-            borderColor: useTransform(phaseColor, (c) => `${c}25`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}08`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}25`),
             borderRadius,
           }}
         />
@@ -161,10 +187,10 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateY(${halfSize}px) rotateX(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c) => `${c}18`),
-            borderColor: useTransform(phaseColor, (c) => `${c}45`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}18`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}45`),
             borderRadius,
-            boxShadow: useTransform(glowColor, (c) => `0 0 40px ${c}40`),
+            boxShadow: useTransform(glowColor, (c: string) => `0 0 40px ${c}40`),
           }}
         />
 
@@ -178,8 +204,8 @@ const DataCube = ({
         >
           <motion.div
             style={{
-              color: useTransform(phaseColor, (c) => c),
-              filter: useTransform(glowColor, (c) => `drop-shadow(0 0 10px ${c})`),
+              color: useTransform(phaseColor, (c: string) => c),
+              filter: useTransform(glowColor, (c: string) => `drop-shadow(0 0 10px ${c})`),
             }}
           >
             {/* Icon changes based on phase */}
@@ -196,7 +222,7 @@ const DataCube = ({
         style={{
           background: useTransform(
             glowColor,
-            (c) => `radial-gradient(circle, ${c}20 0%, transparent 70%)`
+            (c: string) => `radial-gradient(circle, ${c}20 0%, transparent 70%)`
           ),
           scale: useTransform(progress, [0, 0.5, 1], [0.8, 1.2, 1]),
         }}
