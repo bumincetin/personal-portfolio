@@ -177,7 +177,7 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
               <div className="flex items-center gap-2 sm:gap-3 mb-3 md:mb-4">
                 <div className="w-8 sm:w-12 h-[2px] bg-accent"></div>
                 <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-accent">
-                  {locale === 'tr' ? 'Hibrit Avantaj' : locale === 'it' ? 'Vantaggio Ibrido' : 'The Hybrid Advantage'}
+                  {locale === 'tr' ? 'HİBRİT AVANTAJ' : locale === 'it' ? 'Vantaggio Ibrido' : 'The Hybrid Advantage'}
                 </span>
               </div>
               
@@ -200,21 +200,21 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
                   <Building2 className="mx-auto mb-2 sm:mb-3 text-accent" size={24} />
                   <div className="font-serif text-xl sm:text-2xl text-accent mb-1 sm:mb-2">+</div>
                   <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
-                    {locale === 'tr' ? 'Veri Bilimi' : locale === 'it' ? 'Data Science' : 'Data Science'}
+                    {locale === 'tr' ? 'VERİ BİLİMİ' : locale === 'it' ? 'Data Science' : 'Data Science'}
                   </div>
                 </div>
                 <div className="bg-white/5 backdrop-blur-sm p-4 sm:p-6 text-center border border-white/10">
                   <LineChart className="mx-auto mb-2 sm:mb-3 text-accent" size={24} />
                   <div className="font-serif text-xl sm:text-2xl text-accent mb-1 sm:mb-2">+</div>
                   <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
-                    {locale === 'tr' ? 'Finans' : locale === 'it' ? 'Finanza' : 'Finance'}
+                    {locale === 'tr' ? 'FİNANS' : locale === 'it' ? 'Finanza' : 'Finance'}
                   </div>
                 </div>
                 <div className="col-span-2 bg-accent/20 backdrop-blur-sm p-4 sm:p-6 text-center border border-accent/30">
                   <Target className="mx-auto mb-2 sm:mb-3 text-cream" size={24} />
                   <div className="font-serif text-lg sm:text-xl text-cream mb-1 sm:mb-2">=</div>
                   <div className="font-mono text-[10px] sm:text-xs text-cream uppercase tracking-wider">
-                    {locale === 'tr' ? 'İş Değeri' : locale === 'it' ? 'Valore Business' : 'Business Value'}
+                    {locale === 'tr' ? 'İŞ DEĞERİ' : locale === 'it' ? 'Valore Business' : 'Business Value'}
                   </div>
                 </div>
               </div>

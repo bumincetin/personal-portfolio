@@ -1085,7 +1085,7 @@ export const translations: Record<Locale, TranslationType> = {
       },
     },
     smeSection: {
-      label: 'İşletme Sahipleri İçin',
+      label: 'İŞLETME SAHİPLERİ İÇİN',
       title: 'KOBİ\'niz Neden Veri Zekasına İhtiyaç Duyuyor?',
       subtitle: 'Milyon dolarlık kararlar almak için milyon dolarlık bütçeye ihtiyacınız yok.',
       intro: 'Her gün rakipleriniz daha hızlı kararlar alıyor, trendleri daha erken yakalıyor ve maliyetli hatalardan kaçınıyor—çünkü verinin gücünden faydalanıyorlar. Fortune 500 şirketlerinin kullandığı aynı yapay zeka ve analitik araçları artık sizin ölçeğinizdeki işletmeler için de erişilebilir. Soru bu uzmanlığı karşılayıp karşılayamayacağınız değil—bu uzmanlık olmadan çalışmayı karşılayıp karşılayamayacağınız.',
