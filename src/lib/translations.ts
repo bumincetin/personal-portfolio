@@ -7,6 +7,7 @@ export interface TranslationType {
     methodology: string;
     projects: string;
     portal: string;
+    whySME: string;
     about: string;
     contact: string;
   };
@@ -251,11 +252,16 @@ export interface TranslationType {
       id: string;
       title: string;
       desc: string;
+      detailedDesc: string;
       examples?: string[];
+      keyPoints: string[];
     }[];
     hybridTitle: string;
     hybridDesc: string;
+    hybridDetails: string;
     cta: string;
+    pageTitle: string;
+    pageSubtitle: string;
   };
 }
 
@@ -266,6 +272,7 @@ export const translations: Record<Locale, TranslationType> = {
       methodology: 'Services',
       projects: 'Research',
       portal: 'Demo Portal',
+      whySME: 'For SMEs',
       about: 'About',
       contact: 'Contact',
     },
@@ -637,35 +644,72 @@ export const translations: Record<Locale, TranslationType> = {
       title: 'Why Your Business Needs Data Intelligence',
       subtitle: 'You don\'t need a million-dollar budget to make million-dollar decisions.',
       intro: 'Every day, your competitors are making faster decisions, catching trends earlier, and avoiding costly mistakes—all because they\'ve harnessed the power of data. The same AI and analytics tools that Fortune 500 companies use are now accessible to businesses of your size. The question isn\'t whether you can afford this expertise—it\'s whether you can afford to operate without it.',
+      pageTitle: 'Why SMEs Need Data & Financial Expertise',
+      pageSubtitle: 'Transform your business with enterprise-level intelligence at SME-friendly prices.',
       benefits: [
         {
           id: 'compete',
           title: 'Compete With the Giants',
-          desc: 'Big corporations have entire data science teams. You don\'t need one—you need someone who understands both the technology AND your business reality. With targeted AI solutions, your SME can identify market opportunities, predict cash flow issues, and optimize operations just like industry leaders, but at a fraction of the cost.',
+          desc: 'Big corporations have entire data science teams. You don\'t need one—you need someone who understands both the technology AND your business reality.',
+          detailedDesc: 'The playing field has changed. While large corporations deploy teams of data scientists, your SME can achieve similar results with strategic, targeted solutions. The difference? Instead of building an expensive in-house team, you get access to the same advanced AI and machine learning capabilities through a single expert who understands your specific business context. This isn\'t about copying big corporations—it\'s about leveraging their tools at a scale that makes sense for your budget and operations. With predictive analytics, you can forecast market trends, identify customer segments, and optimize pricing strategies just like industry leaders—but without the overhead of maintaining a full data science department.',
+          keyPoints: [
+            'Access Fortune 500-level analytics tools without Fortune 500 overhead',
+            'Predict cash flow issues 3-6 months in advance',
+            'Identify profitable customer segments and optimize marketing spend',
+            'Benchmark your performance against industry standards',
+            'Scale solutions as your business grows',
+          ],
         },
         {
           id: 'automate',
           title: 'Turn Hours of Work Into Minutes',
-          desc: 'Still manually processing invoices, contracts, or customer data? AI-powered automation handles repetitive tasks 24/7 without errors. Free your team from data entry and report generation—redirect that time toward actually growing your business.',
+          desc: 'Still manually processing invoices, contracts, or customer data? AI-powered automation handles repetitive tasks 24/7 without errors.',
+          detailedDesc: 'Manual data entry isn\'t just time-consuming—it\'s expensive, error-prone, and prevents your team from focusing on growth. AI automation transforms repetitive tasks into automated workflows that run continuously without human intervention. For non-software businesses, this means automating everything from invoice processing and inventory management to customer service inquiries and compliance reporting. The technology learns your business processes and adapts to your specific needs, whether you\'re in manufacturing, retail, professional services, or any other sector. The result? Your employees spend time on strategic work that drives revenue, not on data entry that machines can handle better.',
           examples: [
-            'A wholesale distributor automated order processing, cutting invoice handling from 4 hours/day to 15 minutes',
-            'A manufacturing company implemented predictive maintenance, reducing equipment downtime by 40%',
-            'A professional services firm automated contract review, identifying risky clauses in seconds instead of hours',
+            'A wholesale distributor automated order processing, cutting invoice handling from 4 hours/day to 15 minutes, saving €15,000 annually in labor costs',
+            'A manufacturing company implemented predictive maintenance, reducing equipment downtime by 40% and preventing €50,000 in emergency repairs',
+            'A professional services firm automated contract review, identifying risky clauses in seconds instead of hours, reducing legal review costs by 60%',
+            'A retail chain automated inventory forecasting, reducing stockouts by 35% and excess inventory by 28%, improving cash flow by €80,000',
+            'A healthcare practice automated patient scheduling and billing, reducing administrative time by 20 hours/week',
+          ],
+          keyPoints: [
+            'Eliminate manual data entry errors that cost time and money',
+            'Process documents, invoices, and forms 10-100x faster',
+            'Automate customer service inquiries with intelligent chatbots',
+            'Streamline inventory management and demand forecasting',
+            'Generate compliance reports automatically',
           ],
         },
         {
           id: 'decisions',
           title: 'Make Decisions With Confidence, Not Guesswork',
-          desc: '"Should we expand?" "Is this loan worth the risk?" "Which customers are actually profitable?" Stop relying on gut feelings. Data-driven financial modeling gives you clear answers backed by numbers—helping you spot risks before they become crises and opportunities before your competitors do.',
+          desc: '"Should we expand?" "Is this loan worth the risk?" "Which customers are actually profitable?" Stop relying on gut feelings.',
+          detailedDesc: 'Every business decision involves risk, but that risk doesn\'t have to be blind. Data-driven financial modeling transforms uncertainty into calculated strategy. Instead of asking "What if?" you get concrete answers: "If we expand to this market, we can expect X% ROI based on historical data and market trends." Financial analytics doesn\'t just tell you what happened—it predicts what will happen, helping you avoid costly mistakes and capitalize on opportunities before competitors do. Whether you\'re evaluating a loan, considering expansion, or deciding which products to prioritize, financial models provide the clarity you need to make confident decisions backed by evidence, not intuition.',
+          keyPoints: [
+            'Evaluate loan terms and investment opportunities with risk-adjusted models',
+            'Identify which customers, products, or services drive real profitability',
+            'Forecast cash flow and plan for seasonal variations',
+            'Model different business scenarios before committing resources',
+            'Detect financial anomalies and fraud before they impact your bottom line',
+          ],
         },
         {
           id: 'compliance',
           title: 'Stay Compliant Without the Headache',
-          desc: 'Regulations change. Tax codes evolve. Cross-border rules multiply. One compliance mistake can cost more than years of consultancy fees. Automated monitoring and expert guidance keep your business protected while you focus on what you do best.',
+          desc: 'Regulations change. Tax codes evolve. Cross-border rules multiply. One compliance mistake can cost more than years of consultancy fees.',
+          detailedDesc: 'Compliance isn\'t optional—it\'s mandatory, and mistakes are expensive. Whether you\'re dealing with GDPR, tax regulations, industry-specific standards, or cross-border requirements, staying compliant requires constant vigilance. Automated compliance monitoring tracks regulatory changes, flags potential issues, and generates the reports you need—before deadlines and before problems arise. Combined with expert guidance on complex regulations, this approach protects your business from fines, legal issues, and reputational damage. For businesses operating across borders (especially Italy-Turkey), compliance becomes even more critical, requiring deep understanding of multiple regulatory frameworks.',
+          keyPoints: [
+            'Automated monitoring of regulatory changes and deadlines',
+            'Real-time alerts for compliance risks and required actions',
+            'Automated generation of compliance reports and documentation',
+            'Expert guidance on complex cross-border regulations',
+            'Protection from costly fines and legal issues',
+          ],
         },
       ],
       hybridTitle: 'One Partner Who Speaks Both Languages',
-      hybridDesc: 'Most data scientists don\'t understand P&L statements. Most financial advisors can\'t write a line of code. As CEO of Alvolo Consulting and a Bocconi-trained data scientist, I bridge both worlds—translating your business challenges into technical solutions and technical insights into business value.',
+      hybridDesc: 'Most data scientists don\'t understand P&L statements. Most financial advisors can\'t write a line of code.',
+      hybridDetails: 'This is the critical difference: I\'m not just a data scientist, and I\'m not just a financial advisor. As CEO of Alvolo Consulting and a Bocconi-trained data scientist, I bridge both worlds. When you work with me, you get someone who can read your financial statements AND build the AI models to analyze them. I understand your business challenges because I\'ve built businesses. I understand the technology because I\'ve built the systems. This hybrid expertise means faster implementation, better solutions, and clearer communication—no need to translate between technical teams and business stakeholders. You get actionable insights, not just impressive charts.',
       cta: 'Your competitors aren\'t waiting. Let\'s discuss how data intelligence can transform your business.',
     },
   },
@@ -675,6 +719,7 @@ export const translations: Record<Locale, TranslationType> = {
       methodology: 'Hizmetler',
       projects: 'Araştırmalarım',
       portal: 'Demo Portal',
+      whySME: 'KOBİ\'ler İçin',
       about: 'Hakkımda',
       contact: 'İletişim',
     },
@@ -1044,35 +1089,72 @@ export const translations: Record<Locale, TranslationType> = {
       title: 'KOBİ\'niz Neden Veri Zekasına İhtiyaç Duyuyor?',
       subtitle: 'Milyon dolarlık kararlar almak için milyon dolarlık bütçeye ihtiyacınız yok.',
       intro: 'Her gün rakipleriniz daha hızlı kararlar alıyor, trendleri daha erken yakalıyor ve maliyetli hatalardan kaçınıyor—çünkü verinin gücünden faydalanıyorlar. Fortune 500 şirketlerinin kullandığı aynı yapay zeka ve analitik araçları artık sizin ölçeğinizdeki işletmeler için de erişilebilir. Soru bu uzmanlığı karşılayıp karşılayamayacağınız değil—bu uzmanlık olmadan çalışmayı karşılayıp karşılayamayacağınız.',
+      pageTitle: 'KOBİ\'ler Neden Veri ve Finansal Uzmanlığa İhtiyaç Duyuyor?',
+      pageSubtitle: 'Kurumsal seviye zeka ile işletmenizi dönüştürün, KOBİ dostu fiyatlarla.',
       benefits: [
         {
           id: 'compete',
           title: 'Devlerle Rekabet Edin',
-          desc: 'Büyük şirketlerin komple veri bilimi ekipleri var. Sizin buna ihtiyacınız yok—hem teknolojiyi HEM de iş gerçekliğinizi anlayan birine ihtiyacınız var. Hedefli yapay zeka çözümleriyle KOBİ\'niz pazar fırsatlarını tespit edebilir, nakit akışı sorunlarını öngörebilir ve operasyonları sektör liderleri gibi optimize edebilir—üstelik maliyetin çok küçük bir kısmıyla.',
+          desc: 'Büyük şirketlerin komple veri bilimi ekipleri var. Sizin buna ihtiyacınız yok—hem teknolojiyi HEM de iş gerçekliğinizi anlayan birine ihtiyacınız var.',
+          detailedDesc: 'Oyun alanı değişti. Büyük şirketler veri bilimci ekipleri konuşlandırırken, KOBİ\'niz stratejik, hedefli çözümlerle benzer sonuçlar elde edebilir. Fark ne? Pahalı bir iç ekip kurmak yerine, özel iş bağlamınızı anlayan tek bir uzman aracılığıyla aynı gelişmiş yapay zeka ve makine öğrenmesi yeteneklerine erişirsiniz. Bu, büyük şirketleri kopyalamakla ilgili değil—bütçeniz ve operasyonlarınız için mantıklı bir ölçekte araçlarını kullanmakla ilgili. Tahmine dayalı analitikle, pazar trendlerini tahmin edebilir, müşteri segmentlerini belirleyebilir ve sektör liderleri gibi fiyatlandırma stratejilerini optimize edebilirsiniz—ancak tam bir veri bilimi departmanı sürdürmenin genel giderleri olmadan.',
+          keyPoints: [
+            'Fortune 500 genel giderleri olmadan Fortune 500 seviyesi analitik araçlarına erişin',
+            'Nakit akışı sorunlarını 3-6 ay önceden tahmin edin',
+            'Kârlı müşteri segmentlerini belirleyin ve pazarlama harcamalarını optimize edin',
+            'Performansınızı sektör standartlarına göre kıyaslayın',
+            'İşletmeniz büyüdükçe çözümleri ölçeklendirin',
+          ],
         },
         {
           id: 'automate',
           title: 'Saatlerce Süren İşleri Dakikalara İndirin',
-          desc: 'Hâlâ faturaları, sözleşmeleri veya müşteri verilerini manuel olarak mı işliyorsunuz? Yapay zeka destekli otomasyon, tekrarlayan görevleri 7/24 hatasız bir şekilde halleder. Ekibinizi veri girişi ve rapor oluşturmadan kurtarın—bu zamanı işinizi büyütmeye yönlendirin.',
+          desc: 'Hâlâ faturaları, sözleşmeleri veya müşteri verilerini manuel olarak mı işliyorsunuz? Yapay zeka destekli otomasyon, tekrarlayan görevleri 7/24 hatasız bir şekilde halleder.',
+          detailedDesc: 'Manuel veri girişi sadece zaman alıcı değil—pahalı, hataya açık ve ekibinizin büyümeye odaklanmasını engelliyor. Yapay zeka otomasyonu, tekrarlayan görevleri insan müdahalesi olmadan sürekli çalışan otomatik iş akışlarına dönüştürür. Yazılım dışı işletmeler için bu, fatura işleme ve envanter yönetiminden müşteri hizmeti sorgularına ve uyumluluk raporlamasına kadar her şeyi otomatikleştirmek anlamına gelir. Teknoloji, iş süreçlerinizi öğrenir ve üretim, perakende, profesyonel hizmetler veya başka herhangi bir sektörde olmanıza bakılmaksızın özel ihtiyaçlarınıza uyum sağlar. Sonuç? Çalışanlarınız, gelir getiren stratejik işlere zaman harcar, makinelerin daha iyi yapabileceği veri girişine değil.',
           examples: [
-            'Bir toptancı sipariş işlemlerini otomatikleştirerek fatura işleme süresini günde 4 saatten 15 dakikaya düşürdü',
-            'Bir üretim şirketi kestirimci bakım uyguladı ve ekipman arıza süresini %40 azalttı',
-            'Bir profesyonel hizmet firması sözleşme incelemesini otomatikleştirerek riskli maddeleri saatler yerine saniyeler içinde tespit etti',
+            'Bir toptancı sipariş işlemlerini otomatikleştirerek fatura işleme süresini günde 4 saatten 15 dakikaya düşürdü, yıllık işçilik maliyetlerinde €15.000 tasarruf sağladı',
+            'Bir üretim şirketi kestirimci bakım uyguladı, ekipman arıza süresini %40 azalttı ve €50.000 acil onarımı önledi',
+            'Bir profesyonel hizmet firması sözleşme incelemesini otomatikleştirdi, riskli maddeleri saatler yerine saniyeler içinde tespit ederek yasal inceleme maliyetlerini %60 azalttı',
+            'Bir perakende zinciri envanter tahminini otomatikleştirdi, stok tükenmelerini %35 ve fazla envanteri %28 azaltarak nakit akışını €80.000 iyileştirdi',
+            'Bir sağlık uygulaması hasta planlaması ve faturalamayı otomatikleştirdi, idari süreyi haftada 20 saat azalttı',
+          ],
+          keyPoints: [
+            'Zaman ve para kaybettiren manuel veri girişi hatalarını ortadan kaldırın',
+            'Belgeleri, faturaları ve formları 10-100 kat daha hızlı işleyin',
+            'Akıllı chatbotlarla müşteri hizmeti sorgularını otomatikleştirin',
+            'Envanter yönetimini ve talep tahminini kolaylaştırın',
+            'Uyumluluk raporlarını otomatik olarak oluşturun',
           ],
         },
         {
           id: 'decisions',
           title: 'Tahminle Değil, Güvenle Karar Verin',
-          desc: '"Genişlemeli miyiz?" "Bu kredi riski değer mi?" "Hangi müşteriler gerçekten kârlı?" İçgüdülerinize güvenmekten vazgeçin. Veriye dayalı finansal modelleme, size rakamlarla desteklenen net cevaplar verir—riskleri krizlere dönüşmeden, fırsatları rakiplerinizden önce tespit etmenize yardımcı olur.',
+          desc: '"Genişlemeli miyiz?" "Bu kredi riski değer mi?" "Hangi müşteriler gerçekten kârlı?" İçgüdülerinize güvenmekten vazgeçin.',
+          detailedDesc: 'Her iş kararı risk içerir, ancak bu risk kör olmak zorunda değil. Veriye dayalı finansal modelleme, belirsizliği hesaplanmış stratejiye dönüştürür. "Ya olursa?" diye sormak yerine somut cevaplar alırsınız: "Bu pazara genişlersek, tarihsel veriler ve pazar trendlerine dayanarak %X ROI bekleyebiliriz." Finansal analitik sadece ne olduğunu söylemez—ne olacağını tahmin eder, pahalı hatalardan kaçınmanıza ve rakiplerinizden önce fırsatları değerlendirmenize yardımcı olur. Bir krediyi değerlendiriyor, genişlemeyi düşünüyor veya hangi ürünlere öncelik vereceğinize karar veriyor olun, finansal modeller sezgiler değil, kanıtlarla desteklenen güvenli kararlar almak için ihtiyacınız olan netliği sağlar.',
+          keyPoints: [
+            'Risk ayarlı modellerle kredi şartlarını ve yatırım fırsatlarını değerlendirin',
+            'Hangi müşterilerin, ürünlerin veya hizmetlerin gerçek kârlılığı sürdürdüğünü belirleyin',
+            'Nakit akışını tahmin edin ve mevsimsel değişiklikler için plan yapın',
+            'Kaynakları taahhüt etmeden önce farklı iş senaryolarını modelleyin',
+            'Finansal anormallikleri ve dolandırıcılığı kârlılığınızı etkilemeden tespit edin',
+          ],
         },
         {
           id: 'compliance',
           title: 'Baş Ağrısı Olmadan Uyumlu Kalın',
-          desc: 'Mevzuatlar değişiyor. Vergi kodları gelişiyor. Sınır ötesi kurallar çoğalıyor. Tek bir uyumluluk hatası, yılların danışmanlık ücretlerinden daha pahalıya mal olabilir. Otomatik izleme ve uzman rehberliği, siz en iyi yaptığınız işe odaklanırken işletmenizi korur.',
+          desc: 'Mevzuatlar değişiyor. Vergi kodları gelişiyor. Sınır ötesi kurallar çoğalıyor. Tek bir uyumluluk hatası, yılların danışmanlık ücretlerinden daha pahalıya mal olabilir.',
+          detailedDesc: 'Uyumluluk isteğe bağlı değil—zorunludur ve hatalar pahalıdır. GDPR, vergi düzenlemeleri, sektöre özgü standartlar veya sınır ötesi gereksinimlerle uğraşıyor olun, uyumlu kalmak sürekli dikkat gerektirir. Otomatik uyumluluk izleme, düzenleyici değişiklikleri takip eder, potansiyel sorunları işaretler ve ihtiyacınız olan raporları—son tarihlerden ve sorunlar ortaya çıkmadan önce—oluşturur. Karmaşık düzenlemeler konusunda uzman rehberliğiyle birleştiğinde, bu yaklaşım işletmenizi para cezalarından, yasal sorunlardan ve itibar zararından korur. Özellikle İtalya-Türkiye arasında faaliyet gösteren işletmeler için uyumluluk daha da kritik hale gelir, birden fazla düzenleyici çerçevenin derinlemesine anlaşılmasını gerektirir.',
+          keyPoints: [
+            'Düzenleyici değişikliklerin ve son tarihlerin otomatik izlenmesi',
+            'Uyumluluk riskleri ve gerekli eylemler için gerçek zamanlı uyarılar',
+            'Uyumluluk raporlarının ve belgelerinin otomatik oluşturulması',
+            'Karmaşık sınır ötesi düzenlemeler konusunda uzman rehberliği',
+            'Pahalı para cezaları ve yasal sorunlardan korunma',
+          ],
         },
       ],
       hybridTitle: 'Her İki Dili de Konuşan Tek Ortak',
-      hybridDesc: 'Çoğu veri bilimci gelir tablosunu anlamaz. Çoğu finans danışmanı bir satır kod yazamaz. Alvolo Consulting\'in CEO\'su ve Bocconi eğitimli bir veri bilimci olarak her iki dünyayı birleştiriyorum—iş zorluklarınızı teknik çözümlere, teknik içgörüleri iş değerine dönüştürüyorum.',
+      hybridDesc: 'Çoğu veri bilimci gelir tablosunu anlamaz. Çoğu finans danışmanı bir satır kod yazamaz.',
+      hybridDetails: 'Bu kritik fark: Sadece bir veri bilimci değilim ve sadece bir finans danışmanı da değilim. Alvolo Consulting\'in CEO\'su ve Bocconi eğitimli bir veri bilimci olarak her iki dünyayı birleştiriyorum. Benimle çalıştığınızda, finansal tablolarınızı okuyabilen VE onları analiz etmek için yapay zeka modelleri oluşturabilen birini alırsınız. İş zorluklarınızı anlıyorum çünkü işletmeler kurdum. Teknolojileri anlıyorum çünkü sistemleri kurdum. Bu hibrit uzmanlık, daha hızlı uygulama, daha iyi çözümler ve daha net iletişim anlamına gelir—teknik ekipler ve iş paydaşları arasında çeviri yapmaya gerek yok. Etkili içgörüler alırsınız, sadece etkileyici grafikler değil.',
       cta: 'Rakipleriniz beklemiyor. Veri zekasının işletmenizi nasıl dönüştürebileceğini konuşalım.',
     },
   },
@@ -1082,6 +1164,7 @@ export const translations: Record<Locale, TranslationType> = {
       methodology: 'Servizi',
       projects: 'Ricerca',
       portal: 'Demo Portal',
+      whySME: 'Per PMI',
       about: 'Chi Sono',
       contact: 'Contatto',
     },
@@ -1453,35 +1536,72 @@ export const translations: Record<Locale, TranslationType> = {
       title: 'Perché la Tua Azienda Ha Bisogno della Data Intelligence',
       subtitle: 'Non serve un budget milionario per prendere decisioni da un milione di euro.',
       intro: 'Ogni giorno, i tuoi concorrenti prendono decisioni più veloci, intercettano i trend in anticipo ed evitano errori costosi—tutto perché sfruttano il potere dei dati. Gli stessi strumenti di AI e analytics che usano le Fortune 500 sono ora accessibili alle aziende delle tue dimensioni. La domanda non è se puoi permetterti questa competenza—ma se puoi permetterti di operare senza.',
+      pageTitle: 'Perché le PMI Hanno Bisogno di Competenza in Dati e Finanza',
+      pageSubtitle: 'Trasforma la tua azienda con intelligenza di livello enterprise a prezzi adatti alle PMI.',
       benefits: [
         {
           id: 'compete',
           title: 'Competi con i Giganti',
-          desc: 'Le grandi corporation hanno interi team di data science. Tu non ne hai bisogno—hai bisogno di qualcuno che capisca sia la tecnologia CHE la tua realtà aziendale. Con soluzioni AI mirate, la tua PMI può identificare opportunità di mercato, prevedere problemi di cash flow e ottimizzare le operazioni come i leader del settore, ma a una frazione del costo.',
+          desc: 'Le grandi corporation hanno interi team di data science. Tu non ne hai bisogno—hai bisogno di qualcuno che capisca sia la tecnologia CHE la tua realtà aziendale.',
+          detailedDesc: 'Il campo di gioco è cambiato. Mentre le grandi corporation dispiegano team di data scientist, la tua PMI può ottenere risultati simili con soluzioni strategiche e mirate. La differenza? Invece di costruire un team interno costoso, ottieni accesso alle stesse capacità avanzate di AI e machine learning attraverso un singolo esperto che comprende il tuo specifico contesto aziendale. Non si tratta di copiare le grandi corporation—si tratta di sfruttare i loro strumenti su una scala che ha senso per il tuo budget e le tue operazioni. Con l\'analisi predittiva, puoi prevedere le tendenze di mercato, identificare segmenti di clienti e ottimizzare le strategie di pricing proprio come i leader del settore—ma senza l\'overhead di mantenere un intero dipartimento di data science.',
+          keyPoints: [
+            'Accedi a strumenti di analytics di livello Fortune 500 senza l\'overhead Fortune 500',
+            'Prevedi problemi di cash flow con 3-6 mesi di anticipo',
+            'Identifica segmenti di clienti redditizi e ottimizza la spesa di marketing',
+            'Confronta le tue prestazioni con gli standard del settore',
+            'Scala le soluzioni man mano che la tua azienda cresce',
+          ],
         },
         {
           id: 'automate',
           title: 'Trasforma Ore di Lavoro in Minuti',
-          desc: 'Stai ancora elaborando manualmente fatture, contratti o dati dei clienti? L\'automazione basata su AI gestisce le attività ripetitive 24/7 senza errori. Libera il tuo team dall\'inserimento dati e dalla generazione di report—reindirizza quel tempo verso la crescita effettiva del business.',
+          desc: 'Stai ancora elaborando manualmente fatture, contratti o dati dei clienti? L\'automazione basata su AI gestisce le attività ripetitive 24/7 senza errori.',
+          detailedDesc: 'L\'inserimento manuale di dati non è solo dispendioso in termini di tempo—è costoso, soggetto a errori e impedisce al tuo team di concentrarsi sulla crescita. L\'automazione AI trasforma le attività ripetitive in flussi di lavoro automatizzati che funzionano continuamente senza intervento umano. Per le aziende non software, questo significa automatizzare tutto, dall\'elaborazione delle fatture e la gestione dell\'inventario alle richieste del servizio clienti e la reportistica di compliance. La tecnologia impara i tuoi processi aziendali e si adatta alle tue esigenze specifiche, che tu sia nel settore manifatturiero, retail, servizi professionali o qualsiasi altro settore. Il risultato? I tuoi dipendenti dedicano tempo al lavoro strategico che genera entrate, non all\'inserimento dati che le macchine possono gestire meglio.',
           examples: [
-            'Un distributore all\'ingrosso ha automatizzato l\'elaborazione ordini, riducendo la gestione fatture da 4 ore/giorno a 15 minuti',
-            'Un\'azienda manifatturiera ha implementato la manutenzione predittiva, riducendo i tempi di fermo del 40%',
-            'Uno studio professionale ha automatizzato la revisione contratti, identificando clausole rischiose in secondi invece che ore',
+            'Un distributore all\'ingrosso ha automatizzato l\'elaborazione ordini, riducendo la gestione fatture da 4 ore/giorno a 15 minuti, risparmiando €15.000 all\'anno in costi del lavoro',
+            'Un\'azienda manifatturiera ha implementato la manutenzione predittiva, riducendo i tempi di fermo del 40% e prevenendo €50.000 in riparazioni di emergenza',
+            'Uno studio professionale ha automatizzato la revisione contratti, identificando clausole rischiose in secondi invece che ore, riducendo i costi di revisione legale del 60%',
+            'Una catena retail ha automatizzato la previsione dell\'inventario, riducendo le scorte esaurite del 35% e l\'inventario in eccesso del 28%, migliorando il cash flow di €80.000',
+            'Uno studio medico ha automatizzato la pianificazione dei pazienti e la fatturazione, riducendo il tempo amministrativo di 20 ore/settimana',
+          ],
+          keyPoints: [
+            'Elimina errori di inserimento manuale dati che costano tempo e denaro',
+            'Elabora documenti, fatture e moduli 10-100 volte più velocemente',
+            'Automatizza le richieste del servizio clienti con chatbot intelligenti',
+            'Semplifica la gestione dell\'inventario e la previsione della domanda',
+            'Genera automaticamente report di compliance',
           ],
         },
         {
           id: 'decisions',
           title: 'Decidi con Sicurezza, Non a Intuito',
-          desc: '"Dobbiamo espanderci?" "Questo prestito vale il rischio?" "Quali clienti sono davvero profittevoli?" Smetti di affidarti all\'istinto. La modellazione finanziaria data-driven ti dà risposte chiare supportate dai numeri—aiutandoti a individuare i rischi prima che diventino crisi e le opportunità prima dei tuoi concorrenti.',
+          desc: '"Dobbiamo espanderci?" "Questo prestito vale il rischio?" "Quali clienti sono davvero profittevoli?" Smetti di affidarti all\'istinto.',
+          detailedDesc: 'Ogni decisione aziendale comporta rischi, ma quel rischio non deve essere cieco. La modellazione finanziaria data-driven trasforma l\'incertezza in strategia calcolata. Invece di chiedere "E se?", ottieni risposte concrete: "Se ci espandiamo in questo mercato, possiamo aspettarci un ROI del X% basato su dati storici e tendenze di mercato." L\'analisi finanziaria non ti dice solo cosa è successo—prevede cosa accadrà, aiutandoti a evitare errori costosi e a sfruttare le opportunità prima dei tuoi concorrenti. Che tu stia valutando un prestito, considerando un\'espansione o decidendo quali prodotti dare priorità, i modelli finanziari forniscono la chiarezza di cui hai bisogno per prendere decisioni sicure supportate da prove, non intuizione.',
+          keyPoints: [
+            'Valuta termini di prestito e opportunità di investimento con modelli risk-adjusted',
+            'Identifica quali clienti, prodotti o servizi generano reale redditività',
+            'Prevedi il cash flow e pianifica per variazioni stagionali',
+            'Modella diversi scenari aziendali prima di impegnare risorse',
+            'Rileva anomalie finanziarie e frodi prima che impattino il tuo risultato finale',
+          ],
         },
         {
           id: 'compliance',
           title: 'Resta Conforme Senza Stress',
-          desc: 'Le normative cambiano. I codici fiscali evolvono. Le regole transfrontaliere si moltiplicano. Un singolo errore di compliance può costare più di anni di consulenza. Il monitoraggio automatizzato e la guida esperta proteggono la tua azienda mentre ti concentri su ciò che sai fare meglio.',
+          desc: 'Le normative cambiano. I codici fiscali evolvono. Le regole transfrontaliere si moltiplicano. Un singolo errore di compliance può costare più di anni di consulenza.',
+          detailedDesc: 'La compliance non è opzionale—è obbligatoria, e gli errori sono costosi. Che tu abbia a che fare con GDPR, normative fiscali, standard specifici del settore o requisiti transfrontalieri, rimanere conformi richiede vigilanza costante. Il monitoraggio automatizzato della compliance tiene traccia dei cambiamenti normativi, segnala potenziali problemi e genera i report di cui hai bisogno—prima delle scadenze e prima che i problemi si manifestino. Combinato con la guida esperta su normative complesse, questo approccio protegge la tua azienda da multe, problemi legali e danni alla reputazione. Per le aziende che operano oltre confine (specialmente Italia-Turchia), la compliance diventa ancora più critica, richiedendo una comprensione approfondita di molteplici framework normativi.',
+          keyPoints: [
+            'Monitoraggio automatizzato di cambiamenti normativi e scadenze',
+            'Avvisi in tempo reale per rischi di compliance e azioni richieste',
+            'Generazione automatizzata di report e documentazione di compliance',
+            'Guida esperta su normative transfrontaliere complesse',
+            'Protezione da multe costose e problemi legali',
+          ],
         },
       ],
       hybridTitle: 'Un Partner che Parla Entrambe le Lingue',
-      hybridDesc: 'La maggior parte dei data scientist non capisce un conto economico. La maggior parte dei consulenti finanziari non sa scrivere una riga di codice. Come CEO di Alvolo Consulting e data scientist formato a Bocconi, faccio da ponte tra i due mondi—traducendo le tue sfide aziendali in soluzioni tecniche e gli insight tecnici in valore di business.',
+      hybridDesc: 'La maggior parte dei data scientist non capisce un conto economico. La maggior parte dei consulenti finanziari non sa scrivere una riga di codice.',
+      hybridDetails: 'Questa è la differenza critica: non sono solo un data scientist, e non sono solo un consulente finanziario. Come CEO di Alvolo Consulting e data scientist formato a Bocconi, faccio da ponte tra i due mondi. Quando lavori con me, ottieni qualcuno che può leggere i tuoi conti economici E costruire i modelli AI per analizzarli. Comprendo le tue sfide aziendali perché ho costruito aziende. Comprendo la tecnologia perché ho costruito i sistemi. Questa competenza ibrida significa implementazione più rapida, soluzioni migliori e comunicazione più chiara—nessun bisogno di tradurre tra team tecnici e stakeholder aziendali. Ottieni insight azionabili, non solo grafici impressionanti.',
       cta: 'I tuoi concorrenti non aspettano. Parliamo di come la data intelligence può trasformare la tua azienda.',
     },
   },

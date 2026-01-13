@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Target, Zap, LineChart, Shield, ArrowRight, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
@@ -195,13 +196,13 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
           <p className="font-mono text-sm md:text-base text-charcoal mb-6 max-w-2xl mx-auto">
             {sme.cta}
           </p>
-          <a 
-            href="#contact"
+          <Link 
+            href={`/${locale}/why-sme`}
             className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90 hover:shadow-editorial"
           >
-            {locale === 'tr' ? 'Görüşme Talep Et' : locale === 'it' ? 'Richiedi una Consulenza' : 'Request a Consultation'}
+            {locale === 'tr' ? 'Detayları Gör' : locale === 'it' ? 'Vedi Dettagli' : 'Learn More'}
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>
