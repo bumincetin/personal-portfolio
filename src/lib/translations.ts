@@ -242,6 +242,21 @@ export interface TranslationType {
       ifrsBalanceSheet: string;
     };
   };
+  smeSection: {
+    label: string;
+    title: string;
+    subtitle: string;
+    intro: string;
+    benefits: {
+      id: string;
+      title: string;
+      desc: string;
+      examples?: string[];
+    }[];
+    hybridTitle: string;
+    hybridDesc: string;
+    cta: string;
+  };
 }
 
 export const translations: Record<Locale, TranslationType> = {
@@ -617,6 +632,42 @@ export const translations: Record<Locale, TranslationType> = {
         ifrsBalanceSheet: 'IFRS Balance Sheet',
       },
     },
+    smeSection: {
+      label: 'For Business Owners',
+      title: 'Why Your Business Needs Data Intelligence',
+      subtitle: 'You don\'t need a million-dollar budget to make million-dollar decisions.',
+      intro: 'Every day, your competitors are making faster decisions, catching trends earlier, and avoiding costly mistakes—all because they\'ve harnessed the power of data. The same AI and analytics tools that Fortune 500 companies use are now accessible to businesses of your size. The question isn\'t whether you can afford this expertise—it\'s whether you can afford to operate without it.',
+      benefits: [
+        {
+          id: 'compete',
+          title: 'Compete With the Giants',
+          desc: 'Big corporations have entire data science teams. You don\'t need one—you need someone who understands both the technology AND your business reality. With targeted AI solutions, your SME can identify market opportunities, predict cash flow issues, and optimize operations just like industry leaders, but at a fraction of the cost.',
+        },
+        {
+          id: 'automate',
+          title: 'Turn Hours of Work Into Minutes',
+          desc: 'Still manually processing invoices, contracts, or customer data? AI-powered automation handles repetitive tasks 24/7 without errors. Free your team from data entry and report generation—redirect that time toward actually growing your business.',
+          examples: [
+            'A wholesale distributor automated order processing, cutting invoice handling from 4 hours/day to 15 minutes',
+            'A manufacturing company implemented predictive maintenance, reducing equipment downtime by 40%',
+            'A professional services firm automated contract review, identifying risky clauses in seconds instead of hours',
+          ],
+        },
+        {
+          id: 'decisions',
+          title: 'Make Decisions With Confidence, Not Guesswork',
+          desc: '"Should we expand?" "Is this loan worth the risk?" "Which customers are actually profitable?" Stop relying on gut feelings. Data-driven financial modeling gives you clear answers backed by numbers—helping you spot risks before they become crises and opportunities before your competitors do.',
+        },
+        {
+          id: 'compliance',
+          title: 'Stay Compliant Without the Headache',
+          desc: 'Regulations change. Tax codes evolve. Cross-border rules multiply. One compliance mistake can cost more than years of consultancy fees. Automated monitoring and expert guidance keep your business protected while you focus on what you do best.',
+        },
+      ],
+      hybridTitle: 'One Partner Who Speaks Both Languages',
+      hybridDesc: 'Most data scientists don\'t understand P&L statements. Most financial advisors can\'t write a line of code. As CEO of Alvolo Consulting and a Bocconi-trained data scientist, I bridge both worlds—translating your business challenges into technical solutions and technical insights into business value.',
+      cta: 'Your competitors aren\'t waiting. Let\'s discuss how data intelligence can transform your business.',
+    },
   },
   tr: {
     nav: {
@@ -987,6 +1038,42 @@ export const translations: Record<Locale, TranslationType> = {
         trialBalance: 'Mizan',
         ifrsBalanceSheet: 'IFRS Bilançosu',
       },
+    },
+    smeSection: {
+      label: 'İşletme Sahipleri İçin',
+      title: 'KOBİ\'niz Neden Veri Zekasına İhtiyaç Duyuyor?',
+      subtitle: 'Milyon dolarlık kararlar almak için milyon dolarlık bütçeye ihtiyacınız yok.',
+      intro: 'Her gün rakipleriniz daha hızlı kararlar alıyor, trendleri daha erken yakalıyor ve maliyetli hatalardan kaçınıyor—çünkü verinin gücünden faydalanıyorlar. Fortune 500 şirketlerinin kullandığı aynı yapay zeka ve analitik araçları artık sizin ölçeğinizdeki işletmeler için de erişilebilir. Soru bu uzmanlığı karşılayıp karşılayamayacağınız değil—bu uzmanlık olmadan çalışmayı karşılayıp karşılayamayacağınız.',
+      benefits: [
+        {
+          id: 'compete',
+          title: 'Devlerle Rekabet Edin',
+          desc: 'Büyük şirketlerin komple veri bilimi ekipleri var. Sizin buna ihtiyacınız yok—hem teknolojiyi HEM de iş gerçekliğinizi anlayan birine ihtiyacınız var. Hedefli yapay zeka çözümleriyle KOBİ\'niz pazar fırsatlarını tespit edebilir, nakit akışı sorunlarını öngörebilir ve operasyonları sektör liderleri gibi optimize edebilir—üstelik maliyetin çok küçük bir kısmıyla.',
+        },
+        {
+          id: 'automate',
+          title: 'Saatlerce Süren İşleri Dakikalara İndirin',
+          desc: 'Hâlâ faturaları, sözleşmeleri veya müşteri verilerini manuel olarak mı işliyorsunuz? Yapay zeka destekli otomasyon, tekrarlayan görevleri 7/24 hatasız bir şekilde halleder. Ekibinizi veri girişi ve rapor oluşturmadan kurtarın—bu zamanı işinizi büyütmeye yönlendirin.',
+          examples: [
+            'Bir toptancı sipariş işlemlerini otomatikleştirerek fatura işleme süresini günde 4 saatten 15 dakikaya düşürdü',
+            'Bir üretim şirketi kestirimci bakım uyguladı ve ekipman arıza süresini %40 azalttı',
+            'Bir profesyonel hizmet firması sözleşme incelemesini otomatikleştirerek riskli maddeleri saatler yerine saniyeler içinde tespit etti',
+          ],
+        },
+        {
+          id: 'decisions',
+          title: 'Tahminle Değil, Güvenle Karar Verin',
+          desc: '"Genişlemeli miyiz?" "Bu kredi riski değer mi?" "Hangi müşteriler gerçekten kârlı?" İçgüdülerinize güvenmekten vazgeçin. Veriye dayalı finansal modelleme, size rakamlarla desteklenen net cevaplar verir—riskleri krizlere dönüşmeden, fırsatları rakiplerinizden önce tespit etmenize yardımcı olur.',
+        },
+        {
+          id: 'compliance',
+          title: 'Baş Ağrısı Olmadan Uyumlu Kalın',
+          desc: 'Mevzuatlar değişiyor. Vergi kodları gelişiyor. Sınır ötesi kurallar çoğalıyor. Tek bir uyumluluk hatası, yılların danışmanlık ücretlerinden daha pahalıya mal olabilir. Otomatik izleme ve uzman rehberliği, siz en iyi yaptığınız işe odaklanırken işletmenizi korur.',
+        },
+      ],
+      hybridTitle: 'Her İki Dili de Konuşan Tek Ortak',
+      hybridDesc: 'Çoğu veri bilimci gelir tablosunu anlamaz. Çoğu finans danışmanı bir satır kod yazamaz. Alvolo Consulting\'in CEO\'su ve Bocconi eğitimli bir veri bilimci olarak her iki dünyayı birleştiriyorum—iş zorluklarınızı teknik çözümlere, teknik içgörüleri iş değerine dönüştürüyorum.',
+      cta: 'Rakipleriniz beklemiyor. Veri zekasının işletmenizi nasıl dönüştürebileceğini konuşalım.',
     },
   },
   it: {
@@ -1360,6 +1447,42 @@ export const translations: Record<Locale, TranslationType> = {
         trialBalance: 'Bilancio di Verifica',
         ifrsBalanceSheet: 'Stato Patrimoniale IFRS',
       },
+    },
+    smeSection: {
+      label: 'Per Imprenditori',
+      title: 'Perché la Tua Azienda Ha Bisogno della Data Intelligence',
+      subtitle: 'Non serve un budget milionario per prendere decisioni da un milione di euro.',
+      intro: 'Ogni giorno, i tuoi concorrenti prendono decisioni più veloci, intercettano i trend in anticipo ed evitano errori costosi—tutto perché sfruttano il potere dei dati. Gli stessi strumenti di AI e analytics che usano le Fortune 500 sono ora accessibili alle aziende delle tue dimensioni. La domanda non è se puoi permetterti questa competenza—ma se puoi permetterti di operare senza.',
+      benefits: [
+        {
+          id: 'compete',
+          title: 'Competi con i Giganti',
+          desc: 'Le grandi corporation hanno interi team di data science. Tu non ne hai bisogno—hai bisogno di qualcuno che capisca sia la tecnologia CHE la tua realtà aziendale. Con soluzioni AI mirate, la tua PMI può identificare opportunità di mercato, prevedere problemi di cash flow e ottimizzare le operazioni come i leader del settore, ma a una frazione del costo.',
+        },
+        {
+          id: 'automate',
+          title: 'Trasforma Ore di Lavoro in Minuti',
+          desc: 'Stai ancora elaborando manualmente fatture, contratti o dati dei clienti? L\'automazione basata su AI gestisce le attività ripetitive 24/7 senza errori. Libera il tuo team dall\'inserimento dati e dalla generazione di report—reindirizza quel tempo verso la crescita effettiva del business.',
+          examples: [
+            'Un distributore all\'ingrosso ha automatizzato l\'elaborazione ordini, riducendo la gestione fatture da 4 ore/giorno a 15 minuti',
+            'Un\'azienda manifatturiera ha implementato la manutenzione predittiva, riducendo i tempi di fermo del 40%',
+            'Uno studio professionale ha automatizzato la revisione contratti, identificando clausole rischiose in secondi invece che ore',
+          ],
+        },
+        {
+          id: 'decisions',
+          title: 'Decidi con Sicurezza, Non a Intuito',
+          desc: '"Dobbiamo espanderci?" "Questo prestito vale il rischio?" "Quali clienti sono davvero profittevoli?" Smetti di affidarti all\'istinto. La modellazione finanziaria data-driven ti dà risposte chiare supportate dai numeri—aiutandoti a individuare i rischi prima che diventino crisi e le opportunità prima dei tuoi concorrenti.',
+        },
+        {
+          id: 'compliance',
+          title: 'Resta Conforme Senza Stress',
+          desc: 'Le normative cambiano. I codici fiscali evolvono. Le regole transfrontaliere si moltiplicano. Un singolo errore di compliance può costare più di anni di consulenza. Il monitoraggio automatizzato e la guida esperta proteggono la tua azienda mentre ti concentri su ciò che sai fare meglio.',
+        },
+      ],
+      hybridTitle: 'Un Partner che Parla Entrambe le Lingue',
+      hybridDesc: 'La maggior parte dei data scientist non capisce un conto economico. La maggior parte dei consulenti finanziari non sa scrivere una riga di codice. Come CEO di Alvolo Consulting e data scientist formato a Bocconi, faccio da ponte tra i due mondi—traducendo le tue sfide aziendali in soluzioni tecniche e gli insight tecnici in valore di business.',
+      cta: 'I tuoi concorrenti non aspettano. Parliamo di come la data intelligence può trasformare la tua azienda.',
     },
   },
 };
