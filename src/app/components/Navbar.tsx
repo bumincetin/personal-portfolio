@@ -196,7 +196,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                 href={link.href}
                 onClick={() => setIsOpen(false)}
                 className={`
-                  py-4 border-b border-border font-serif text-2xl transition-all duration-300
+                  py-4 border-b border-border font-serif text-2xl uppercase tracking-wider transition-all duration-300
                   ${isActive(link.href) ? 'text-charcoal' : 'text-muted'}
                 `}
                 style={{
@@ -213,7 +213,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                 setIsOpen(false);
                 setIsBookingModalOpen(true);
               }}
-              className="py-4 font-serif text-2xl text-accent text-left"
+              className="py-4 font-serif text-2xl text-accent text-left uppercase tracking-wider"
               style={{
                 transitionDelay: isOpen ? `${links.length * 50}ms` : '0ms',
                 transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
