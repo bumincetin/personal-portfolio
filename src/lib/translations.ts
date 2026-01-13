@@ -759,7 +759,7 @@ export const translations: Record<Locale, TranslationType> = {
     },
     about: {
       label: 'Danışman Hakkında',
-      title: 'Kod ile sermaye arasında köprü kurmak.',
+      title: 'Kod ile sermaye arasında köprü kurmak nedir?',
       desc1: "Alvolo Consulting'in CEO'su olarak, sınır ötesi yatırımları yapay zeka ile yeniden tanımlıyorum. Bocconi Üniversitesi'ndeki çalışmalarım ışığında, NLP ve Derin Öğrenme yetkinliklerimi Bilgisayarlı Görü ile birleştirerek finansal verileri bütüncül bir yaklaşımla analiz ediyorum.",
       desc2: 'Araştırma odağım, sürdürülebilirlik raporlarındaki greenwashing girişimlerini tespit eden dil modellerinden, karmaşık finansal veri setlerini ve görsel verileri işleyen çok modlu (multimodal) analiz sistemlerine kadar uzanmaktadır.',
       viewBio: 'Tam Biyografiyi Gör',
