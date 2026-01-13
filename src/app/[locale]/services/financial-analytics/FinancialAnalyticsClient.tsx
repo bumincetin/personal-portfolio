@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, TrendingUp, BarChart3, Shield, LineChart, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, TrendingUp, BarChart3, Shield, LineChart, CheckCircle2 } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 import { FinanceGraph, DashboardChart } from '@/app/components/AnimatedVisuals';
-import { BookingModal } from '@/app/components/BookingModal';
 
 interface Props {
   locale: Locale;
@@ -15,7 +14,6 @@ interface Props {
 
 export default function FinancialAnalyticsClient({ locale, t }: Props) {
   const section = t.methodologyPage.section1;
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   return (
     <div className="pt-24 md:pt-32 pb-16 bg-cream min-h-screen">
@@ -261,33 +259,6 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
           </p>
         </motion.div>
       </section>
-
-      {/* CTA */}
-      <section className="max-w-6xl mx-auto px-6 md:px-12">
-        <div className="bg-surface-alt border border-border p-8 md:p-12 text-center rounded-lg">
-          <h3 className="font-serif text-2xl md:text-3xl text-charcoal mb-4">
-            {t.methodologyPage.ctaTitle}
-          </h3>
-          <p className="font-mono text-sm text-muted mb-8 max-w-xl mx-auto">
-            {t.methodologyPage.ctaDesc}
-          </p>
-          <button 
-            onClick={() => setIsBookingModalOpen(true)}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-charcoal text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-navy"
-          >
-            {t.methodologyPage.ctaButton}
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-      </section>
-
-      <BookingModal
-        isOpen={isBookingModalOpen}
-        onClose={() => setIsBookingModalOpen(false)}
-        locale={locale}
-        t={t}
-        selectedService="financial-analytics"
-      />
     </div>
   );
 }
