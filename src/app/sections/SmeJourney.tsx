@@ -347,66 +347,66 @@ const PhaseCard = ({
   const phaseEnd = (index + 1) * 0.33;
   const phaseMid = (phaseStart + phaseEnd) / 2;
   
-  // Reduced fade for better readability - cards are fully opaque when active
+  // Much better readability - cards are fully opaque for most of their phase
   const opacity = useTransform(
     progress,
     [
-      phaseStart - 0.05,
-      phaseStart,
-      phaseMid,
-      phaseEnd,
-      phaseEnd + 0.05
+      phaseStart - 0.03,
+      phaseStart + 0.02,
+      phaseMid - 0.05,
+      phaseMid + 0.05,
+      phaseEnd - 0.02,
+      phaseEnd + 0.03
     ],
-    [0, 0.8, 1, 0.8, 0]
+    [0, 1, 1, 1, 1, 0]
   );
   
-  // Subtle vertical movement
+  // Very subtle vertical movement
   const y = useTransform(
     progress,
     [
-      phaseStart - 0.05,
-      phaseStart,
+      phaseStart - 0.03,
+      phaseStart + 0.02,
       phaseMid,
-      phaseEnd,
-      phaseEnd + 0.05
+      phaseEnd - 0.02,
+      phaseEnd + 0.03
     ],
-    [20, 10, 0, -10, -20]
+    [10, 0, 0, 0, -10]
   );
   
-  // Minimal scale change
+  // No scale change - keeps cards crisp
   const scale = useTransform(
     progress,
     [
-      phaseStart - 0.05,
-      phaseStart,
-      phaseMid,
-      phaseEnd,
-      phaseEnd + 0.05
+      phaseStart - 0.03,
+      phaseStart + 0.02,
+      phaseEnd - 0.02,
+      phaseEnd + 0.03
     ],
-    [0.98, 0.99, 1, 0.99, 0.98]
+    [1, 1, 1, 1]
   );
 
   return (
     <motion.div
-      className="absolute inset-0 p-6 md:p-8 rounded-2xl bg-white border border-border transition-all duration-500 flex items-center"
-      style={{ opacity, y, scale }}
+      className="absolute inset-0 p-4 sm:p-6 md:p-8 rounded-2xl bg-white border border-border shadow-sm flex items-center"
+      style={{ opacity, y, scale, pointerEvents: useTransform(opacity, (o) => o > 0.5 ? 'auto' : 'none') }}
     >
       <div className="relative z-10 w-full">
         {/* Phase indicator */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-accent text-charcoal">
-            <span className="font-serif text-lg font-medium">{index + 1}</span>
+        <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-accent text-charcoal flex-shrink-0">
+            <span className="font-serif text-base sm:text-lg font-medium">{index + 1}</span>
           </div>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-accent">
             {phase}
           </span>
         </div>
         
         {/* Content */}
-        <h3 className="font-serif text-xl md:text-2xl text-charcoal mb-3">
+        <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-charcoal mb-2 sm:mb-3 leading-tight">
           {title}
         </h3>
-        <p className="font-mono text-sm text-muted leading-relaxed">
+        <p className="font-mono text-xs sm:text-sm text-muted leading-relaxed">
           {description}
         </p>
       </div>
@@ -524,7 +524,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
               </div>
               
               {/* Single phase card container - shows one at a time, uses full space */}
-              <div className="relative w-full h-[500px]">
+              <div className="relative w-full h-[450px] lg:h-[500px]">
                 {phases.map((phase, index) => (
                   <PhaseCard
                     key={index}
@@ -559,16 +559,16 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
           </div>
 
           {/* Mobile Layout - Stacked vertically */}
-          <div className="lg:hidden flex flex-col h-full py-6 sm:py-8 overflow-hidden">
+          <div className="lg:hidden flex flex-col h-full py-4 sm:py-6 overflow-hidden">
             {/* Section header - Always visible at top */}
-            <div className="mb-4 flex-shrink-0">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-[2px] bg-accent"></div>
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+            <div className="mb-3 sm:mb-4 flex-shrink-0">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <div className="w-8 sm:w-12 h-[2px] bg-accent"></div>
+                <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] text-accent">
                   {locale === 'tr' ? 'Dönüşüm' : locale === 'it' ? 'Trasformazione' : 'The Journey'}
                 </span>
               </div>
-              <h2 className="font-serif text-xl sm:text-2xl text-charcoal leading-tight">
+              <h2 className="font-serif text-lg sm:text-xl md:text-2xl text-charcoal leading-tight">
                 {locale === 'tr' 
                   ? 'Veri Kaosunu Sermayeye Dönüştürmek' 
                   : locale === 'it' 
@@ -578,7 +578,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
             </div>
 
             {/* Visual animation area - Fixed height, no overflow */}
-            <div className="flex-shrink-0 flex items-center justify-center relative h-[200px] sm:h-[250px] mb-4">
+            <div className="flex-shrink-0 flex items-center justify-center relative h-[180px] sm:h-[220px] mb-3 sm:mb-4">
               <div className="relative w-full h-full">
                 {/* Data points scattered across viewport */}
                 {dataLabels.map((label, index) => (
@@ -599,7 +599,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
             </div>
 
             {/* Phase cards - Single card that changes, uses full remaining space */}
-            <div className="relative flex-1 w-full min-h-[300px] overflow-hidden">
+            <div className="relative flex-1 w-full min-h-[280px] sm:min-h-[320px] overflow-hidden">
               {phases.map((phase, index) => (
                 <PhaseCard
                   key={index}
