@@ -87,7 +87,7 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
               >
                 <div className="bg-white border border-border p-4 rounded-lg shadow-editorial">
                   <img 
-                    src="bumin3.png" 
+                    src="\bumin3.png" 
                     alt="Financial Analytics" 
                     className="w-full h-auto rounded-lg"
                   />
