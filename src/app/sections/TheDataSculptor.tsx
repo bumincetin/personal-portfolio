@@ -334,8 +334,7 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateZ(${halfSize}px)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}35`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}20`),
             borderRadius,
             boxShadow: useTransform(glowColor, (c: string) => `0 0 25px ${c}25, inset 0 0 25px ${c}08`),
           }}
