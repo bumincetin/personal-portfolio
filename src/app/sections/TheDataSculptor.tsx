@@ -309,7 +309,7 @@ const DataCube = ({
   
   return (
     <div 
-      className="relative preserve-3d"
+      className="relative preserve-3d border-2 border-charcoal"
       style={{ 
         width: cubeSize, 
         height: cubeSize,
