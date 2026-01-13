@@ -2,13 +2,229 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
-import { Database, Cpu, Gem, ArrowDown } from 'lucide-react';
+import { 
+  Database, 
+  Cpu, 
+  Gem, 
+  ArrowDown,
+  BarChart3,
+  Users,
+  Target,
+  DollarSign,
+  Activity,
+  PieChart,
+  LineChart,
+  TrendingUp,
+  FileText,
+  Zap,
+  TrendingDown,
+  ArrowUpRight
+} from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface TheDataSculptorProps {
   locale: Locale;
   t: TranslationType;
 }
+
+// Data labels with translations
+const getDataLabels = (locale: Locale) => {
+  const labels = {
+    en: [
+      'Balance Sheet',
+      'Head Count',
+      'Marketing Data',
+      'Advertisement',
+      'Churn Rate',
+      'User Count',
+      'Revenue Streams',
+      'Cash Flow',
+      'Customer Lifetime Value',
+      'Conversion Rate',
+      'Inventory Levels',
+      'Sales Pipeline',
+      'Operating Expenses',
+      'Market Share',
+      'Customer Acquisition Cost',
+      'Net Profit Margin',
+      'Return on Investment',
+      'Employee Productivity',
+      'Website Traffic',
+      'Email Campaigns'
+    ],
+    tr: [
+      'Bilanço',
+      'Personel Sayısı',
+      'Pazarlama Verileri',
+      'Reklam',
+      'Müşteri Kaybı Oranı',
+      'Kullanıcı Sayısı',
+      'Gelir Akışları',
+      'Nakit Akışı',
+      'Müşteri Yaşam Boyu Değeri',
+      'Dönüşüm Oranı',
+      'Stok Seviyeleri',
+      'Satış Hunisi',
+      'İşletme Giderleri',
+      'Pazar Payı',
+      'Müşteri Edinme Maliyeti',
+      'Net Kar Marjı',
+      'Yatırım Getirisi',
+      'Çalışan Verimliliği',
+      'Web Sitesi Trafiği',
+      'E-posta Kampanyaları'
+    ],
+    it: [
+      'Bilancio',
+      'Numero Dipendenti',
+      'Dati di Marketing',
+      'Pubblicità',
+      'Tasso di Abbandono',
+      'Numero Utenti',
+      'Flussi di Reddito',
+      'Flusso di Cassa',
+      'Valore Vita Cliente',
+      'Tasso di Conversione',
+      'Livelli di Inventario',
+      'Pipeline Vendite',
+      'Spese Operative',
+      'Quota di Mercato',
+      'Costo Acquisizione Cliente',
+      'Margine di Profitto Netto',
+      'Ritorno sull\'Investimento',
+      'Produttività Dipendenti',
+      'Traffico Sito Web',
+      'Campagne Email'
+    ]
+  };
+  return labels[locale] || labels.en;
+};
+
+// Icon mapping for different data types
+const getIconForLabel = (label: string, index: number) => {
+  const iconMap: Record<string, React.ElementType> = {
+    'Balance Sheet': BarChart3,
+    'Bilanço': BarChart3,
+    'Bilancio': BarChart3,
+    'Head Count': Users,
+    'Personel Sayısı': Users,
+    'Numero Dipendenti': Users,
+    'Marketing Data': Target,
+    'Pazarlama Verileri': Target,
+    'Dati di Marketing': Target,
+    'Revenue Streams': DollarSign,
+    'Gelir Akışları': DollarSign,
+    'Flussi di Reddito': DollarSign,
+    'Cash Flow': Activity,
+    'Nakit Akışı': Activity,
+    'Flusso di Cassa': Activity,
+    'Churn Rate': TrendingDown,
+    'Müşteri Kaybı Oranı': TrendingDown,
+    'Tasso di Abbandono': TrendingDown,
+    'Conversion Rate': ArrowUpRight,
+    'Dönüşüm Oranı': ArrowUpRight,
+    'Tasso di Conversione': ArrowUpRight,
+  };
+  
+  const icons = [
+    BarChart3, Users, Target, DollarSign, Activity, 
+    PieChart, LineChart, TrendingUp, FileText, Zap
+  ];
+  
+  return iconMap[label] || icons[index % icons.length];
+};
+
+// Data point component that converges to cube
+const DataPoint = ({ 
+  label,
+  index, 
+  progress, 
+  totalPoints,
+  viewportWidth,
+  viewportHeight
+}: { 
+  label: string;
+  index: number; 
+  progress: MotionValue<number>;
+  totalPoints: number;
+  viewportWidth: number;
+  viewportHeight: number;
+}) => {
+  const Icon = getIconForLabel(label, index);
+  
+  // Start positions - scattered across viewport with slight randomness
+  const angle = (index / totalPoints) * Math.PI * 2;
+  const radius = Math.max(viewportWidth, viewportHeight) * 0.4;
+  const startX = Math.cos(angle) * radius + (Math.random() * 40 - 20);
+  const startY = Math.sin(angle) * radius + (Math.random() * 40 - 20);
+  
+  const finalX = 0;
+  const finalY = 0;
+  
+  // Transform based on scroll progress - converge to center
+  const x = useTransform(
+    progress,
+    [0, 0.25, 0.5, 0.75, 0.9],
+    [startX, startX * 0.6, startX * 0.3, startX * 0.1, finalX]
+  );
+  
+  const y = useTransform(
+    progress,
+    [0, 0.25, 0.5, 0.75, 0.9],
+    [startY, startY * 0.6, startY * 0.3, startY * 0.1, finalY]
+  );
+  
+  const scale = useTransform(
+    progress,
+    [0, 0.3, 0.6, 0.85, 0.9],
+    [0.8, 0.9, 1, 1.1, 0]
+  );
+  
+  const opacity = useTransform(
+    progress,
+    [0, 0.2, 0.5, 0.8, 0.9],
+    [0.4, 0.7, 1, 0.8, 0]
+  );
+  
+  const rotate = useTransform(
+    progress,
+    [0, 0.5, 0.9],
+    [(index % 3 - 1) * 12, (index % 3 - 1) * 4, 0]
+  );
+
+  const labelOpacity = useTransform(
+    progress,
+    [0, 0.2, 0.8, 0.9],
+    [0.6, 1, 1, 0]
+  );
+
+  return (
+    <motion.div
+      className="absolute flex items-center gap-2 pointer-events-none"
+      style={{ 
+        x, 
+        y, 
+        scale, 
+        opacity,
+        rotate,
+        left: '50%',
+        top: '50%',
+      }}
+    >
+      <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-white/95 border border-border/60 shadow-sm backdrop-blur-sm">
+        <div className="w-5 h-5 rounded bg-accent/10 flex items-center justify-center flex-shrink-0">
+          <Icon size={12} className="text-accent" />
+        </div>
+        <motion.span 
+          className="font-mono text-[10px] text-charcoal/80 whitespace-nowrap"
+          style={{ opacity: labelOpacity }}
+        >
+          {label}
+        </motion.span>
+      </div>
+    </motion.div>
+  );
+};
 
 // Glitch layer component for Phase 1
 const GlitchLayer = ({
@@ -27,12 +243,12 @@ const GlitchLayer = ({
     return () => clearInterval(interval);
   }, []);
 
-  const opacity = useTransform(progress, [0, 0.3], [0.5, 0]);
+  const opacity = useTransform(progress, [0, 0.3], [0.4, 0]);
   
-  const x1 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.01) * v * 3);
-  const y1 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.01) * v * 2);
-  const x2 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.008) * v * -3);
-  const y2 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.008) * v * -2);
+  const x1 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.01) * v * 2);
+  const y1 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.01) * v * 1.5);
+  const x2 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.008) * v * -2);
+  const y2 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.008) * v * -1.5);
 
   return (
     <motion.div
@@ -40,11 +256,11 @@ const GlitchLayer = ({
       style={{ opacity }}
     >
       <motion.div 
-        className="absolute inset-0 border border-red-500/30"
+        className="absolute inset-0 border border-red-400/20"
         style={{ x: x1, y: y1 }}
       />
       <motion.div 
-        className="absolute inset-0 border border-cyan-500/30"
+        className="absolute inset-0 border border-cyan-400/20"
         style={{ x: x2, y: y2 }}
       />
     </motion.div>
@@ -62,6 +278,7 @@ const DataCube = ({
   phaseColor,
   glowColor,
   borderRadius,
+  locale,
 }: {
   progress: MotionValue<number>;
   rotateX: MotionValue<number>;
@@ -72,12 +289,23 @@ const DataCube = ({
   phaseColor: MotionValue<string>;
   glowColor: MotionValue<string>;
   borderRadius: MotionValue<string>;
+  locale: Locale;
 }) => {
-  const cubeSize = 180; // px
+  const cubeSize = 200; // px
   const halfSize = cubeSize / 2;
 
   // Face styles for the cube
   const faceBaseStyle = "absolute w-full h-full border backdrop-blur-sm";
+  
+  // Final message text
+  const finalMessage = locale === 'tr' 
+    ? 'İş Değerinin Veri Rönesansı'
+    : locale === 'it' 
+    ? 'Rinascimento dei Dati del Valore Aziendale'
+    : 'A Data Renaissance of Business Value';
+  
+  const finalMessageOpacity = useTransform(progress, [0.85, 0.95, 1], [0, 1, 1]);
+  const finalMessageScale = useTransform(progress, [0.85, 0.95], [0.5, 1]);
   
   return (
     <div 
@@ -106,20 +334,20 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateZ(${halfSize}px)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}15`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}40`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}35`),
             borderRadius,
-            boxShadow: useTransform(glowColor, (c: string) => `0 0 30px ${c}30, inset 0 0 30px ${c}10`),
+            boxShadow: useTransform(glowColor, (c: string) => `0 0 25px ${c}25, inset 0 0 25px ${c}08`),
           }}
         >
           {/* Grid pattern */}
-          <div className="absolute inset-2 grid grid-cols-4 grid-rows-4 gap-1 opacity-40">
+          <div className="absolute inset-2 grid grid-cols-4 grid-rows-4 gap-1 opacity-30">
             {[...Array(16)].map((_, i) => (
               <motion.div
                 key={i}
                 className="border"
                 style={{
-                  borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
+                  borderColor: useTransform(phaseColor, (c: string) => `${c}25`),
                   borderRadius: useTransform(progress, [0.6, 1], ['0px', '2px']),
                 }}
               />
@@ -128,11 +356,11 @@ const DataCube = ({
           
           {/* Scan line - Phase 2 */}
           <motion.div
-            className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+            className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
             style={{
               top: useTransform(scanProgress, [0, 1], ['0%', '100%']),
-              opacity: useTransform(progress, [0.3, 0.4, 0.6, 0.7], [0, 1, 1, 0]),
-              boxShadow: '0 0 20px rgba(34, 211, 238, 0.8)',
+              opacity: useTransform(progress, [0.3, 0.4, 0.6, 0.7], [0, 0.8, 0.8, 0]),
+              boxShadow: '0 0 15px rgba(34, 211, 238, 0.6)',
             }}
           />
         </motion.div>
@@ -142,8 +370,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateZ(-${halfSize}px) rotateY(180deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}10`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}08`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}25`),
             borderRadius,
           }}
         />
@@ -153,8 +381,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateX(${halfSize}px) rotateY(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}35`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}10`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
             borderRadius,
           }}
         />
@@ -164,8 +392,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateX(-${halfSize}px) rotateY(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}35`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}10`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}30`),
             borderRadius,
           }}
         />
@@ -175,8 +403,8 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateY(-${halfSize}px) rotateX(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}08`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}25`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}06`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}20`),
             borderRadius,
           }}
         />
@@ -186,44 +414,78 @@ const DataCube = ({
           className={faceBaseStyle}
           style={{
             transform: `translateY(${halfSize}px) rotateX(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}18`),
-            borderColor: useTransform(phaseColor, (c: string) => `${c}45`),
+            backgroundColor: useTransform(phaseColor, (c: string) => `${c}15`),
+            borderColor: useTransform(phaseColor, (c: string) => `${c}40`),
             borderRadius,
-            boxShadow: useTransform(glowColor, (c: string) => `0 0 40px ${c}40`),
+            boxShadow: useTransform(glowColor, (c: string) => `0 0 35px ${c}35`),
           }}
         />
 
-        {/* Center Icon */}
+        {/* Center Icon - Phase 1-3 */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
           style={{
             transform: `translateZ(${halfSize + 1}px)`,
-            opacity: useTransform(progress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]),
+            opacity: useTransform(progress, [0, 0.1, 0.85, 0.9], [0, 1, 1, 0]),
           }}
         >
           <motion.div
             style={{
               color: useTransform(phaseColor, (c: string) => c),
-              filter: useTransform(glowColor, (c: string) => `drop-shadow(0 0 10px ${c})`),
+              filter: useTransform(glowColor, (c: string) => `drop-shadow(0 0 8px ${c})`),
             }}
           >
             {/* Icon changes based on phase */}
             <motion.div style={{ opacity: useTransform(progress, [0, 0.3], [1, 0]) }}>
-              <Database size={40} />
+              <Database size={36} />
+            </motion.div>
+            <motion.div 
+              className="absolute inset-0 flex items-center justify-center"
+              style={{ opacity: useTransform(progress, [0.3, 0.4, 0.6, 0.7], [0, 1, 1, 0]) }}
+            >
+              <Cpu size={36} />
+            </motion.div>
+            <motion.div 
+              className="absolute inset-0 flex items-center justify-center"
+              style={{ opacity: useTransform(progress, [0.66, 0.75, 0.85, 0.9], [0, 1, 1, 0]) }}
+            >
+              <Gem size={36} />
             </motion.div>
           </motion.div>
+        </motion.div>
+
+        {/* Final Message - Phase 4 (end) */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{
+            transform: `translateZ(${halfSize + 2}px)`,
+            opacity: finalMessageOpacity,
+            scale: finalMessageScale,
+          }}
+        >
+          <div className="text-center px-4">
+            <motion.p
+              className="font-serif text-sm md:text-base text-charcoal leading-tight font-medium"
+              style={{
+                color: useTransform(phaseColor, (c: string) => c),
+                textShadow: useTransform(glowColor, (c: string) => `0 0 20px ${c}40`),
+              }}
+            >
+              {finalMessage}
+            </motion.p>
+          </div>
         </motion.div>
       </motion.div>
 
       {/* Outer glow ring */}
       <motion.div
-        className="absolute -inset-8 rounded-full"
+        className="absolute -inset-6 rounded-full pointer-events-none"
         style={{
           background: useTransform(
             glowColor,
-            (c: string) => `radial-gradient(circle, ${c}20 0%, transparent 70%)`
+            (c: string) => `radial-gradient(circle, ${c}15 0%, transparent 70%)`
           ),
-          scale: useTransform(progress, [0, 0.5, 1], [0.8, 1.2, 1]),
+          scale: useTransform(progress, [0, 0.5, 1], [0.7, 1.1, 1]),
         }}
       />
     </div>
@@ -259,45 +521,45 @@ const PhaseCard = ({
   const y = useTransform(
     progress,
     [phaseStart - 0.05, phaseStart + 0.05, phaseMid, phaseEnd - 0.05, phaseEnd + 0.05],
-    [30, 0, 0, 0, -30]
+    [20, 0, 0, 0, -20]
   );
 
   // Gradient colors for each phase
   const gradientColors = [
-    'from-gray-400 via-gray-300 to-gray-500', // Silver - Phase 1
-    'from-cyan-400 via-blue-400 to-indigo-500', // Blue - Phase 2
-    'from-amber-400 via-yellow-400 to-orange-500', // Gold - Phase 3
+    'from-gray-500 via-gray-400 to-gray-600', // Silver - Phase 1
+    'from-cyan-500 via-blue-500 to-indigo-600', // Blue - Phase 2
+    'from-amber-500 via-yellow-500 to-orange-600', // Gold - Phase 3
   ];
 
   return (
     <motion.div
       className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
-      style={{ opacity, y }}
+      style={{ opacity, y, pointerEvents: 'none' }}
     >
-      <div className="w-full max-w-md p-6 md:p-8 rounded-2xl bg-charcoal/90 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <div className="w-full max-w-md p-6 md:p-8 rounded-lg bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg">
         {/* Phase badge */}
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-2.5 mb-4">
           <div className={`
-            w-10 h-10 rounded-xl flex items-center justify-center
+            w-9 h-9 rounded-lg flex items-center justify-center
             bg-gradient-to-br ${gradientColors[phaseIndex]}
           `}>
-            <Icon size={20} className="text-charcoal" />
+            <Icon size={18} className="text-white" />
           </div>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/60">
+          <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
             {phase}
           </span>
         </div>
 
         {/* Title with gradient */}
         <h3 className={`
-          font-serif text-2xl md:text-3xl mb-4 leading-tight
+          font-serif text-xl md:text-2xl mb-3 leading-tight
           bg-gradient-to-r ${gradientColors[phaseIndex]} bg-clip-text text-transparent
         `}>
           {title}
         </h3>
 
         {/* Description */}
-        <p className="font-mono text-sm text-white/70 leading-relaxed">
+        <p className="font-mono text-xs md:text-sm text-charcoal/70 leading-relaxed">
           {description}
         </p>
       </div>
@@ -307,6 +569,16 @@ const PhaseCard = ({
 
 const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [viewportSize, setViewportSize] = useState({ width: 1920, height: 1080 });
+
+  useEffect(() => {
+    const updateSize = () => {
+      setViewportSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -319,126 +591,125 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
     restDelta: 0.001,
   });
 
-  // Cube transformations
-  const rotateX = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [-15, 0, 10, 0]);
-  const rotateY = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [-25, 45, 180, 360]);
-  const scale = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [0.9, 1, 1.1, 1.2]);
-  const borderRadius = useTransform(smoothProgress, [0, 0.33, 0.66, 1], ['4px', '8px', '12px', '16px']);
+  // Cube transformations - more organic, less perfect
+  const rotateX = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [-12, 2, 8, 0]);
+  const rotateY = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [-20, 42, 175, 360]);
+  const scale = useTransform(smoothProgress, [0, 0.33, 0.66, 1], [0.85, 1, 1.08, 1.15]);
+  const borderRadius = useTransform(smoothProgress, [0, 0.33, 0.66, 1], ['3px', '6px', '10px', '14px']);
 
   // Phase-specific effects
-  const glitchIntensity = useTransform(smoothProgress, [0, 0.3], [5, 0]);
+  const glitchIntensity = useTransform(smoothProgress, [0, 0.3], [4, 0]);
   const scanProgress = useTransform(smoothProgress, [0.33, 0.66], [0, 1]);
 
-  // Colors per phase
+  // Colors per phase - more muted, natural
   const phaseColor = useTransform(
     smoothProgress,
     [0, 0.3, 0.33, 0.6, 0.66, 1],
-    ['#9CA3AF', '#9CA3AF', '#22D3EE', '#22D3EE', '#F59E0B', '#F59E0B']
+    ['#6B7280', '#6B7280', '#0891B2', '#0891B2', '#D97706', '#D97706']
   );
 
   const glowColor = useTransform(
     smoothProgress,
     [0, 0.3, 0.33, 0.6, 0.66, 1],
-    ['#6B7280', '#6B7280', '#06B6D4', '#06B6D4', '#D97706', '#D97706']
+    ['#4B5563', '#4B5563', '#06B6D4', '#06B6D4', '#F59E0B', '#F59E0B']
   );
 
-  // Background gradient
-  const bgGradient = useTransform(
-    smoothProgress,
-    [0, 0.33, 0.66, 1],
-    [
-      'radial-gradient(ellipse at center, rgba(31,41,55,0.3) 0%, rgba(17,24,39,0.9) 70%)',
-      'radial-gradient(ellipse at center, rgba(6,182,212,0.1) 0%, rgba(17,24,39,0.95) 70%)',
-      'radial-gradient(ellipse at center, rgba(217,119,6,0.15) 0%, rgba(17,24,39,0.95) 70%)',
-      'radial-gradient(ellipse at center, rgba(245,158,11,0.2) 0%, rgba(17,24,39,0.9) 70%)',
-    ]
-  );
-
-  // Phase content
+  // Phase content - more elaborate descriptions
   const phases = [
     {
       phase: locale === 'tr' ? 'Faz I' : locale === 'it' ? 'Fase I' : 'Phase I',
       title: locale === 'tr' ? 'Ham Madde' : locale === 'it' ? 'Materia Prima' : 'The Raw Material',
       description: locale === 'tr'
-        ? 'Dağınık veri noktaları, yapılandırılmamış bilgi ve kaotik girişler. Değer henüz gizli, şekillenmemiş bir kütle olarak bekliyor.'
+        ? 'İşletmenizin farklı köşelerinde dağınık halde duran veriler: Excel dosyaları, e-postalar, CRM kayıtları, finansal raporlar. Her biri kendi başına değerli ama birbirinden kopuk. Bu kaotik yığın, henüz şekillenmemiş bir kütle gibi bekliyor. Manuel işlemler, tekrarlayan görevler ve gözden kaçan fırsatlar bu fazın karakteristiği. Veri var ama anlam yok, bilgi var ama içgörü yok.'
         : locale === 'it'
-        ? 'Punti dati sparsi, informazioni non strutturate e input caotici. Il valore attende, nascosto in una massa informe.'
-        : 'Scattered data points, unstructured information, and chaotic inputs. Value awaits, hidden within a shapeless mass.',
+        ? 'Dati sparsi negli angoli della vostra azienda: file Excel, email, record CRM, rapporti finanziari. Ognuno prezioso da solo, ma scollegato dagli altri. Questa massa caotica attende, informe. Processi manuali, compiti ripetitivi e opportunità perse caratterizzano questa fase. Ci sono dati ma nessun significato, informazioni ma nessuna intuizione.'
+        : 'Data scattered across your business: Excel files, emails, CRM records, financial reports. Each valuable alone, but disconnected. This chaotic mass awaits, shapeless. Manual processes, repetitive tasks, and missed opportunities characterize this phase. Data exists but meaning doesn\'t, information exists but insight doesn\'t.',
       icon: Database,
     },
     {
       phase: locale === 'tr' ? 'Faz II' : locale === 'it' ? 'Fase II' : 'Phase II',
       title: locale === 'tr' ? 'Arıtma' : locale === 'it' ? 'Raffinamento' : 'The Refinement',
       description: locale === 'tr'
-        ? 'AI algoritmaları veriyi tarar, kalıpları tanımlar ve kaos içinden düzen oluşturur. Her satır, her sütun artık bir anlam taşıyor.'
+        ? 'Yapay zeka algoritmaları devreye giriyor. Makine öğrenmesi modelleri veriyi tarar, kalıpları tanımlar, anormallikleri tespit eder. NLP sistemleri yapılandırılmamış metinleri anlamlandırır, bilgisayarlı görü sistemleri görsellerden veri çıkarır. Kaos içinden düzen doğuyor. Her satır, her sütun, her veri noktası artık bir anlam taşıyor. Otomasyon başlıyor, verimlilik artıyor, hatalar azalıyor. Veri işleniyor, temizleniyor, zenginleştiriliyor.'
         : locale === 'it'
-        ? 'Gli algoritmi AI scansionano i dati, identificano pattern e creano ordine dal caos. Ogni riga, ogni colonna ora porta significato.'
-        : 'AI algorithms scan the data, identify patterns, and create order from chaos. Every row, every column now carries meaning.',
+        ? 'Gli algoritmi di intelligenza artificiale entrano in gioco. I modelli di machine learning scansionano i dati, identificano pattern, rilevano anomalie. I sistemi NLP danno significato ai testi non strutturati, la computer vision estrae dati dalle immagini. L\'ordine nasce dal caos. Ogni riga, ogni colonna, ogni punto dati ora porta significato. L\'automazione inizia, l\'efficienza aumenta, gli errori diminuiscono. I dati vengono elaborati, puliti, arricchiti.'
+        : 'AI algorithms come into play. Machine learning models scan data, identify patterns, detect anomalies. NLP systems give meaning to unstructured text, computer vision extracts data from images. Order emerges from chaos. Every row, every column, every data point now carries meaning. Automation begins, efficiency rises, errors decrease. Data is processed, cleaned, enriched.',
       icon: Cpu,
     },
     {
       phase: locale === 'tr' ? 'Faz III' : locale === 'it' ? 'Fase III' : 'Phase III',
       title: locale === 'tr' ? 'Değerli Varlık' : locale === 'it' ? 'L\'Asset Prezioso' : 'The Precious Asset',
       description: locale === 'tr'
-        ? 'İşlenmiş veri artık altın gibi parlıyor. Eyleme dönüştürülebilir içgörüler, stratejik kararlar ve ölçülebilir iş değeri yaratıldı.'
+        ? 'İşlenmiş veri artık altın gibi parıldıyor. Eyleme dönüştürülebilir içgörüler, stratejik kararlar ve ölçülebilir iş değeri yaratıldı. Tahmine dayalı modeller geleceği öngörüyor, risk analizi şirketi koruyor, optimizasyon algoritmaları maliyetleri düşürüyor. Müşteri segmentasyonu pazarlama bütçesini maksimize ediyor, finansal modeller yatırım kararlarını yönlendiriyor. Veri artık sadece bilgi değil, rekabet avantajı. Sadece rapor değil, stratejik pusula. Sadece sayılar değil, sermaye.'
         : locale === 'it'
-        ? 'I dati elaborati ora brillano come oro. Insight azionabili, decisioni strategiche e valore aziendale misurabile sono stati creati.'
-        : 'Processed data now shines like gold. Actionable insights, strategic decisions, and measurable business value have been forged.',
+        ? 'I dati elaborati ora brillano come oro. Insight azionabili, decisioni strategiche e valore aziendale misurabile sono stati creati. I modelli predittivi prevedono il futuro, l\'analisi del rischio protegge l\'azienda, gli algoritmi di ottimizzazione riducono i costi. La segmentazione dei clienti massimizza il budget di marketing, i modelli finanziari guidano le decisioni di investimento. I dati non sono più solo informazioni, ma vantaggio competitivo. Non solo rapporti, ma bussola strategica. Non solo numeri, ma capitale.'
+        : 'Processed data now shines like gold. Actionable insights, strategic decisions, and measurable business value have been forged. Predictive models forecast the future, risk analysis protects the company, optimization algorithms reduce costs. Customer segmentation maximizes marketing budget, financial models guide investment decisions. Data is no longer just information, but competitive advantage. Not just reports, but strategic compass. Not just numbers, but capital.',
       icon: Gem,
     },
   ];
 
+  const dataLabels = getDataLabels(locale);
+
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[400vh] bg-charcoal"
+      className="relative min-h-[400vh] bg-cream"
     >
       {/* Sticky Visual Container */}
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Dynamic Background */}
-        <motion.div
-          className="absolute inset-0"
-          style={{ background: bgGradient }}
-        />
-
-        {/* Grid pattern overlay */}
+        {/* Subtle grid pattern overlay */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.02]"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+              linear-gradient(rgba(26,26,26,0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(26,26,26,0.1) 1px, transparent 1px)
             `,
             backgroundSize: '40px 40px',
           }}
         />
 
+        {/* Converging Data Points */}
+        <div className="absolute inset-0 pointer-events-none">
+          {dataLabels.slice(0, 20).map((label, index) => (
+            <DataPoint
+              key={index}
+              label={label}
+              index={index}
+              progress={smoothProgress}
+              totalPoints={20}
+              viewportWidth={viewportSize.width}
+              viewportHeight={viewportSize.height}
+            />
+          ))}
+        </div>
+
         {/* Main content area */}
         <div className="relative h-full max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
-          <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+          <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12">
             
             {/* Left: Section Header (Desktop only) */}
             <div className="hidden lg:block w-1/3">
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
+                initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
                 className="mb-8"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-[2px] bg-accent"></div>
-                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-10 h-[1.5px] bg-accent"></div>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
                     {locale === 'tr' ? 'Dönüşüm' : locale === 'it' ? 'Trasformazione' : 'Transformation'}
                   </span>
                 </div>
-                <h2 className="font-serif text-3xl lg:text-4xl text-white leading-tight mb-4">
+                <h2 className="font-serif text-2xl lg:text-3xl text-charcoal leading-tight mb-3">
                   {locale === 'tr'
                     ? 'Veri Heykeltıraşı'
                     : locale === 'it'
                     ? 'Lo Scultore di Dati'
                     : 'The Data Sculptor'}
                 </h2>
-                <p className="font-mono text-sm text-white/50">
+                <p className="font-mono text-xs text-muted leading-relaxed">
                   {locale === 'tr'
                     ? 'Verinin sanata, kaosun değere dönüştüğü yolculuk.'
                     : locale === 'it'
@@ -448,11 +719,11 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
               </motion.div>
 
               {/* Progress indicator */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {phases.map((phase, i) => (
                   <motion.div
                     key={i}
-                    className="flex items-center gap-3"
+                    className="flex items-center gap-2.5"
                     style={{
                       opacity: useTransform(
                         smoothProgress,
@@ -462,28 +733,23 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                     }}
                   >
                     <motion.div
-                      className="w-2 h-2 rounded-full"
+                      className="w-1.5 h-1.5 rounded-full bg-muted"
                       style={{
                         backgroundColor: useTransform(
                           smoothProgress,
                           [i * 0.33 - 0.05, i * 0.33, (i + 1) * 0.33, (i + 1) * 0.33 + 0.05],
-                          ['rgba(255,255,255,0.3)', phaseColor.get(), phaseColor.get(), 'rgba(255,255,255,0.3)']
-                        ),
-                        boxShadow: useTransform(
-                          smoothProgress,
-                          [i * 0.33, (i + 1) * 0.33],
-                          [`0 0 10px ${glowColor.get()}`, `0 0 10px ${glowColor.get()}`]
+                          ['#9CA3AF', '#0891B2', '#0891B2', '#9CA3AF']
                         ),
                       }}
                     />
-                    <span className="font-mono text-xs text-white/50">{phase.phase}</span>
+                    <span className="font-mono text-[10px] text-muted">{phase.phase}</span>
                   </motion.div>
                 ))}
               </div>
             </div>
 
             {/* Center: 3D Cube */}
-            <div className="flex-shrink-0 flex items-center justify-center">
+            <div className="flex-shrink-0 flex items-center justify-center z-10">
               <DataCube
                 progress={smoothProgress}
                 rotateX={rotateX}
@@ -494,6 +760,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                 phaseColor={phaseColor}
                 glowColor={glowColor}
                 borderRadius={borderRadius}
+                locale={locale}
               />
             </div>
 
@@ -518,20 +785,20 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
             opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]),
           }}
         >
-          <span className="font-mono text-xs text-white/40">
+          <span className="font-mono text-[10px] text-muted">
             {locale === 'tr' ? 'Keşfetmek için kaydır' : locale === 'it' ? 'Scorri per esplorare' : 'Scroll to explore'}
           </span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <ArrowDown size={16} className="text-white/40" />
+            <ArrowDown size={14} className="text-muted" />
           </motion.div>
         </motion.div>
 
         {/* Progress bar */}
         <motion.div
-          className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-gray-400 via-cyan-400 to-amber-400"
+          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-gray-400 via-cyan-500 to-amber-500"
           style={{
             width: useTransform(smoothProgress, [0, 1], ['0%', '100%']),
           }}
