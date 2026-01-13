@@ -743,17 +743,39 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                   }}
                 >
                   <div 
-                    className="text-center px-4 py-3 bg-white rounded-lg border-2 border-charcoal shadow-2xl"
+                    className="relative text-center px-5 py-4 bg-gradient-to-b from-amber-50 via-white to-amber-50/30 rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
                     style={{ 
-                      width: '180px',
+                      width: '200px',
                       willChange: 'auto',
                       textRendering: 'optimizeLegibility',
                       WebkitFontSmoothing: 'antialiased',
                       MozOsxFontSmoothing: 'grayscale',
+                      border: '2px solid #1A1A1A',
+                      borderTop: '3px solid #D97706',
+                      borderBottom: '3px solid #D97706',
                     }}
                   >
+                    {/* Decorative corner flourishes */}
+                    <div className="absolute top-1 left-1 w-3 h-3 border-l-2 border-t-2 border-charcoal/40"></div>
+                    <div className="absolute top-1 right-1 w-3 h-3 border-r-2 border-t-2 border-charcoal/40"></div>
+                    <div className="absolute bottom-1 left-1 w-3 h-3 border-l-2 border-b-2 border-charcoal/40"></div>
+                    <div className="absolute bottom-1 right-1 w-3 h-3 border-r-2 border-b-2 border-charcoal/40"></div>
+                    
+                    {/* Ornate divider lines */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent"></div>
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent"></div>
+                    
+                    {/* Decorative dots */}
+                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-600/60"></div>
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-600/60"></div>
+                    
                     <p 
-                      className="font-serif text-sm md:text-base lg:text-lg text-charcoal leading-tight font-bold"
+                      className="font-serif text-sm md:text-base lg:text-lg text-charcoal leading-relaxed font-semibold italic tracking-wide"
+                      style={{
+                        fontVariant: 'small-caps',
+                        letterSpacing: '0.05em',
+                        textShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                      }}
                     >
                       {locale === 'tr' 
                         ? 'İş Değerinin Veri Rönesansı'
