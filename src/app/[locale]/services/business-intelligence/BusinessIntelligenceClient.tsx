@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, BarChart3, PieChart, Activity, Database, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ChartBar as BarChart3, ChartPie as PieChart, Activity, Database, CheckCircle } from 'phosphor-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 import { DashboardChart } from '@/app/components/AnimatedVisuals';
 
@@ -183,7 +183,7 @@ export default function BusinessIntelligenceClient({ locale, t }: Props) {
               <ul className="space-y-3">
                 {section.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 size={18} className="text-accent mt-0.5 flex-shrink-0" />
+                    <CheckCircle size={18} className="text-accent mt-0.5 flex-shrink-0" />
                     <span className="font-mono text-sm text-charcoal">{feature}</span>
                   </li>
                 ))}

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, ExternalLink, Star } from 'lucide-react';
+import { ArrowRight, GithubLogo, ArrowSquareOut, Star } from 'phosphor-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 
 const projects = [
@@ -102,7 +102,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <Github size={24} className="text-charcoal" />
+                  <GithubLogo size={24} className="text-charcoal" />
                   {project.stars > 0 && (
                     <span className="flex items-center gap-1 font-mono text-sm text-muted">
                       <Star size={14} />
@@ -110,7 +110,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
                     </span>
                   )}
                 </div>
-                <ExternalLink size={18} className="text-muted group-hover:text-accent transition-colors" />
+                <ArrowSquareOut size={18} className="text-muted group-hover:text-accent transition-colors" />
               </div>
               
               <h3 className="font-serif text-xl md:text-2xl text-charcoal mb-3 group-hover:text-accent transition-colors">
@@ -200,7 +200,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90"
             >
-              <Github size={18} />
+              <GithubLogo size={18} />
               {t.assetsPage.visitProfile}
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>

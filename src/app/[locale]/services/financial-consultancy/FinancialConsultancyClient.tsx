@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Building2, Globe, Scale, FileCheck, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Buildings as Building, Globe, Scales as Scale, CheckCircle as FileCheck, CheckCircle } from 'phosphor-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface Props {
@@ -37,7 +37,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
-                <Building2 className="text-accent" size={24} />
+                <Building className="text-accent" size={24} />
               </div>
               <span className="font-mono text-xs text-accent uppercase tracking-wider">{section.num}</span>
             </div>
@@ -76,7 +76,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
                   </div>
                 </div>
                 <div className="text-center p-4 border border-cream/20 rounded">
-                  <Building2 className="mx-auto mb-2 text-accent" size={24} />
+                  <Building className="mx-auto mb-2 text-accent" size={24} />
                   <div className="font-mono text-sm text-cream/70">Alvolo</div>
                 </div>
               </div>
@@ -205,7 +205,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
               <ul className="space-y-3">
                 {section.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 size={18} className="text-accent mt-0.5 flex-shrink-0" />
+                    <CheckCircle size={18} className="text-accent mt-0.5 flex-shrink-0" />
                     <span className="font-mono text-sm text-charcoal">{feature}</span>
                   </li>
                 ))}
@@ -216,7 +216,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
               {/* Alvolo Consulting */}
               <div className="bg-charcoal p-6 rounded-lg text-cream">
                 <div className="flex items-center gap-3 mb-4">
-                  <Building2 className="text-accent" size={20} />
+                  <Building className="text-accent" size={20} />
                   <h4 className="font-serif text-lg">Alvolo Consulting</h4>
                 </div>
                 <p className="font-mono text-sm text-cream/70 mb-4">

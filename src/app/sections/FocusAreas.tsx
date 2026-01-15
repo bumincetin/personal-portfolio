@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, TrendingUp, Brain, BarChart3, Building2 } from 'lucide-react';
+import { ArrowRight, TrendUp as TrendingUp, Brain, ChartBar as BarChart3, Buildings as Building } from 'phosphor-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 import { NeuralNetwork, DashboardChart, FinanceGraph, DataFlow } from '@/app/components/AnimatedVisuals';
 
@@ -234,7 +234,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               {/* Content */}
               <div className="p-6 md:p-8 lg:p-10 flex flex-col justify-center order-2 md:order-1">
                 <div className="w-10 h-10 bg-surface-alt rounded-full flex items-center justify-center mb-4">
-                  <Building2 size={18} className="text-accent" />
+                  <Building size={18} className="text-accent" />
                 </div>
                 <span className="font-mono text-xs text-accent uppercase tracking-wider">04</span>
                 <h3 className="font-serif text-xl md:text-2xl lg:text-3xl text-charcoal mt-2 mb-4 group-hover:text-accent transition-colors">

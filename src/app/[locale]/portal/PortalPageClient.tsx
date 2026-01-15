@@ -5,10 +5,10 @@ import Link from 'next/link';
 import * as XLSX from 'xlsx'; // Import the xlsx library
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Upload, FileText, TrendingUp, AlertCircle,
-  CheckCircle2, RefreshCw, Filter, BarChart3,
-  Search, Info, Calculator, FileWarning, Globe, Activity
-} from 'lucide-react';
+  Upload, FileText, TrendUp as TrendUp, WarningCircle as WarningCircle,
+  CheckCircle, ArrowClockwise as ArrowClockwise, Funnel as Funnel, ChartBar as ChartBar,
+  MagnifyingGlass as MagnifyingGlass, Info, Calculator, FileX as FileWarning, Globe, Activity
+} from 'phosphor-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 // --- Types ---
@@ -19,14 +19,14 @@ interface Props {
 
 type StatementType = 'balance-sheet' | 'income-statement' | 'cash-flow' | 'trial-balance';
 type AnalysisStep = 'upload' | 'processing' | 'results';
-type FilterCategory = 'all' | 'liquidity' | 'profitability' | 'efficiency' | 'leverage';
+type FunnelCategory = 'all' | 'liquidity' | 'profitability' | 'efficiency' | 'leverage';
 
 interface FinancialRatio {
   id: string;
   name: string;
   value: number;
   unit: string;
-  category: FilterCategory;
+  category: FunnelCategory;
   status: 'good' | 'warning' | 'bad';
   interpretation: string;
   formula: string;
@@ -296,7 +296,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                   onClick={() => { setStep('upload'); setFile(null); }}
                   className="text-xs font-mono text-muted hover:text-accent flex items-center gap-2"
                 >
-                  <RefreshCw size={12} /> NEW ANALYSIS
+                  <ArrowClockwise size={12} /> NEW ANALYSIS
                 </button>
               </div>
 
@@ -326,7 +326,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                 {analysis.graphData?.available && (
                   <div className="bg-white p-8 border border-charcoal/5 shadow-card">
                     <h3 className="font-serif text-xl mb-6 flex items-center gap-2">
-                      <BarChart3 className="text-accent" size={20} />
+                      <ChartBar className="text-accent" size={20} />
                       {analysis.graphData.title} (Year-over-Year)
                     </h3>
                     
@@ -405,7 +405,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                       
                       <div className="bg-cream p-3 rounded-sm border border-charcoal/5">
                         <div className="flex items-center gap-1 text-[10px] font-mono text-accent mb-1 uppercase">
-                          <Search size={10} /> Source:
+                          <MagnifyingGlass size={10} /> Source:
                         </div>
                         {ratio.sourceData?.map((src, i) => (
                           <div key={i} className="text-[10px] font-mono text-charcoal/70 truncate">
@@ -436,7 +436,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                      </div>
                    ) : (
                      <div className="bg-white p-4 text-xs text-charcoal/60 border border-green-200 rounded-sm">
-                       <CheckCircle2 size={16} className="text-green-600 inline mr-2" />
+                       <CheckCircle size={16} className="text-green-600 inline mr-2" />
                        {locale === 'tr' ? 'Tüm veriler başarıyla analiz edildi.' : locale === 'it' ? 'Tutti i dati sono stati analizzati con successo.' : 'All data successfully analyzed.'}
                      </div>
                    )}

@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check } from 'phosphor-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 
 export default function MethodologyPageClient({ locale }: { locale: Locale }) {

@@ -5,21 +5,21 @@ import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-
 import { 
   Database, 
   Cpu, 
-  Gem, 
-  ArrowDown,
-  BarChart3,
+  Diamond as Gem, 
+  CaretDown as ArrowDown,
+  ChartBar as BarChart3,
   Users,
   Target,
-  DollarSign,
+  CurrencyDollar as DollarSign,
   Activity,
-  PieChart,
-  LineChart,
-  TrendingUp,
+  ChartPie as PieChart,
+  ChartLine as LineChart,
+  TrendUp as TrendingUp,
   FileText,
-  Zap,
-  TrendingDown,
+  Lightning as Zap,
+  TrendDown as TrendingDown,
   ArrowUpRight
-} from 'lucide-react';
+} from 'phosphor-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface TheDataSculptorProps {
@@ -750,11 +750,14 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                     y: useTransform(smoothProgress, [0.85, 0.95, 1], isMobile ? ['-70px', '-85px', '-100px'] : ['-100px', '-120px', '-140px']),
                     opacity: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 1, 1]),
                     scale: useTransform(smoothProgress, [0.85, 0.95], [0.8, 1]),
-                    rotateX: isMobile ? useTransform(rotateX, (v) => v * 0.7) : rotateX,
-                    rotateY: isMobile ? useTransform(rotateY, (v) => v * 0.7) : rotateY,
+                    // On mobile, don't rotate with cube to keep text readable
+                    rotateX: isMobile ? 0 : rotateX,
+                    rotateY: isMobile ? 0 : rotateY,
                     transformStyle: 'preserve-3d',
                     perspective: isMobile ? '500px' : '1000px',
                     z: useTransform(smoothProgress, [0.85, 0.95, 1], isMobile ? [0, 15, 30] : [0, 20, 40]),
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
                   }}
                 >
                   <div 
@@ -769,6 +772,9 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                       border: '2px solid #1A1A1A',
                       borderTop: '3px solid #D97706',
                       borderBottom: '3px solid #D97706',
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                      transform: 'translateZ(0)',
                     }}
                   >
                     {/* Decorative corner flourishes - smaller on mobile */}

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Target, Zap, LineChart, Shield, ArrowRight, CheckCircle2, ChevronDown, ChevronUp, Building2 } from 'lucide-react';
+import { ArrowLeft, Target, Lightning as Zap, ChartLine as LineChart, Shield, ArrowRight, CheckCircle, CaretDown as ChevronDown, CaretUp as ChevronUp, Buildings as Building } from 'phosphor-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 import { BookingModal } from '@/app/components/BookingModal';
 
@@ -109,7 +109,7 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
                     <ul className="space-y-2 md:space-y-3">
                       {benefit.keyPoints.map((point, i) => (
                         <li key={i} className="flex items-start gap-2 sm:gap-3">
-                          <CheckCircle2 size={16} className="text-accent mt-0.5 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
+                          <CheckCircle size={16} className="text-accent mt-0.5 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
                           <span className="font-mono text-xs sm:text-sm text-charcoal leading-relaxed">
                             {point}
                           </span>
@@ -197,7 +197,7 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
             <div className="lg:col-span-5 mt-6 lg:mt-0">
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <div className="bg-white/5 backdrop-blur-sm p-4 sm:p-6 text-center border border-white/10">
-                  <Building2 className="mx-auto mb-2 sm:mb-3 text-accent" size={24} />
+                  <Building className="mx-auto mb-2 sm:mb-3 text-accent" size={24} />
                   <div className="font-serif text-xl sm:text-2xl text-accent mb-1 sm:mb-2">+</div>
                   <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
                     {locale === 'tr' ? 'VERİ BİLİMİ' : locale === 'it' ? 'Data Science' : 'Data Science'}

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'phosphor-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 import { BookingModal } from '@/app/components/BookingModal';
 

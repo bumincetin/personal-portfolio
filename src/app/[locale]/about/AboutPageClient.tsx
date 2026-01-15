@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Briefcase, Code, Award, Languages, Mail, Phone, Linkedin, MapPin, Calendar, ArrowRight, MessageCircle } from 'lucide-react';
+import { GraduationCap, Briefcase, Code, Trophy as Award, Translate as Languages, Envelope as Mail, Phone, LinkedinLogo as Linkedin, MapPin, Calendar, ArrowRight, ChatCircle as MessageCircle } from 'phosphor-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 import Image from 'next/image';
 

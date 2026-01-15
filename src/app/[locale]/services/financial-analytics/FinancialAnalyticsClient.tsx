@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, TrendingUp, BarChart3, Shield, LineChart, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, TrendUp as TrendingUp, ChartBar as BarChart3, Shield, ChartLine as LineChart, CheckCircle } from 'phosphor-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 import { FinanceGraph, DashboardChart } from '@/app/components/AnimatedVisuals';
 
@@ -200,7 +200,7 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
               <ul className="space-y-3">
                 {section.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 size={18} className="text-accent mt-0.5 flex-shrink-0" />
+                    <CheckCircle size={18} className="text-accent mt-0.5 flex-shrink-0" />
                     <span className="font-mono text-sm text-charcoal">{feature}</span>
                   </li>
                 ))}

@@ -3,21 +3,21 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { 
-  TrendingUp,
-  Sparkles,
-  Gem,
-  BarChart3,
+  TrendUp as TrendingUp,
+  Sparkle as Sparkles,
+  Diamond as Gem,
+  ChartBar as BarChart3,
   Users,
-  DollarSign,
+  CurrencyDollar as DollarSign,
   FileText,
   Target,
   Activity,
-  PieChart,
-  LineChart,
-  TrendingDown,
+  ChartPie as PieChart,
+  ChartLine as LineChart,
+  TrendDown as TrendingDown,
   ArrowUpRight,
-  Zap
-} from 'lucide-react';
+  Lightning as Zap
+} from 'phosphor-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface SmeJourneyProps {

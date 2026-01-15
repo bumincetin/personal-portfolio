@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mail, Linkedin, Github, MessageCircle } from 'lucide-react';
+import { ArrowRight, Envelope as Mail, LinkedinLogo as Linkedin, GithubLogo as Github, ChatCircle as MessageCircle } from 'phosphor-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 import { BookingModal } from '@/app/components/BookingModal';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Check, ArrowRight, Mail, Clock, AlertCircle, Copy } from 'lucide-react';
+import { X, Calendar, Check, ArrowRight, Envelope as Mail, Clock, WarningCircle as AlertCircle, Copy } from 'phosphor-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type Locale, type TranslationType } from '@/lib/translations';
 

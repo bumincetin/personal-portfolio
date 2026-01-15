@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Target, Zap, LineChart, Shield, ArrowRight, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Target, Lightning as Zap, ChartLine as LineChart, Shield, ArrowRight, CheckCircle, CaretDown, CaretUp } from 'phosphor-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface WhySMEProps {
@@ -103,7 +103,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
                     <span className="text-left">
                       {locale === 'tr' ? 'Gerçek Örnekler' : locale === 'it' ? 'Esempi Reali' : 'Real-World Examples'}
                     </span>
-                    {expandedCard === benefit.id ? <ChevronUp size={14} className="flex-shrink-0 sm:w-4 sm:h-4" /> : <ChevronDown size={14} className="flex-shrink-0 sm:w-4 sm:h-4" />}
+                    {expandedCard === benefit.id ? <CaretUp size={14} className="flex-shrink-0 sm:w-4 sm:h-4" /> : <CaretDown size={14} className="flex-shrink-0 sm:w-4 sm:h-4" />}
                   </button>
                   
                   <motion.div
@@ -118,7 +118,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
                     <ul className="mt-3 md:mt-4 space-y-2 md:space-y-3">
                       {benefit.examples.map((example, i) => (
                         <li key={i} className="flex items-start gap-2 sm:gap-3">
-                          <CheckCircle2 size={14} className="text-accent mt-0.5 flex-shrink-0 sm:w-4 sm:h-4" />
+                          <CheckCircle size={14} className="text-accent mt-0.5 flex-shrink-0 sm:w-4 sm:h-4" />
                           <span className="font-mono text-[10px] sm:text-xs text-charcoal/80 leading-relaxed">
                             {example}
                           </span>
