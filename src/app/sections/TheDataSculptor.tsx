@@ -629,6 +629,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
 
   return (
     <section
+      id="data-sculptor"
       ref={containerRef}
       className="relative min-h-[400vh] bg-cream"
     >

@@ -16,7 +16,7 @@ const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   
   return (
-    <section className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 pt-24 lg:pt-0 relative overflow-hidden">
+    <section id="hero" className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 pt-24 lg:pt-0 relative overflow-hidden">
       
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 grid-pattern opacity-40 -z-10"></div>
