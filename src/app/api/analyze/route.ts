@@ -66,37 +66,24 @@ export async function POST(req: NextRequest) {
     // Initialize Gemini with API key using new @google/genai package
     const genAI = new GoogleGenAI({ apiKey });
 
-    // 2. Construct Enhanced Prompt for Financial Analysis
-    const prompt = `
-      You are a Senior Financial Analyst with expertise in IFRS, GAAP, and international accounting standards. Analyze the financial statement "${fileName}" (Type: ${statementType}).
+    // 2. Construct Optimized Compact Prompt
+    const prompt = `Analyze "${fileName}" (${statementType}). IFRS/GAAP financial analyst.
 
-      CRITICAL REQUIREMENTS:
-1. Detect if Trial Balance: Convert to IFRS Balance Sheet if needed. Group: Current/Non-Current Assets, Liabilities, Equity.
-2. Detect language: en/tr/it
-3. Extract ALL financial values, dates, line items
-4. Find comparatives: "Previous Year", "Prior Period", "Önceki Dönem", "PY"
-5. Calculate ratios: value, formula, sourceData, status (good/warning/bad), interpretation
-6. Generate 5-7 insights: health, liquidity, profitability, leverage, efficiency, risk, growth
-7. List unparsed sections
+1.Trial Balance?→IFRS Balance Sheet: Current/Non-Current Assets,Liabilities,Equity
+2.Language:en/tr/it 3.Extract:values,dates,line items 4.Comparatives:"Previous Year","Prior Period","Önceki Dönem","PY"
+5.Ratios:value,formula,sourceData,status(good/warning/bad),interpretation
+6.Insights:5-7 covering health,liquidity,profitability,leverage,efficiency,risk,growth
+7.Unparsed sections
 
-TRIAL BALANCE: Main accounts (100, 600) vs sub-accounts (100.001). Use MAIN totals only to avoid double-counting.
-TRACEABILITY: Create traceabilityMap with keys like 'total_assets', 'gross_profit' mapping to source rows with text and values.
+TRIAL BALANCE:Main(100,600) vs sub(100.001). Use MAIN totals only.
+TRACEABILITY:traceabilityMap keys('total_assets','gross_profit')→source rows{rowText,value}
 
-OUTPUT (JSON only, no markdown):
-{
-  "docLanguage": "en|tr|it",
-  "summary": "Executive summary (4-6 sentences)",
-  "traceabilityMap": { "total_assets": [{"rowText": "...", "value": 0}] },
-  "ratios": [{"id": "current-ratio", "name": "Current Ratio", "value": 1.85, "unit": "x", "category": "liquidity", "status": "good", "interpretation": "...", "formula": "Current Assets / Current Liabilities", "sourceData": ["..."]}],
-  "insights": ["insight 1", "insight 2"],
-  "graphData": {"available": true, "title": "...", "labels": ["Previous", "Current"], "series": [{"label": "Revenue", "data": [0, 0]}]},
-  "unparsed": [{"content": "...", "location": "...", "reason": "..."}]
-}
+OUTPUT JSON:
+{"docLanguage":"en|tr|it","summary":"4-6 sentences","traceabilityMap":{"total_assets":[{"rowText":"...","value":0}]},"ratios":[{"id":"current-ratio","name":"Current Ratio","value":1.85,"unit":"x","category":"liquidity","status":"good","interpretation":"...","formula":"Current Assets/Current Liabilities","sourceData":["..."]}],"insights":["..."],"graphData":{"available":true,"title":"...","labels":["Previous","Current"],"series":[{"label":"Revenue","data":[0,0]}]},"unparsed":[{"content":"...","location":"...","reason":"..."}]}
 
-RATIOS: Balance Sheet → Current Ratio, Quick Ratio, Debt-to-Equity. Income Statement → Gross Margin, Net Margin, EBITDA Margin.
-RULES: Standard formulas, round to 2 decimals, note trends if comparatives exist.
+RATIOS:BS→Current,Quick,Debt-to-Equity. IS→Gross Margin,Net Margin,EBITDA Margin. Rules:standard formulas,round 2 decimals,trends if comparatives.
 
-DOCUMENT (first 20000 chars):
+DOCUMENT:
 ${fileContent ? fileContent.substring(0, 20000) : "NO CONTENT"}
 `;
 
