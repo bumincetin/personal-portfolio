@@ -153,9 +153,21 @@ export default function PortalPageClient({ locale, t }: Props) {
         });
       }
 
-      // Create AbortController for timeout (55 seconds - slightly less than server timeout)
+      // Validate file size before sending
+      if (fileText.length > 100000) {
+        const shouldContinue = confirm(
+          `Warning: This file is very large (${Math.round(fileText.length / 1000)}k characters). ` +
+          `Processing may take longer than usual or timeout. Do you want to continue?`
+        );
+        if (!shouldContinue) {
+          setStep('upload');
+          return;
+        }
+      }
+      
+      // Create AbortController for timeout (40 seconds - faster feedback)
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 55000);
+      const timeoutId = setTimeout(() => controller.abort(), 40000);
       
       const response = await fetch('/api/analyze', {
         method: 'POST',

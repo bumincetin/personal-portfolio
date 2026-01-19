@@ -3,8 +3,10 @@ import { GoogleGenAI } from '@google/genai';
 import { getGeminiApiKey } from '@/lib/gemini-config';
 
 // ALLOW FUNCTION TO RUN UP TO 60 SECONDS (Max for Hobby Plan)
+// Note: This must be exported at the route level for Vercel to recognize it
 export const maxDuration = 60; 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs'; // Ensure Node.js runtime
 
 // Timeout wrapper for API calls (45 seconds per model attempt to leave buffer)
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number, errorMessage: string): Promise<T> {
@@ -28,7 +30,7 @@ const generationConfig = {
   temperature: 0.2,
   topP: 0.8,
   topK: 40,
-  maxOutputTokens: 4096, // Reduced from 8192 to speed up generation
+  maxOutputTokens: 3072, // Further reduced to speed up generation (still sufficient for analysis)
   responseMimeType: "application/json",
 };
 
@@ -36,6 +38,19 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { fileContent, statementType, fileName } = body;
+    
+    // 0. Validate file size before processing
+    if (!fileContent || fileContent.length === 0) {
+      return NextResponse.json(
+        { error: 'File content is empty. Please upload a valid file.' },
+        { status: 400 }
+      );
+    }
+    
+    // Warn if file is very large (but still process it)
+    if (fileContent.length > 50000) {
+      console.warn(`Large file detected: ${fileContent.length} characters. Processing may be slow.`);
+    }
     
     // 1. Get and validate API Key
     const apiKey = getGeminiApiKey();
@@ -56,105 +71,34 @@ export async function POST(req: NextRequest) {
       You are a Senior Financial Analyst with expertise in IFRS, GAAP, and international accounting standards. Analyze the financial statement "${fileName}" (Type: ${statementType}).
 
       CRITICAL REQUIREMENTS:
-      1. DETECT DOCUMENT TYPE: First, identify if this is a Trial Balance (Mizan / Bilancio di Verifica). If it is:
-         - Convert it to an IFRS-compliant Balance Sheet structure
-         - Group accounts into: Current Assets, Non-Current Assets, Current Liabilities, Non-Current Liabilities, Equity
-         - Apply proper IFRS classifications (e.g., Property, Plant & Equipment, Intangible Assets, etc.)
-         - Calculate totals for each section
-         - Note in the summary that a Trial Balance was converted to IFRS Balance Sheet format
+1. Detect if Trial Balance: Convert to IFRS Balance Sheet if needed. Group: Current/Non-Current Assets, Liabilities, Equity.
+2. Detect language: en/tr/it
+3. Extract ALL financial values, dates, line items
+4. Find comparatives: "Previous Year", "Prior Period", "Önceki Dönem", "PY"
+5. Calculate ratios: value, formula, sourceData, status (good/warning/bad), interpretation
+6. Generate 5-7 insights: health, liquidity, profitability, leverage, efficiency, risk, growth
+7. List unparsed sections
 
-      2. DETECT DOCUMENT LANGUAGE: Identify if the document is in English (en), Turkish (tr), or Italian (it) based on content
+TRIAL BALANCE: Main accounts (100, 600) vs sub-accounts (100.001). Use MAIN totals only to avoid double-counting.
+TRACEABILITY: Create traceabilityMap with keys like 'total_assets', 'gross_profit' mapping to source rows with text and values.
 
-      3. EXTRACT ALL METRICS: Parse ALL financial values, dates, periods, and line items from the document. Be extremely thorough - extract every number, account name, and classification.
+OUTPUT (JSON only, no markdown):
+{
+  "docLanguage": "en|tr|it",
+  "summary": "Executive summary (4-6 sentences)",
+  "traceabilityMap": { "total_assets": [{"rowText": "...", "value": 0}] },
+  "ratios": [{"id": "current-ratio", "name": "Current Ratio", "value": 1.85, "unit": "x", "category": "liquidity", "status": "good", "interpretation": "...", "formula": "Current Assets / Current Liabilities", "sourceData": ["..."]}],
+  "insights": ["insight 1", "insight 2"],
+  "graphData": {"available": true, "title": "...", "labels": ["Previous", "Current"], "series": [{"label": "Revenue", "data": [0, 0]}]},
+  "unparsed": [{"content": "...", "location": "...", "reason": "..."}]
+}
 
-      4. IDENTIFY COMPARATIVES: Look for "Previous Year", "Prior Period", "Önceki Dönem", "Periodo Precedente", "Prior Year", "PY", "Önceki Yıl" columns or sections
+RATIOS: Balance Sheet → Current Ratio, Quick Ratio, Debt-to-Equity. Income Statement → Gross Margin, Net Margin, EBITDA Margin.
+RULES: Standard formulas, round to 2 decimals, note trends if comparatives exist.
 
-      5. CALCULATE COMPREHENSIVE RATIOS: Calculate a wide range of financial ratios. For each ratio, you MUST:
-         - Calculate the exact value using the formula
-         - List EXACT source data locations with full context
-         - Determine status: "good", "warning", or "bad"
-         - Provide detailed interpretation
-
-      6. TRACK DATA SOURCES: For EVERY ratio, the sourceData array must contain specific references.
-
-      7. GENERATE DETAILED INSIGHTS: Provide at least 5-7 comprehensive insights covering financial health, liquidity, profitability, leverage, efficiency, risk, and growth.
-
-      8. IDENTIFY UNPARSED SECTIONS: List ANY parts that couldn't be understood.
-
-      -------------------------------------------------------------------------
-      NEW REQUIREMENT: MIZAN (TRIAL BALANCE) ACCOUNTING LOGIC
-      -------------------------------------------------------------------------
-      If analyzing a "Mizan" (Trial Balance), you must strictly distinguish between MAIN ACCOUNTS (Ana Hesaplar) and SUB-ACCOUNTS (Tali/Muavin Hesaplar).
-      - LOGIC: A code like "100" or "600" is a MAIN CATEGORY. A code like "100.001" or "600.01" is a SUB-CATEGORY.
-      - AGGREGATION RULE: If the document contains both the Main Account total AND the Sub-Account details, ONLY USE THE MAIN ACCOUNT TOTAL for calculations to avoid double counting.
-      - Example: If "100 Kasa" is 1000 and "100.01 TL Kasa" is 1000, Total Cash is 1000, NOT 2000.
-      
-      -------------------------------------------------------------------------
-      NEW REQUIREMENT: INTERACTIVE DROPDOWN TRACEABILITY
-      -------------------------------------------------------------------------
-      You must generate a "traceabilityMap" object. This is a dictionary where the keys are standard financial concepts (e.g., 'total_assets', 'gross_profit', 'current_liabilities') and the value is an array of the specific rows used to calculate that number.
-      - This allows the user to click a dropdown menu item (e.g., "Total Assets") and see the exact lines in the document you used.
-      - Include the raw text and the value for each line in this map.
-
-      OUTPUT FORMAT (STRICT JSON - NO MARKDOWN):
-      {
-        "docLanguage": "en" | "tr" | "it",
-        "summary": "A comprehensive executive summary (4-6 sentences)...",
-        
-        "traceabilityMap": {
-          "total_assets": [ { "rowText": "100 KASA ... 50.000", "value": 50000 }, { "rowText": "102 BANKALAR ... 100.000", "value": 100000 } ],
-          "total_liabilities": [ { "rowText": "300 BANKA KREDİLERİ ... 20.000", "value": 20000 } ],
-          "gross_revenue": [ { "rowText": "600 YURTİÇİ SATIŞLAR ... 500.000", "value": 500000 } ],
-          "net_income": [ { "rowText": "590 DÖNEM NET KARI ... 45.000", "value": 45000 } ]
-          // Add keys for all major calculated fields found in the document
-        },
-
-        "ratios": [
-          {
-            "id": "current-ratio",
-            "name": "Current Ratio",
-            "value": 1.85,
-            "unit": "x",
-            "category": "liquidity",
-            "status": "good",
-            "interpretation": "Brief interpretation...",
-            "formula": "Current Assets / Current Liabilities",
-            "sourceData": [ "Total Current Assets: €250,000", "Total Current Liabilities: €135,000" ]
-          }
-        ],
-        "insights": [ "Detailed insight 1...", "Detailed insight 2..." ],
-        "graphData": {
-          "available": true,
-          "title": "Revenue vs Net Income",
-          "labels": ["Previous", "Current"],
-          "series": [
-            { "label": "Revenue", "data": [100000, 120000] },
-            { "label": "Net Income", "data": [15000, 18000] }
-          ]
-        },
-        "unparsed": [
-          {
-            "content": "Exact text...",
-            "location": "Page 2...",
-            "reason": "Unclear formatting..."
-          }
-        ]
-      }
-
-      STATEMENT TYPE SPECIFIC REQUIREMENTS:
-      - Balance Sheet: Calculate Current Ratio, Quick Ratio, Debt-to-Equity, etc.
-      - Income Statement: Calculate Gross Margin, Net Margin, EBITDA Margin, etc.
-      - Trial Balance: Convert to IFRS Balance Sheet first, then calculate Balance Sheet ratios.
-
-      CALCULATION RULES:
-      - Use standard formulas.
-      - Round values to 2 decimal places.
-      - If comparative data exists, calculate trends.
-      - If data is incomplete, note it in unparsed.
-
-      DOCUMENT CONTENT (first 30000 characters):
-      ${fileContent ? fileContent.substring(0, 30000) : "NO CONTENT PROVIDED"}
-    `;
+DOCUMENT (first 20000 chars):
+${fileContent ? fileContent.substring(0, 20000) : "NO CONTENT"}
+`;
 
     // 3. Try Models with Fallback Strategy using new API structure
     let lastError: any = null;
@@ -163,15 +107,15 @@ export async function POST(req: NextRequest) {
       try {
         console.log(`Attempting analysis with model: ${modelName}`);
         
-        // Wrap API call with timeout (45 seconds per attempt to leave buffer for processing)
+        // Wrap API call with timeout (30 seconds per attempt for faster fallback)
         const response = await withTimeout(
           genAI.models.generateContent({
             model: modelName,
             contents: prompt,
             ...generationConfig // Spread config properties if supported
           }),
-          45000, // 45 second timeout per model attempt
-          `Model ${modelName} timed out after 45 seconds`
+          30000, // 30 second timeout per model attempt (faster fallback)
+          `Model ${modelName} timed out after 30 seconds`
         );
         
         // Extract text from response - check different possible structures
