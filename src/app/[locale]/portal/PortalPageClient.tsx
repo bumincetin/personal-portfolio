@@ -163,10 +163,20 @@ export default function PortalPageClient({ locale, t }: Props) {
         })
       });
 
+      // CHECK CONTENT TYPE BEFORE PARSING JSON
+      const contentType = response.headers.get("content-type");
+      
       if (!response.ok) {
-        // Extract the REAL error from the server
-        const errorData = await response.text();
-        throw new Error(`Server Error ${response.status}: ${errorData}`);
+        // If timeout (504) or server error (500)
+        if (response.status === 504) {
+          throw new Error("Analysis timed out. The file might be too large or the AI model is busy.");
+        }
+        const errorText = await response.text();
+        throw new Error(`Server Error ${response.status}: ${errorText.slice(0, 100)}...`); // Limit error length
+      }
+
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Received non-JSON response from server. Likely a timeout or network issue.");
       }
 
       const aiData = await response.json();

@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import { getGeminiApiKey } from '@/lib/gemini-config';
 
-// List of models to try in order of preference
-// Updated to use latest Gemini 2.x and 1.5 model names
+// ALLOW FUNCTION TO RUN UP TO 60 SECONDS (Max for Hobby Plan)
+export const maxDuration = 60; 
+export const dynamic = 'force-dynamic';
+
+// Optimized list: Use the fastest stable model first.
+// If 1.5-flash fails, it's unlikely others will succeed unless it's a specific overload issue.
 const MODEL_FALLBACKS = [
-  "gemini-2.5-flash",        // Latest fast model (Gemini 2.5)
-  "gemini-2.0-flash",        // Gemini 2.0 fast model
-  "gemini-1.5-flash",        // Fast and efficient model (1.5 series)
-  "gemini-1.5-pro",          // More capable model for complex analysis
-  "gemini-1.5-flash-002",    // Specific stable version
-  "gemini-1.5-pro-002"       // Specific stable version of pro
+  "gemini-2.5-flash",
+  "gemini-1.5-flash",        // Current standard for speed/cost
+  "gemini-2.0-flash-exp",    // Try experimental fast model if 1.5 fails
 ];
 
 const generationConfig = {
