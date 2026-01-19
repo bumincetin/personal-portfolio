@@ -68,7 +68,8 @@ export async function POST(req: NextRequest) {
     const prompt = `Analyze "${fileName}" (${statementType}). IFRS/GAAP financial analyst.
 
 1.Trial Balance?→IFRS Balance Sheet: Current/Non-Current Assets,Liabilities,Equity
-2.Language:en/tr/it 3.Extract:values,dates,line items 4.Comparatives:"Previous Year","Prior Period","Önceki Dönem","PY"
+2.Language:Detect en/tr/it from document. ALL OUTPUT (summary,insights,interpretations) MUST be in detected language.
+3.Extract:values,dates,line items 4.Comparatives:"Previous Year","Prior Period","Önceki Dönem","PY"
 5.Ratios:value,formula,sourceData,status(good/warning/bad),interpretation
 6.Insights:5-7 covering health,liquidity,profitability,leverage,efficiency,risk,growth
 7.Unparsed sections
@@ -76,8 +77,11 @@ export async function POST(req: NextRequest) {
 TRIAL BALANCE:Main(100,600) vs sub(100.001). Use MAIN totals only.
 TRACEABILITY:traceabilityMap keys('total_assets','gross_profit')→source rows{rowText,value}
 
+CRITICAL:For each ratio, sourceData MUST include specific row references with exact rowText and values used in calculation.
+Example sourceData:["Row 5: 100 KASA 50.000","Row 12: 102 BANKALAR 100.000","Total Current Assets: 150.000"]
+
 OUTPUT JSON:
-{"docLanguage":"en|tr|it","summary":"4-6 sentences","traceabilityMap":{"total_assets":[{"rowText":"...","value":0}]},"ratios":[{"id":"current-ratio","name":"Current Ratio","value":1.85,"unit":"x","category":"liquidity","status":"good","interpretation":"...","formula":"Current Assets/Current Liabilities","sourceData":["..."]}],"insights":["..."],"graphData":{"available":true,"title":"...","labels":["Previous","Current"],"series":[{"label":"Revenue","data":[0,0]}]},"unparsed":[{"content":"...","location":"...","reason":"..."}]}
+{"docLanguage":"en|tr|it","summary":"4-6 sentences IN DETECTED LANGUAGE","traceabilityMap":{"total_assets":[{"rowText":"100 KASA ... 50.000","value":50000}]},"ratios":[{"id":"current-ratio","name":"Current Ratio","value":1.85,"unit":"x","category":"liquidity","status":"good","interpretation":"IN DETECTED LANGUAGE","formula":"Current Assets/Current Liabilities","sourceData":["Row 5: 100 KASA 50.000","Row 12: 102 BANKALAR 100.000","Total Current Assets: 150.000"]}],"insights":["IN DETECTED LANGUAGE"],"graphData":{"available":true,"title":"IN DETECTED LANGUAGE","labels":["Previous","Current"],"series":[{"label":"Revenue","data":[0,0]}]},"unparsed":[{"content":"...","location":"...","reason":"..."}]}
 
 RATIOS:BS→Current,Quick,Debt-to-Equity. IS→Gross Margin,Net Margin,EBITDA Margin. Rules:standard formulas,round 2 decimals,trends if comparatives.
 
