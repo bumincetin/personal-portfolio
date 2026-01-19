@@ -501,14 +501,22 @@ export default function PortalPageClient({ locale, t }: Props) {
                       <p className="text-xs text-charcoal/60 mb-4">{ratio.interpretation}</p>
                       
                       <div className="bg-cream p-3 rounded-sm border border-charcoal/5">
-                        <div className="flex items-center gap-1 text-[10px] font-mono text-accent mb-1 uppercase">
-                          <MagnifyingGlass size={10} /> Source:
+                        <div className="flex items-center gap-1 text-[10px] font-mono text-accent mb-2 uppercase">
+                          <MagnifyingGlass size={10} /> Source Data:
                         </div>
-                        {ratio.sourceData?.map((src, i) => (
-                          <div key={i} className="text-[10px] font-mono text-charcoal/70 truncate">
-                            {src}
+                        {ratio.sourceData && ratio.sourceData.length > 0 ? (
+                          <div className="space-y-1 max-h-32 overflow-y-auto">
+                            {ratio.sourceData.map((src, i) => (
+                              <div key={i} className="text-[10px] font-mono text-charcoal/70 break-words">
+                                {src}
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        ) : (
+                          <div className="text-[10px] font-mono text-charcoal/40 italic">
+                            No source data available
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}

@@ -21,7 +21,8 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, errorMessage: st
 // Optimized list: Use the fastest stable model first.
 // If 1.5-flash fails, it's unlikely others will succeed unless it's a specific overload issue.
 const MODEL_FALLBACKS = [
-  "gemini-2.0-flash-exp"  // Try experimental fast model if 1.5 fails
+  "gemini-2.0-flash-exp",    // Try experimental fast model if 1.5 fails
+  "gemini-2.5-flash",        // Latest fast model
 ];
 
 const generationConfig = {
@@ -70,20 +71,39 @@ export async function POST(req: NextRequest) {
 1.Trial Balance?→IFRS Balance Sheet: Current/Non-Current Assets,Liabilities,Equity
 2.Language:Detect en/tr/it from document. ALL OUTPUT (summary,insights,interpretations) MUST be in detected language.
 3.Extract:values,dates,line items 4.Comparatives:"Previous Year","Prior Period","Önceki Dönem","PY"
-5.Ratios:value,formula,sourceData,status(good/warning/bad),interpretation
+5.CALCULATE RATIOS:You MUST calculate actual ratio values from extracted data. For each ratio:
+   - Extract the required values from document (e.g., Current Assets, Current Liabilities)
+   - Calculate: value = numerator/denominator (e.g., Current Ratio = Current Assets / Current Liabilities)
+   - Include in sourceData: specific row references with exact rowText and values used
+   - Determine status: good (>1.5), warning (1.0-1.5), bad (<1.0) for liquidity ratios
+   - Write interpretation in detected language
 6.Insights:5-7 covering health,liquidity,profitability,leverage,efficiency,risk,growth
 7.Unparsed sections
 
 TRIAL BALANCE:Main(100,600) vs sub(100.001). Use MAIN totals only.
 TRACEABILITY:traceabilityMap keys('total_assets','gross_profit')→source rows{rowText,value}
 
-CRITICAL:For each ratio, sourceData MUST include specific row references with exact rowText and values used in calculation.
-Example sourceData:["Row 5: 100 KASA 50.000","Row 12: 102 BANKALAR 100.000","Total Current Assets: 150.000"]
+CRITICAL RATIO CALCULATION:
+- For each ratio, you MUST calculate the actual numeric value from the document data
+- sourceData MUST list every specific row used with format: "Row X: [exact row text] [value]"
+- Example for Current Ratio:
+  sourceData: ["Row 5: 100 KASA 50.000", "Row 12: 102 BANKALAR 100.000", "Row 20: 300 BANKA KREDİLERİ 80.000", "Calculated: Current Assets=150.000, Current Liabilities=80.000"]
+- Include at least 3-5 specific row references per ratio
+
+REQUIRED RATIOS (calculate ALL that apply):
+Balance Sheet: Current Ratio, Quick Ratio, Debt-to-Equity, Equity Ratio, Working Capital
+Income Statement: Gross Margin, Net Margin, EBITDA Margin, Operating Margin, ROE, ROA
 
 OUTPUT JSON:
-{"docLanguage":"en|tr|it","summary":"4-6 sentences IN DETECTED LANGUAGE","traceabilityMap":{"total_assets":[{"rowText":"100 KASA ... 50.000","value":50000}]},"ratios":[{"id":"current-ratio","name":"Current Ratio","value":1.85,"unit":"x","category":"liquidity","status":"good","interpretation":"IN DETECTED LANGUAGE","formula":"Current Assets/Current Liabilities","sourceData":["Row 5: 100 KASA 50.000","Row 12: 102 BANKALAR 100.000","Total Current Assets: 150.000"]}],"insights":["IN DETECTED LANGUAGE"],"graphData":{"available":true,"title":"IN DETECTED LANGUAGE","labels":["Previous","Current"],"series":[{"label":"Revenue","data":[0,0]}]},"unparsed":[{"content":"...","location":"...","reason":"..."}]}
+{"docLanguage":"en|tr|it","summary":"4-6 sentences IN DETECTED LANGUAGE","traceabilityMap":{"total_assets":[{"rowText":"100 KASA ... 50.000","value":50000}]},"ratios":[{"id":"current-ratio","name":"Current Ratio","value":1.85,"unit":"x","category":"liquidity","status":"good","interpretation":"IN DETECTED LANGUAGE","formula":"Current Assets/Current Liabilities","sourceData":["Row 5: 100 KASA 50.000","Row 12: 102 BANKALAR 100.000","Row 20: 300 BANKA KREDİLERİ 80.000","Calculated: Current Assets=150.000, Current Liabilities=80.000, Ratio=1.875"]}],"insights":["IN DETECTED LANGUAGE"],"graphData":{"available":true,"title":"IN DETECTED LANGUAGE","labels":["Previous","Current"],"series":[{"label":"Revenue","data":[0,0]}]},"unparsed":[{"content":"...","location":"...","reason":"..."}]}
 
-RATIOS:BS→Current,Quick,Debt-to-Equity. IS→Gross Margin,Net Margin,EBITDA Margin. Rules:standard formulas,round 2 decimals,trends if comparatives.
+RATIO FORMULAS:
+- Current Ratio = Current Assets / Current Liabilities
+- Quick Ratio = (Current Assets - Inventory) / Current Liabilities
+- Debt-to-Equity = Total Debt / Total Equity
+- Gross Margin = (Revenue - COGS) / Revenue * 100
+- Net Margin = Net Income / Revenue * 100
+Rules:Calculate actual values, round to 2 decimals, note trends if comparatives exist.
 
 DOCUMENT:
 ${fileContent ? fileContent.substring(0, 20000) : "NO CONTENT"}
@@ -143,6 +163,18 @@ ${fileContent ? fileContent.substring(0, 20000) : "NO CONTENT"}
         // Validate required fields
         if (!data.ratios || !Array.isArray(data.ratios)) {
           data.ratios = [];
+        } else {
+          // Validate each ratio has required fields
+          data.ratios = data.ratios.map((ratio: any) => ({
+            ...ratio,
+            value: typeof ratio.value === 'number' ? ratio.value : 0,
+            sourceData: Array.isArray(ratio.sourceData) && ratio.sourceData.length > 0 
+              ? ratio.sourceData 
+              : ['No source data provided'],
+            interpretation: ratio.interpretation || 'No interpretation provided',
+            formula: ratio.formula || 'Formula not provided',
+            status: ratio.status || 'warning',
+          }));
         }
         if (!data.insights || !Array.isArray(data.insights)) {
           data.insights = [];
