@@ -21,8 +21,7 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, errorMessage: st
 // Optimized list: Use the fastest stable model first.
 // If 1.5-flash fails, it's unlikely others will succeed unless it's a specific overload issue.
 const MODEL_FALLBACKS = [
-  "gemini-1.5-flash",        // Current standard for speed/cost
-  "gemini-2.0-flash-exp",    // Try experimental fast model if 1.5 fails
+  "gemini-2.0-flash-exp"  // Try experimental fast model if 1.5 fails
 ];
 
 const generationConfig = {
