@@ -142,8 +142,8 @@ export async function POST(req: NextRequest) {
       - If comparative data exists, calculate trends.
       - If data is incomplete, note it in unparsed.
 
-      DOCUMENT CONTENT (first 100000 characters):
-      ${fileContent ? fileContent.substring(0, 100000) : "NO CONTENT PROVIDED"}
+      DOCUMENT CONTENT (first 50000 characters):
+      ${fileContent ? fileContent.substring(0, 50000) : "NO CONTENT PROVIDED"}
     `;
 
     // 3. Try Models with Fallback Strategy using new API structure
