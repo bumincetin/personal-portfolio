@@ -406,7 +406,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                     <Activity size={18} className="text-accent" />
                     {t.methodologyPage.portal.executiveSummary}
                   </h3>
-                  <p className="text-base text-charcoal leading-relaxed mb-4 font-serif" style={{ fontFamily: 'Playfair Display, serif', lineHeight: '1.8' }}>
+                  <p className="text-base text-charcoal leading-relaxed mb-4 font-sans" style={{ lineHeight: '1.7', letterSpacing: '0.01em' }}>
                     {analysis.summary}
                   </p>
                   <ul className="space-y-2 border-t border-charcoal/5 pt-4">
