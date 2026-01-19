@@ -6,6 +6,16 @@ import { getGeminiApiKey } from '@/lib/gemini-config';
 export const maxDuration = 60; 
 export const dynamic = 'force-dynamic';
 
+// Timeout wrapper for API calls (45 seconds per model attempt to leave buffer)
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, errorMessage: string): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => 
+      setTimeout(() => reject(new Error(errorMessage)), timeoutMs)
+    )
+  ]);
+}
+
 // Optimized list: Use the fastest stable model first.
 // If 1.5-flash fails, it's unlikely others will succeed unless it's a specific overload issue.
 const MODEL_FALLBACKS = [
@@ -18,7 +28,7 @@ const generationConfig = {
   temperature: 0.2,
   topP: 0.8,
   topK: 40,
-  maxOutputTokens: 8192,
+  maxOutputTokens: 4096, // Reduced from 8192 to speed up generation
   responseMimeType: "application/json",
 };
 
@@ -142,8 +152,8 @@ export async function POST(req: NextRequest) {
       - If comparative data exists, calculate trends.
       - If data is incomplete, note it in unparsed.
 
-      DOCUMENT CONTENT (first 50000 characters):
-      ${fileContent ? fileContent.substring(0, 50000) : "NO CONTENT PROVIDED"}
+      DOCUMENT CONTENT (first 30000 characters):
+      ${fileContent ? fileContent.substring(0, 30000) : "NO CONTENT PROVIDED"}
     `;
 
     // 3. Try Models with Fallback Strategy using new API structure
@@ -153,12 +163,16 @@ export async function POST(req: NextRequest) {
       try {
         console.log(`Attempting analysis with model: ${modelName}`);
         
-        // Use new @google/genai API structure (matching official documentation)
-        const response = await genAI.models.generateContent({
-          model: modelName,
-          contents: prompt,
-          ...generationConfig // Spread config properties if supported
-        });
+        // Wrap API call with timeout (45 seconds per attempt to leave buffer for processing)
+        const response = await withTimeout(
+          genAI.models.generateContent({
+            model: modelName,
+            contents: prompt,
+            ...generationConfig // Spread config properties if supported
+          }),
+          45000, // 45 second timeout per model attempt
+          `Model ${modelName} timed out after 45 seconds`
+        );
         
         // Extract text from response - check different possible structures
         let text: string;
@@ -214,6 +228,12 @@ export async function POST(req: NextRequest) {
         
       } catch (error: any) {
         console.warn(`Failed with ${modelName}:`, error.message);
+        
+        // If it's a timeout, try the next model immediately
+        if (error.message.includes("timed out") || error.message.includes("timeout")) {
+          lastError = error;
+          continue; // Try next model
+        }
         
         // If it's a "Not Found" error (404), try the next model.
         // If it's a "Safety" block or "Auth" error, stop and report it.

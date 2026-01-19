@@ -153,6 +153,10 @@ export default function PortalPageClient({ locale, t }: Props) {
         });
       }
 
+      // Create AbortController for timeout (55 seconds - slightly less than server timeout)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 55000);
+      
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -160,8 +164,11 @@ export default function PortalPageClient({ locale, t }: Props) {
           fileContent: fileText,
           statementType: statementType,
           fileName: selectedFile.name
-        })
+        }),
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
       // CHECK CONTENT TYPE BEFORE PARSING JSON
       const contentType = response.headers.get("content-type");
@@ -188,7 +195,13 @@ export default function PortalPageClient({ locale, t }: Props) {
       console.error(error);
       // Show the ACTUAL error message to help debugging
       let msg = "Unknown error";
-      if (error instanceof Error) msg = error.message;
+      if (error instanceof Error) {
+        if (error.name === 'AbortError' || error.message.includes('aborted')) {
+          msg = "Request timed out. The file might be too large. Try reducing the file size or splitting it into smaller sections.";
+        } else {
+          msg = error.message;
+        }
+      }
       alert(`Analysis Failed: ${msg}`);
       setStep('upload');
     }
