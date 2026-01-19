@@ -108,6 +108,60 @@ export default function PortalPageClient({ locale, t }: Props) {
     supportedFormats: locale === 'tr' ? 'Desteklenen: Excel, CSV, Metin, JSON' : locale === 'it' ? 'Supportati: Excel, CSV, Testo, JSON' : 'Supported: Excel, CSV, Text, JSON',
   };
 
+  // Helper function to split large files
+  const splitFileContent = (content: string, maxSize: number, isExcel: boolean): { content: string; wasSplit: boolean; originalSize: number } => {
+    const originalSize = content.length;
+    
+    if (originalSize <= maxSize) {
+      return { content, wasSplit: false, originalSize };
+    }
+
+    if (isExcel) {
+      // For CSV (converted from Excel), split by lines but keep header
+      const lines = content.split('\n');
+      if (lines.length <= 1) {
+        // If single line or empty, just truncate
+        return { content: content.substring(0, maxSize), wasSplit: true, originalSize };
+      }
+      
+      const header = lines[0];
+      const dataLines = lines.slice(1);
+      let truncatedContent = header + '\n';
+      let currentSize = truncatedContent.length;
+      
+      for (const line of dataLines) {
+        const lineWithNewline = line + '\n';
+        if (currentSize + lineWithNewline.length > maxSize) {
+          break;
+        }
+        truncatedContent += lineWithNewline;
+        currentSize += lineWithNewline.length;
+      }
+      
+      return { content: truncatedContent, wasSplit: true, originalSize };
+    } else {
+      // For text files, split by lines but keep first part
+      const lines = content.split('\n');
+      if (lines.length <= 1) {
+        return { content: content.substring(0, maxSize), wasSplit: true, originalSize };
+      }
+      
+      let truncatedContent = '';
+      let currentSize = 0;
+      
+      for (const line of lines) {
+        const lineWithNewline = line + '\n';
+        if (currentSize + lineWithNewline.length > maxSize) {
+          break;
+        }
+        truncatedContent += lineWithNewline;
+        currentSize += lineWithNewline.length;
+      }
+      
+      return { content: truncatedContent, wasSplit: true, originalSize };
+    }
+  };
+
   // Example Handler
   const handleDropdownSelect = (selectedKey: string) => {
     if (analysis?.traceabilityMap && analysis.traceabilityMap[selectedKey]) {
@@ -153,12 +207,20 @@ export default function PortalPageClient({ locale, t }: Props) {
         });
       }
 
-      // Validate file size before sending
-      if (fileText.length > 100000) {
-        const shouldContinue = confirm(
-          `Warning: This file is very large (${Math.round(fileText.length / 1000)}k characters). ` +
-          `Processing may take longer than usual or timeout. Do you want to continue?`
-        );
+      // Split file if too large (max 15k characters for optimal performance)
+      const MAX_FILE_SIZE = 15000;
+      const isExcel = selectedFile.name.endsWith('.xlsx') || selectedFile.name.endsWith('.xls');
+      const { content: processedFileText, wasSplit, originalSize } = splitFileContent(fileText, MAX_FILE_SIZE, isExcel);
+      
+      if (wasSplit) {
+        const reductionPercent = Math.round((1 - processedFileText.length / originalSize) * 100);
+        const message = locale === 'tr' 
+          ? `Dosya çok büyük (${Math.round(originalSize / 1000)}k karakter). Performans için ${reductionPercent}% azaltıldı (${Math.round(processedFileText.length / 1000)}k karakter). Devam edilsin mi?`
+          : locale === 'it'
+          ? `File troppo grande (${Math.round(originalSize / 1000)}k caratteri). Ridotto del ${reductionPercent}% per le prestazioni (${Math.round(processedFileText.length / 1000)}k caratteri). Continuare?`
+          : `File is very large (${Math.round(originalSize / 1000)}k characters). Reduced by ${reductionPercent}% for performance (${Math.round(processedFileText.length / 1000)}k characters). Continue?`;
+        
+        const shouldContinue = confirm(message);
         if (!shouldContinue) {
           setStep('upload');
           return;
@@ -173,7 +235,7 @@ export default function PortalPageClient({ locale, t }: Props) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fileContent: fileText,
+          fileContent: processedFileText, // Use processed (potentially split) content
           statementType: statementType,
           fileName: selectedFile.name
         }),
