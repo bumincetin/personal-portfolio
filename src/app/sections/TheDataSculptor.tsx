@@ -83,11 +83,13 @@ const DataPoint = ({
   const startX = Math.cos(angle) * radius + ((index * 37) % 41) - 20;
   const startY = Math.sin(angle) * radius + ((index * 53) % 37) - 18;
 
-  const x = useTransform(progress, [0, 0.22, 0.42, 0.58, 0.7], [startX, startX * 0.6, startX * 0.3, startX * 0.1, 0]);
-  const y = useTransform(progress, [0, 0.22, 0.42, 0.58, 0.7], [startY, startY * 0.6, startY * 0.3, startY * 0.1, 0]);
-  const scale = useTransform(progress, [0, 0.25, 0.5, 0.64, 0.7], [0.85, 0.92, 1, 1.04, 0]);
-  const opacity = useTransform(progress, [0, 0.18, 0.42, 0.58, 0.68], [0.35, 0.7, 1, 0.6, 0]);
-  const rotate = useTransform(progress, [0, 0.42, 0.7], [((index % 3) - 1) * 10, ((index % 3) - 1) * 3, 0]);
+  // Absorbed before the lattice finishes forming (MORPH_1 ends at 0.42), so
+  // Phase II reads as a clean structure rather than a crowd of chips over it.
+  const x = useTransform(progress, [0, 0.18, 0.34, 0.48, 0.58], [startX, startX * 0.62, startX * 0.34, startX * 0.12, 0]);
+  const y = useTransform(progress, [0, 0.18, 0.34, 0.48, 0.58], [startY, startY * 0.62, startY * 0.34, startY * 0.12, 0]);
+  const scale = useTransform(progress, [0, 0.22, 0.4, 0.54, 0.6], [0.85, 0.94, 1, 1.02, 0]);
+  const opacity = useTransform(progress, [0, 0.15, 0.3, 0.46, 0.58], [0.35, 0.8, 1, 0.35, 0]);
+  const rotate = useTransform(progress, [0, 0.34, 0.58], [((index % 3) - 1) * 10, ((index % 3) - 1) * 3, 0]);
 
   return (
     <motion.div
@@ -156,10 +158,10 @@ const PhaseCard = ({
 
   return (
     <motion.div
-      className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
+      className="absolute inset-0 flex items-center justify-center p-4 md:p-8 lg:p-0"
       style={{ opacity, y, pointerEvents: 'none' }}
     >
-      <div className={`w-full max-w-md rounded-editorial border border-border bg-surface/80 shadow-card backdrop-blur-md ${isMobile ? 'p-4' : 'p-6 md:p-8'}`}>
+      <div className={`w-full max-w-md rounded-editorial border border-border bg-surface/95 shadow-card backdrop-blur-xl ${isMobile ? 'p-4' : 'p-5 md:p-6 2xl:p-8'}`}>
         <div className={`flex items-center gap-3 ${isMobile ? 'mb-3' : 'mb-4'}`}>
           <span className={`flex items-center justify-center rounded-md border ${style.chip} ${isMobile ? 'h-7 w-7' : 'h-9 w-9'}`}>
             <Icon size={isMobile ? 13 : 16} strokeWidth={1.5} />
@@ -205,7 +207,7 @@ const PhaseRailItem = ({
   return (
     <motion.div className="flex items-center gap-3" style={{ opacity }}>
       <motion.span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }} />
-      <span className="w-14 font-mono text-[10px] tracking-[0.1em] text-muted">{label}</span>
+      <span className="w-[4.5rem] whitespace-nowrap font-mono text-[10px] tracking-[0.1em] text-muted">{label}</span>
       <span className="relative h-px w-16 overflow-hidden bg-border">
         <motion.span
           className="absolute inset-0 origin-left"
@@ -221,9 +223,9 @@ const PhaseRailItem = ({
 const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewportSize, setViewportSize] = useState({ width: 1920, height: 1080 });
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 768 : false,
-  );
+  // Starts false to match the server render; the effect below corrects it on
+  // mount. Reading innerWidth during render mismatches hydration on phones.
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const updateSize = () => {
@@ -316,10 +318,10 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
           ))}
         </div>
 
-        <div className="relative mx-auto h-full max-w-7xl px-4 md:px-8 lg:px-16">
+        <div className="relative mx-auto h-full max-w-7xl px-4 md:px-8 lg:px-10 xl:px-12 2xl:max-w-[86rem]">
           {/* Mobile header, pinned at the top of the stage. */}
           <motion.div
-            className="absolute inset-x-4 top-20 text-center lg:hidden"
+            className="absolute inset-x-4 top-20 z-20 text-center lg:hidden"
             style={{ opacity: useTransform(smoothProgress, [0, 0.12], [1, 0]) }}
           >
             <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
@@ -328,9 +330,9 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
             <h2 className="mt-2 text-2xl font-extralight tracking-tight text-charcoal">{sectionTitle}</h2>
           </motion.div>
 
-          <div className="flex h-full flex-col items-center justify-center gap-6 lg:flex-row lg:gap-12">
+          <div className="flex h-full flex-col items-center justify-center gap-6 lg:flex-row lg:gap-8 xl:gap-12">
             {/* Left rail (desktop). */}
-            <div className="hidden w-1/3 lg:block">
+            <div className="relative z-20 hidden min-w-0 flex-1 lg:block">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -358,7 +360,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
 
             {/* Center: the sculpture. */}
             <div className="relative z-10 flex flex-shrink-0 items-center justify-center">
-              <div className="relative h-[300px] w-[300px] md:h-[440px] md:w-[440px] lg:h-[500px] lg:w-[500px]">
+              <div className="relative h-[300px] w-[300px] md:h-[440px] md:w-[440px] lg:h-[380px] lg:w-[380px] xl:h-[440px] xl:w-[440px] 2xl:h-[500px] 2xl:w-[500px]">
                 <DataSculpture progress={smoothProgress} />
 
                 {/* Closing plaque, rising off the finished gem. */}
@@ -390,7 +392,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
             </div>
 
             {/* Right: phase cards. */}
-            <div className="relative h-[280px] w-full sm:h-[330px] lg:mt-16 lg:h-[500px] lg:w-1/3">
+            <div className="relative z-20 h-[280px] w-full min-w-0 sm:h-[330px] lg:mt-16 lg:h-[500px] lg:flex-1">
               {phases.map((phase, index) => (
                 <PhaseCard key={index} {...phase} progress={smoothProgress} phaseIndex={index} isMobile={isMobile} />
               ))}
