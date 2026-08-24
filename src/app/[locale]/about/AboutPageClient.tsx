@@ -69,7 +69,7 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
                     alt="Bumin Kağan Çetin"
                     fill
                     sizes="(max-width: 1024px) 90vw, 400px"
-                    className="object-cover"
+                    className="object-cover [filter:saturate(0.85)_brightness(0.95)]"
                   />
                   {/* Subtle gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/10 to-transparent"></div>
