@@ -186,37 +186,29 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/business-intelligence`}
-            className="group relative block h-full cursor-pointer overflow-hidden border border-accent/30 bg-surface-raised shadow-card transition-all duration-300 hover:border-accent/60 hover:shadow-card-hover"
+            className="group block h-full cursor-pointer overflow-hidden border border-accent/30 bg-surface shadow-card transition-all duration-300 hover:border-accent/60 hover:shadow-card-hover"
           >
-            <div className="p-6 md:p-8 flex flex-col justify-between min-h-[400px] relative">
-              {/* Animated Background */}
-              <div className="absolute inset-0 opacity-[0.12]">
-                <DashboardChart className="w-full h-full" />
+            {/* Animated Visual */}
+            <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-4">
+              <DashboardChart className="w-full h-full" />
+              {/* Icon Overlay */}
+              <div className="absolute top-4 right-4 w-10 h-10 bg-surface/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
+                <BarChart3 size={18} className="text-accent" />
               </div>
-              
-              {/* Top */}
-              <div className="relative">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-accent/25 bg-accent/10">
-                  <BarChart3 size={18} className="text-accent" />
-                </div>
-                <span className="font-mono text-xs uppercase tracking-wider text-accent">03</span>
-                <h3 className="mb-4 mt-2 text-xl font-extralight tracking-tight text-charcoal md:text-2xl">
-                  {trans.methodology.card3Title}
-                </h3>
-                <p className="font-sans text-sm leading-relaxed text-muted">
-                  {trans.methodology.card3Desc}
-                </p>
-              </div>
-              
-              {/* Bottom CTA */}
-              <span className="relative mt-8 inline-flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-accent transition-colors">
+            </div>
+
+            {/* Content */}
+            <div className="p-6 md:p-8">
+              <span className="font-mono text-xs text-accent uppercase tracking-wider">03</span>
+              <h3 className="font-serif text-xl md:text-2xl text-charcoal mt-2 mb-3 group-hover:text-accent transition-colors">
+                {trans.methodology.card3Title}
+              </h3>
+              <p className="font-sans text-sm text-muted leading-relaxed mb-4">
+                {trans.methodology.card3Desc}
+              </p>
+              <span className="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider">
                 {trans.methodologyPage.viewDetails}
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowRight size={14} />
-                </motion.span>
+                <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
           </Link>
