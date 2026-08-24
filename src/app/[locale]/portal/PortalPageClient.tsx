@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Upload, FileText, TrendingUp as TrendUp, AlertCircle as WarningCircle, CheckCircle2 as CheckCircle, RotateCw as ArrowClockwise, Filter as Funnel, BarChart3 as ChartBar, Search as MagnifyingGlass, Info, Calculator, FileWarning, Globe, Activity } from 'lucide-react';
@@ -282,19 +281,7 @@ export default function PortalPageClient({ locale, t }: Props) {
 
   return (
     <div className="min-h-screen text-charcoal font-sans selection:bg-accent/20">
-      <nav className="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-charcoal/5">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-             <Link href={`/${locale}`} className="font-serif text-xl font-medium tracking-tight hover:opacity-70 transition-opacity">
-                Bumin Kağan Çetin
-             </Link>
-             <span className="h-4 w-[1px] bg-charcoal/20 mx-2" />
-             <span className="font-mono text-xs uppercase tracking-wider text-muted">Portal</span>
-          </div>
-        </div>
-      </nav>
-
-      <main className="max-w-6xl mx-auto px-6 py-12">
+      <main className="max-w-6xl mx-auto px-6 pb-16 pt-28">
         <AnimatePresence mode="wait">
           {step === 'upload' && (
             <motion.div 

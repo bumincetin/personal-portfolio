@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import PlateImage from '@/app/components/ui/PlateImage';
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -87,14 +87,7 @@ export default function AINLPClient({ locale, t }: Props) {
                 className="relative"
               >
                 <div className="bg-surface border border-border p-4 rounded-lg shadow-editorial">
-                  <Image
-                    src="/bumin2.webp"
-                    alt="AI and data science"
-                    width={1100}
-                    height={1100}
-                    sizes="(max-width: 1024px) 90vw, 520px"
-                    className="h-auto w-full rounded-editorial"
-                  />
+                  <PlateImage src="/bumin2.webp" alt="AI and data science" />
                 </div>
               </motion.div>
             </div>
