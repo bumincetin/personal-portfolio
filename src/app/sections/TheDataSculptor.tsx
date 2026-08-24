@@ -1,470 +1,129 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue, MotionValue } from 'framer-motion';
-import { 
-  Database, Cpu, Gem, ChevronDown as ArrowDown, BarChart3, Users, Target, DollarSign, Activity, PieChart, LineChart, TrendingUp, FileText, Zap, TrendingDown, ArrowUpRight } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+import {
+  Database, Cpu, Gem, ChevronDown as ArrowDown, BarChart3, Users, Target, DollarSign,
+  Activity, PieChart, LineChart, TrendingUp, FileText, Zap, TrendingDown, ArrowUpRight,
+} from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
+import DataSculpture from '@/app/components/three/DataSculpture';
 
 interface TheDataSculptorProps {
   locale: Locale;
   t: TranslationType;
 }
 
-// Data labels with translations
+/* ------------------------------------------------------------- copy tables */
+
 const getDataLabels = (locale: Locale) => {
   const labels = {
     en: [
-      'Balance Sheet',
-      'Head Count',
-      'Marketing Data',
-      'Advertisement',
-      'Churn Rate',
-      'User Count',
-      'Revenue Streams',
-      'Cash Flow',
-      'Customer Lifetime Value',
-      'Conversion Rate',
-      'Inventory Levels',
-      'Sales Pipeline',
-      'Operating Expenses',
-      'Market Share',
-      'Customer Acquisition Cost',
-      'Net Profit Margin',
-      'Return on Investment',
-      'Employee Productivity',
-      'Website Traffic',
-      'Email Campaigns'
+      'Balance Sheet', 'Head Count', 'Marketing Data', 'Advertisement', 'Churn Rate',
+      'User Count', 'Revenue Streams', 'Cash Flow', 'Customer Lifetime Value',
+      'Conversion Rate', 'Inventory Levels', 'Sales Pipeline', 'Operating Expenses',
+      'Market Share', 'Customer Acquisition Cost', 'Net Profit Margin',
+      'Return on Investment', 'Employee Productivity', 'Website Traffic', 'Email Campaigns',
     ],
     tr: [
-      'Bilanço',
-      'Personel Sayısı',
-      'Pazarlama Verileri',
-      'Reklam',
-      'Müşteri Kaybı Oranı',
-      'Kullanıcı Sayısı',
-      'Gelir Akışları',
-      'Nakit Akışı',
-      'Müşteri Yaşam Boyu Değeri',
-      'Dönüşüm Oranı',
-      'Stok Seviyeleri',
-      'Satış Hunisi',
-      'İşletme Giderleri',
-      'Pazar Payı',
-      'Müşteri Edinme Maliyeti',
-      'Net Kar Marjı',
-      'Yatırım Getirisi',
-      'Çalışan Verimliliği',
-      'Web Sitesi Trafiği',
-      'E-posta Kampanyaları'
+      'Bilanço', 'Personel Sayısı', 'Pazarlama Verileri', 'Reklam', 'Müşteri Kaybı Oranı',
+      'Kullanıcı Sayısı', 'Gelir Akışları', 'Nakit Akışı', 'Müşteri Yaşam Boyu Değeri',
+      'Dönüşüm Oranı', 'Stok Seviyeleri', 'Satış Hunisi', 'İşletme Giderleri',
+      'Pazar Payı', 'Müşteri Edinme Maliyeti', 'Net Kar Marjı', 'Yatırım Getirisi',
+      'Çalışan Verimliliği', 'Web Sitesi Trafiği', 'E-posta Kampanyaları',
     ],
     it: [
-      'Bilancio',
-      'Numero Dipendenti',
-      'Dati di Marketing',
-      'Pubblicità',
-      'Tasso di Abbandono',
-      'Numero Utenti',
-      'Flussi di Reddito',
-      'Flusso di Cassa',
-      'Valore Vita Cliente',
-      'Tasso di Conversione',
-      'Livelli di Inventario',
-      'Pipeline Vendite',
-      'Spese Operative',
-      'Quota di Mercato',
-      'Costo Acquisizione Cliente',
-      'Margine di Profitto Netto',
-      'Ritorno sull\'Investimento',
-      'Produttività Dipendenti',
-      'Traffico Sito Web',
-      'Campagne Email'
-    ]
+      'Bilancio', 'Numero Dipendenti', 'Dati di Marketing', 'Pubblicità', 'Tasso di Abbandono',
+      'Numero Utenti', 'Flussi di Reddito', 'Flusso di Cassa', 'Valore Vita Cliente',
+      'Tasso di Conversione', 'Livelli di Inventario', 'Pipeline Vendite', 'Spese Operative',
+      'Quota di Mercato', 'Costo Acquisizione Cliente', 'Margine di Profitto Netto',
+      'Ritorno sull\'Investimento', 'Produttività Dipendenti', 'Traffico Sito Web', 'Campagne Email',
+    ],
   };
   return labels[locale] || labels.en;
 };
 
-// Icon mapping for different data types
 const getIconForLabel = (label: string, index: number) => {
   const iconMap: Record<string, React.ElementType> = {
-    'Balance Sheet': BarChart3,
-    'Bilanço': BarChart3,
-    'Bilancio': BarChart3,
-    'Head Count': Users,
-    'Personel Sayısı': Users,
-    'Numero Dipendenti': Users,
-    'Marketing Data': Target,
-    'Pazarlama Verileri': Target,
-    'Dati di Marketing': Target,
-    'Revenue Streams': DollarSign,
-    'Gelir Akışları': DollarSign,
-    'Flussi di Reddito': DollarSign,
-    'Cash Flow': Activity,
-    'Nakit Akışı': Activity,
-    'Flusso di Cassa': Activity,
-    'Churn Rate': TrendingDown,
-    'Müşteri Kaybı Oranı': TrendingDown,
-    'Tasso di Abbandono': TrendingDown,
-    'Conversion Rate': ArrowUpRight,
-    'Dönüşüm Oranı': ArrowUpRight,
-    'Tasso di Conversione': ArrowUpRight,
+    'Balance Sheet': BarChart3, 'Bilanço': BarChart3, 'Bilancio': BarChart3,
+    'Head Count': Users, 'Personel Sayısı': Users, 'Numero Dipendenti': Users,
+    'Marketing Data': Target, 'Pazarlama Verileri': Target, 'Dati di Marketing': Target,
+    'Revenue Streams': DollarSign, 'Gelir Akışları': DollarSign, 'Flussi di Reddito': DollarSign,
+    'Cash Flow': Activity, 'Nakit Akışı': Activity, 'Flusso di Cassa': Activity,
+    'Churn Rate': TrendingDown, 'Müşteri Kaybı Oranı': TrendingDown, 'Tasso di Abbandono': TrendingDown,
+    'Conversion Rate': ArrowUpRight, 'Dönüşüm Oranı': ArrowUpRight, 'Tasso di Conversione': ArrowUpRight,
   };
-  
-  const icons = [
-    BarChart3, Users, Target, DollarSign, Activity, 
-    PieChart, LineChart, TrendingUp, FileText, Zap
-  ];
-  
+  const icons = [BarChart3, Users, Target, DollarSign, Activity, PieChart, LineChart, TrendingUp, FileText, Zap];
   return iconMap[label] || icons[index % icons.length];
 };
 
-// Data point component that converges to cube
-const DataPoint = ({ 
+/* -------------------------------------------------- converging data labels */
+
+const DataPoint = ({
   label,
-  index, 
-  progress, 
+  index,
+  progress,
   totalPoints,
   viewportWidth,
-  viewportHeight
-}: { 
+  viewportHeight,
+}: {
   label: string;
-  index: number; 
+  index: number;
   progress: MotionValue<number>;
   totalPoints: number;
   viewportWidth: number;
   viewportHeight: number;
 }) => {
   const Icon = getIconForLabel(label, index);
-  
-  // Start positions - scattered across viewport with slight randomness
+
+  // Scattered around the viewport edge; each label is pulled into the
+  // sculpture as the raw data gets absorbed.
   const angle = (index / totalPoints) * Math.PI * 2;
   const radius = Math.max(viewportWidth, viewportHeight) * 0.4;
-  const startX = Math.cos(angle) * radius + (Math.random() * 40 - 20);
-  const startY = Math.sin(angle) * radius + (Math.random() * 40 - 20);
-  
-  const finalX = 0;
-  const finalY = 0;
-  
-  // Transform based on scroll progress - converge to center
-  const x = useTransform(
-    progress,
-    [0, 0.25, 0.5, 0.75, 0.9],
-    [startX, startX * 0.6, startX * 0.3, startX * 0.1, finalX]
-  );
-  
-  const y = useTransform(
-    progress,
-    [0, 0.25, 0.5, 0.75, 0.9],
-    [startY, startY * 0.6, startY * 0.3, startY * 0.1, finalY]
-  );
-  
-  const scale = useTransform(
-    progress,
-    [0, 0.3, 0.6, 0.85, 0.9],
-    [0.8, 0.9, 1, 1.1, 0]
-  );
-  
-  const opacity = useTransform(
-    progress,
-    [0, 0.2, 0.5, 0.8, 0.9],
-    [0.4, 0.7, 1, 0.8, 0]
-  );
-  
-  const rotate = useTransform(
-    progress,
-    [0, 0.5, 0.9],
-    [(index % 3 - 1) * 12, (index % 3 - 1) * 4, 0]
-  );
+  const startX = Math.cos(angle) * radius + ((index * 37) % 41) - 20;
+  const startY = Math.sin(angle) * radius + ((index * 53) % 37) - 18;
 
-  const labelOpacity = useTransform(
-    progress,
-    [0, 0.2, 0.8, 0.9],
-    [0.6, 1, 1, 0]
-  );
+  const x = useTransform(progress, [0, 0.22, 0.42, 0.58, 0.7], [startX, startX * 0.6, startX * 0.3, startX * 0.1, 0]);
+  const y = useTransform(progress, [0, 0.22, 0.42, 0.58, 0.7], [startY, startY * 0.6, startY * 0.3, startY * 0.1, 0]);
+  const scale = useTransform(progress, [0, 0.25, 0.5, 0.64, 0.7], [0.85, 0.92, 1, 1.04, 0]);
+  const opacity = useTransform(progress, [0, 0.18, 0.42, 0.58, 0.68], [0.35, 0.7, 1, 0.6, 0]);
+  const rotate = useTransform(progress, [0, 0.42, 0.7], [((index % 3) - 1) * 10, ((index % 3) - 1) * 3, 0]);
 
   return (
     <motion.div
-      className="absolute flex items-center gap-2 pointer-events-none"
-      style={{ 
-        x, 
-        y, 
-        scale, 
-        opacity,
-        rotate,
-        left: '50%',
-        top: '50%',
-      }}
+      className="pointer-events-none absolute flex items-center gap-2"
+      style={{ x, y, scale, opacity, rotate, left: '50%', top: '50%' }}
     >
-      <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-surface/95 border border-border/60 shadow-sm backdrop-blur-sm">
-        <div className="w-5 h-5 rounded bg-accent/10 flex items-center justify-center flex-shrink-0">
-          <Icon size={12} className="text-accent" />
-        </div>
-        <motion.span 
-          className="font-mono text-[10px] text-charcoal/80 whitespace-nowrap"
-          style={{ opacity: labelOpacity }}
-        >
-          {label}
-        </motion.span>
+      <div className="flex items-center gap-2 rounded-md border border-border bg-surface/80 px-2.5 py-1.5 shadow-card backdrop-blur-sm">
+        <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded bg-accent/10">
+          <Icon size={11} className="text-accent" />
+        </span>
+        <span className="whitespace-nowrap font-mono text-[10px] tracking-[0.06em] text-muted">{label}</span>
       </div>
     </motion.div>
   );
 };
 
-// Glitch layer component for Phase 1
-const GlitchLayer = ({
-  progress,
-  glitchIntensity,
-}: {
-  progress: MotionValue<number>;
-  glitchIntensity: MotionValue<number>;
-}) => {
-  /*
-   * This used to drive the jitter from `setInterval(..., 16)` calling
-   * `setState(Date.now())` -- a full React re-render 60 times a second, for the
-   * whole life of the page, whether or not the section was on screen. It was
-   * one of the main causes of the scroll jank.
-   *
-   * The offsets now live in motion values written from a single rAF loop, so
-   * they update on the compositor without re-rendering, and the loop only runs
-   * while the effect is actually visible (glitchIntensity > 0, i.e. the first
-   * third of the scroll) and the tab is in the foreground.
-   */
-  const x1 = useMotionValue(0);
-  const y1 = useMotionValue(0);
-  const x2 = useMotionValue(0);
-  const y2 = useMotionValue(0);
+/* ------------------------------------------------------------- phase cards */
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+const PHASE_STYLES = [
+  {
+    gradientText: 'text-gradient-silver',
+    chip: 'border-muted-light/40 bg-muted/10 text-muted',
+    dot: '#9AA3BC',
+  },
+  {
+    gradientText: 'text-gradient-blue',
+    chip: 'border-accent-blue/40 bg-accent-blue/10 text-accent-blue',
+    dot: '#7FC4FF',
+  },
+  {
+    gradientText: 'text-gradient-gold',
+    chip: 'border-accent/40 bg-accent/10 text-accent',
+    dot: '#E6C879',
+  },
+];
 
-    let frame = 0;
-
-    const tick = (time: number) => {
-      const intensity = glitchIntensity.get();
-
-      // Fully faded out: park the layers and skip the trig entirely.
-      if (intensity > 0.01) {
-        x1.set(Math.sin(time * 0.01) * intensity * 2);
-        y1.set(Math.cos(time * 0.01) * intensity * 1.5);
-        x2.set(Math.cos(time * 0.008) * intensity * -2);
-        y2.set(Math.sin(time * 0.008) * intensity * -1.5);
-      } else if (x1.get() !== 0) {
-        x1.set(0);
-        y1.set(0);
-        x2.set(0);
-        y2.set(0);
-      }
-
-      frame = requestAnimationFrame(tick);
-    };
-
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [glitchIntensity, x1, y1, x2, y2]);
-
-  const opacity = useTransform(progress, [0, 0.3], [0.4, 0]);
-
-  return (
-    <motion.div className="absolute inset-0 preserve-3d" style={{ opacity }}>
-      <motion.div className="absolute inset-0 border border-negative/20" style={{ x: x1, y: y1 }} />
-      <motion.div className="absolute inset-0 border border-accent-blue/20" style={{ x: x2, y: y2 }} />
-    </motion.div>
-  );
-};
-
-// The 3D Cube Component with 6 faces
-const DataCube = ({ 
-  progress,
-  rotateX,
-  rotateY,
-  scale,
-  glitchIntensity,
-  scanProgress,
-  phaseColor,
-  glowColor,
-  borderRadius,
-  locale,
-  isMobile = false,
-}: {
-  progress: MotionValue<number>;
-  rotateX: MotionValue<number>;
-  rotateY: MotionValue<number>;
-  scale: MotionValue<number>;
-  glitchIntensity: MotionValue<number>;
-  scanProgress: MotionValue<number>;
-  phaseColor: MotionValue<string>;
-  glowColor: MotionValue<string>;
-  borderRadius: MotionValue<string>;
-  locale: Locale;
-  isMobile?: boolean;
-}) => {
-  // Responsive cube size
-  const cubeSize = isMobile ? 140 : 200;
-  const halfSize = cubeSize / 2;
-
-  // Face styles for the cube
-  const faceBaseStyle = "absolute w-full h-full border-2 border-charcoal backdrop-blur-sm";
-  
-  return (
-    <div 
-      className="relative preserve-3d border-2 border-charcoal"
-      style={{ 
-        width: cubeSize, 
-        height: cubeSize,
-        perspective: isMobile ? '500px' : '1000px',
-      }}
-    >
-      {/* Glitch layers - only visible in Phase 1 */}
-      <GlitchLayer progress={progress} glitchIntensity={glitchIntensity} />
-
-      {/* Main Cube Container */}
-      <motion.div
-        className="relative w-full h-full preserve-3d will-change-transform"
-        style={{
-          rotateX,
-          rotateY,
-          scale,
-          transformStyle: 'preserve-3d',
-        }}
-      >
-        {/* Front Face */}
-        <motion.div
-          className={faceBaseStyle}
-          style={{
-            transform: `translateZ(${halfSize}px)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}20`),
-            borderRadius,
-            boxShadow: useTransform(glowColor, (c: string) => `0 0 25px ${c}25, inset 0 0 25px ${c}08`),
-          }}
-        >
-          {/* Grid pattern */}
-          <div className="absolute inset-2 grid grid-cols-4 grid-rows-4 gap-1 opacity-30">
-            {[...Array(16)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="border"
-                style={{
-                  borderColor: useTransform(phaseColor, (c: string) => `${c}25`),
-                  borderRadius: useTransform(progress, [0.6, 1], ['0px', '2px']),
-                }}
-              />
-            ))}
-          </div>
-          
-          {/* Scan line - Phase 2 */}
-          <motion.div
-            className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
-            style={{
-              top: useTransform(scanProgress, [0, 1], ['0%', '100%']),
-              opacity: useTransform(progress, [0.3, 0.4, 0.6, 0.7], [0, 0.8, 0.8, 0]),
-              boxShadow: '0 0 15px rgba(34, 211, 238, 0.6)',
-            }}
-          />
-        </motion.div>
-
-        {/* Back Face */}
-        <motion.div
-          className={faceBaseStyle}
-          style={{
-            transform: `translateZ(-${halfSize}px) rotateY(180deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}15`),
-            borderRadius,
-          }}
-        />
-
-        {/* Right Face */}
-        <motion.div
-          className={faceBaseStyle}
-          style={{
-            transform: `translateX(${halfSize}px) rotateY(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}18`),
-            borderRadius,
-          }}
-        />
-
-        {/* Left Face */}
-        <motion.div
-          className={faceBaseStyle}
-          style={{
-            transform: `translateX(-${halfSize}px) rotateY(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}18`),
-            borderRadius,
-          }}
-        />
-
-        {/* Top Face */}
-        <motion.div
-          className={faceBaseStyle}
-          style={{
-            transform: `translateY(-${halfSize}px) rotateX(90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}12`),
-            borderRadius,
-          }}
-        />
-
-        {/* Bottom Face */}
-        <motion.div
-          className={faceBaseStyle}
-          style={{
-            transform: `translateY(${halfSize}px) rotateX(-90deg)`,
-            backgroundColor: useTransform(phaseColor, (c: string) => `${c}22`),
-            borderRadius,
-            boxShadow: useTransform(glowColor, (c: string) => `0 0 35px ${c}35`),
-          }}
-        />
-
-        {/* Center Icon - Phase 1-3 */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{
-            transform: `translateZ(${halfSize + 1}px)`,
-            opacity: useTransform(progress, [0, 0.1, 0.85, 0.9], [0, 1, 1, 0]),
-          }}
-        >
-          <motion.div
-            style={{
-              color: useTransform(phaseColor, (c: string) => c),
-              filter: useTransform(glowColor, (c: string) => `drop-shadow(0 0 8px ${c})`),
-            }}
-          >
-            {/* Icon changes based on phase */}
-            <motion.div style={{ opacity: useTransform(progress, [0, 0.3], [1, 0]) }}>
-              <Database size={36} />
-            </motion.div>
-            <motion.div 
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ opacity: useTransform(progress, [0.3, 0.4, 0.6, 0.7], [0, 1, 1, 0]) }}
-            >
-              <Cpu size={36} />
-            </motion.div>
-            <motion.div 
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ opacity: useTransform(progress, [0.66, 0.75, 0.85, 0.9], [0, 1, 1, 0]) }}
-            >
-              <Gem size={36} />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-      </motion.div>
-
-      {/* Outer glow ring */}
-      <motion.div
-        className="absolute -inset-6 rounded-full pointer-events-none"
-        style={{
-          background: useTransform(
-            glowColor,
-            (c: string) => `radial-gradient(circle, ${c}15 0%, transparent 70%)`
-          ),
-          scale: useTransform(progress, [0, 0.5, 1], [0.7, 1.1, 1]),
-        }}
-      />
-    </div>
-  );
-};
-
-// Phase content card
 const PhaseCard = ({
   phase,
   title,
@@ -484,56 +143,37 @@ const PhaseCard = ({
 }) => {
   const phaseStart = phaseIndex * 0.33;
   const phaseEnd = (phaseIndex + 1) * 0.33;
-  const phaseMid = (phaseStart + phaseEnd) / 2;
 
-  const opacity = useTransform(
-    progress,
-    [phaseStart - 0.05, phaseStart + 0.05, phaseMid, phaseEnd - 0.05, phaseEnd + 0.05],
-    [0, 1, 1, 1, 0]
-  );
+  // Sequential, not crossfaded: the outgoing card is fully gone before the
+  // next one arrives, so two translucent panels never read through each other.
+  const fadeIn = phaseIndex === 0 ? phaseStart : phaseStart + 0.01;
+  const keyframes = [fadeIn, fadeIn + 0.05, phaseEnd - 0.06, phaseEnd - 0.01];
 
-  const y = useTransform(
-    progress,
-    [phaseStart - 0.05, phaseStart + 0.05, phaseMid, phaseEnd - 0.05, phaseEnd + 0.05],
-    [20, 0, 0, 0, -20]
-  );
+  const opacity = useTransform(progress, keyframes, [phaseIndex === 0 ? 1 : 0, 1, 1, 0]);
+  const y = useTransform(progress, keyframes, [phaseIndex === 0 ? 0 : 24, 0, 0, -24]);
 
-  // Gradient colors for each phase
-  const gradientColors = [
-    'from-gray-500 via-gray-400 to-gray-600', // Silver - Phase 1
-    'from-cyan-500 via-blue-500 to-indigo-600', // Blue - Phase 2
-    'from-amber-500 via-yellow-500 to-orange-600', // Gold - Phase 3
-  ];
+  const style = PHASE_STYLES[phaseIndex];
 
   return (
     <motion.div
       className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
       style={{ opacity, y, pointerEvents: 'none' }}
     >
-      <div className={`w-full max-w-md rounded-lg bg-surface/95 backdrop-blur-sm border border-border/60 shadow-lg ${isMobile ? 'p-4' : 'p-6 md:p-8'}`}>
-        {/* Phase badge */}
-        <div className={`flex items-center gap-2.5 ${isMobile ? 'mb-3' : 'mb-4'}`}>
-          <div className={`
-            ${isMobile ? 'w-7 h-7' : 'w-9 h-9'} rounded-lg flex items-center justify-center
-            bg-gradient-to-br ${gradientColors[phaseIndex]}
-          `}>
-            <Icon size={isMobile ? 14 : 18} className="text-charcoal" />
-          </div>
-          <span className={`font-mono uppercase tracking-[0.15em] text-muted ${isMobile ? 'text-[9px]' : 'text-[10px]'}`}>
+      <div className={`w-full max-w-md rounded-editorial border border-border bg-surface/80 shadow-card backdrop-blur-md ${isMobile ? 'p-4' : 'p-6 md:p-8'}`}>
+        <div className={`flex items-center gap-3 ${isMobile ? 'mb-3' : 'mb-4'}`}>
+          <span className={`flex items-center justify-center rounded-md border ${style.chip} ${isMobile ? 'h-7 w-7' : 'h-9 w-9'}`}>
+            <Icon size={isMobile ? 13 : 16} strokeWidth={1.5} />
+          </span>
+          <span className={`font-mono uppercase tracking-[0.18em] text-muted ${isMobile ? 'text-[9px]' : 'text-[10px]'}`}>
             {phase}
           </span>
         </div>
 
-        {/* Title with gradient */}
-        <h3 className={`
-          font-serif ${isMobile ? 'text-base' : 'text-xl md:text-2xl'} ${isMobile ? 'mb-2' : 'mb-3'} leading-tight
-          bg-gradient-to-r ${gradientColors[phaseIndex]} bg-clip-text text-transparent
-        `}>
+        <h3 className={`font-extralight tracking-tight ${style.gradientText} ${isMobile ? 'mb-2 text-lg' : 'mb-3 text-2xl md:text-3xl'}`}>
           {title}
         </h3>
 
-        {/* Description */}
-        <p className={`font-sans text-muted leading-relaxed ${isMobile ? 'text-xs' : 'text-sm'}`}>
+        <p className={`font-sans leading-relaxed text-muted ${isMobile ? 'text-xs' : 'text-sm'}`}>
           {description}
         </p>
       </div>
@@ -541,22 +181,54 @@ const PhaseCard = ({
   );
 };
 
+/* --------------------------------------------- phase rail (left, desktop) */
+
+const PhaseRailItem = ({
+  label,
+  index,
+  progress,
+}: {
+  label: string;
+  index: number;
+  progress: MotionValue<number>;
+}) => {
+  const start = index * 0.33;
+  const end = (index + 1) * 0.33;
+  const opacity = useTransform(progress, [start - 0.1, start, end, end + 0.1], [0.35, 1, 1, 0.35]);
+  const color = useTransform(
+    progress,
+    [start - 0.05, start, end, end + 0.05],
+    ['#5C668A', PHASE_STYLES[index].dot, PHASE_STYLES[index].dot, '#5C668A'],
+  );
+  const barScale = useTransform(progress, [start, end], [0, 1]);
+
+  return (
+    <motion.div className="flex items-center gap-3" style={{ opacity }}>
+      <motion.span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }} />
+      <span className="w-14 font-mono text-[10px] tracking-[0.1em] text-muted">{label}</span>
+      <span className="relative h-px w-16 overflow-hidden bg-border">
+        <motion.span
+          className="absolute inset-0 origin-left"
+          style={{ backgroundColor: color, scaleX: barScale }}
+        />
+      </span>
+    </motion.div>
+  );
+};
+
+/* ------------------------------------------------------------ main section */
+
 const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewportSize, setViewportSize] = useState({ width: 1920, height: 1080 });
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 768;
-    }
-    return false;
-  });
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false,
+  );
 
   useEffect(() => {
     const updateSize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      setViewportSize({ width, height });
-      setIsMobile(width < 768);
+      setViewportSize({ width: window.innerWidth, height: window.innerHeight });
+      setIsMobile(window.innerWidth < 768);
     };
     updateSize();
     window.addEventListener('resize', updateSize);
@@ -574,30 +246,6 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
     restDelta: 0.001,
   });
 
-  // Cube transformations - more organic, less perfect, reduced on mobile
-  const rotateX = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? [-8, 1, 5, 0] : [-12, 2, 8, 0]);
-  const rotateY = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? [-15, 30, 120, 360] : [-20, 42, 175, 360]);
-  const scale = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? [0.9, 1, 1.05, 1.1] : [0.85, 1, 1.08, 1.15]);
-  const borderRadius = useTransform(smoothProgress, [0, 0.33, 0.66, 1], isMobile ? ['2px', '4px', '6px', '8px'] : ['3px', '6px', '10px', '14px']);
-
-  // Phase-specific effects
-  const glitchIntensity = useTransform(smoothProgress, [0, 0.3], [4, 0]);
-  const scanProgress = useTransform(smoothProgress, [0.33, 0.66], [0, 1]);
-
-  // Colors per phase - more muted, natural
-  const phaseColor = useTransform(
-    smoothProgress,
-    [0, 0.3, 0.33, 0.6, 0.66, 1],
-    ['#6B7280', '#6B7280', '#0891B2', '#0891B2', '#D97706', '#D97706']
-  );
-
-  const glowColor = useTransform(
-    smoothProgress,
-    [0, 0.3, 0.33, 0.6, 0.66, 1],
-    ['#4B5563', '#4B5563', '#06B6D4', '#06B6D4', '#F59E0B', '#F59E0B']
-  );
-
-  // Phase content - more elaborate descriptions
   const phases = [
     {
       phase: locale === 'tr' ? 'Faz I' : locale === 'it' ? 'Fase I' : 'Phase I',
@@ -633,28 +281,26 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
 
   const dataLabels = getDataLabels(locale);
 
+  const sectionTitle = locale === 'tr' ? 'Veri Heykeltıraşı' : locale === 'it' ? 'Lo Scultore di Dati' : 'The Data Sculptor';
+  const sectionTagline =
+    locale === 'tr'
+      ? 'Verinin sanata, kaosun değere dönüştüğü yolculuk.'
+      : locale === 'it'
+      ? 'Il viaggio dove i dati diventano arte, il caos diventa valore.'
+      : 'The journey where data becomes art, chaos becomes value.';
+
   return (
     <section
       id="data-sculptor"
       ref={containerRef}
       className="relative min-h-[400vh] bg-cream/85 backdrop-blur-sm"
     >
-      {/* Sticky Visual Container */}
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Subtle grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(26,26,26,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(26,26,26,0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '40px 40px',
-          }}
-        />
+        {/* Faint blueprint grid behind the whole stage. */}
+        <div className="absolute inset-0 grid-pattern opacity-40" />
 
-        {/* Converging Data Points - fewer on mobile for performance */}
-        <div className="absolute inset-0 pointer-events-none">
+        {/* Converging data labels. */}
+        <div className="pointer-events-none absolute inset-0">
           {dataLabels.slice(0, isMobile ? 12 : 20).map((label, index) => (
             <DataPoint
               key={index}
@@ -668,178 +314,94 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
           ))}
         </div>
 
-        {/* Main content area */}
-        <div className="relative h-full max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
-          <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-12">
-            
-            {/* Left: Section Header (Desktop only) */}
-            <div className="hidden lg:block w-1/3">
+        <div className="relative mx-auto h-full max-w-7xl px-4 md:px-8 lg:px-16">
+          {/* Mobile header, pinned at the top of the stage. */}
+          <motion.div
+            className="absolute inset-x-4 top-20 text-center lg:hidden"
+            style={{ opacity: useTransform(smoothProgress, [0, 0.12], [1, 0]) }}
+          >
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+              {locale === 'tr' ? 'Dönüşüm' : locale === 'it' ? 'Trasformazione' : 'Transformation'}
+            </span>
+            <h2 className="mt-2 text-2xl font-extralight tracking-tight text-charcoal">{sectionTitle}</h2>
+          </motion.div>
+
+          <div className="flex h-full flex-col items-center justify-center gap-6 lg:flex-row lg:gap-12">
+            {/* Left rail (desktop). */}
+            <div className="hidden w-1/3 lg:block">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="mb-8"
+                className="mb-10"
               >
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div className="w-10 h-[1.5px] bg-accent"></div>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="h-px w-10 bg-gradient-to-r from-accent to-transparent" />
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
                     {locale === 'tr' ? 'Dönüşüm' : locale === 'it' ? 'Trasformazione' : 'Transformation'}
                   </span>
                 </div>
-                <h2 className="font-serif text-2xl lg:text-3xl text-charcoal leading-tight mb-3">
-                  {locale === 'tr'
-                    ? 'Veri Heykeltıraşı'
-                    : locale === 'it'
-                    ? 'Lo Scultore di Dati'
-                    : 'The Data Sculptor'}
+                <h2 className="mb-3 text-3xl font-extralight leading-tight tracking-tight text-charcoal lg:text-4xl">
+                  {sectionTitle}
                 </h2>
-                <p className="font-sans text-sm leading-relaxed text-muted">
-                  {locale === 'tr'
-                    ? 'Verinin sanata, kaosun değere dönüştüğü yolculuk.'
-                    : locale === 'it'
-                    ? 'Il viaggio dove i dati diventano arte, il caos diventa valore.'
-                    : 'The journey where data becomes art, chaos becomes value.'}
-                </p>
+                <p className="max-w-xs font-sans text-sm leading-relaxed text-muted">{sectionTagline}</p>
               </motion.div>
 
-              {/* Progress indicator */}
-              <div className="space-y-3">
+              <div className="space-y-3.5">
                 {phases.map((phase, i) => (
-                  <motion.div
-                    key={i}
-                    className="flex items-center gap-2.5"
-                    style={{
-                      opacity: useTransform(
-                        smoothProgress,
-                        [i * 0.33 - 0.1, i * 0.33, (i + 1) * 0.33, (i + 1) * 0.33 + 0.1],
-                        [0.3, 1, 1, 0.3]
-                      ),
-                    }}
-                  >
-                    <motion.div
-                      className="w-1.5 h-1.5 rounded-full bg-muted"
-                      style={{
-                        backgroundColor: useTransform(
-                          smoothProgress,
-                          [i * 0.33 - 0.05, i * 0.33, (i + 1) * 0.33, (i + 1) * 0.33 + 0.05],
-                          ['#9CA3AF', '#0891B2', '#0891B2', '#9CA3AF']
-                        ),
-                      }}
-                    />
-                    <span className="font-mono text-[10px] text-muted">{phase.phase}</span>
-                  </motion.div>
+                  <PhaseRailItem key={i} label={phase.phase} index={i} progress={smoothProgress} />
                 ))}
               </div>
             </div>
 
-            {/* Center: 3D Cube */}
-            <div className="flex-shrink-0 flex items-center justify-center z-10 relative">
-              <div className="relative" style={{ width: isMobile ? 140 : 200, height: isMobile ? 140 : 200 }}>
-                <DataCube
-                  progress={smoothProgress}
-                  rotateX={rotateX}
-                  rotateY={rotateY}
-                  scale={scale}
-                  glitchIntensity={glitchIntensity}
-                  scanProgress={scanProgress}
-                  phaseColor={phaseColor}
-                  glowColor={glowColor}
-                  borderRadius={borderRadius}
-                  locale={locale}
-                  isMobile={isMobile}
-                />
-                
-                {/* Final Message - Phase 4 (end) - positioned on top of cube, rotating with it, coming out */}
+            {/* Center: the sculpture. */}
+            <div className="relative z-10 flex flex-shrink-0 items-center justify-center">
+              <div className="relative h-[300px] w-[300px] md:h-[440px] md:w-[440px] lg:h-[500px] lg:w-[500px]">
+                <DataSculpture progress={smoothProgress} />
+
+                {/* Closing plaque, rising off the finished gem. */}
                 <motion.div
-                  className="absolute left-1/2 pointer-events-none"
+                  className="pointer-events-none absolute left-1/2 top-0 w-max max-w-[85vw]"
                   style={{
                     x: '-50%',
-                    y: useTransform(smoothProgress, [0.85, 0.95, 1], isMobile ? ['-70px', '-85px', '-100px'] : ['-100px', '-120px', '-140px']),
-                    opacity: useTransform(smoothProgress, [0.85, 0.95, 1], [0, 1, 1]),
-                    scale: useTransform(smoothProgress, [0.85, 0.95], [0.8, 1]),
-                    // On mobile, don't rotate with cube to keep text readable
-                    rotateX: isMobile ? 0 : rotateX,
-                    rotateY: isMobile ? 0 : rotateY,
-                    transformStyle: 'preserve-3d',
-                    perspective: isMobile ? '500px' : '1000px',
-                    z: useTransform(smoothProgress, [0.85, 0.95, 1], isMobile ? [0, 15, 30] : [0, 20, 40]),
-                    backfaceVisibility: 'hidden',
-                    WebkitBackfaceVisibility: 'hidden',
+                    y: useTransform(smoothProgress, [0.85, 1], [26, -8]),
+                    opacity: useTransform(smoothProgress, [0.85, 0.94], [0, 1]),
+                    scale: useTransform(smoothProgress, [0.85, 0.95], [0.92, 1]),
                   }}
                 >
-                  <div 
-                    className="relative text-center bg-gradient-to-b from-amber-50 via-surface to-amber-50/30 rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
-                    style={{ 
-                      width: isMobile ? '140px' : '200px',
-                      padding: isMobile ? '12px 16px' : '16px 20px',
-                      willChange: 'auto',
-                      textRendering: 'optimizeLegibility',
-                      WebkitFontSmoothing: 'antialiased',
-                      MozOsxFontSmoothing: 'grayscale',
-                      border: '2px solid #1A1A1A',
-                      borderTop: '3px solid #D97706',
-                      borderBottom: '3px solid #D97706',
-                      backfaceVisibility: 'hidden',
-                      WebkitBackfaceVisibility: 'hidden',
-                      transform: 'translateZ(0)',
-                    }}
-                  >
-                    {/* Decorative corner flourishes - smaller on mobile */}
-                    <div className={`absolute top-1 left-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-l-2 border-t-2 border-charcoal/40`}></div>
-                    <div className={`absolute top-1 right-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-r-2 border-t-2 border-charcoal/40`}></div>
-                    <div className={`absolute bottom-1 left-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-l-2 border-b-2 border-charcoal/40`}></div>
-                    <div className={`absolute bottom-1 right-1 ${isMobile ? 'w-2 h-2' : 'w-3 h-3'} border-r-2 border-b-2 border-charcoal/40`}></div>
-                    
-                    {/* Ornate divider lines */}
-                    <div className={`absolute top-0 left-1/2 -translate-x-1/2 ${isMobile ? 'w-12' : 'w-16'} h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent`}></div>
-                    <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 ${isMobile ? 'w-12' : 'w-16'} h-[1px] bg-gradient-to-r from-transparent via-charcoal/30 to-transparent`}></div>
-                    
-                    {/* Decorative dots */}
-                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-600/60"></div>
-                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-600/60"></div>
-                    
-                    <p 
-                      className={`font-serif text-charcoal leading-relaxed font-semibold italic tracking-wide ${isMobile ? 'text-xs' : 'text-sm md:text-base lg:text-lg'}`}
-                      style={{
-                        fontVariant: 'small-caps',
-                        letterSpacing: isMobile ? '0.03em' : '0.05em',
-                        textShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                      }}
-                    >
-                      {locale === 'tr' 
-                        ? 'İş Değerinin Veri Rönesansı'
-                        : locale === 'it' 
-                        ? 'Rinascimento dei Dati del Valore Aziendale'
-                        : 'A Data Renaissance of Business Value'}
-                    </p>
+                  <div className="shell-square shadow-editorial-hover">
+                    <div className="rounded-editorial bg-surface/90 px-6 py-4 text-center backdrop-blur-md md:px-8 md:py-5">
+                      <span className="mb-1.5 block font-mono text-[9px] uppercase tracking-[0.22em] text-muted">
+                        {locale === 'tr' ? 'Sonuç' : locale === 'it' ? 'Risultato' : 'The Outcome'}
+                      </span>
+                      <p className="text-gradient-gold text-sm font-light tracking-[0.04em] md:text-base" style={{ fontVariant: 'small-caps' }}>
+                        {locale === 'tr'
+                          ? 'İş Değerinin Veri Rönesansı'
+                          : locale === 'it'
+                          ? 'Rinascimento dei Dati del Valore Aziendale'
+                          : 'A Data Renaissance of Business Value'}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               </div>
             </div>
 
-            {/* Right: Phase Cards */}
-            <div className="w-full lg:w-1/3 relative h-[300px] sm:h-[350px] lg:h-[500px]">
+            {/* Right: phase cards. */}
+            <div className="relative h-[280px] w-full sm:h-[330px] lg:mt-16 lg:h-[500px] lg:w-1/3">
               {phases.map((phase, index) => (
-                <PhaseCard
-                  key={index}
-                  {...phase}
-                  progress={smoothProgress}
-                  phaseIndex={index}
-                  isMobile={isMobile}
-                />
+                <PhaseCard key={index} {...phase} progress={smoothProgress} phaseIndex={index} isMobile={isMobile} />
               ))}
             </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator. */}
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          style={{
-            opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]),
-          }}
+          className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
+          style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
         >
-          <span className="font-mono text-[10px] text-muted">
+          <span className="font-mono text-[10px] tracking-[0.1em] text-muted">
             {locale === 'tr' ? 'Keşfetmek için kaydır' : locale === 'it' ? 'Scorri per esplorare' : 'Scroll to explore'}
           </span>
           <motion.div
@@ -850,11 +412,13 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
           </motion.div>
         </motion.div>
 
-        {/* Progress bar */}
+        {/* Phase progress bar along the bottom edge. */}
         <motion.div
-          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-gray-400 via-cyan-500 to-amber-500"
+          className="absolute bottom-0 left-0 h-px"
           style={{
             width: useTransform(smoothProgress, [0, 1], ['0%', '100%']),
+            background: 'linear-gradient(90deg, #9AA3BC, #7FC4FF, #E6C879)',
+            boxShadow: '0 0 8px rgba(230, 200, 121, 0.4)',
           }}
         />
       </div>

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, TrendingUp, Brain, BarChart3, Building2 as Building } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 import { NeuralNetwork, DashboardChart, FinanceGraph, DataFlow } from '@/app/components/AnimatedVisuals';
+import TiltCard from '@/app/components/ui/TiltCard';
 
 interface FocusAreasProps {
   t?: TranslationType;
@@ -100,6 +101,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           variants={cardVariants}
           whileHover={{ y: -8, transition: { duration: 0.3 } }}
         >
+          <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/financial-analytics`}
             className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
@@ -128,6 +130,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               </span>
             </div>
           </Link>
+          </TiltCard>
         </motion.div>
 
         {/* Card 2 - AI & NLP */}
@@ -139,6 +142,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           variants={cardVariants}
           whileHover={{ y: -8, transition: { duration: 0.3 } }}
         >
+          <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/ai-nlp`}
             className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
@@ -167,6 +171,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               </span>
             </div>
           </Link>
+          </TiltCard>
         </motion.div>
 
         {/* Card 3 - Business Intelligence (Dark card) */}
@@ -178,6 +183,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           variants={cardVariants}
           whileHover={{ y: -8, transition: { duration: 0.3 } }}
         >
+          <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/business-intelligence`}
             className="group relative block h-full cursor-pointer overflow-hidden border border-accent/30 bg-surface-raised shadow-card transition-all duration-300 hover:border-accent/60 hover:shadow-card-hover"
@@ -214,6 +220,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               </span>
             </div>
           </Link>
+          </TiltCard>
         </motion.div>
 
         {/* Card 4 - Financial Consultancy (Wide card) */}
@@ -226,6 +233,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           whileHover={{ y: -8, transition: { duration: 0.3 } }}
           className="md:col-span-2 lg:col-span-2"
         >
+          <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/financial-consultancy`}
             className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
@@ -288,6 +296,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               </div>
             </div>
           </Link>
+          </TiltCard>
         </motion.div>
 
         {/* Card 5 - Tech Stack (Single column) */}

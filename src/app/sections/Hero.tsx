@@ -9,6 +9,7 @@ import Reveal from '@/app/components/ui/Reveal';
 import RevealText from '@/app/components/ui/RevealText';
 import { MicroLabel } from '@/app/components/ui/SectionHeading';
 import { ShellButton, ShellLink } from '@/app/components/ui/ShellButton';
+import Wireframe3D from '@/app/components/three/Wireframe3D';
 
 interface HeroProps {
   t?: TranslationType;
@@ -75,6 +76,11 @@ const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
               style={{ background: 'radial-gradient(circle at 60% 40%, rgba(230,200,121,0.16), transparent 65%)' }}
               aria-hidden="true"
             />
+
+            {/* Orbit rings turning slowly behind the figure */}
+            <div className="pointer-events-none absolute inset-[-14%] -z-10 opacity-60" aria-hidden="true">
+              <Wireframe3D shape="orbits" speed={0.7} lineAlpha={0.4} />
+            </div>
 
             {/* The studio backdrop is cut out at build time (see
                 scripts/optimize-images.mjs), so the figure stands directly on

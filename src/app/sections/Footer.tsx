@@ -9,6 +9,7 @@ import Reveal from '@/app/components/ui/Reveal';
 import RevealText from '@/app/components/ui/RevealText';
 import { MicroLabel } from '@/app/components/ui/SectionHeading';
 import { ShellButton } from '@/app/components/ui/ShellButton';
+import Wireframe3D from '@/app/components/three/Wireframe3D';
 
 interface FooterProps {
   t?: TranslationType;
@@ -42,6 +43,11 @@ const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
         style={{ background: 'linear-gradient(90deg, transparent, rgba(230,200,121,0.35), transparent)' }}
         aria-hidden="true"
       />
+
+      {/* Wireframe ornament floating over the CTA corner */}
+      <div className="pointer-events-none absolute right-10 top-12 hidden h-28 w-28 opacity-40 lg:block" aria-hidden="true">
+        <Wireframe3D shape="octahedron" speed={0.8} lineAlpha={0.55} />
+      </div>
 
       {/* CTA */}
       <div className="px-6 py-24 md:px-12 md:py-32 lg:px-16">
