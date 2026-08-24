@@ -202,10 +202,13 @@ const PhaseRailItem = ({
   label,
   index,
   progress,
+  onSelect,
 }: {
   label: string;
   index: number;
   progress: MotionValue<number>;
+  /** Scrolls the page to this phase -- instant scrub navigation. */
+  onSelect: (index: number) => void;
 }) => {
   // Same clock as the cards, so the rail never marks a phase the stage is not
   // actually showing.
@@ -220,16 +223,24 @@ const PhaseRailItem = ({
   const barScale = useTransform(progress, [start, end], [0, 1]);
 
   return (
-    <motion.div className="flex items-center gap-3" style={{ opacity }}>
+    <motion.button
+      type="button"
+      onClick={() => onSelect(index)}
+      className="group flex cursor-pointer items-center gap-3"
+      style={{ opacity }}
+      aria-label={`Scroll to ${label}`}
+    >
       <motion.span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }} />
-      <span className="w-[4.5rem] whitespace-nowrap font-mono text-[10px] tracking-[0.1em] text-muted">{label}</span>
+      <span className="w-[4.5rem] whitespace-nowrap text-left font-mono text-[10px] tracking-[0.1em] text-muted transition-colors group-hover:text-charcoal">
+        {label}
+      </span>
       <span className="relative h-px w-16 overflow-hidden bg-border">
         <motion.span
           className="absolute inset-0 origin-left"
           style={{ backgroundColor: color, scaleX: barScale }}
         />
       </span>
-    </motion.div>
+    </motion.button>
   );
 };
 
@@ -301,6 +312,18 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
   ];
 
   const dataLabels = getDataLabels(locale);
+
+  // Click-to-scrub: land mid-window for the chosen phase, where its card is
+  // fully present and the sculpture is unambiguously in that state.
+  const scrollToPhase = (index: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const top = rect.top + window.scrollY;
+    const scrollable = rect.height - window.innerHeight;
+    const targets = [0.16, 0.47, 0.86];
+    window.scrollTo({ top: top + scrollable * targets[index], behavior: 'smooth' });
+  };
 
   const sectionTitle = locale === 'tr' ? 'Veri Heykeltıraşı' : locale === 'it' ? 'Lo Scultore di Dati' : 'The Data Sculptor';
   const sectionTagline =
@@ -382,7 +405,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
 
               <div className="space-y-3.5">
                 {phases.map((phase, i) => (
-                  <PhaseRailItem key={i} label={phase.phase} index={i} progress={smoothProgress} />
+                  <PhaseRailItem key={i} label={phase.phase} index={i} progress={smoothProgress} onSelect={scrollToPhase} />
                 ))}
               </div>
             </div>

@@ -10,6 +10,7 @@ import RevealText from '@/app/components/ui/RevealText';
 import { MicroLabel } from '@/app/components/ui/SectionHeading';
 import { ShellButton } from '@/app/components/ui/ShellButton';
 import Wireframe3D from '@/app/components/three/Wireframe3D';
+import TerminalPrompt from '@/app/components/ui/TerminalPrompt';
 
 interface FooterProps {
   t?: TranslationType;
@@ -67,10 +68,14 @@ const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
             <Reveal delay={160} className="mt-6 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
               {trans.footer.ctaDesc}
             </Reveal>
+
+            <Reveal delay={260} className="mt-8 max-w-lg">
+              <TerminalPrompt onBook={() => setIsBookingModalOpen(true)} />
+            </Reveal>
           </div>
 
           <Reveal delay={220} className="flex flex-col items-start gap-8 lg:items-end">
-            <ShellButton variant="primary" onClick={() => setIsBookingModalOpen(true)}>
+            <ShellButton variant="primary" data-gravity onClick={() => setIsBookingModalOpen(true)}>
               {trans.footer.button}
               <ArrowRight size={15} strokeWidth={1.5} />
             </ShellButton>
@@ -129,6 +134,7 @@ const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
                 target={href.startsWith('mailto:') ? undefined : '_blank'}
                 rel="noreferrer"
                 title={label}
+                data-gravity
                 className="flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-light transition-colors hover:text-charcoal"
               >
                 <Icon size={14} strokeWidth={1.5} />

@@ -5,7 +5,11 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, TrendingUp, Brain, BarChart3, Building2 as Building } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
-import { NeuralNetwork, DashboardChart, FinanceGraph, DataFlow } from '@/app/components/AnimatedVisuals';
+
+import MonteCarlo from '@/app/components/widgets/MonteCarlo';
+import Tokenizer from '@/app/components/widgets/Tokenizer';
+import TelemetryGauge from '@/app/components/widgets/TelemetryGauge';
+import Odometer from '@/app/components/widgets/Odometer';
 import TiltCard from '@/app/components/ui/TiltCard';
 
 interface FocusAreasProps {
@@ -107,8 +111,8 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
             className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             {/* Animated Visual */}
-            <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-4">
-              <FinanceGraph className="w-full h-full" />
+            <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-5">
+              <MonteCarlo className="h-full w-full" />
               {/* Icon Overlay */}
               <div className="absolute top-4 right-4 w-10 h-10 bg-surface/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
                 <TrendingUp size={18} className="text-accent" />
@@ -148,8 +152,8 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
             className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             {/* Animated Visual */}
-            <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-4">
-              <NeuralNetwork className="w-full h-full" />
+            <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative flex flex-col justify-center p-5">
+              <Tokenizer />
               {/* Icon Overlay */}
               <div className="absolute top-4 right-4 w-10 h-10 bg-surface/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
                 <Brain size={18} className="text-accent" />
@@ -189,8 +193,8 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
             className="group block h-full cursor-pointer overflow-hidden border border-accent/30 bg-surface shadow-card transition-all duration-300 hover:border-accent/60 hover:shadow-card-hover"
           >
             {/* Animated Visual */}
-            <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-4">
-              <DashboardChart className="w-full h-full" />
+            <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative flex items-center justify-center p-6">
+              <TelemetryGauge className="h-full max-h-[220px] w-full max-w-[240px]" />
               {/* Icon Overlay */}
               <div className="absolute top-4 right-4 w-10 h-10 bg-surface/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
                 <BarChart3 size={18} className="text-accent" />
@@ -280,7 +284,9 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                       whileHover={{ scale: 1.05, borderColor: 'rgb(192, 138, 62)' }}
                       className="text-center p-4 border border-border bg-surface transition-all duration-300"
                     >
-                      <div className="text-2xl font-serif text-charcoal mb-1">{stat.value}</div>
+                      <div className="text-2xl font-serif text-charcoal mb-1">
+                        <Odometer value={stat.value} />
+                      </div>
                       <div>{stat.label}</div>
                     </motion.div>
                   ))}

@@ -359,3 +359,27 @@
     transform: none;
   }
 }
+
+@layer utilities {
+  /* Pointer-traced border highlight, driven by --trace-x/y/a from TiltCard.
+     The two-layer mask keeps only a 1px ring of the radial gradient, so the
+     card edge lights up under the cursor rather than the whole face. */
+  .trace-ring {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1px;
+    opacity: var(--trace-a, 0);
+    background: radial-gradient(
+      220px circle at var(--trace-x, 50%) var(--trace-y, 50%),
+      rgba(192, 138, 62, 0.65),
+      rgba(192, 138, 62, 0.08) 55%,
+      transparent 75%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+}

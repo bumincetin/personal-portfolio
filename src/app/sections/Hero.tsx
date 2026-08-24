@@ -10,6 +10,7 @@ import RevealText from '@/app/components/ui/RevealText';
 import { MicroLabel } from '@/app/components/ui/SectionHeading';
 import { ShellButton, ShellLink } from '@/app/components/ui/ShellButton';
 import Wireframe3D from '@/app/components/three/Wireframe3D';
+import TerminalBoot from '@/app/components/ui/TerminalBoot';
 
 interface HeroProps {
   t?: TranslationType;
@@ -30,6 +31,10 @@ const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
       <div className="mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
         {/* Copy */}
         <div className="order-2 lg:order-1">
+          {/* Boot transcript: reserved height, so the settle into the status
+              line cannot shove the headline. */}
+          <TerminalBoot className="mb-5 min-h-[3.4rem]" />
+
           <Reveal className="mb-7">
             <MicroLabel>{trans.hero.subtitle}</MicroLabel>
           </Reveal>

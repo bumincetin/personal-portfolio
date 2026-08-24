@@ -71,6 +71,8 @@ export default function ConstellationField({ className = '' }: { className?: str
     let onScreen = true;
 
     const pointer = { x: -9999, y: -9999, active: false };
+    /** Centre of a hovered [data-gravity] element: a well the field falls into. */
+    const well = { x: 0, y: 0, active: false };
 
     /* ---------------------------------------------------------------- setup */
 
@@ -154,7 +156,21 @@ export default function ConstellationField({ className = '' }: { className?: str
                   if (distanceSq >= LINK_RADIUS_SQ) continue;
 
                   const closeness = 1 - Math.sqrt(distanceSq) / LINK_RADIUS;
-                  ctx.strokeStyle = `rgba(${BRASS}, ${(0.05 + closeness * 0.22).toFixed(3)})`;
+                  // Links inside the pointer's well glow brighter and warmer:
+                  // the field visibly reconnects around the cursor.
+                  let alpha = 0.05 + closeness * 0.22;
+                  let tint = BRASS;
+                  if (pointer.active) {
+                    const mx = (nodeA.x + nodeB.x) / 2 - pointer.x;
+                    const my = (nodeA.y + nodeB.y) / 2 - pointer.y;
+                    const msq = mx * mx + my * my;
+                    if (msq < POINTER_RADIUS_SQ) {
+                      const boost = 1 - msq / POINTER_RADIUS_SQ;
+                      alpha += boost * 0.3;
+                      tint = COPPER;
+                    }
+                  }
+                  ctx.strokeStyle = `rgba(${tint}, ${alpha.toFixed(3)})`;
                   ctx.beginPath();
                   ctx.moveTo(nodeA.x, nodeA.y);
                   ctx.lineTo(nodeB.x, nodeB.y);
@@ -208,6 +224,19 @@ export default function ConstellationField({ className = '' }: { className?: str
         if (pointer.active && sqDistanceToPointer(node) < POINTER_RADIUS_SQ) {
           node.x -= (node.x - pointer.x) * POINTER_PULL;
           node.y -= (node.y - pointer.y) * POINTER_PULL;
+        }
+
+        // A hovered CTA becomes a gravity well: nearby nodes drift toward it,
+        // wider and stronger than the pointer's own pull, and spring back the
+        // moment the hover ends (their stored velocity is untouched).
+        if (well.active) {
+          const dx = node.x - well.x;
+          const dy = node.y - well.y;
+          const dsq = dx * dx + dy * dy;
+          if (dsq < 360 * 360 && dsq > 40 * 40) {
+            node.x -= dx * 0.016;
+            node.y -= dy * 0.016;
+          }
         }
       }
     };
@@ -264,7 +293,24 @@ export default function ConstellationField({ className = '' }: { className?: str
     );
     visibilityObserver.observe(canvas);
 
+    // Elements marked data-gravity (footer CTAs, socials) attract the field
+    // while hovered. Delegated, so the field needs no knowledge of the DOM
+    // it decorates.
+    const handleGravityOver = (event: PointerEvent) => {
+      const hit = event.target instanceof Element ? event.target.closest('[data-gravity]') : null;
+      if (!hit) return;
+      const rect = hit.getBoundingClientRect();
+      well.x = rect.left + rect.width / 2;
+      well.y = rect.top + rect.height / 2;
+      well.active = true;
+    };
+    const handleGravityOut = (event: PointerEvent) => {
+      if (event.target instanceof Element && event.target.closest('[data-gravity]')) well.active = false;
+    };
+
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    document.addEventListener('pointerover', handleGravityOver, { passive: true });
+    document.addEventListener('pointerout', handleGravityOut, { passive: true });
     document.addEventListener('pointerleave', handlePointerLeave);
     document.addEventListener('visibilitychange', sync);
 
@@ -278,6 +324,8 @@ export default function ConstellationField({ className = '' }: { className?: str
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
       window.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerover', handleGravityOver);
+      document.removeEventListener('pointerout', handleGravityOut);
       document.removeEventListener('pointerleave', handlePointerLeave);
       document.removeEventListener('visibilitychange', sync);
     };

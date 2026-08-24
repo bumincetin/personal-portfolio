@@ -4,6 +4,7 @@ import { locales, isLocale, getTranslation, type Locale } from '@/lib/translatio
 import Navbar from '../components/Navbar';
 import Footer from '../sections/Footer';
 import FieldBackdrop from '../components/FieldBackdrop';
+import HudCursor from '../components/ui/HudCursor';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -49,6 +50,7 @@ export default async function LocaleLayout(
   return (
     <div className="relative min-h-screen">
       <FieldBackdrop />
+      <HudCursor />
 
       <a
         href="#main"
