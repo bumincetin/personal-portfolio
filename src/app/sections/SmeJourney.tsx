@@ -3,21 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { 
-  TrendUp as TrendingUp,
-  Sparkle as Sparkles,
-  Diamond as Gem,
-  ChartBar as BarChart3,
-  Users,
-  CurrencyDollar as DollarSign,
-  FileText,
-  Target,
-  Activity,
-  ChartPie as PieChart,
-  ChartLine as LineChart,
-  TrendDown as TrendingDown,
-  ArrowUpRight,
-  Lightning as Zap
-} from 'phosphor-react';
+  TrendingUp, Sparkles, Gem, BarChart3, Users, DollarSign, FileText, Target, Activity, PieChart, LineChart, TrendingDown, ArrowUpRight, Zap } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface SmeJourneyProps {
@@ -208,7 +194,7 @@ const DataPoint = ({
         top: '50%',
       }}
     >
-      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-border shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface border border-border shadow-sm hover:shadow-md transition-shadow">
         <div className="w-6 h-6 rounded-md bg-accent/10 flex items-center justify-center flex-shrink-0">
           <Icon size={14} className="text-accent" />
         </div>
@@ -388,7 +374,7 @@ const PhaseCard = ({
 
   return (
     <motion.div
-      className="absolute inset-0 p-4 sm:p-6 md:p-8 rounded-2xl bg-white border border-border shadow-sm flex items-center"
+      className="absolute inset-0 p-4 sm:p-6 md:p-8 rounded-2xl bg-surface border border-border shadow-sm flex items-center"
       style={{ opacity, y, scale, pointerEvents: useTransform(opacity, (o) => o > 0.5 ? 'auto' : 'none') }}
     >
       <div className="relative z-10 w-full">
@@ -406,7 +392,7 @@ const PhaseCard = ({
         <h3 className="font-serif text-lg sm:text-xl md:text-2xl text-charcoal mb-2 sm:mb-3 leading-tight">
           {title}
         </h3>
-        <p className="font-mono text-xs sm:text-sm text-muted leading-relaxed">
+        <p className="font-sans text-xs sm:text-sm text-muted leading-relaxed">
           {description}
         </p>
       </div>
@@ -480,12 +466,12 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
   return (
     <section 
       ref={containerRef}
-      className="relative bg-cream min-h-[500vh] md:min-h-[450vh]"
+      className="relative bg-cream/85 backdrop-blur-sm min-h-[500vh] md:min-h-[450vh]"
     >
       {/* Sticky container */}
       <div className="sticky top-0 h-screen overflow-hidden z-10">
         {/* Background - matching homepage */}
-        <div className="absolute inset-0 bg-cream" />
+        <div className="absolute inset-0 bg-cream/70" />
         
         {/* Subtle grid pattern like homepage */}
         <div 

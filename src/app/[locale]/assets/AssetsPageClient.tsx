@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, GithubLogo, ArrowSquareOut, Star } from 'phosphor-react';
+import { ArrowRight, Github as GithubLogo, ExternalLink as ArrowSquareOut, Star } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 
 const projects = [
@@ -60,7 +60,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
 
   return (
-    <div className="pt-24 md:pt-32 pb-12 md:pb-20 bg-cream">
+    <div className="pt-24 md:pt-32 pb-12 md:pb-20">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 mb-16 md:mb-24">
         <motion.div
@@ -79,7 +79,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
             {t.assetsPage.title}
           </h1>
           
-          <p className="font-mono text-base md:text-lg text-muted max-w-3xl leading-relaxed">
+          <p className="font-sans text-base md:text-lg text-muted max-w-3xl leading-relaxed">
             {t.assetsPage.subtitle}
           </p>
         </motion.div>
@@ -98,13 +98,13 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="group bg-white border border-border p-8 hover:shadow-editorial hover:-translate-y-1 transition-all duration-300"
+              className="group bg-surface border border-border p-8 hover:shadow-editorial hover:-translate-y-1 transition-all duration-300"
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <GithubLogo size={24} className="text-charcoal" />
                   {project.stars > 0 && (
-                    <span className="flex items-center gap-1 font-mono text-sm text-muted">
+                    <span className="flex items-center gap-1 font-sans text-sm text-muted">
                       <Star size={14} />
                       {project.stars}
                     </span>
@@ -117,7 +117,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
                 {project.title}
               </h3>
               
-              <p className="font-mono text-sm text-muted leading-relaxed mb-6">
+              <p className="font-sans text-sm text-muted leading-relaxed mb-6">
                 {project.description}
               </p>
               
@@ -148,7 +148,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="group flex flex-col md:flex-row md:items-center justify-between bg-white border border-border p-6 hover:shadow-editorial transition-all duration-300"
+              className="group flex flex-col md:flex-row md:items-center justify-between bg-surface border border-border p-6 hover:shadow-editorial transition-all duration-300"
             >
               <div className="flex-1 mb-4 md:mb-0">
                 <div className="flex items-center gap-3 mb-2">
@@ -162,7 +162,7 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
                     </span>
                   )}
                 </div>
-                <p className="font-mono text-sm text-muted line-clamp-1">
+                <p className="font-sans text-sm text-muted line-clamp-1">
                   {project.description}
                 </p>
               </div>
@@ -184,12 +184,12 @@ export default function AssetsPageClient({ locale }: { locale: Locale }) {
 
       {/* GitHub CTA */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="bg-charcoal p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 items-center gap-8 border border-accent/25 bg-surface-raised p-8 shadow-card md:grid-cols-2 md:p-12">
           <div>
-            <h3 className="font-serif text-2xl md:text-3xl text-cream mb-3">
+            <h3 className="font-serif text-2xl md:text-3xl text-charcoal mb-3">
               {t.assetsPage.moreGithub}
             </h3>
-            <p className="font-mono text-sm text-cream/70">
+            <p className="font-sans text-sm text-muted">
               {t.assetsPage.moreGithubDesc}
             </p>
           </div>

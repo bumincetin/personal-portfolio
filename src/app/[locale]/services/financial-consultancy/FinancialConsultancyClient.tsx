@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Buildings as Building, Globe, Scales as Scale, CheckCircle as FileCheck, CheckCircle } from 'phosphor-react';
+import { ArrowLeft, Building2 as Building, Globe, Scale, CheckCircle2 as FileCheck, CheckCircle2 as CheckCircle } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface Props {
@@ -15,12 +15,12 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
   const section = t.methodologyPage.section4;
 
   return (
-    <div className="pt-24 md:pt-32 pb-16 bg-cream min-h-screen">
+    <div className="pt-24 md:pt-32 pb-16 min-h-screen">
       {/* Back Navigation */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 mb-8">
         <Link 
           href={`/${locale}/methodology`}
-          className="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-accent transition-colors"
+          className="inline-flex items-center gap-2 font-sans text-sm text-muted hover:text-accent transition-colors"
         >
           <ArrowLeft size={16} />
           {t.methodologyPage.servicesLabel}
@@ -55,29 +55,29 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="bg-charcoal p-8 rounded-lg text-cream">
+            <div className="bg-surface-raised border border-accent/25 p-8 rounded-editorial text-charcoal">
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-4 border border-cream/20 rounded">
                   <Globe className="mx-auto mb-2 text-accent" size={24} />
-                  <div className="font-mono text-sm text-cream/70">
+                  <div className="font-sans text-sm text-muted">
                     {locale === 'tr' ? 'Uluslararası' : locale === 'it' ? 'Internazionale' : 'International'}
                   </div>
                 </div>
                 <div className="text-center p-4 border border-cream/20 rounded">
                   <Scale className="mx-auto mb-2 text-accent" size={24} />
-                  <div className="font-mono text-sm text-cream/70">
+                  <div className="font-sans text-sm text-muted">
                     {locale === 'tr' ? 'Yasal Uyum' : locale === 'it' ? 'Compliance' : 'Compliance'}
                   </div>
                 </div>
                 <div className="text-center p-4 border border-cream/20 rounded">
                   <FileCheck className="mx-auto mb-2 text-accent" size={24} />
-                  <div className="font-mono text-sm text-cream/70">
+                  <div className="font-sans text-sm text-muted">
                     {locale === 'tr' ? 'Strateji' : locale === 'it' ? 'Strategia' : 'Strategy'}
                   </div>
                 </div>
                 <div className="text-center p-4 border border-cream/20 rounded">
                   <Building className="mx-auto mb-2 text-accent" size={24} />
-                  <div className="font-mono text-sm text-cream/70">Alvolo</div>
+                  <div className="font-sans text-sm text-muted">Alvolo</div>
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
       </section>
 
       {/* Expanded Description Section */}
-      <section className="bg-white py-16 mb-16">
+      <section className="bg-surface/70 backdrop-blur-sm border-y border-border py-16 mb-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -95,7 +95,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
             transition={{ duration: 0.6 }}
           >
             <div className="prose prose-lg max-w-none">
-              <p className="font-mono text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
+              <p className="font-sans text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
                 {section.expandedDesc}
               </p>
             </div>
@@ -104,7 +104,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
       </section>
 
       {/* Use Cases Section */}
-      <section className="bg-surface-alt py-16 mb-16">
+      <section className="bg-surface-alt/70 backdrop-blur-sm border-y border-border py-16 mb-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -127,7 +127,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="bg-white border border-border p-8 md:p-10 rounded-lg"
+                  className="bg-surface border border-border p-8 md:p-10 rounded-lg"
                 >
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
@@ -145,7 +145,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
                       <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
                         {locale === 'tr' ? 'Sorun' : locale === 'it' ? 'Problema' : 'Problem'}
                       </h4>
-                      <p className="font-mono text-sm text-muted leading-relaxed">
+                      <p className="font-sans text-sm text-muted leading-relaxed">
                         {useCase.problem}
                       </p>
                     </div>
@@ -154,7 +154,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
                       <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
                         {locale === 'tr' ? 'Çözüm' : locale === 'it' ? 'Soluzione' : 'Solution'}
                       </h4>
-                      <p className="font-mono text-sm text-muted leading-relaxed">
+                      <p className="font-sans text-sm text-muted leading-relaxed">
                         {useCase.solution}
                       </p>
                     </div>
@@ -163,7 +163,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
                       <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
                         {locale === 'tr' ? 'Fayda' : locale === 'it' ? 'Beneficio' : 'Benefit'}
                       </h4>
-                      <p className="font-mono text-sm text-muted leading-relaxed">
+                      <p className="font-sans text-sm text-muted leading-relaxed">
                         {useCase.benefit}
                       </p>
                     </div>
@@ -184,7 +184,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
           transition={{ duration: 0.6 }}
         >
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-8 h-[2px] bg-charcoal"></div>
+            <div className="w-8 h-px bg-accent"></div>
             <span className="font-mono text-xs text-charcoal uppercase tracking-wider">
               {locale === 'tr' ? 'Hizmet Detayları' : locale === 'it' ? 'Dettagli Servizio' : 'Service Details'}
             </span>
@@ -192,10 +192,10 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <p className="font-mono text-base text-muted leading-relaxed mb-6">
+              <p className="font-sans text-base text-muted leading-relaxed mb-6">
                 {section.desc1}
               </p>
-              <p className="font-mono text-base text-muted leading-relaxed mb-8">
+              <p className="font-sans text-base text-muted leading-relaxed mb-8">
                 {section.desc2}
               </p>
               
@@ -206,7 +206,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
                 {section.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <CheckCircle size={18} className="text-accent mt-0.5 flex-shrink-0" />
-                    <span className="font-mono text-sm text-charcoal">{feature}</span>
+                    <span className="font-sans text-sm text-charcoal">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -214,12 +214,12 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
             
             <div className="space-y-6">
               {/* Alvolo Consulting */}
-              <div className="bg-charcoal p-6 rounded-lg text-cream">
+              <div className="bg-surface-raised border border-accent/25 p-6 rounded-editorial text-charcoal">
                 <div className="flex items-center gap-3 mb-4">
                   <Building className="text-accent" size={20} />
                   <h4 className="font-serif text-lg">Alvolo Consulting</h4>
                 </div>
-                <p className="font-mono text-sm text-cream/70 mb-4">
+                <p className="font-sans text-sm text-muted mb-4">
                   {locale === 'tr'
                     ? 'İtalya merkezli finansal danışmanlık şirketim. Uluslararası müşterilere İtalyan finans sistemi konusunda rehberlik ediyorum.'
                     : locale === 'it'
@@ -229,19 +229,19 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
                 </p>
                 <div className="flex gap-4 font-mono text-xs">
                   <span className="text-accent">Milan, Italy</span>
-                  <span className="text-cream/50">|</span>
-                  <span className="text-cream/70">Founded 2025</span>
+                  <span className="text-muted-light">|</span>
+                  <span className="text-muted">Founded 2025</span>
                 </div>
               </div>
               
               {/* Languages */}
-              <div className="bg-white border border-border p-6 rounded-lg">
+              <div className="bg-surface border border-border p-6 rounded-lg">
                 <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-4">
                   {locale === 'tr' ? 'Hizmet Dilleri' : locale === 'it' ? 'Lingue di Servizio' : 'Service Languages'}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {['Turkish', 'English', 'Italian', 'German'].map((lang, idx) => (
-                    <span key={idx} className="px-3 py-1.5 bg-surface-alt border border-border rounded font-mono text-sm text-charcoal">
+                    <span key={idx} className="px-3 py-1.5 bg-surface-alt border border-border rounded font-sans text-sm text-charcoal">
                       {lang}
                     </span>
                   ))}
@@ -259,7 +259,7 @@ export default function FinancialConsultancyClient({ locale, t }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-charcoal text-cream p-8 md:p-12 rounded-lg text-center"
+          className="bg-surface-raised border border-accent/25 text-charcoal p-8 md:p-12 rounded-lg text-center"
         >
           <p className="font-serif text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
             {section.closingMessage}

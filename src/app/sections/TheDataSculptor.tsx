@@ -1,25 +1,9 @@
 'use client';
 
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useMotionValue, MotionValue } from 'framer-motion';
 import { 
-  Database, 
-  Cpu, 
-  Diamond as Gem, 
-  CaretDown as ArrowDown,
-  ChartBar as BarChart3,
-  Users,
-  Target,
-  CurrencyDollar as DollarSign,
-  Activity,
-  ChartPie as PieChart,
-  ChartLine as LineChart,
-  TrendUp as TrendingUp,
-  FileText,
-  Lightning as Zap,
-  TrendDown as TrendingDown,
-  ArrowUpRight
-} from 'phosphor-react';
+  Database, Cpu, Gem, ChevronDown as ArrowDown, BarChart3, Users, Target, DollarSign, Activity, PieChart, LineChart, TrendingUp, FileText, Zap, TrendingDown, ArrowUpRight } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface TheDataSculptorProps {
@@ -211,7 +195,7 @@ const DataPoint = ({
         top: '50%',
       }}
     >
-      <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-white/95 border border-border/60 shadow-sm backdrop-blur-sm">
+      <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-surface/95 border border-border/60 shadow-sm backdrop-blur-sm">
         <div className="w-5 h-5 rounded bg-accent/10 flex items-center justify-center flex-shrink-0">
           <Icon size={12} className="text-accent" />
         </div>
@@ -234,35 +218,57 @@ const GlitchLayer = ({
   progress: MotionValue<number>;
   glitchIntensity: MotionValue<number>;
 }) => {
-  const [time, setTime] = useState(0);
+  /*
+   * This used to drive the jitter from `setInterval(..., 16)` calling
+   * `setState(Date.now())` -- a full React re-render 60 times a second, for the
+   * whole life of the page, whether or not the section was on screen. It was
+   * one of the main causes of the scroll jank.
+   *
+   * The offsets now live in motion values written from a single rAF loop, so
+   * they update on the compositor without re-rendering, and the loop only runs
+   * while the effect is actually visible (glitchIntensity > 0, i.e. the first
+   * third of the scroll) and the tab is in the foreground.
+   */
+  const x1 = useMotionValue(0);
+  const y1 = useMotionValue(0);
+  const x2 = useMotionValue(0);
+  const y2 = useMotionValue(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(Date.now());
-    }, 16); // ~60fps
-    return () => clearInterval(interval);
-  }, []);
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let frame = 0;
+
+    const tick = (time: number) => {
+      const intensity = glitchIntensity.get();
+
+      // Fully faded out: park the layers and skip the trig entirely.
+      if (intensity > 0.01) {
+        x1.set(Math.sin(time * 0.01) * intensity * 2);
+        y1.set(Math.cos(time * 0.01) * intensity * 1.5);
+        x2.set(Math.cos(time * 0.008) * intensity * -2);
+        y2.set(Math.sin(time * 0.008) * intensity * -1.5);
+      } else if (x1.get() !== 0) {
+        x1.set(0);
+        y1.set(0);
+        x2.set(0);
+        y2.set(0);
+      }
+
+      frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [glitchIntensity, x1, y1, x2, y2]);
 
   const opacity = useTransform(progress, [0, 0.3], [0.4, 0]);
-  
-  const x1 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.01) * v * 2);
-  const y1 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.01) * v * 1.5);
-  const x2 = useTransform(glitchIntensity, (v: number) => Math.cos(time * 0.008) * v * -2);
-  const y2 = useTransform(glitchIntensity, (v: number) => Math.sin(time * 0.008) * v * -1.5);
 
   return (
-    <motion.div
-      className="absolute inset-0 preserve-3d"
-      style={{ opacity }}
-    >
-      <motion.div 
-        className="absolute inset-0 border border-red-400/20"
-        style={{ x: x1, y: y1 }}
-      />
-      <motion.div 
-        className="absolute inset-0 border border-cyan-400/20"
-        style={{ x: x2, y: y2 }}
-      />
+    <motion.div className="absolute inset-0 preserve-3d" style={{ opacity }}>
+      <motion.div className="absolute inset-0 border border-negative/20" style={{ x: x1, y: y1 }} />
+      <motion.div className="absolute inset-0 border border-accent-blue/20" style={{ x: x2, y: y2 }} />
     </motion.div>
   );
 };
@@ -504,14 +510,14 @@ const PhaseCard = ({
       className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
       style={{ opacity, y, pointerEvents: 'none' }}
     >
-      <div className={`w-full max-w-md rounded-lg bg-white/95 backdrop-blur-sm border border-border/60 shadow-lg ${isMobile ? 'p-4' : 'p-6 md:p-8'}`}>
+      <div className={`w-full max-w-md rounded-lg bg-surface/95 backdrop-blur-sm border border-border/60 shadow-lg ${isMobile ? 'p-4' : 'p-6 md:p-8'}`}>
         {/* Phase badge */}
         <div className={`flex items-center gap-2.5 ${isMobile ? 'mb-3' : 'mb-4'}`}>
           <div className={`
             ${isMobile ? 'w-7 h-7' : 'w-9 h-9'} rounded-lg flex items-center justify-center
             bg-gradient-to-br ${gradientColors[phaseIndex]}
           `}>
-            <Icon size={isMobile ? 14 : 18} className="text-white" />
+            <Icon size={isMobile ? 14 : 18} className="text-charcoal" />
           </div>
           <span className={`font-mono uppercase tracking-[0.15em] text-muted ${isMobile ? 'text-[9px]' : 'text-[10px]'}`}>
             {phase}
@@ -527,7 +533,7 @@ const PhaseCard = ({
         </h3>
 
         {/* Description */}
-        <p className={`font-mono text-charcoal/70 leading-relaxed ${isMobile ? 'text-[10px]' : 'text-xs md:text-sm'}`}>
+        <p className={`font-sans text-muted leading-relaxed ${isMobile ? 'text-xs' : 'text-sm'}`}>
           {description}
         </p>
       </div>
@@ -631,7 +637,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
     <section
       id="data-sculptor"
       ref={containerRef}
-      className="relative min-h-[400vh] bg-cream"
+      className="relative min-h-[400vh] bg-cream/85 backdrop-blur-sm"
     >
       {/* Sticky Visual Container */}
       <div className="sticky top-0 h-screen overflow-hidden">
@@ -687,7 +693,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                     ? 'Lo Scultore di Dati'
                     : 'The Data Sculptor'}
                 </h2>
-                <p className="font-mono text-xs text-muted leading-relaxed">
+                <p className="font-sans text-sm leading-relaxed text-muted">
                   {locale === 'tr'
                     ? 'Verinin sanata, kaosun değere dönüştüğü yolculuk.'
                     : locale === 'it'
@@ -762,7 +768,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
                   }}
                 >
                   <div 
-                    className="relative text-center bg-gradient-to-b from-amber-50 via-white to-amber-50/30 rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
+                    className="relative text-center bg-gradient-to-b from-amber-50 via-surface to-amber-50/30 rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.8)]"
                     style={{ 
                       width: isMobile ? '140px' : '200px',
                       padding: isMobile ? '12px 16px' : '16px 20px',

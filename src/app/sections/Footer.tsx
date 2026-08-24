@@ -1,133 +1,138 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Envelope as Mail, LinkedinLogo as Linkedin, GithubLogo as Github, ChatCircle as MessageCircle } from 'phosphor-react';
+import Link from 'next/link';
+import { ArrowRight, Mail, Linkedin, Github, MessageCircle, MapPin } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 import { BookingModal } from '@/app/components/BookingModal';
+import Reveal from '@/app/components/ui/Reveal';
+import RevealText from '@/app/components/ui/RevealText';
+import { MicroLabel } from '@/app/components/ui/SectionHeading';
+import { ShellButton } from '@/app/components/ui/ShellButton';
 
 interface FooterProps {
   t?: TranslationType;
   locale?: Locale;
 }
 
+const SOCIALS = [
+  { label: 'WhatsApp', href: 'https://wa.me/393481705207', Icon: MessageCircle },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/buminkcetin', Icon: Linkedin },
+  { label: 'GitHub', href: 'https://github.com/bumincetin', Icon: Github },
+  { label: 'Email', href: 'mailto:cetinbumink@gmail.com', Icon: Mail },
+];
+
 const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
   const trans = t || translations[locale];
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  
-  return (
-    <footer id="contact" className="bg-charcoal text-cream">
-      {/* CTA Section */}
-      <div className="px-6 md:px-12 lg:px-16 py-20 md:py-32">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-          >
-            {/* Left - CTA Text */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-[2px] bg-accent"></div>
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-cream/60">
-                  {trans.footer.cta}
-                </span>
-              </div>
-              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-cream leading-tight mb-6">
-                {trans.footer.ctaTitle}
-              </h2>
-              <p className="font-mono text-sm text-cream/70 max-w-lg">
-                {trans.footer.ctaDesc}
-              </p>
-            </div>
-            
-            {/* Right - Contact Button */}
-            <div className="flex flex-col items-start lg:items-end gap-6">
-              <button 
-                onClick={() => setIsBookingModalOpen(true)}
-                className="group inline-flex items-center gap-3 px-10 py-5 bg-accent text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-accent/90"
-              >
-                {trans.footer.button}
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              
-              {/* Quick Contact */}
-              <div className="flex flex-col gap-2 font-mono text-sm text-cream/60">
-                <button 
-                  onClick={() => setIsBookingModalOpen(true)}
-                  className="hover:text-cream transition-colors text-left"
-                >
-                  cetinbumink@gmail.com
-                </button>
-                <a
-                  href="https://wa.me/393481705207"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-cream transition-colors text-left group"
-                >
-                  <MessageCircle size={14} className="group-hover:scale-110 transition-transform" />
-                  <span>+39 348 170 5207</span>
-                </a>
-                <span>Milan, Italy</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-cream/10">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            {/* Copyright */}
-            <div className="font-mono text-xs text-cream/50">
-              {trans.footer.copyright}
-            </div>
-            
-            {/* Social Links */}
-            <div className="flex items-center gap-6">
-              <a 
+  const secondaryLinks = [
+    { name: trans.nav.methodology, href: `/${locale}/methodology` },
+    { name: trans.nav.projects, href: `/${locale}/assets` },
+    { name: trans.nav.portal || 'Portal', href: `/${locale}/portal` },
+    { name: trans.nav.whySME, href: `/${locale}/why-sme` },
+    { name: trans.nav.about, href: `/${locale}/about` },
+  ];
+
+  return (
+    <footer id="contact" className="relative border-t border-border bg-surface-alt/80 backdrop-blur-md">
+      {/* Gold hairline: marks the seam between page and footer. */}
+      <div
+        className="absolute inset-x-0 top-0 h-px"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(230,200,121,0.35), transparent)' }}
+        aria-hidden="true"
+      />
+
+      {/* CTA */}
+      <div className="px-6 py-24 md:px-12 md:py-32 lg:px-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
+          <div>
+            <Reveal className="mb-6">
+              <MicroLabel>{trans.footer.cta}</MicroLabel>
+            </Reveal>
+
+            <RevealText
+              as="h2"
+              text={trans.footer.ctaTitle}
+              className="text-heading text-charcoal"
+              stagger={40}
+            />
+
+            <Reveal delay={160} className="mt-6 max-w-prose text-[0.9375rem] leading-relaxed text-muted">
+              {trans.footer.ctaDesc}
+            </Reveal>
+          </div>
+
+          <Reveal delay={220} className="flex flex-col items-start gap-8 lg:items-end">
+            <ShellButton variant="primary" onClick={() => setIsBookingModalOpen(true)}>
+              {trans.footer.button}
+              <ArrowRight size={15} strokeWidth={1.5} />
+            </ShellButton>
+
+            <div className="flex flex-col gap-3 font-sans text-[0.8125rem] text-muted lg:items-end">
+              <a
+                href="mailto:cetinbumink@gmail.com"
+                className="inline-flex items-center gap-2.5 transition-colors hover:text-charcoal"
+              >
+                <Mail size={14} strokeWidth={1.5} className="text-accent-blue" />
+                cetinbumink@gmail.com
+              </a>
+              <a
                 href="https://wa.me/393481705207"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 font-mono text-xs text-cream/50 hover:text-cream transition-colors"
-                title="WhatsApp"
+                className="inline-flex items-center gap-2.5 transition-colors hover:text-charcoal"
               >
-                <MessageCircle size={14} />
-                WhatsApp
+                <MessageCircle size={14} strokeWidth={1.5} className="text-accent-blue" />
+                +39 348 170 5207
               </a>
-              <a 
-                href="https://linkedin.com/in/buminkcetin" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="flex items-center gap-2 font-mono text-xs text-cream/50 hover:text-cream transition-colors"
-              >
-                <Linkedin size={14} />
-                {trans.footer.linkedin}
-              </a>
-              <a 
-                href="https://github.com/bumincetin" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="flex items-center gap-2 font-mono text-xs text-cream/50 hover:text-cream transition-colors"
-              >
-                <Github size={14} />
-                GitHub
-              </a>
-              <a 
-                href="mailto:cetinbumink@gmail.com" 
-                className="flex items-center gap-2 font-mono text-xs text-cream/50 hover:text-cream transition-colors"
-              >
-                <Mail size={14} />
-                {trans.footer.email}
-              </a>
+              <span className="inline-flex items-center gap-2.5 text-muted-light">
+                <MapPin size={14} strokeWidth={1.5} className="text-muted-light" />
+                Milan, Italy
+              </span>
             </div>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* Sitemap rail */}
+      <div className="border-t border-border">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-3 px-6 py-6 md:px-12 lg:px-16">
+          {secondaryLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-muted-light transition-colors hover:text-accent"
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-border">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-6 py-7 md:flex-row md:px-12 lg:px-16">
+          <p className="font-mono text-[0.6875rem] tracking-[0.08em] text-muted-light">{trans.footer.copyright}</p>
+
+          <div className="flex items-center gap-6">
+            {SOCIALS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith('mailto:') ? undefined : '_blank'}
+                rel="noreferrer"
+                title={label}
+                className="flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-light transition-colors hover:text-charcoal"
+              >
+                <Icon size={14} strokeWidth={1.5} />
+                <span className="hidden sm:inline">{label}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
-      
+
       <BookingModal
         isOpen={isBookingModalOpen}
         onClose={() => setIsBookingModalOpen(false)}

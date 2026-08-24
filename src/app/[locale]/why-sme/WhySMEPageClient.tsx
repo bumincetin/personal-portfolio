@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Target, Lightning as Zap, ChartLine as LineChart, Shield, ArrowRight, CheckCircle, CaretDown as ChevronDown, CaretUp as ChevronUp, Buildings as Building } from 'phosphor-react';
+import { ArrowLeft, Target, Zap, LineChart, Shield, ArrowRight, CheckCircle2 as CheckCircle, ChevronDown, ChevronUp, Building2 as Building } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 import { BookingModal } from '@/app/components/BookingModal';
 
@@ -25,12 +25,12 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   return (
-    <div className="pt-24 md:pt-32 pb-16 bg-cream min-h-screen">
+    <div className="pt-24 md:pt-32 pb-16 min-h-screen">
       {/* Back Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 mb-6 md:mb-8">
         <Link 
           href={`/${locale}`}
-          className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm text-muted hover:text-accent transition-colors min-h-[44px]"
+          className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm text-muted hover:text-accent transition-colors min-h-[44px]"
         >
           <ArrowLeft size={14} className="sm:w-4 sm:h-4" />
           {t.nav.home}
@@ -61,7 +61,7 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
             {sme.pageSubtitle}
           </p>
           
-          <p className="font-mono text-sm sm:text-base md:text-lg text-muted max-w-3xl mx-auto leading-relaxed px-2">
+          <p className="font-sans text-sm sm:text-base md:text-lg text-muted max-w-3xl mx-auto leading-relaxed px-2">
             {sme.intro}
           </p>
         </motion.div>
@@ -77,7 +77,7 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="bg-white border border-border p-4 sm:p-6 md:p-8 lg:p-12 hover:shadow-editorial transition-all duration-300"
+              className="bg-surface border border-border p-4 sm:p-6 md:p-8 lg:p-12 hover:shadow-editorial transition-all duration-300"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
                 {/* Icon & Title */}
@@ -90,14 +90,14 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
                   <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-charcoal mb-3 md:mb-4">
                     {benefit.title}
                   </h2>
-                  <p className="font-mono text-xs sm:text-sm text-muted leading-relaxed">
+                  <p className="font-sans text-xs sm:text-sm text-muted leading-relaxed">
                     {benefit.desc}
                   </p>
                 </div>
 
                 {/* Detailed Content */}
                 <div className="lg:col-span-9 space-y-4 md:space-y-6">
-                  <p className="font-mono text-sm sm:text-base text-charcoal leading-relaxed">
+                  <p className="font-sans text-sm sm:text-base text-charcoal leading-relaxed">
                     {benefit.detailedDesc}
                   </p>
 
@@ -110,7 +110,7 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
                       {benefit.keyPoints.map((point, i) => (
                         <li key={i} className="flex items-start gap-2 sm:gap-3">
                           <CheckCircle size={16} className="text-accent mt-0.5 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
-                          <span className="font-mono text-xs sm:text-sm text-charcoal leading-relaxed">
+                          <span className="font-sans text-xs sm:text-sm text-charcoal leading-relaxed">
                             {point}
                           </span>
                         </li>
@@ -142,8 +142,8 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
                       >
                         <div className="space-y-3 md:space-y-4">
                           {benefit.examples.map((example, i) => (
-                            <div key={i} className="bg-white border-l-4 border-accent pl-3 sm:pl-4 py-2">
-                              <p className="font-mono text-xs sm:text-sm text-charcoal leading-relaxed">
+                            <div key={i} className="bg-surface border-l-4 border-accent pl-3 sm:pl-4 py-2">
+                              <p className="font-sans text-xs sm:text-sm text-charcoal leading-relaxed">
                                 {example}
                               </p>
                             </div>
@@ -166,7 +166,7 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-charcoal text-cream p-6 sm:p-8 md:p-12 lg:p-16 relative overflow-hidden"
+          className="bg-surface-raised border border-accent/25 text-charcoal p-6 sm:p-8 md:p-12 lg:p-16 relative overflow-hidden"
         >
           {/* Decorative Elements - Hidden on mobile, visible on larger screens */}
           <div className="hidden md:block absolute top-0 right-0 w-48 md:w-64 h-48 md:h-64 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -181,39 +181,39 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
                 </span>
               </div>
               
-              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-cream mb-4 md:mb-6 leading-tight">
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-charcoal mb-4 md:mb-6 leading-tight">
                 {sme.hybridTitle}
               </h2>
               
-              <p className="font-mono text-sm sm:text-base text-cream/80 leading-relaxed mb-4 md:mb-6">
+              <p className="font-sans text-sm sm:text-base text-muted leading-relaxed mb-4 md:mb-6">
                 {sme.hybridDesc}
               </p>
               
-              <p className="font-mono text-xs sm:text-sm md:text-base text-cream/70 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm md:text-base text-muted leading-relaxed">
                 {sme.hybridDetails}
               </p>
             </div>
             
             <div className="lg:col-span-5 mt-6 lg:mt-0">
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                <div className="bg-white/5 backdrop-blur-sm p-4 sm:p-6 text-center border border-white/10">
+                <div className="bg-surface-raised/60 backdrop-blur-sm p-4 sm:p-6 text-center border border-border">
                   <Building className="mx-auto mb-2 sm:mb-3 text-accent" size={24} />
                   <div className="font-serif text-xl sm:text-2xl text-accent mb-1 sm:mb-2">+</div>
-                  <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
+                  <div className="font-mono text-[10px] sm:text-xs text-muted uppercase tracking-wider">
                     {locale === 'tr' ? 'VERİ BİLİMİ' : locale === 'it' ? 'Data Science' : 'Data Science'}
                   </div>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm p-4 sm:p-6 text-center border border-white/10">
+                <div className="bg-surface-raised/60 backdrop-blur-sm p-4 sm:p-6 text-center border border-border">
                   <LineChart className="mx-auto mb-2 sm:mb-3 text-accent" size={24} />
                   <div className="font-serif text-xl sm:text-2xl text-accent mb-1 sm:mb-2">+</div>
-                  <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
+                  <div className="font-mono text-[10px] sm:text-xs text-muted uppercase tracking-wider">
                     {locale === 'tr' ? 'FİNANS' : locale === 'it' ? 'Finanza' : 'Finance'}
                   </div>
                 </div>
                 <div className="col-span-2 bg-accent/20 backdrop-blur-sm p-4 sm:p-6 text-center border border-accent/30">
-                  <Target className="mx-auto mb-2 sm:mb-3 text-cream" size={24} />
-                  <div className="font-serif text-lg sm:text-xl text-cream mb-1 sm:mb-2">=</div>
-                  <div className="font-mono text-[10px] sm:text-xs text-cream uppercase tracking-wider">
+                  <Target className="mx-auto mb-2 sm:mb-3 text-charcoal" size={24} />
+                  <div className="font-serif text-lg sm:text-xl text-charcoal mb-1 sm:mb-2">=</div>
+                  <div className="font-mono text-[10px] sm:text-xs text-charcoal uppercase tracking-wider">
                     {locale === 'tr' ? 'İŞ DEĞERİ' : locale === 'it' ? 'Valore Business' : 'Business Value'}
                   </div>
                 </div>
@@ -230,9 +230,9 @@ export default function WhySMEPageClient({ locale }: WhySMEPageClientProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center bg-white border border-border p-6 sm:p-8 md:p-12"
+          className="text-center bg-surface border border-border p-6 sm:p-8 md:p-12"
         >
-          <p className="font-mono text-sm sm:text-base md:text-lg text-charcoal mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
+          <p className="font-sans text-sm sm:text-base md:text-lg text-charcoal mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
             {sme.cta}
           </p>
           <button

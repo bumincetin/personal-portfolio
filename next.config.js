@@ -1,28 +1,43 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export', // REMOVED: Must be removed for API routes to work on Vercel
-  // basePath: '/personal-portfolio', // REMOVED: Not needed for Vercel
-  // assetPrefix: '/personal-portfolio/', // REMOVED: Not needed for Vercel
-  
   images: {
+    // Serve modern formats first; the source art in /public is already WebP.
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**',
       },
     ],
-    // unoptimized: true, // Optional: You can remove this on Vercel to get faster image loading
   },
 
-  // Optimize build performance
+  // Rewrites barrel imports to per-icon/per-export paths so a single `import
+  // { ArrowRight }` does not pull the whole library into the client bundle.
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
+
   swcMinify: true,
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'],
-    } : false,
+    removeConsole:
+      process.env.NODE_ENV === 'production'
+        ? {
+            exclude: ['error', 'warn'],
+          }
+        : false,
   },
-  // Disable source maps in production for faster builds
   productionBrowserSourceMaps: false,
-}
+
+  async headers() {
+    return [
+      {
+        // The build-time image pipeline gives these content-hashed output, and
+        // they are only replaced by a redeploy.
+        source: '/:file(.*\\.(?:webp|png|jpg|jpeg|svg|ico))',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+    ];
+  },
+};
 
 module.exports = nextConfig;

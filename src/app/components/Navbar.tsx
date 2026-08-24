@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { List as Menu, X } from 'phosphor-react';
+import { Menu, X } from 'lucide-react';
 import { type Locale, type TranslationType, locales, translations } from '@/lib/translations';
 import { BookingModal } from './BookingModal';
 
@@ -25,41 +25,44 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  
-  // Handle scroll effect
+
   useEffect(() => {
+    // Passive + rAF-coalesced: the handler only ever flips one boolean, so it
+    // must not force a synchronous re-render on every scroll tick.
+    let queued = false;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 24);
+        queued = false;
+      });
     };
-    window.addEventListener('scroll', handleScroll);
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
-  
-  // Get current path without locale
+
   const getPathWithoutLocale = () => {
     const segments = pathname.split('/').filter(Boolean);
     if (segments[0] === 'personal-portfolio') segments.shift();
     if (locales.includes(segments[0] as Locale)) segments.shift();
     return '/' + segments.join('/');
   };
-  
+
   const currentPath = getPathWithoutLocale();
 
   const links = [
@@ -78,171 +81,173 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
 
   return (
     <>
-      {/* Desktop Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-cream/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto pl-4 sm:pl-6 md:pl-8 lg:pl-10 xl:pl-12 pr-4 sm:pr-6 md:pr-8 lg:pr-12 xl:pr-16">
-          <div className="flex items-center justify-between h-20 min-w-0">
-            {/* --- UPDATED LOGO SECTION START --- */}
-            <Link 
-              href={`/${locale}`} 
-              className="flex items-center gap-2 lg:gap-3 font-serif text-lg md:text-xl lg:text-2xl text-charcoal tracking-tight hover:opacity-80 transition-opacity flex-shrink-0"
-            >
-              {/* Replace '/logo.png' with your actual file name in the public folder */}
-              <div className="relative w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12">
-                <Image 
-                  src="/BuminLogo.png" 
-                  alt="Bumin Kağan Çetin Logo" 
-                  fill
-                  className="object-contain" // Keeps aspect ratio intact
-                  priority // Loads image immediately
-                />
-              </div>
-              <span className="hidden lg:inline">Bumin Kağan Çetin</span>
-              <span className="lg:hidden">BKC</span>
-            </Link>
-            {/* --- UPDATED LOGO SECTION END --- */}
-            
-            {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-6 flex-shrink-0 ml-6 lg:ml-8">
-              {links.map((link) => (
-                <Link 
-                  key={link.name}
-                  href={link.href}
-                  className={`
-                    font-mono text-[10px] lg:text-xs uppercase tracking-wider transition-colors duration-300 relative whitespace-nowrap
-                    ${isActive(link.href) 
-                      ? 'text-charcoal after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-accent' 
-                      : 'text-muted hover:text-charcoal'
-                    }
-                  `}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <button 
+      <nav
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'border-b border-border bg-cream/70 shadow-editorial backdrop-blur-xl'
+            : 'border-b border-transparent bg-transparent'
+        }`}
+      >
+        <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 md:px-8 lg:px-12">
+          {/* Brand */}
+          <Link
+            href={`/${locale}`}
+            className="group flex flex-shrink-0 items-center gap-2.5 transition-opacity hover:opacity-90"
+          >
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-md border border-border bg-surface/60 shadow-editorial backdrop-blur-sm">
+              <Image
+                src="/logo.webp"
+                alt=""
+                width={22}
+                height={22}
+                priority
+                className="h-[22px] w-[22px] object-contain opacity-90 invert"
+              />
+            </span>
+            <span className="hidden text-[0.9375rem] font-light tracking-tight text-charcoal lg:inline">
+              Bumin Kağan Çetin
+            </span>
+            <span className="text-[0.9375rem] font-light tracking-[0.12em] text-charcoal lg:hidden">BKÇ</span>
+          </Link>
+
+          {/* Desktop links */}
+          <div className="hidden flex-shrink-0 items-center gap-5 lg:gap-7 md:flex">
+            {links.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={`relative whitespace-nowrap font-mono text-[0.625rem] uppercase tracking-[0.16em] transition-colors duration-300 lg:text-[0.6875rem] ${
+                  isActive(link.href)
+                    ? 'text-charcoal after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:bg-accent'
+                    : 'text-muted hover:text-charcoal'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+
+            {/* Gradient shell CTA */}
+            <span className="shell">
+              <button
+                type="button"
                 onClick={() => setIsBookingModalOpen(true)}
-                className="font-mono text-[10px] lg:text-xs uppercase tracking-wider px-3 lg:px-4 xl:px-5 py-2 bg-charcoal text-cream hover:bg-navy transition-colors duration-300 whitespace-nowrap"
+                className="block whitespace-nowrap rounded-full bg-surface/80 px-5 py-2.5 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-accent backdrop-blur-sm transition-colors duration-300 hover:bg-accent hover:text-cream lg:text-[0.6875rem]"
               >
                 {trans.nav.contact}
               </button>
-              
-              {/* Language Switcher */}
-              <div className="flex items-center gap-1 ml-1 lg:ml-2 pl-2 lg:pl-4 border-l border-border">
-                {locales.map((loc) => (
-                  <Link
-                    key={loc}
-                    href={`/${loc}${currentPath}`}
-                    className={`
-                      px-1.5 lg:px-2 py-1 font-mono text-[10px] lg:text-xs transition-all
-                      ${locale === loc 
-                        ? 'text-charcoal font-medium' 
-                        : 'text-muted hover:text-charcoal'
-                      }
-                    `}
-                  >
-                    {languageNames[loc]}
-                  </Link>
-                ))}
-              </div>
+            </span>
+
+            <div className="flex items-center gap-1 border-l border-border pl-4">
+              {locales.map((loc) => (
+                <Link
+                  key={loc}
+                  href={`/${loc}${currentPath}`}
+                  className={`px-1.5 py-1 font-mono text-[0.625rem] tracking-[0.1em] transition-colors ${
+                    locale === loc ? 'text-accent' : 'text-muted-light hover:text-charcoal'
+                  }`}
+                >
+                  {languageNames[loc]}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile controls */}
+          <div className="flex items-center gap-3 md:hidden">
+            <div className="flex items-center gap-1">
+              {locales.map((loc) => (
+                <Link
+                  key={loc}
+                  href={`/${loc}${currentPath}`}
+                  className={`px-1.5 py-0.5 font-mono text-[0.625rem] transition-colors ${
+                    locale === loc ? 'text-accent' : 'text-muted-light'
+                  }`}
+                >
+                  {languageNames[loc]}
+                </Link>
+              ))}
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center gap-4">
-              {/* Mobile Language Switcher */}
-              <div className="flex items-center gap-1">
-                {locales.map((loc) => (
-                  <Link
-                    key={loc}
-                    href={`/${loc}${currentPath}`}
-                    className={`
-                      px-1.5 py-0.5 font-mono text-[10px] transition-all
-                      ${locale === loc 
-                        ? 'text-charcoal font-medium' 
-                        : 'text-muted'
-                      }
-                    `}
-                  >
-                    {languageNames[loc]}
-                  </Link>
-                ))}
-              </div>
-              
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-10 h-10 flex items-center justify-center text-charcoal"
-                aria-label="Toggle menu"
-              >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface/60 text-charcoal backdrop-blur-sm"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`fixed inset-0 z-40 bg-cream transition-all duration-500 md:hidden ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      {/* Mobile sheet */}
+      <div
+        className={`fixed inset-0 z-40 bg-cream/95 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
+          isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
-        style={{ top: '80px' }}
+        style={{ top: '72px' }}
       >
-        <div className="flex flex-col h-full px-6 py-12">
-          <nav className="flex flex-col gap-2">
+        <div className="flex h-full flex-col px-6 py-10">
+          <nav className="flex flex-col">
             {links.map((link, idx) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`
-                  py-4 border-b border-border font-serif text-2xl uppercase tracking-wider transition-all duration-300
-                  ${isActive(link.href) ? 'text-charcoal' : 'text-muted'}
-                `}
+                className={`border-b border-border py-4 text-2xl font-extralight tracking-tight transition-all duration-300 ${
+                  isActive(link.href) ? 'text-charcoal' : 'text-muted'
+                }`}
                 style={{
-                  transitionDelay: isOpen ? `${idx * 50}ms` : '0ms',
-                  transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: isOpen ? `${idx * 45}ms` : '0ms',
+                  transform: isOpen ? 'translateY(0)' : 'translateY(16px)',
                   opacity: isOpen ? 1 : 0,
                 }}
               >
                 {link.name}
               </Link>
             ))}
+
             <button
+              type="button"
               onClick={() => {
                 setIsOpen(false);
                 setIsBookingModalOpen(true);
               }}
-              className="py-4 font-serif text-2xl text-accent text-left uppercase tracking-wider"
+              className="py-5 text-left text-2xl font-extralight tracking-tight text-accent"
               style={{
-                transitionDelay: isOpen ? `${links.length * 50}ms` : '0ms',
-                transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
+                transitionDelay: isOpen ? `${links.length * 45}ms` : '0ms',
+                transform: isOpen ? 'translateY(0)' : 'translateY(16px)',
                 opacity: isOpen ? 1 : 0,
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               }}
             >
               {trans.nav.contact}
             </button>
           </nav>
-          
-          {/* Social Links */}
-          <div 
-            className="mt-auto flex gap-6 text-muted font-mono text-sm"
-            style={{
-              transitionDelay: isOpen ? '300ms' : '0ms',
-              opacity: isOpen ? 1 : 0,
-            }}
-          >
-            <a href="https://linkedin.com/in/buminkcetin" target="_blank" rel="noreferrer" className="hover:text-charcoal transition-colors">
+
+          <div className="mt-auto flex gap-6 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-muted-light">
+            <a
+              href="https://linkedin.com/in/buminkcetin"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-charcoal"
+            >
               LinkedIn
             </a>
-            <a href="https://github.com/bumincetin" target="_blank" rel="noreferrer" className="hover:text-charcoal transition-colors">
+            <a
+              href="https://github.com/bumincetin"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-charcoal"
+            >
               GitHub
             </a>
           </div>
         </div>
       </div>
 
-      {/* Booking Modal */}
       <BookingModal
         isOpen={isBookingModalOpen}
         onClose={() => setIsBookingModalOpen(false)}

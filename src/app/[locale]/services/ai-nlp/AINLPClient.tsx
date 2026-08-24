@@ -1,9 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Brain, ChatText as MessageSquare, FileText, Lightning as Zap, CheckCircle } from 'phosphor-react';
+import { ArrowLeft, Brain, MessageSquare, FileText, Zap, CheckCircle2 as CheckCircle } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 import { NeuralNetwork, DataFlow } from '@/app/components/AnimatedVisuals';
 
@@ -16,12 +17,12 @@ export default function AINLPClient({ locale, t }: Props) {
   const section = t.methodologyPage.section2;
 
   return (
-    <div className="pt-24 md:pt-32 pb-16 bg-cream min-h-screen">
+    <div className="pt-24 md:pt-32 pb-16 min-h-screen">
       {/* Back Navigation */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 mb-8">
         <Link 
           href={`/${locale}/methodology`}
-          className="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-accent transition-colors"
+          className="inline-flex items-center gap-2 font-sans text-sm text-muted hover:text-accent transition-colors"
         >
           <ArrowLeft size={16} />
           {t.methodologyPage.servicesLabel}
@@ -56,7 +57,7 @@ export default function AINLPClient({ locale, t }: Props) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="bg-white border border-border p-8 rounded-lg shadow-editorial">
+            <div className="bg-surface border border-border p-8 rounded-lg shadow-editorial">
               <NeuralNetwork className="w-full h-48" />
             </div>
           </motion.div>
@@ -64,7 +65,7 @@ export default function AINLPClient({ locale, t }: Props) {
       </section>
 
       {/* Expanded Description Section */}
-      <section className="bg-white py-16 mb-16">
+      <section className="bg-surface/70 backdrop-blur-sm border-y border-border py-16 mb-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -74,7 +75,7 @@ export default function AINLPClient({ locale, t }: Props) {
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="prose prose-lg max-w-none">
-                <p className="font-mono text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
+                <p className="font-sans text-base md:text-lg text-charcoal leading-relaxed whitespace-pre-line">
                   {section.expandedDesc}
                 </p>
               </div>
@@ -85,11 +86,14 @@ export default function AINLPClient({ locale, t }: Props) {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative"
               >
-                <div className="bg-white border border-border p-4 rounded-lg shadow-editorial">
-                  <img 
-                    src="\bumin2.png" 
-                    alt="AI & Data Science" 
-                    className="w-full h-auto rounded-lg"
+                <div className="bg-surface border border-border p-4 rounded-lg shadow-editorial">
+                  <Image
+                    src="/bumin2.webp"
+                    alt="AI and data science"
+                    width={1100}
+                    height={1100}
+                    sizes="(max-width: 1024px) 90vw, 520px"
+                    className="h-auto w-full rounded-editorial"
                   />
                 </div>
               </motion.div>
@@ -99,7 +103,7 @@ export default function AINLPClient({ locale, t }: Props) {
       </section>
 
       {/* Use Cases Section */}
-      <section className="bg-surface-alt py-16 mb-16">
+      <section className="bg-surface-alt/70 backdrop-blur-sm border-y border-border py-16 mb-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -122,7 +126,7 @@ export default function AINLPClient({ locale, t }: Props) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="bg-white border border-border p-8 md:p-10 rounded-lg"
+                  className="bg-surface border border-border p-8 md:p-10 rounded-lg"
                 >
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
@@ -140,7 +144,7 @@ export default function AINLPClient({ locale, t }: Props) {
                       <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
                         {locale === 'tr' ? 'Sorun' : locale === 'it' ? 'Problema' : 'Problem'}
                       </h4>
-                      <p className="font-mono text-sm text-muted leading-relaxed">
+                      <p className="font-sans text-sm text-muted leading-relaxed">
                         {useCase.problem}
                       </p>
                     </div>
@@ -149,7 +153,7 @@ export default function AINLPClient({ locale, t }: Props) {
                       <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
                         {locale === 'tr' ? 'Çözüm' : locale === 'it' ? 'Soluzione' : 'Solution'}
                       </h4>
-                      <p className="font-mono text-sm text-muted leading-relaxed">
+                      <p className="font-sans text-sm text-muted leading-relaxed">
                         {useCase.solution}
                       </p>
                     </div>
@@ -158,7 +162,7 @@ export default function AINLPClient({ locale, t }: Props) {
                       <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-3">
                         {locale === 'tr' ? 'Fayda' : locale === 'it' ? 'Beneficio' : 'Benefit'}
                       </h4>
-                      <p className="font-mono text-sm text-muted leading-relaxed">
+                      <p className="font-sans text-sm text-muted leading-relaxed">
                         {useCase.benefit}
                       </p>
                     </div>
@@ -179,7 +183,7 @@ export default function AINLPClient({ locale, t }: Props) {
           transition={{ duration: 0.6 }}
         >
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-8 h-[2px] bg-charcoal"></div>
+            <div className="w-8 h-px bg-accent"></div>
             <span className="font-mono text-xs text-charcoal uppercase tracking-wider">
               {locale === 'tr' ? 'Teknik Detaylar' : locale === 'it' ? 'Dettagli Tecnici' : 'Technical Deep Dive'}
             </span>
@@ -187,10 +191,10 @@ export default function AINLPClient({ locale, t }: Props) {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <p className="font-mono text-base text-muted leading-relaxed mb-6">
+              <p className="font-sans text-base text-muted leading-relaxed mb-6">
                 {section.desc1}
               </p>
-              <p className="font-mono text-base text-muted leading-relaxed mb-8">
+              <p className="font-sans text-base text-muted leading-relaxed mb-8">
                 {section.desc2}
               </p>
               
@@ -201,7 +205,7 @@ export default function AINLPClient({ locale, t }: Props) {
                 {section.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <CheckCircle size={18} className="text-accent mt-0.5 flex-shrink-0" />
-                    <span className="font-mono text-sm text-charcoal">{feature}</span>
+                    <span className="font-sans text-sm text-charcoal">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -209,32 +213,32 @@ export default function AINLPClient({ locale, t }: Props) {
             
             <div className="space-y-6">
               {/* Technical Stack */}
-              <div className="bg-charcoal p-6 rounded-lg text-cream">
+              <div className="bg-surface-raised border border-accent/25 p-6 rounded-editorial text-charcoal">
                 <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-4">
                   {locale === 'tr' ? 'Kullanılan Teknolojiler' : locale === 'it' ? 'Stack Tecnologico' : 'Technology Stack'}
                 </h4>
-                <div className="space-y-3 font-mono text-sm">
+                <div className="space-y-3 font-sans text-sm">
                   <div className="flex justify-between border-b border-cream/20 pb-2">
-                    <span className="text-cream/70">Models</span>
+                    <span className="text-muted">Models</span>
                     <span>RoBERTa, BERT, GPT</span>
                   </div>
                   <div className="flex justify-between border-b border-cream/20 pb-2">
-                    <span className="text-cream/70">Libraries</span>
+                    <span className="text-muted">Libraries</span>
                     <span>HuggingFace, spaCy</span>
                   </div>
                   <div className="flex justify-between border-b border-cream/20 pb-2">
-                    <span className="text-cream/70">Framework</span>
+                    <span className="text-muted">Framework</span>
                     <span>PyTorch, TensorFlow</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-cream/70">Deployment</span>
+                    <span className="text-muted">Deployment</span>
                     <span>FastAPI, Docker</span>
                   </div>
                 </div>
               </div>
               
               {/* Data Flow Preview */}
-              <div className="bg-white border border-border p-6 rounded-lg">
+              <div className="bg-surface border border-border p-6 rounded-lg">
                 <h4 className="font-mono text-xs text-muted uppercase tracking-wider mb-4">
                   {locale === 'tr' ? 'Veri Akışı' : locale === 'it' ? 'Flusso Dati' : 'Data Flow'}
                 </h4>
@@ -252,7 +256,7 @@ export default function AINLPClient({ locale, t }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-charcoal text-cream p-8 md:p-12 rounded-lg text-center"
+          className="bg-surface-raised border border-accent/25 text-charcoal p-8 md:p-12 rounded-lg text-center"
         >
           <p className="font-serif text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
             {section.closingMessage}

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Target, Lightning as Zap, ChartLine as LineChart, Shield, ArrowRight, CheckCircle, CaretDown, CaretUp } from 'phosphor-react';
+import { Target, Zap, LineChart, Shield, ArrowRight, CheckCircle2 as CheckCircle, ChevronDown as CaretDown, ChevronUp as CaretUp } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 interface WhySMEProps {
@@ -23,7 +23,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   return (
-    <section id="why-sme" className="py-20 md:py-32 bg-white relative overflow-hidden">
+    <section id="why-sme" className="py-20 md:py-32 bg-surface relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div className="absolute inset-0" style={{
@@ -56,7 +56,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
             {sme.subtitle}
           </p>
           
-          <p className="font-mono text-xs sm:text-sm md:text-base text-muted max-w-3xl mx-auto leading-relaxed px-2">
+          <p className="font-sans text-xs sm:text-sm md:text-base text-muted max-w-3xl mx-auto leading-relaxed px-2">
             {sme.intro}
           </p>
         </motion.div>
@@ -77,7 +77,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
               `}
             >
               <div className="flex items-start gap-3 sm:gap-4 mb-3 md:mb-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-surface rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
                   <div className="scale-75 sm:scale-100">
                     {iconMap[benefit.id]}
                   </div>
@@ -89,7 +89,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
                 </div>
               </div>
               
-              <p className="font-mono text-xs sm:text-sm text-muted leading-relaxed mb-3 md:mb-4">
+              <p className="font-sans text-xs sm:text-sm text-muted leading-relaxed mb-3 md:mb-4">
                 {benefit.desc}
               </p>
               
@@ -119,7 +119,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
                       {benefit.examples.map((example, i) => (
                         <li key={i} className="flex items-start gap-2 sm:gap-3">
                           <CheckCircle size={14} className="text-accent mt-0.5 flex-shrink-0 sm:w-4 sm:h-4" />
-                          <span className="font-mono text-[10px] sm:text-xs text-charcoal/80 leading-relaxed">
+                          <span className="font-sans text-[10px] sm:text-xs text-charcoal/80 leading-relaxed">
                             {example}
                           </span>
                         </li>
@@ -138,7 +138,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-charcoal text-cream p-6 sm:p-8 md:p-12 lg:p-16 relative overflow-hidden"
+          className="relative overflow-hidden border border-accent/25 bg-surface-raised p-6 shadow-card sm:p-8 md:p-12 lg:p-16"
         >
           {/* Decorative Elements - Hidden on mobile */}
           <div className="hidden md:block absolute top-0 right-0 w-48 md:w-64 h-48 md:h-64 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -153,32 +153,32 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
                 </span>
               </div>
               
-              <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-cream mb-4 md:mb-6 leading-tight">
+              <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl text-charcoal mb-4 md:mb-6 leading-tight">
                 {sme.hybridTitle}
               </h3>
               
-              <p className="font-mono text-xs sm:text-sm md:text-base text-cream/80 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm md:text-base text-muted leading-relaxed">
                 {sme.hybridDesc}
               </p>
             </div>
             
             <div className="lg:col-span-5 mt-6 lg:mt-0">
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                <div className="bg-white/5 backdrop-blur-sm p-3 sm:p-4 text-center border border-white/10">
+                <div className="bg-surface-raised/60 backdrop-blur-sm p-3 sm:p-4 text-center border border-border">
                   <div className="font-serif text-2xl sm:text-3xl text-accent mb-1">+</div>
-                  <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
+                  <div className="font-mono text-[10px] sm:text-xs text-muted uppercase tracking-wider">
                     {locale === 'tr' ? 'VERİ BİLİMİ' : locale === 'it' ? 'Data Science' : 'Data Science'}
                   </div>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm p-3 sm:p-4 text-center border border-white/10">
+                <div className="bg-surface-raised/60 backdrop-blur-sm p-3 sm:p-4 text-center border border-border">
                   <div className="font-serif text-2xl sm:text-3xl text-accent mb-1">+</div>
-                  <div className="font-mono text-[10px] sm:text-xs text-cream/70 uppercase tracking-wider">
+                  <div className="font-mono text-[10px] sm:text-xs text-muted uppercase tracking-wider">
                     {locale === 'tr' ? 'FİNANS' : locale === 'it' ? 'Finanza' : 'Finance'}
                   </div>
                 </div>
                 <div className="col-span-2 bg-accent/20 backdrop-blur-sm p-3 sm:p-4 text-center border border-accent/30">
-                  <div className="font-serif text-lg sm:text-xl text-cream mb-1">=</div>
-                  <div className="font-mono text-[10px] sm:text-xs text-cream uppercase tracking-wider">
+                  <div className="font-serif text-lg sm:text-xl text-charcoal mb-1">=</div>
+                  <div className="font-mono text-[10px] sm:text-xs text-accent uppercase tracking-wider">
                     {locale === 'tr' ? 'İŞ DEĞERİ' : locale === 'it' ? 'Valore Business' : 'Business Value'}
                   </div>
                 </div>
@@ -195,7 +195,7 @@ const WhySME: React.FC<WhySMEProps> = ({ t, locale }) => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-center mt-8 md:mt-12 lg:mt-16"
         >
-          <p className="font-mono text-xs sm:text-sm md:text-base text-charcoal mb-4 md:mb-6 max-w-2xl mx-auto px-2">
+          <p className="font-sans text-xs sm:text-sm md:text-base text-charcoal mb-4 md:mb-6 max-w-2xl mx-auto px-2">
             {sme.cta}
           </p>
           <Link 

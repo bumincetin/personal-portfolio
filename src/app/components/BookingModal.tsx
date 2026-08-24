@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Check, ArrowRight, Envelope as Mail, Clock, WarningCircle as AlertCircle, Copy } from 'phosphor-react';
+import { X, Calendar, Check, ArrowRight, Mail, Clock, AlertCircle, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
@@ -302,7 +302,7 @@ ${name}`;
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-charcoal/40" 
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm" 
             onClick={handleClose} 
           />
           
@@ -320,7 +320,7 @@ ${name}`;
             <button 
               onClick={handleClose}
               aria-label="Close booking modal"
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 rounded-full bg-charcoal/5 flex items-center justify-center text-charcoal active:bg-charcoal/15 sm:hover:bg-charcoal/10 transition-all z-20"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 rounded-full bg-surface-raised border border-border flex items-center justify-center text-charcoal active:bg-border sm:hover:border-accent/40 transition-all z-20"
             >
               <X size={20} />
             </button>
@@ -336,7 +336,7 @@ ${name}`;
                   <h2 id="booking-modal-title" className="font-serif text-2xl sm:text-3xl text-charcoal mb-2">
                     {booking.title}
                   </h2>
-                  <p className="font-mono text-sm text-muted">{booking.desc}</p>
+                  <p className="font-sans text-sm text-muted">{booking.desc}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
@@ -367,8 +367,8 @@ ${name}`;
                           onClick={() => setSelectedService(s.id)}
                           className={`w-full p-5 rounded-xl text-left transition-all ${
                             selectedService === s.id 
-                              ? 'bg-charcoal text-cream border-2 border-charcoal' 
-                              : 'bg-white text-charcoal border border-border hover:border-charcoal/30'
+                              ? 'bg-accent text-cream border-2 border-accent' 
+                              : 'bg-surface text-charcoal border border-border hover:border-charcoal/30'
                           }`}
                         >
                           <span className="font-serif text-sm font-medium">{s.name}</span>
@@ -391,7 +391,7 @@ ${name}`;
                         value={name}
                         onChange={e => setName(e.target.value)}
                         placeholder={booking.yourName}
-                        className={`w-full bg-white border rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-accent transition-colors placeholder:text-muted ${
+                        className={`w-full bg-surface border rounded-xl px-5 py-4 font-sans text-sm outline-none focus:border-accent transition-colors placeholder:text-muted ${
                           errors.name ? 'border-accent' : 'border-border'
                         }`}
                       />
@@ -403,7 +403,7 @@ ${name}`;
                         value={email} 
                         onChange={e => setEmail(e.target.value)} 
                         placeholder={booking.emailAddress} 
-                        className={`w-full bg-white border rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-accent transition-colors placeholder:text-muted ${
+                        className={`w-full bg-surface border rounded-xl px-5 py-4 font-sans text-sm outline-none focus:border-accent transition-colors placeholder:text-muted ${
                           errors.email ? 'border-accent' : 'border-border'
                         }`}
                       />
@@ -424,7 +424,7 @@ ${name}`;
                         value={date} 
                         onChange={e => setDate(e.target.value)} 
                         min={new Date().toISOString().split('T')[0]}
-                        className={`w-full bg-white border rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-accent transition-colors ${
+                        className={`w-full bg-surface border rounded-xl px-5 py-4 font-sans text-sm outline-none focus:border-accent transition-colors ${
                           errors.date ? 'border-accent' : 'border-border'
                         }`}
                       />
@@ -440,7 +440,7 @@ ${name}`;
                         <select
                           value={time}
                           onChange={e => setTime(e.target.value)}
-                          className={`w-full bg-white border rounded-xl px-5 py-4 pr-12 font-mono text-sm outline-none focus:border-accent transition-colors appearance-none ${
+                          className={`w-full bg-surface border rounded-xl px-5 py-4 pr-12 font-sans text-sm outline-none focus:border-accent transition-colors appearance-none ${
                             errors.time ? 'border-accent' : 'border-border'
                           }`}
                         >
@@ -461,7 +461,7 @@ ${name}`;
 
                   <button 
                     type="submit" 
-                    className="w-full py-5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 bg-charcoal text-cream hover:bg-navy"
+                    className="w-full py-5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 bg-accent text-cream hover:bg-[#F0D68F]"
                   >
                     {booking.confirm}
                     <ArrowRight size={14} />
@@ -476,7 +476,7 @@ ${name}`;
                   <Mail size={28} className="text-accent" />
                 </div>
                 <h3 className="font-serif text-2xl sm:text-3xl text-charcoal mb-2">{booking.success}</h3>
-                <p className="font-mono text-xs sm:text-sm text-muted mb-6 max-w-sm mx-auto">
+                <p className="font-sans text-xs sm:text-sm text-muted mb-6 max-w-sm mx-auto">
                   {locale === 'tr' 
                     ? 'E-postanızı göndermek için aşağıdaki seçeneklerden birini kullanın:'
                     : locale === 'it'
@@ -488,7 +488,7 @@ ${name}`;
                   {/* Gmail */}
                   <button 
                     onClick={openGmail}
-                    className="w-full bg-[#EA4335] text-white rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#C5221F] transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-[#EA4335] text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#C5221F] transition-all flex items-center justify-center gap-2"
                   >
                     <Mail size={16} />
                     {locale === 'tr' ? 'Gmail ile Gönder' : locale === 'it' ? 'Invia con Gmail' : 'Send with Gmail'}
@@ -497,7 +497,7 @@ ${name}`;
                   {/* Outlook */}
                   <button 
                     onClick={openOutlook}
-                    className="w-full bg-[#0078D4] text-white rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#005A9E] transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-[#0078D4] text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#005A9E] transition-all flex items-center justify-center gap-2"
                   >
                     <Mail size={16} />
                     {locale === 'tr' ? 'Outlook ile Gönder' : locale === 'it' ? 'Invia con Outlook' : 'Send with Outlook'}
@@ -506,7 +506,7 @@ ${name}`;
                   {/* Yandex */}
                   <button 
                     onClick={openYandex}
-                    className="w-full bg-[#FC3F1D] text-white rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#D32F1A] transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-[#FC3F1D] text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#D32F1A] transition-all flex items-center justify-center gap-2"
                   >
                     <Mail size={16} />
                     {locale === 'tr' ? 'Yandex ile Gönder' : locale === 'it' ? 'Invia con Yandex' : 'Send with Yandex'}
@@ -515,7 +515,7 @@ ${name}`;
                   {/* Default Email Client */}
                   <button 
                     onClick={openEmailManually}
-                    className="w-full border-2 border-charcoal text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-charcoal hover:text-cream transition-all flex items-center justify-center gap-2"
+                    className="w-full border-2 border-border text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:border-accent hover:text-accent transition-all flex items-center justify-center gap-2"
                   >
                     <Mail size={16} />
                     {locale === 'tr' ? 'Varsayılan E-posta İstemcisi' : locale === 'it' ? 'Client Email Predefinito' : 'Default Email Client'}

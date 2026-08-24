@@ -2,13 +2,9 @@
 
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
-import * as XLSX from 'xlsx'; // Import the xlsx library
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Upload, FileText, TrendUp as TrendUp, WarningCircle as WarningCircle,
-  CheckCircle, ArrowClockwise as ArrowClockwise, Funnel as Funnel, ChartBar as ChartBar,
-  MagnifyingGlass as MagnifyingGlass, Info, Calculator, FileX as FileWarning, Globe, Activity
-} from 'phosphor-react';
+  Upload, FileText, TrendingUp as TrendUp, AlertCircle as WarningCircle, CheckCircle2 as CheckCircle, RotateCw as ArrowClockwise, Filter as Funnel, BarChart3 as ChartBar, Search as MagnifyingGlass, Info, Calculator, FileWarning, Globe, Activity } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 
 // --- Types ---
@@ -64,7 +60,7 @@ function UnparsedItem({ item, locale }: { item: any; locale: Locale }) {
   const reasonLabel = locale === 'tr' ? 'Sebep:' : locale === 'it' ? 'Motivo:' : 'Reason:';
   
   return (
-    <div className="bg-white p-3 border-l-2 border-orange-300">
+    <div className="bg-surface p-3 border-l-2 border-orange-300">
       <div className="flex items-start justify-between gap-2 mb-1">
         <span className="font-bold text-xs text-orange-800">{item.location || 'Unknown Location'}</span>
         <button
@@ -183,8 +179,11 @@ export default function PortalPageClient({ locale, t }: Props) {
       if (selectedFile.name.endsWith('.xlsx') || selectedFile.name.endsWith('.xls')) {
         fileText = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = async (e) => {
             try {
+              // Loaded on demand: the spreadsheet parser is ~1MB and only
+              // matters once an .xls/.xlsx is actually chosen.
+              const XLSX = await import('xlsx');
               const data = e.target?.result;
               const workbook = XLSX.read(data, { type: 'array' });
               const firstSheetName = workbook.SheetNames[0];
@@ -282,7 +281,7 @@ export default function PortalPageClient({ locale, t }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-cream text-charcoal font-sans selection:bg-accent/20">
+    <div className="min-h-screen text-charcoal font-sans selection:bg-accent/20">
       <nav className="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-charcoal/5">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -307,16 +306,16 @@ export default function PortalPageClient({ locale, t }: Props) {
             >
               <div className="text-center mb-10">
                 <h1 className="font-serif text-4xl md:text-5xl mb-4 text-charcoal">{pt.title}</h1>
-                <p className="font-mono text-sm text-muted">{pt.subtitle}</p>
+                <p className="font-sans text-sm text-muted">{pt.subtitle}</p>
               </div>
 
-              <div className="mb-6 bg-white p-4 border border-charcoal/10 rounded-sm shadow-sm">
+              <div className="mb-6 bg-surface p-4 border border-charcoal/10 rounded-sm shadow-sm">
                 <label className="block font-mono text-xs uppercase text-muted mb-2">{pt.select}</label>
                 <div className="relative">
                   <select 
                     value={statementType}
                     onChange={(e) => setStatementType(e.target.value as StatementType)}
-                    className="w-full bg-cream border border-charcoal/20 p-3 font-mono text-sm focus:border-accent outline-none appearance-none cursor-pointer"
+                    className="w-full bg-cream border border-charcoal/20 p-3 font-sans text-sm focus:border-accent outline-none appearance-none cursor-pointer"
                   >
                     <option value="balance-sheet">{pt.statementTypes['balance-sheet']}</option>
                     <option value="income-statement">{pt.statementTypes['income-statement']}</option>
@@ -330,7 +329,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                 className={`
                   relative border-2 border-dashed rounded-sm p-12 text-center transition-all duration-300 ease-out cursor-pointer
                   ${isDragging ? 'border-accent bg-accent/5' : 'border-charcoal/20 hover:border-accent hover:shadow-editorial'}
-                  bg-white
+                  bg-surface
                 `}
                 onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
                 onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
@@ -383,7 +382,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                 <div>
                    <h2 className="font-serif text-3xl mb-1">{analysis.fileName}</h2>
                    <div className="flex gap-3">
-                     <span className="text-xs font-mono bg-charcoal text-white px-2 py-1 uppercase">{analysis.statementType}</span>
+                     <span className="border border-accent/25 bg-accent/10 px-2 py-1 font-mono text-xs uppercase tracking-wider text-accent">{analysis.statementType}</span>
                      <span className="text-xs font-mono bg-accent/10 text-accent px-2 py-1 uppercase flex items-center gap-1">
                        <Globe size={12} /> Detected: {analysis.docLanguage?.toUpperCase()}
                      </span>
@@ -401,7 +400,7 @@ export default function PortalPageClient({ locale, t }: Props) {
               <div className="col-span-12 lg:col-span-8 space-y-6">
                 
                 {/* Executive Summary */}
-                <div className="bg-white p-6 border border-charcoal/5 shadow-card">
+                <div className="bg-surface p-6 border border-charcoal/5 shadow-card">
                   <h3 className="font-serif text-xl mb-4 flex items-center gap-2">
                     <Activity size={18} className="text-accent" />
                     {t.methodologyPage.portal.executiveSummary}
@@ -421,7 +420,7 @@ export default function PortalPageClient({ locale, t }: Props) {
 
                 {/* GRAPH SECTION (New for C-Level) */}
                 {analysis.graphData?.available && (
-                  <div className="bg-white p-8 border border-charcoal/5 shadow-card">
+                  <div className="bg-surface p-8 border border-charcoal/5 shadow-card">
                     <h3 className="font-serif text-xl mb-6 flex items-center gap-2">
                       <ChartBar className="text-accent" size={20} />
                       {analysis.graphData.title} (Year-over-Year)
@@ -436,7 +435,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                              return (
                                <div key={i} className="flex flex-col items-center gap-1 w-full max-w-[60px]">
                                  <div 
-                                   className="w-full bg-charcoal/80 hover:bg-charcoal transition-all relative group" 
+                                   className="w-full bg-accent/70 hover:bg-accent transition-all relative group" 
                                    style={{ height: `${(val / max) * 100}%` }}
                                  >
                                     <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">
@@ -487,7 +486,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                 {/* KPIs */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {analysis.ratios.map((ratio) => (
-                    <div key={ratio.id} className="bg-white p-6 border border-charcoal/5 hover:shadow-editorial transition-all group">
+                    <div key={ratio.id} className="bg-surface p-6 border border-charcoal/5 hover:shadow-editorial transition-all group">
                       <div className="flex justify-between mb-2">
                         <h4 className="font-mono text-xs text-muted uppercase">{ratio.name}</h4>
                         <div className={`
@@ -496,7 +495,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                         `} />
                       </div>
                       <div className="text-3xl font-serif mb-2">
-                        {ratio.value?.toFixed(2)} <span className="text-sm font-mono text-muted">{ratio.unit}</span>
+                        {ratio.value?.toFixed(2)} <span className="text-sm font-sans text-muted">{ratio.unit}</span>
                       </div>
                       <p className="text-xs text-charcoal/60 mb-4">{ratio.interpretation}</p>
                       
@@ -540,21 +539,21 @@ export default function PortalPageClient({ locale, t }: Props) {
                        ))}
                      </div>
                    ) : (
-                     <div className="bg-white p-4 text-xs text-charcoal/60 border border-green-200 rounded-sm">
+                     <div className="bg-surface p-4 text-xs text-charcoal/60 border border-green-200 rounded-sm">
                        <CheckCircle size={16} className="text-green-600 inline mr-2" />
                        {locale === 'tr' ? 'Tüm veriler başarıyla analiz edildi.' : locale === 'it' ? 'Tutti i dati sono stati analizzati con successo.' : 'All data successfully analyzed.'}
                      </div>
                    )}
                  </div>
 
-                 <div className="bg-charcoal text-cream p-6">
+                 <div className="bg-surface-raised border border-accent/25 text-charcoal p-6">
                     <h4 className="font-serif text-lg mb-4">{t.methodologyPage.portal.methodology}</h4>
                     <p className="text-xs opacity-70 mb-4 leading-relaxed">
                       {t.methodologyPage.portal.methodologyDesc}
                     </p>
                     <div className="space-y-2">
                       {analysis.ratios.map(r => (
-                        <div key={r.id} className="flex justify-between text-[10px] border-b border-white/10 pb-1">
+                        <div key={r.id} className="flex justify-between text-[10px] border-b border-border pb-1">
                           <span>{r.name}</span>
                           <span className="font-mono text-accent">{r.formula}</span>
                         </div>

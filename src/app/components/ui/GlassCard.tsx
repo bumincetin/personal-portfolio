@@ -17,7 +17,7 @@ const EditorialCard: React.FC<EditorialCardProps> = ({ children, className = '',
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`
-        bg-white border border-border
+        bg-surface border border-border
         ${hover ? 'hover:shadow-editorial hover:-translate-y-1' : ''}
         transition-all duration-300 ease-out
         ${className}

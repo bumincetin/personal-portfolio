@@ -1,4 +1,16 @@
 /** @type {import('tailwindcss').Config} */
+
+/**
+ * Palette and surface treatment are derived from the ThreeUI "constellation
+ * field" scene (github.com/MengTo/threeui, MIT): a near-black void, cool slate
+ * panels hairlined in #1C2236, pale-gold as the single warm accent and ice-blue
+ * as the interactive one.
+ *
+ * The legacy token names (cream / charcoal / surface / accent ...) are kept so
+ * the whole site re-skins from this one file. Their *roles* are unchanged --
+ * `cream` is still "the page", `charcoal` is still "the thing that contrasts
+ * with the page" -- only the values invert.
+ */
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,36 +20,57 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cream: '#F9F9F7',
-        charcoal: '#1A1A1A',
-        navy: '#0D1B2A',
-        'navy-light': '#1E3A5F',
-        accent: '#E85D04',
-        'accent-blue': '#1E3A5F',
-        muted: '#6B7280',
-        'muted-light': '#9CA3AF',
-        border: '#E5E5E3',
-        'border-dark': '#D1D1CF',
-        surface: '#FFFFFF',
-        'surface-alt': '#F3F3F1',
+        // Page ground + inverted foreground
+        cream: '#070914',
+        charcoal: '#F2F4FB',
+        navy: '#D8DDEA',
+        'navy-light': '#C3CADD',
+
+        // Accents
+        accent: '#E6C879',
+        'accent-blue': '#7FC4FF',
+
+        // Text ramp
+        muted: '#9AA3BC',
+        'muted-light': '#5C668A',
+
+        // Structure
+        border: '#1C2236',
+        'border-dark': '#2A3450',
+        surface: '#0E1222',
+        'surface-alt': '#0B0F1C',
+        'surface-raised': '#151B2E',
+
+        // Semantic status colours, tuned for a dark ground
+        positive: '#5FD3A6',
+        caution: '#E6C879',
+        negative: '#FF8A8A',
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'Times New Roman', 'serif'],
-        mono: ['"JetBrains Mono"', 'Menlo', 'Monaco', 'monospace'],
+        sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'Menlo', 'monospace'],
       },
       fontSize: {
-        'display': ['clamp(2.5rem, 8vw, 5rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-        'heading': ['clamp(1.75rem, 4vw, 3rem)', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
-        'subheading': ['clamp(1.25rem, 2vw, 1.5rem)', { lineHeight: '1.3' }],
+        // Display type is ultralight and tightly tracked, per the ThreeUI scenes.
+        display: ['clamp(2.75rem, 7vw, 5.5rem)', { lineHeight: '1.05', letterSpacing: '-0.035em', fontWeight: '200' }],
+        heading: ['clamp(1.875rem, 4vw, 3.25rem)', { lineHeight: '1.1', letterSpacing: '-0.03em', fontWeight: '200' }],
+        subheading: ['clamp(1.25rem, 2vw, 1.625rem)', { lineHeight: '1.3', letterSpacing: '-0.02em', fontWeight: '300' }],
+        label: ['0.6875rem', { lineHeight: '1', letterSpacing: '0.18em' }],
       },
       spacing: {
-        'section': 'clamp(4rem, 10vw, 8rem)',
+        section: 'clamp(4.5rem, 10vw, 9rem)',
+      },
+      maxWidth: {
+        prose: '68ch',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out forwards',
-        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+        'fade-in-up': 'fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards',
         'slide-in-left': 'slideInLeft 0.8s ease-out forwards',
         'slide-in-right': 'slideInRight 0.8s ease-out forwards',
+        marquee: 'marquee 42s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -45,7 +78,7 @@ module.exports = {
           '100%': { opacity: '1' },
         },
         fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '0%': { opacity: '0', transform: 'translateY(24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         slideInLeft: {
@@ -56,15 +89,26 @@ module.exports = {
           '0%': { opacity: '0', transform: 'translateX(30px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       boxShadow: {
-        'editorial': '0 4px 20px rgba(0, 0, 0, 0.08)',
-        'editorial-hover': '0 8px 30px rgba(0, 0, 0, 0.12)',
-        'card': '0 1px 3px rgba(0, 0, 0, 0.04)',
-        'card-hover': '0 10px 40px rgba(0, 0, 0, 0.1)',
+        // On a dark ground, elevation reads through depth-shadow + a top hairline.
+        hairline: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.04)',
+        editorial: '0 2px 8px rgba(0, 0, 0, 0.30)',
+        'editorial-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
+        card: '0 2px 8px rgba(0, 0, 0, 0.30)',
+        'card-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
+        glow: '0 0 12px rgba(230, 200, 121, 0.6)',
+        'glow-blue': '0 0 16px rgba(127, 196, 255, 0.35)',
       },
       borderRadius: {
-        'editorial': '2px',
+        editorial: '4px',
+      },
+      transitionTimingFunction: {
+        editorial: 'cubic-bezier(0.4, 0, 0.2, 1)',
       },
     },
   },

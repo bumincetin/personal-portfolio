@@ -10,7 +10,7 @@ export default function HomePageClient({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
 
   return (
-    <main className="bg-cream">
+    <main>
       <Hero t={t} locale={locale} />
       <TheDataSculptor t={t} locale={locale} />
       <FocusAreas t={t} locale={locale} />

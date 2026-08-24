@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, TrendUp as TrendingUp, Brain, ChartBar as BarChart3, Buildings as Building } from 'phosphor-react';
+import { ArrowRight, TrendingUp, Brain, BarChart3, Building2 as Building } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 import { NeuralNetwork, DashboardChart, FinanceGraph, DataFlow } from '@/app/components/AnimatedVisuals';
 
@@ -79,7 +79,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           >
             <Link 
               href={`/${locale}/methodology`} 
-              className="group inline-flex items-center gap-2 font-mono text-sm text-charcoal hover:text-accent transition-colors link-underline"
+              className="group inline-flex items-center gap-2 font-sans text-sm text-charcoal hover:text-accent transition-colors link-underline"
             >
               {trans.methodology.explore}
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -102,13 +102,13 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
         >
           <Link 
             href={`/${locale}/services/financial-analytics`}
-            className="group block bg-white border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
+            className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             {/* Animated Visual */}
             <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-4">
               <FinanceGraph className="w-full h-full" />
               {/* Icon Overlay */}
-              <div className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
+              <div className="absolute top-4 right-4 w-10 h-10 bg-surface/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
                 <TrendingUp size={18} className="text-accent" />
               </div>
             </div>
@@ -119,7 +119,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               <h3 className="font-serif text-xl md:text-2xl text-charcoal mt-2 mb-3 group-hover:text-accent transition-colors">
                 {trans.methodology.card1Title}
               </h3>
-              <p className="font-mono text-sm text-muted leading-relaxed mb-4">
+              <p className="font-sans text-sm text-muted leading-relaxed mb-4">
                 {trans.methodology.card1Desc}
               </p>
               <span className="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider">
@@ -141,13 +141,13 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
         >
           <Link 
             href={`/${locale}/services/ai-nlp`}
-            className="group block bg-white border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
+            className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             {/* Animated Visual */}
             <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-4">
               <NeuralNetwork className="w-full h-full" />
               {/* Icon Overlay */}
-              <div className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
+              <div className="absolute top-4 right-4 w-10 h-10 bg-surface/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm">
                 <Brain size={18} className="text-accent" />
               </div>
             </div>
@@ -158,7 +158,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
               <h3 className="font-serif text-xl md:text-2xl text-charcoal mt-2 mb-3 group-hover:text-accent transition-colors">
                 {trans.methodology.card2Title}
               </h3>
-              <p className="font-mono text-sm text-muted leading-relaxed mb-4">
+              <p className="font-sans text-sm text-muted leading-relaxed mb-4">
                 {trans.methodology.card2Desc}
               </p>
               <span className="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider">
@@ -180,30 +180,30 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
         >
           <Link 
             href={`/${locale}/services/business-intelligence`}
-            className="group block bg-charcoal text-cream border-4 border-charcoal hover:bg-navy transition-all duration-300 cursor-pointer overflow-hidden h-full"
+            className="group relative block h-full cursor-pointer overflow-hidden border border-accent/30 bg-surface-raised shadow-card transition-all duration-300 hover:border-accent/60 hover:shadow-card-hover"
           >
             <div className="p-6 md:p-8 flex flex-col justify-between min-h-[400px] relative">
               {/* Animated Background */}
-              <div className="absolute inset-0 opacity-20">
+              <div className="absolute inset-0 opacity-[0.12]">
                 <DashboardChart className="w-full h-full" />
               </div>
               
               {/* Top */}
               <div className="relative">
-                <div className="w-10 h-10 bg-cream/10 rounded-full flex items-center justify-center mb-4">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-accent/25 bg-accent/10">
                   <BarChart3 size={18} className="text-accent" />
                 </div>
-                <span className="font-mono text-xs text-cream/60 uppercase tracking-wider">03</span>
-                <h3 className="font-serif text-xl md:text-2xl text-cream mt-2 mb-4">
+                <span className="font-mono text-xs uppercase tracking-wider text-accent">03</span>
+                <h3 className="mb-4 mt-2 text-xl font-extralight tracking-tight text-charcoal md:text-2xl">
                   {trans.methodology.card3Title}
                 </h3>
-                <p className="font-mono text-sm text-cream/70 leading-relaxed">
+                <p className="font-sans text-sm leading-relaxed text-muted">
                   {trans.methodology.card3Desc}
                 </p>
               </div>
               
               {/* Bottom CTA */}
-              <span className="inline-flex items-center gap-2 font-mono text-sm text-cream mt-8 group-hover:text-accent transition-colors relative">
+              <span className="relative mt-8 inline-flex items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-accent transition-colors">
                 {trans.methodologyPage.viewDetails}
                 <motion.span
                   animate={{ x: [0, 5, 0] }}
@@ -228,7 +228,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
         >
           <Link 
             href={`/${locale}/services/financial-consultancy`}
-            className="group block bg-white border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
+            className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 h-full">
               {/* Content */}
@@ -240,7 +240,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                 <h3 className="font-serif text-xl md:text-2xl lg:text-3xl text-charcoal mt-2 mb-4 group-hover:text-accent transition-colors">
                   {trans.methodology.card4Title}
                 </h3>
-                <p className="font-mono text-sm text-muted leading-relaxed mb-6">
+                <p className="font-sans text-sm text-muted leading-relaxed mb-6">
                   {trans.methodology.card4Desc}
                 </p>
                 <span className="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider">
@@ -278,7 +278,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
                       whileHover={{ scale: 1.05, borderColor: 'rgb(232, 93, 4)' }}
-                      className="text-center p-4 border border-border bg-white transition-all duration-300"
+                      className="text-center p-4 border border-border bg-surface transition-all duration-300"
                     >
                       <div className="text-2xl font-serif text-charcoal mb-1">{stat.value}</div>
                       <div>{stat.label}</div>
@@ -303,7 +303,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-6">
             {locale === 'tr' ? 'Teknoloji Yığını' : locale === 'it' ? 'Stack Tecnologico' : 'Technology Stack'}
           </h4>
-          <div className="space-y-3 font-mono text-sm">
+          <div className="space-y-3 font-sans text-sm">
             {[
               { tech: 'Python', detail: 'PyTorch, TensorFlow' },
               { tech: 'R', detail: locale === 'tr' ? 'İstatistiksel Analiz' : locale === 'it' ? 'Analisi Statistica' : 'Statistical Analysis' },

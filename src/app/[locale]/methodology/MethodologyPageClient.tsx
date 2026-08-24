@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check } from 'phosphor-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { getTranslation, type Locale } from '@/lib/translations';
 
 export default function MethodologyPageClient({ locale }: { locale: Locale }) {
@@ -32,7 +32,7 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <div className="pt-24 md:pt-32 pb-12 md:pb-20 bg-cream">
+    <div className="pt-24 md:pt-32 pb-12 md:pb-20">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 mb-16 md:mb-24">
         <motion.div
@@ -51,7 +51,7 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
             {mp.title}
           </h1>
           
-          <p className="font-mono text-base md:text-lg text-muted max-w-3xl leading-relaxed">
+          <p className="font-sans text-base md:text-lg text-muted max-w-3xl leading-relaxed">
             {mp.subtitle}
           </p>
         </motion.div>
@@ -80,7 +80,7 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
             >
               {/* Number & Title */}
               <div className={`lg:col-span-4 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
-                <span className="font-serif text-6xl md:text-7xl text-border">{section.num}</span>
+                <span className="text-6xl font-extralight tracking-tight text-muted-light/60 md:text-7xl">{section.num}</span>
                 <Link href={section.href} className="group block">
                   <h3 className="font-serif text-2xl md:text-3xl text-charcoal mt-2 mb-3 group-hover:text-accent transition-colors">
                     {section.title}
@@ -93,11 +93,11 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
 
               {/* Content */}
               <div className={`lg:col-span-8 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
-                <div className="bg-white border border-border p-6 md:p-8 hover:border-charcoal hover:shadow-editorial transition-all duration-300">
-                  <p className="font-mono text-sm text-muted leading-relaxed mb-4">
+                <div className="bg-surface border border-border p-6 md:p-8 hover:border-charcoal hover:shadow-editorial transition-all duration-300">
+                  <p className="font-sans text-sm text-muted leading-relaxed mb-4">
                     {section.desc1}
                   </p>
-                  <p className="font-mono text-sm text-muted leading-relaxed mb-6">
+                  <p className="font-sans text-sm text-muted leading-relaxed mb-6">
                     {section.desc2}
                   </p>
                   
@@ -107,7 +107,7 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
                     </h4>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                       {section.features.map((feature, i) => (
-                        <li key={i} className="flex items-start gap-3 font-mono text-sm text-muted">
+                        <li key={i} className="flex items-start gap-3 font-sans text-sm text-muted">
                           <Check size={14} className="text-accent mt-0.5 shrink-0" />
                           {feature}
                         </li>
@@ -116,7 +116,7 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
                     
                     <Link 
                       href={section.href}
-                      className="group inline-flex items-center gap-2 font-mono text-sm text-accent hover:text-charcoal transition-colors"
+                      className="group inline-flex items-center gap-2 font-sans text-sm text-accent hover:text-charcoal transition-colors"
                     >
                       {mp.viewDetails}
                       <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -130,7 +130,7 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
       </section>
 
       {/* Process Section */}
-      <section className="bg-surface-alt py-16 md:py-24 mb-16 md:mb-24">
+      <section className="bg-surface-alt/70 backdrop-blur-sm border-y border-border py-16 md:py-24 mb-16 md:mb-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -159,15 +159,15 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="bg-white border border-border p-6 relative"
+                className="bg-surface border border-border p-6 relative"
               >
                 <span className="font-mono text-xs text-accent mb-4 block">{step.num}</span>
                 <h4 className="font-serif text-xl text-charcoal mb-3">{step.title}</h4>
-                <p className="font-mono text-sm text-muted leading-relaxed">{step.desc}</p>
+                <p className="font-sans text-sm text-muted leading-relaxed">{step.desc}</p>
                 
                 {idx < processSteps.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 transform -translate-y-1/2">
-                    <ArrowRight size={16} className="text-border" />
+                    <ArrowRight size={16} className="text-muted-light" />
                   </div>
                 )}
               </motion.div>
@@ -193,13 +193,13 @@ export default function MethodologyPageClient({ locale }: { locale: Locale }) {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stackCategories.map((category, idx) => (
-              <div key={idx} className="bg-white border border-border p-6">
+              <div key={idx} className="bg-surface border border-border p-6">
                 <h4 className="font-mono text-xs uppercase tracking-wider text-accent mb-4">
                   {category.label}
                 </h4>
                 <ul className="space-y-2">
                   {category.items.map((item, i) => (
-                    <li key={i} className="font-mono text-sm text-charcoal">
+                    <li key={i} className="font-sans text-sm text-charcoal">
                       {item}
                     </li>
                   ))}

@@ -1,209 +1,314 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Fonts are loaded through next/font in src/app/layout.tsx, which self-hosts
+ * them and inlines the @font-face rules. The previous @import of the Google
+ * Fonts CSS blocked first paint on a third-party round-trip.
+ */
+
 :root {
-  --background: #F9F9F7;
-  --foreground: #1A1A1A;
-  --accent: #E85D04;
-  --accent-blue: #1E3A5F;
-  --cream: #F9F9F7;
-  --charcoal: #1A1A1A;
-  --navy: #0D1B2A;
-  --muted: #6B7280;
-  --border: #E5E5E3;
+  --void: #070914;
+  --panel: #0E1222;
+  --panel-raised: #151B2E;
+  --hairline: #1C2236;
+
+  --text: #F2F4FB;
+  --text-muted: #9AA3BC;
+  --text-dim: #5C668A;
+
+  --gold: #E6C879;
+  --ice: #7FC4FF;
+
+  --background: var(--void);
+  --foreground: var(--text);
+  --accent: var(--gold);
+  --border: var(--hairline);
+
+  color-scheme: dark;
 }
 
-/* Custom scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Base body styles */
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Prevent horizontal overflow on mobile */
-html, body {
-  overflow-x: hidden;
-}
-
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Better touch interactions on mobile */
-@media (max-width: 768px) {
-  * {
-    -webkit-tap-highlight-color: transparent;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Fixed navbar height, so #anchor jumps do not land under the bar. */
+    scroll-padding-top: 6rem;
   }
-  
-  button, a {
-    touch-action: manipulation;
+
+  body {
+    background-color: var(--void);
+    color: var(--text);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Display type is ultralight; body copy stays at a readable weight. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(127, 196, 255, 0.28);
+    color: var(--text);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #232B44;
+    border: 2px solid var(--void);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #33405F;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ice);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    button, a {
+      touch-action: manipulation;
+    }
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+    }
   }
 }
 
-/* Custom selection */
-::selection {
-  background: rgba(232, 93, 4, 0.2);
-  color: var(--charcoal);
-}
-
-/* Mobile-friendly scrollbar for overflow areas */
-@media (max-width: 768px) {
-  .overflow-x-auto {
-    -webkit-overflow-scrolling: touch;
+@layer components {
+  /*
+   * Gradient border shell -- ThreeUI's signature control treatment. A 1px
+   * gradient wrapper holds an inset panel, so the edge catches light at the
+   * top-left and dissolves toward the bottom-right.
+   */
+  .shell {
+    @apply relative rounded-full p-px;
+    background: linear-gradient(135deg, rgba(230, 200, 121, 0.34), rgba(230, 200, 121, 0.02) 60%, transparent);
   }
-}
+  .shell-square {
+    @apply relative rounded-editorial p-px;
+    background: linear-gradient(135deg, rgba(230, 200, 121, 0.22), rgba(230, 200, 121, 0.02) 60%, transparent);
+  }
 
-/* Improve font rendering */
-h1, h2, h3, h4, h5, h6 {
-  text-rendering: optimizeLegibility;
-  font-family: 'Playfair Display', serif;
-}
+  /* Frosted panel that lets the constellation field read through it. */
+  .panel {
+    @apply border border-border bg-surface/70 backdrop-blur-md shadow-card;
+  }
+  .panel-solid {
+    @apply border border-border bg-surface shadow-card;
+  }
 
-/* Editorial card styles */
-@layer utilities {
+  /* Retained for backwards compatibility with existing markup. */
   .editorial-card {
-    @apply bg-white border border-border rounded-sm transition-all duration-300;
+    @apply border border-border bg-surface/70 backdrop-blur-md rounded-editorial transition-all duration-300;
   }
-  
   .editorial-card:hover {
-    @apply shadow-lg -translate-y-1;
+    @apply border-border-dark shadow-card-hover -translate-y-1;
+  }
+
+  .micro-label {
+    @apply font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted;
   }
 }
 
-/* Fade in animation for page content */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@layer utilities {
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(127, 196, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(127, 196, 255, 0.045) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .cyber-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
+
+  /* Vignette that seats content on top of the canvas field. */
+  .field-vignette {
+    background: linear-gradient(to bottom, transparent 0%, rgba(7, 9, 20, 0.25) 60%, rgba(7, 9, 20, 0.75) 100%);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  .data-text {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .editorial-label {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+  }
+
+  .heading-serif {
+    font-weight: 200;
+    letter-spacing: -0.03em;
+  }
+
+  .swiss-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .bento-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  @media (max-width: 768px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .image-frame {
+    position: relative;
+    overflow: hidden;
+  }
+  .image-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--hairline);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .text-glow-gold {
+    text-shadow: 0 0 18px rgba(230, 200, 121, 0.35);
+  }
+
+  .text-gradient-silver {
+    background: linear-gradient(135deg, #9AA3BC 0%, #F2F4FB 50%, #5C668A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #7FC4FF 0%, #A9D8FF 50%, #5C8FD6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #E6C879 0%, #F5E3B0 50%, #C9A855 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/*
+ * Scroll-reveal. An IntersectionObserver in <Reveal> flips data-revealed,
+ * so the transition is CSS-driven and costs no React re-render per frame.
+ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal[data-revealed='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Masked per-word reveal, ported from ThreeUI's GSAP version to pure CSS. */
+.reveal-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-top: 0.12em;
+  margin-top: -0.12em;
+}
+.reveal-word {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--word-delay, 0ms);
+  will-change: transform;
+}
+[data-revealed='true'] .reveal-word {
+  transform: translateY(0);
 }
 
 .animate-fadeInUp {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Staggered animation delays */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 
-/* Subtle grid pattern background */
-.grid-pattern {
-  background-image: 
-    linear-gradient(rgba(26, 26, 26, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26, 26, 26, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* Professional underline effect for links */
-.link-underline {
-  position: relative;
-}
-
-.link-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background-color: var(--accent);
-  transition: width 0.3s ease;
-}
-
-.link-underline:hover::after {
-  width: 100%;
-}
-
-/* Bento grid layout */
-.bento-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(12, 1fr);
-}
-
-@media (max-width: 768px) {
-  .bento-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-
-/* Image frame styles */
-.image-frame {
-  position: relative;
-  overflow: hidden;
-}
-
-.image-frame::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--border);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Monospace data styling */
-.data-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-
-/* Serif heading styling */
-.heading-serif {
-  font-family: 'Playfair Display', serif;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-}
-
-/* Editorial label */
-.editorial-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-}
-
-/* Swiss design divider */
-.swiss-divider {
-  width: 60px;
-  height: 2px;
-  background-color: var(--accent);
-}
-
-/* 3D Transform utilities for TheDataSculptor */
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-.backface-hidden {
-  backface-visibility: hidden;
-}
-
-/* Glitch animation for Phase 1 */
 @keyframes glitch {
   0%, 100% { transform: translate(0); }
   20% { transform: translate(-2px, 2px); }
@@ -211,63 +316,39 @@ h1, h2, h3, h4, h5, h6 {
   60% { transform: translate(2px, 2px); }
   80% { transform: translate(2px, -2px); }
 }
+.animate-glitch { animation: glitch 0.3s ease-in-out infinite; }
 
-.animate-glitch {
-  animation: glitch 0.3s ease-in-out infinite;
-}
-
-/* Scan line animation for Phase 2 */
 @keyframes scan {
   0% { top: 0%; opacity: 0; }
   10% { opacity: 1; }
   90% { opacity: 1; }
   100% { top: 100%; opacity: 0; }
 }
+.animate-scan { animation: scan 2s ease-in-out infinite; }
 
-.animate-scan {
-  animation: scan 2s ease-in-out infinite;
-}
-
-/* Golden glow pulse for Phase 3 */
 @keyframes golden-pulse {
-  0%, 100% { 
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3), 0 0 40px rgba(245, 158, 11, 0.1);
+  0%, 100% { box-shadow: 0 0 20px rgba(230, 200, 121, 0.25), 0 0 40px rgba(230, 200, 121, 0.08); }
+  50% { box-shadow: 0 0 40px rgba(230, 200, 121, 0.4), 0 0 80px rgba(230, 200, 121, 0.16); }
+}
+.animate-golden-pulse { animation: golden-pulse 2s ease-in-out infinite; }
+
+/* Honour the OS-level motion preference across every decorative animation. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  50% { 
-    box-shadow: 0 0 40px rgba(245, 158, 11, 0.5), 0 0 80px rgba(245, 158, 11, 0.2);
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
-}
-
-.animate-golden-pulse {
-  animation: golden-pulse 2s ease-in-out infinite;
-}
-
-/* Cyber grid background pattern */
-.cyber-grid {
-  background-image: 
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* Gradient text utility */
-.text-gradient-silver {
-  background: linear-gradient(135deg, #9CA3AF 0%, #D1D5DB 50%, #6B7280 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-blue {
-  background: linear-gradient(135deg, #22D3EE 0%, #3B82F6 50%, #6366F1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-gold {
-  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #F97316 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-word {
+    transform: none;
+  }
 }

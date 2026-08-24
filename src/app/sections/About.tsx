@@ -1,9 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check } from 'phosphor-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { type Locale, type TranslationType, translations } from '@/lib/translations';
 
 interface AboutProps {
@@ -15,7 +16,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
   const trans = t || translations[locale];
   
   return (
-    <section id="about" className="py-section px-6 md:px-12 lg:px-16 bg-surface-alt relative overflow-hidden">
+    <section id="about" className="py-section px-6 md:px-12 lg:px-16 bg-surface-alt/70 backdrop-blur-sm relative overflow-hidden border-y border-border">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -z-10"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-navy/5 rounded-full blur-2xl -z-10"></div>
@@ -38,7 +39,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="absolute -inset-6 bg-white border border-border -z-10"
+                className="absolute -inset-6 bg-surface border border-border -z-10"
               ></motion.div>
               
               {/* Portrait Frame */}
@@ -53,11 +54,13 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
                 ></motion.div>
                 
                 {/* Main Image */}
-                <div className="relative bg-white overflow-hidden shadow-editorial aspect-[4/5]">
-                  <img 
-                    src="Bumin_resmi.jpeg" 
-                    alt="Bumin Kağan Çetin" 
-                    className="w-full h-full object-cover"
+                <div className="relative bg-surface overflow-hidden shadow-editorial aspect-[4/5]">
+                  <Image
+                    src="/portrait.webp"
+                    alt="Bumin Kağan Çetin"
+                    fill
+                    sizes="(max-width: 1024px) 90vw, 400px"
+                    className="object-cover"
                   />
                   
                   {/* Overlay gradient */}
@@ -87,7 +90,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="mt-8 p-4 bg-white border border-border"
+                className="mt-8 p-4 bg-surface border border-border"
               >
                 <p className="font-mono text-xs uppercase tracking-wider text-charcoal">Bumin Kağan Çetin</p>
                 <p className="font-mono text-xs text-muted mt-1">Milan, Italy — 2025</p>
@@ -142,10 +145,10 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="space-y-4 mb-10"
             >
-              <p className="font-mono text-sm md:text-base text-muted leading-relaxed">
+              <p className="font-sans text-sm md:text-base text-muted leading-relaxed">
                 {trans.about.desc1}
               </p>
-              <p className="font-mono text-sm md:text-base text-muted leading-relaxed">
+              <p className="font-sans text-sm md:text-base text-muted leading-relaxed">
                 {trans.about.desc2}
               </p>
             </motion.div>
@@ -162,7 +165,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
                   className="flex items-center gap-3 py-3 border-b border-border hover:border-accent transition-colors"
                 >
                   <Check size={16} className="text-accent flex-shrink-0" />
-                  <span className="font-mono text-sm text-charcoal">{credential}</span>
+                  <span className="font-sans text-sm text-charcoal">{credential}</span>
                 </motion.div>
               ))}
             </div>
@@ -176,7 +179,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
             >
               <Link 
                 href={`/${locale}/about`} 
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-charcoal text-cream font-mono text-sm uppercase tracking-wider transition-all duration-300 hover:bg-navy hover:shadow-editorial"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-xs uppercase tracking-[0.16em] transition-all duration-300 hover:bg-[#F0D68F] hover:shadow-editorial-hover"
               >
                 {trans.about.viewBio}
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
