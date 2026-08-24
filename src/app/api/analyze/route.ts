@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     if (!apiKey) {
       return NextResponse.json(
         { 
-          error: 'Gemini API Key missing. Please either:\n1. Set GEMINI_API_KEY environment variable, or\n2. Add "api_key" field to the credentials JSON file.\n\nGet your API key from: https://aistudio.google.com/apikey' 
+          error: 'The analysis service is not configured yet. Please try again later.' 
         }, 
         { status: 500 }
       );
