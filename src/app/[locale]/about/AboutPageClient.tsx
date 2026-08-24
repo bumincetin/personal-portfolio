@@ -63,7 +63,7 @@ export default function AboutPageClient({ locale }: { locale: Locale }) {
                 ></motion.div>
                 
                 {/* Main Image */}
-                <div className="relative bg-surface overflow-hidden shadow-editorial">
+                <div className="absolute inset-0 bg-surface overflow-hidden shadow-editorial">
                   <Image
                     src="/portrait.webp"
                     alt="Bumin Kağan Çetin"
