@@ -15,14 +15,11 @@
     "binding": "ASSETS"
   },
 
-  "services": [
-    {
-      // OpenNext calls back into this Worker for cache revalidation; the
-      // service name must match "name" above.
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "bumincetin"
-    }
-  ],
+  // No WORKER_SELF_REFERENCE service binding: OpenNext only needs it to drive
+  // the ISR revalidation queue, and nothing here revalidates. Including it
+  // would also make the very first deploy bind to a service that does not
+  // exist yet. Add it back alongside NEXT_INC_CACHE_R2_BUCKET if ISR is ever
+  // introduced.
 
   // Backs next/image. Without it the optimizer has no way to resize, and
   // <Image> falls back to serving the full-size original.
