@@ -108,7 +108,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/financial-analytics`}
-            className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
+            className="group block bg-surface border border-border hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             {/* Animated Visual */}
             <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative p-5">
@@ -149,7 +149,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/ai-nlp`}
-            className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
+            className="group block bg-surface border border-border hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             {/* Animated Visual */}
             <div className="aspect-[4/3] overflow-hidden bg-surface-alt relative flex flex-col justify-center p-5">
@@ -232,7 +232,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           <TiltCard className="h-full">
           <Link 
             href={`/${locale}/services/financial-consultancy`}
-            className="group block bg-surface border border-border hover:border-charcoal hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
+            className="group block bg-surface border border-border hover:shadow-card-hover transition-all duration-300 cursor-pointer overflow-hidden h-full"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 h-full">
               {/* Content */}
@@ -305,7 +305,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
           viewport={{ once: true, margin: '-50px' }}
           variants={cardVariants}
           whileHover={{ y: -8, transition: { duration: 0.3 } }}
-          className="bg-surface-alt border border-border p-6 md:p-8 hover:border-charcoal transition-all duration-300"
+          className="bg-surface-alt border border-border p-6 md:p-8 transition-all duration-300"
         >
           <h4 className="font-mono text-xs text-accent uppercase tracking-wider mb-6">
             {locale === 'tr' ? 'Teknoloji Yığını' : locale === 'it' ? 'Stack Tecnologico' : 'Technology Stack'}
