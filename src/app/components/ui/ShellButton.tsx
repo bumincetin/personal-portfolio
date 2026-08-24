@@ -15,12 +15,12 @@ import Link from 'next/link';
 type Variant = 'primary' | 'secondary';
 
 const SHELL: Record<Variant, string> = {
-  primary: 'bg-[linear-gradient(135deg,rgba(230,200,121,0.55),rgba(230,200,121,0.05)_60%,transparent)]',
-  secondary: 'bg-[linear-gradient(135deg,rgba(230,200,121,0.22),rgba(230,200,121,0.02)_60%,transparent)]',
+  primary: 'bg-[linear-gradient(135deg,rgba(217,190,130,0.55),rgba(217,190,130,0.05)_60%,transparent)]',
+  secondary: 'bg-[linear-gradient(135deg,rgba(217,190,130,0.22),rgba(217,190,130,0.02)_60%,transparent)]',
 };
 
 const FACE: Record<Variant, string> = {
-  primary: 'bg-accent text-cream hover:bg-[#F0D68F]',
+  primary: 'bg-accent text-cream hover:bg-[#E8D5A6]',
   secondary: 'bg-surface/70 text-charcoal backdrop-blur-md hover:bg-surface-raised/85 hover:text-accent',
 };
 
@@ -31,10 +31,10 @@ type BaseProps = {
 };
 
 const shellClasses = (variant: Variant, className: string) =>
-  `inline-block rounded-full p-px shadow-card transition-shadow duration-300 hover:shadow-card-hover ${SHELL[variant]} ${className}`;
+  `inline-block rounded-full p-px shadow-card transition-shadow duration-500 ease-luxe hover:shadow-card-hover ${SHELL[variant]} ${className}`;
 
 const faceClasses = (variant: Variant) =>
-  `flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-3.5 font-mono text-[0.6875rem] uppercase tracking-[0.18em] transition-colors duration-300 ${FACE[variant]}`;
+  `flex w-full items-center justify-center gap-2.5 rounded-full px-8 py-3.5 font-mono text-[0.6875rem] uppercase tracking-[0.18em] transition-colors duration-500 ease-luxe ${FACE[variant]}`;
 
 export function ShellLink({
   href,

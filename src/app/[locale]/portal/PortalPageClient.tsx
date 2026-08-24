@@ -60,12 +60,12 @@ function UnparsedItem({ item, locale }: { item: any; locale: Locale }) {
   const reasonLabel = locale === 'tr' ? 'Sebep:' : locale === 'it' ? 'Motivo:' : 'Reason:';
   
   return (
-    <div className="bg-surface p-3 border-l-2 border-orange-300">
+    <div className="bg-surface p-3 border-l-2 border-caution/50">
       <div className="flex items-start justify-between gap-2 mb-1">
-        <span className="font-bold text-xs text-orange-800">{item.location || 'Unknown Location'}</span>
+        <span className="font-bold text-xs text-caution">{item.location || 'Unknown Location'}</span>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-orange-600 hover:text-orange-800 text-xs font-mono"
+          className="text-caution hover:text-charcoal text-xs font-mono"
         >
           {isExpanded ? '▼' : '▶'}
         </button>
@@ -491,7 +491,7 @@ export default function PortalPageClient({ locale, t }: Props) {
                         <h4 className="font-mono text-xs text-muted uppercase">{ratio.name}</h4>
                         <div className={`
                           w-2 h-2 rounded-full 
-                          ${ratio.status === 'good' ? 'bg-green-500' : ratio.status === 'bad' ? 'bg-red-500' : 'bg-amber-500'}
+                          ${ratio.status === 'good' ? 'bg-positive' : ratio.status === 'bad' ? 'bg-negative' : 'bg-caution'}
                         `} />
                       </div>
                       <div className="text-3xl font-serif mb-2">
@@ -526,7 +526,7 @@ export default function PortalPageClient({ locale, t }: Props) {
               <div className="col-span-12 lg:col-span-4 space-y-6">
                  <div className="bg-cream border border-charcoal/5 p-6">
                    <h4 className="font-serif text-lg mb-4 flex items-center gap-2">
-                     <FileWarning size={16} className="text-orange-600" />
+                     <FileWarning size={16} className="text-caution" />
                      {t.methodologyPage.portal.confidenceReport}
                    </h4>
                    <p className="text-xs text-muted mb-4">
@@ -539,8 +539,8 @@ export default function PortalPageClient({ locale, t }: Props) {
                        ))}
                      </div>
                    ) : (
-                     <div className="bg-surface p-4 text-xs text-charcoal/60 border border-green-200 rounded-sm">
-                       <CheckCircle size={16} className="text-green-600 inline mr-2" />
+                     <div className="bg-surface p-4 text-xs text-charcoal/60 border border-positive/30 rounded-sm">
+                       <CheckCircle size={16} className="text-positive inline mr-2" />
                        {locale === 'tr' ? 'Tüm veriler başarıyla analiz edildi.' : locale === 'it' ? 'Tutti i dati sono stati analizzati con successo.' : 'All data successfully analyzed.'}
                      </div>
                    )}

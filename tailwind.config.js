@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 
 /**
- * Palette and surface treatment are derived from the ThreeUI "constellation
- * field" scene (github.com/MengTo/threeui, MIT): a near-black void, cool slate
- * panels hairlined in #1C2236, pale-gold as the single warm accent and ice-blue
- * as the interactive one.
+ * Surface treatment derived from the ThreeUI "constellation field" scene
+ * (github.com/MengTo/threeui, MIT); palette evolved to an obsidian-and-
+ * champagne register -- violet-black ground, ivory type, champagne gold as
+ * the single warm accent and moonlight platinum as the interactive one.
  *
  * The legacy token names (cream / charcoal / surface / accent ...) are kept so
  * the whole site re-skins from this one file. Their *roles* are unchanged --
@@ -21,30 +21,30 @@ module.exports = {
     extend: {
       colors: {
         // Page ground + inverted foreground
-        cream: '#070914',
-        charcoal: '#F2F4FB',
-        navy: '#D8DDEA',
-        'navy-light': '#C3CADD',
+        cream: '#08070C',
+        charcoal: '#F4F1E9',
+        navy: '#DDD8CC',
+        'navy-light': '#C9C3B4',
 
         // Accents
-        accent: '#E6C879',
-        'accent-blue': '#7FC4FF',
+        accent: '#D9BE82',
+        'accent-blue': '#A8B8D8',
 
         // Text ramp
-        muted: '#9AA3BC',
-        'muted-light': '#5C668A',
+        muted: '#A39C9B',
+        'muted-light': '#665F66',
 
         // Structure
-        border: '#1C2236',
-        'border-dark': '#2A3450',
-        surface: '#0E1222',
-        'surface-alt': '#0B0F1C',
-        'surface-raised': '#151B2E',
+        border: '#242030',
+        'border-dark': '#332C42',
+        surface: '#100E17',
+        'surface-alt': '#0C0A12',
+        'surface-raised': '#171420',
 
         // Semantic status colours, tuned for a dark ground
-        positive: '#5FD3A6',
-        caution: '#E6C879',
-        negative: '#FF8A8A',
+        positive: '#7FBFA2',
+        caution: '#D9BE82',
+        negative: '#C98A8A',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -101,14 +101,16 @@ module.exports = {
         'editorial-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
         card: '0 2px 8px rgba(0, 0, 0, 0.30)',
         'card-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
-        glow: '0 0 12px rgba(230, 200, 121, 0.6)',
-        'glow-blue': '0 0 16px rgba(127, 196, 255, 0.35)',
+        glow: '0 0 12px rgba(217, 190, 130, 0.55)',
+        'glow-blue': '0 0 16px rgba(168, 184, 216, 0.35)',
       },
       borderRadius: {
         editorial: '4px',
       },
       transitionTimingFunction: {
         editorial: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        // The house easing: fast out of the gate, long soft landing.
+        luxe: 'cubic-bezier(0.22, 1, 0.36, 1)',
       },
     },
   },

@@ -66,6 +66,15 @@ export function smoothstep(value: number, e0: number, e1: number) {
   return t * t * (3 - 2 * t);
 }
 
+/**
+ * Quintic variant: zero first *and* second derivative at both ends, so a
+ * morph driven by it has no perceptible start or stop -- the butter option.
+ */
+export function smootherstep(value: number, e0: number, e1: number) {
+  const t = Math.min(1, Math.max(0, (value - e0) / (e1 - e0)));
+  return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
 export type Rgb = [number, number, number];
 
 export const mixRgb = (a: Rgb, b: Rgb, t: number): Rgb => [
@@ -252,7 +261,7 @@ export function pointOnRandomEdge(shape: Shape, rnd: () => number): Vec3 {
 }
 
 export const PALETTE = {
-  grey: [154, 163, 188] as Rgb,
-  ice: [127, 196, 255] as Rgb,
-  gold: [230, 200, 121] as Rgb,
+  grey: [163, 156, 155] as Rgb,
+  ice: [168, 184, 216] as Rgb,
+  gold: [217, 190, 130] as Rgb,
 };

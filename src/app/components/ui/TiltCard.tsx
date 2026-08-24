@@ -38,8 +38,8 @@ export default function TiltCard({
     let running = false;
 
     const tick = () => {
-      currentX += (targetX - currentX) * 0.14;
-      currentY += (targetY - currentY) * 0.14;
+      currentX += (targetX - currentX) * 0.09;
+      currentY += (targetY - currentY) * 0.09;
 
       const settled = Math.abs(currentX - targetX) < 0.01 && Math.abs(currentY - targetY) < 0.01;
       if (settled && targetX === 0 && targetY === 0) {

@@ -461,7 +461,7 @@ ${name}`;
 
                   <button 
                     type="submit" 
-                    className="w-full py-5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 bg-accent text-cream hover:bg-[#F0D68F]"
+                    className="w-full py-5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 bg-accent text-cream hover:bg-[#E8D5A6]"
                   >
                     {booking.confirm}
                     <ArrowRight size={14} />

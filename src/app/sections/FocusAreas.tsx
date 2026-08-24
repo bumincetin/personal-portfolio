@@ -19,9 +19,9 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
-      duration: 0.6,
-      ease: 'easeOut'
+      delay: i * 0.13,
+      duration: 0.85,
+      ease: [0.22, 1, 0.36, 1]
     }
   })
 };

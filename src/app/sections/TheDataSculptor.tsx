@@ -110,17 +110,17 @@ const PHASE_STYLES = [
   {
     gradientText: 'text-gradient-silver',
     chip: 'border-muted-light/40 bg-muted/10 text-muted',
-    dot: '#9AA3BC',
+    dot: '#A39C9B',
   },
   {
     gradientText: 'text-gradient-blue',
     chip: 'border-accent-blue/40 bg-accent-blue/10 text-accent-blue',
-    dot: '#7FC4FF',
+    dot: '#A8B8D8',
   },
   {
     gradientText: 'text-gradient-gold',
     chip: 'border-accent/40 bg-accent/10 text-accent',
-    dot: '#E6C879',
+    dot: '#D9BE82',
   },
 ];
 
@@ -198,7 +198,7 @@ const PhaseRailItem = ({
   const color = useTransform(
     progress,
     [start - 0.05, start, end, end + 0.05],
-    ['#5C668A', PHASE_STYLES[index].dot, PHASE_STYLES[index].dot, '#5C668A'],
+    ['#665F66', PHASE_STYLES[index].dot, PHASE_STYLES[index].dot, '#665F66'],
   );
   const barScale = useTransform(progress, [start, end], [0, 1]);
 
@@ -240,9 +240,11 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
     offset: ['start start', 'end end'],
   });
 
+  // Loose spring: the sculpture glides a beat behind the scroll rather than
+  // tracking it rigidly, which is most of what makes the section feel liquid.
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 55,
+    damping: 22,
     restDelta: 0.001,
   });
 
@@ -417,8 +419,8 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
           className="absolute bottom-0 left-0 h-px"
           style={{
             width: useTransform(smoothProgress, [0, 1], ['0%', '100%']),
-            background: 'linear-gradient(90deg, #9AA3BC, #7FC4FF, #E6C879)',
-            boxShadow: '0 0 8px rgba(230, 200, 121, 0.4)',
+            background: 'linear-gradient(90deg, #A39C9B, #A8B8D8, #D9BE82)',
+            boxShadow: '0 0 8px rgba(217, 190, 130, 0.4)',
           }}
         />
       </div>

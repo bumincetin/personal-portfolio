@@ -246,7 +246,7 @@ export const FinanceGraph: React.FC<{ className?: string }> = ({ className = '' 
               y2={60 - candle.low}
               stroke="currentColor"
               strokeWidth="0.5"
-              className={candle.up ? 'text-green-600' : 'text-red-500'}
+              className={candle.up ? 'text-accent' : 'text-muted-light'}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: 1 }}
               transition={{ delay: 0.3 + idx * 0.1 }}
@@ -258,7 +258,7 @@ export const FinanceGraph: React.FC<{ className?: string }> = ({ className = '' 
               width="5"
               height={Math.abs(candle.close - candle.open)}
               fill="currentColor"
-              className={candle.up ? 'text-green-600' : 'text-red-500'}
+              className={candle.up ? 'text-accent' : 'text-muted-light'}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: 1 }}
               transition={{ delay: 0.3 + idx * 0.1 }}

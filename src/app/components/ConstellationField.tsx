@@ -24,8 +24,8 @@ import { useEffect, useRef } from 'react';
  *  - `prefers-reduced-motion` paints a single static frame and stops.
  */
 
-const GOLD = '230, 200, 121';
-const ICE = '127, 196, 255';
+const GOLD = '217, 190, 130';
+const ICE = '168, 184, 216';
 
 /** Nodes closer than this (in CSS px) get a connecting line. */
 const LINK_RADIUS = 158;
@@ -290,7 +290,7 @@ export default function ConstellationField({ className = '' }: { className?: str
       {/* Radial ground: lifts the centre of the viewport out of pure black. */}
       <div
         className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse at 50% 40%, #0E1222 0%, #070914 70%)' }}
+        style={{ background: 'radial-gradient(ellipse at 50% 40%, #100E17 0%, #08070C 70%)' }}
       />
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
       {/* Depth vignette, so content lower on the page sits on solid ground. */}

@@ -15,6 +15,7 @@ import {
   lerpVec,
   lerp,
   smoothstep,
+  smootherstep,
   mixRgb,
   rgba,
 } from './engine';
@@ -40,9 +41,9 @@ import {
  */
 
 /** Scroll bands: where each morph and effect lives on the 0..1 progress axis. */
-const MORPH_1 = [0.24, 0.4] as const; // chaos -> lattice
-const MORPH_2 = [0.58, 0.74] as const; // lattice -> gem
-const SCAN = [0.36, 0.6] as const; // scan plane sweep, during the lattice hold
+const MORPH_1 = [0.22, 0.42] as const; // chaos -> lattice
+const MORPH_2 = [0.56, 0.78] as const; // lattice -> gem
+const SCAN = [0.38, 0.58] as const; // scan plane sweep, during the lattice hold
 
 export default function DataSculpture({
   progress,
@@ -135,8 +136,9 @@ export default function DataSculpture({
       }
 
       const p = Math.min(1, Math.max(0, progress.get()));
-      const morph1 = smoothstep(p, MORPH_1[0], MORPH_1[1]);
-      const morph2 = smoothstep(p, MORPH_2[0], MORPH_2[1]);
+      // Quintic easing: the morphs have no perceptible start or stop.
+      const morph1 = smootherstep(p, MORPH_1[0], MORPH_1[1]);
+      const morph2 = smootherstep(p, MORPH_2[0], MORPH_2[1]);
 
       const color = mixRgb(mixRgb(PALETTE.grey, PALETTE.ice, morph1), PALETTE.gold, morph2);
 
