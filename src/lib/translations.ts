@@ -1610,3 +1610,13 @@ export const translations: Record<Locale, TranslationType> = {
 export function getTranslation(locale: Locale): TranslationType {
   return translations[locale] || translations.en;
 }
+
+/**
+ * Narrows a raw route segment to a supported locale.
+ *
+ * Next 15 types dynamic route params as `string`, so every page that reads
+ * `params.locale` has to validate it rather than assert the union.
+ */
+export function isLocale(value: string): value is Locale {
+  return (locales as readonly string[]).includes(value);
+}

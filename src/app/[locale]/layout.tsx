@@ -1,18 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import { locales, getTranslation, type Locale } from '@/lib/translations';
+import { locales, isLocale, getTranslation, type Locale } from '@/lib/translations';
 import Navbar from '../components/Navbar';
 import Footer from '../sections/Footer';
-
-/*
- * The canvas field is browser-only and purely decorative, so it is loaded
- * without SSR and kept out of the critical path -- the page is fully readable
- * before it arrives.
- */
-const ConstellationField = dynamic(() => import('../components/ConstellationField'), {
-  ssr: false,
-});
+import FieldBackdrop from '../components/FieldBackdrop';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -24,9 +15,9 @@ const DESCRIPTIONS: Record<Locale, string> = {
   it: 'Data scientist e specialista AI a Milano. Analisi finanziaria, NLP e business intelligence per le PMI.',
 };
 
-export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
-  const locale = params.locale;
-  if (!locales.includes(locale)) return {};
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await props.params;
+  if (!isLocale(locale)) return {};
 
   return {
     description: DESCRIPTIONS[locale],
@@ -38,24 +29,26 @@ export function generateMetadata({ params }: { params: { locale: Locale } }): Me
   };
 }
 
-export default function LocaleLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { locale: Locale };
-}) {
+export default async function LocaleLayout(
+  props: {
+    children: React.ReactNode;
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const { locale } = await props.params;
+  const { children } = props;
+
   // `generateStaticParams` covers the known locales; anything else is a 404
   // rather than a page rendered with undefined copy.
-  if (!locales.includes(params.locale)) notFound();
+  if (!isLocale(locale)) notFound();
 
-  const t = getTranslation(params.locale);
+  const t = getTranslation(locale);
 
   // No background colour on the wrapper: an opaque parent would paint over the
   // fixed canvas sitting beneath it. The ground colour lives on <body>.
   return (
     <div className="relative min-h-screen">
-      <ConstellationField />
+      <FieldBackdrop />
 
       <a
         href="#main"
@@ -64,11 +57,11 @@ export default function LocaleLayout({
         Skip to content
       </a>
 
-      <Navbar locale={params.locale} t={t} />
+      <Navbar locale={locale} t={t} />
       <div id="main" className="relative z-10">
         {children}
       </div>
-      <Footer t={t} locale={params.locale} />
+      <Footer t={t} locale={locale} />
     </div>
   );
 }

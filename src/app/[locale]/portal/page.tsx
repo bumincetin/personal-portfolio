@@ -1,11 +1,15 @@
-import { type Locale, locales, getTranslation } from '@/lib/translations';
+import { notFound } from 'next/navigation';
+import { locales, isLocale, getTranslation } from '@/lib/translations';
 import PortalPageClient from './PortalPageClient';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default function PortalPage({ params }: { params: { locale: Locale } }) {
-  const t = getTranslation(params.locale);
-  return <PortalPageClient locale={params.locale} t={t} />;
+export default async function PortalPage(props: { params: Promise<{ locale: string }> }) {
+  const { locale } = await props.params;
+  if (!isLocale(locale)) notFound();
+
+  const t = getTranslation(locale);
+  return <PortalPageClient locale={locale} t={t} />;
 }

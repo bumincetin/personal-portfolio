@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import { getGeminiApiKey } from '@/lib/gemini-config';
 
-// ALLOW FUNCTION TO RUN UP TO 60 SECONDS (Max for Hobby Plan)
-// Note: This must be exported at the route level for Vercel to recognize it
-export const maxDuration = 60; 
+// Kept for portability; Cloudflare Workers bounds this route by CPU time
+// rather than wall-clock, so the in-flight timeouts below are what actually
+// govern how long a Gemini call may run.
+export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs'; // Ensure Node.js runtime
+// OpenNext runs Next's Node.js runtime on Workers; the Edge runtime is not
+// supported by the adapter.
+export const runtime = 'nodejs';
 
 // Timeout wrapper for API calls (45 seconds per model attempt to leave buffer)
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number, errorMessage: string): Promise<T> {

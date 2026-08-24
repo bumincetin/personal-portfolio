@@ -44,3 +44,10 @@ client_secret_*.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Cloudflare Workers build output
+.open-next/
+.wrangler/
+
+# Local Worker variables
+.dev.vars

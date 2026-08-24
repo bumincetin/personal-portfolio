@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bumincetin",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-24",
+  "compatibility_flags": [
+    // Next.js on Workers runs the Node.js runtime, not the Edge runtime.
+    "nodejs_compat",
+    // Required by OpenNext so the app can fetch its own public URLs.
+    "global_fetch_strictly_public"
+  ],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  "services": [
+    {
+      // OpenNext calls back into this Worker for cache revalidation; the
+      // service name must match "name" above.
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "bumincetin"
+    }
+  ],
+
+  // Backs next/image. Without it the optimizer has no way to resize, and
+  // <Image> falls back to serving the full-size original.
+  "images": {
+    "binding": "IMAGES"
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  // GEMINI_API_KEY is a secret and is deliberately not stored here. Set it with
+  // `wrangler secret put GEMINI_API_KEY`, or under
+  // Workers & Pages > bumincetin > Settings > Variables and Secrets.
+  "vars": {}
+}

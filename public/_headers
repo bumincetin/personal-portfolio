@@ -1,0 +1,7 @@
+# Next emits content-hashed filenames under /_next/static, so these are safe to
+# cache permanently. Cloudflare serves this file from the assets binding.
+/_next/static/*
+  Cache-Control: public,max-age=31536000,immutable
+
+/*.webp
+  Cache-Control: public,max-age=31536000,immutable
