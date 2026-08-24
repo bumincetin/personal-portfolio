@@ -18,7 +18,10 @@ import {
   smootherstep,
   mixRgb,
   rgba,
+  refreshPalette,
+  canvasAlpha,
 } from './engine';
+import { onThemeChange } from '@/lib/theme';
 
 /**
  * The Data Sculptor's centerpiece: one particle cloud that is sculpted through
@@ -123,6 +126,7 @@ export default function DataSculpture({
       canvas.height = Math.max(1, Math.floor(height * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       seedParticles(width < 420 ? 150 : 230);
+      refreshPalette();
       if (reduceMotion) draw(0);
     };
 
@@ -197,7 +201,7 @@ export default function DataSculpture({
       }
 
       /* Chaos links: frayed connections that dissolve as order emerges. */
-      const chaosAlpha = (1 - morph1) * 0.16;
+      const chaosAlpha = (1 - morph1) * 0.16 * canvasAlpha.value;
       if (chaosAlpha > 0.01) {
         ctx.lineWidth = 1;
         ctx.strokeStyle = rgba(color, chaosAlpha);
@@ -212,7 +216,7 @@ export default function DataSculpture({
       /* Lattice bars: assemble during refinement, dissolve in the first half
          of the gem morph -- while the particles are in flight, no structure
          claims them. */
-      const latticeAlpha = morph1 * (1 - smoothstep(morph2, 0, 0.5)) * 0.34;
+      const latticeAlpha = morph1 * (1 - smoothstep(morph2, 0, 0.5)) * 0.34 * canvasAlpha.value;
       if (latticeAlpha > 0.01) {
         ctx.lineWidth = 1;
         for (const edge of lattice.edges) {
@@ -246,9 +250,9 @@ export default function DataSculpture({
         const left = project(rotatePoint({ x: -1.35, y: scanY, z: 0 }, ax, ay), cx, cy, scale);
         const right = project(rotatePoint({ x: 1.35, y: scanY, z: 0 }, ax, ay), cx, cy, scale);
         const beam = ctx.createLinearGradient(left.x, left.y, right.x, right.y);
-        beam.addColorStop(0, rgba(PALETTE.bone, 0));
-        beam.addColorStop(0.5, rgba(PALETTE.bone, 0.5 * scanActive));
-        beam.addColorStop(1, rgba(PALETTE.bone, 0));
+        beam.addColorStop(0, rgba(PALETTE.scan, 0));
+        beam.addColorStop(0.5, rgba(PALETTE.scan, 0.5 * scanActive));
+        beam.addColorStop(1, rgba(PALETTE.scan, 0));
         ctx.strokeStyle = beam;
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -317,6 +321,13 @@ export default function DataSculpture({
     visibilityObserver.observe(canvas);
     document.addEventListener('visibilitychange', sync);
 
+    // A theme swap changes the ink, not the geometry: re-read the palette and,
+    // when no loop is running to pick it up, repaint once.
+    const unsubscribeTheme = onThemeChange(() => {
+      refreshPalette();
+      if (!running) draw(0);
+    });
+
     layout();
     // Reduced motion: no loop -- redraw only when the scroll position changes.
     const unsubscribe = reduceMotion ? progress.on('change', () => draw(0)) : undefined;
@@ -325,6 +336,7 @@ export default function DataSculpture({
     return () => {
       stop();
       unsubscribe?.();
+      unsubscribeTheme();
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
       document.removeEventListener('visibilitychange', sync);

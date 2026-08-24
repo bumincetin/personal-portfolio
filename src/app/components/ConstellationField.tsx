@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { onThemeChange, readCanvasAlpha, readChannels } from '@/lib/theme';
 
 /**
  * Drifting-node constellation field.
@@ -24,8 +25,18 @@ import { useEffect, useRef } from 'react';
  *  - `prefers-reduced-motion` paints a single static frame and stops.
  */
 
-const BRASS = '192, 138, 62';
-const COPPER = '161, 124, 88';
+/* Seeded with the dark theme's values; re-read from CSS on mount and on every
+   theme change, since canvas cannot inherit them. */
+let BRASS = '192, 138, 62';
+let COPPER = '161, 124, 88';
+/* Thin strokes need more weight on paper than they do on black. */
+let alphaScale = 1;
+
+const readTheme = () => {
+  BRASS = readChannels('--c-brass', [192, 138, 62]).join(', ');
+  COPPER = readChannels('--c-copper', [161, 124, 88]).join(', ');
+  alphaScale = readCanvasAlpha();
+};
 
 /** Nodes closer than this (in CSS px) get a connecting line. */
 const LINK_RADIUS = 158;
@@ -81,6 +92,7 @@ export default function ConstellationField({ className = '' }: { className?: str
       // A hidden container can report 0; keep the last good size in that case.
       if (rect.width === 0 || rect.height === 0) return;
 
+      readTheme();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = rect.width;
       height = rect.height;
@@ -170,7 +182,7 @@ export default function ConstellationField({ className = '' }: { className?: str
                       tint = COPPER;
                     }
                   }
-                  ctx.strokeStyle = `rgba(${tint}, ${alpha.toFixed(3)})`;
+                  ctx.strokeStyle = `rgba(${tint}, ${(alpha * alphaScale).toFixed(3)})`;
                   ctx.beginPath();
                   ctx.moveTo(nodeA.x, nodeA.y);
                   ctx.lineTo(nodeB.x, nodeB.y);
@@ -195,7 +207,7 @@ export default function ConstellationField({ className = '' }: { className?: str
         const near = pointer.active && sqDistanceToPointer(node) < POINTER_RADIUS_SQ;
         const tint = near ? COPPER : BRASS;
 
-        ctx.fillStyle = `rgba(${tint}, ${(pulse * 0.16).toFixed(3)})`;
+        ctx.fillStyle = `rgba(${tint}, ${(pulse * 0.16 * alphaScale).toFixed(3)})`;
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius * 3.2, 0, Math.PI * 2);
         ctx.fill();
@@ -308,6 +320,12 @@ export default function ConstellationField({ className = '' }: { className?: str
       if (event.target instanceof Element && event.target.closest('[data-gravity]')) well.active = false;
     };
 
+    const unsubscribeTheme = onThemeChange(() => {
+      readTheme();
+      // With motion suppressed nothing repaints on its own.
+      if (!running) draw(0);
+    });
+
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
     document.addEventListener('pointerover', handleGravityOver, { passive: true });
     document.addEventListener('pointerout', handleGravityOut, { passive: true });
@@ -321,6 +339,7 @@ export default function ConstellationField({ className = '' }: { className?: str
 
     return () => {
       stop();
+      unsubscribeTheme();
       resizeObserver.disconnect();
       visibilityObserver.disconnect();
       window.removeEventListener('pointermove', handlePointerMove);
@@ -338,7 +357,10 @@ export default function ConstellationField({ className = '' }: { className?: str
       {/* Radial ground: lifts the centre of the viewport out of pure black. */}
       <div
         className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse at 50% 40%, #1A1411 0%, #100C0A 70%)' }}
+        style={{
+          background:
+            'radial-gradient(ellipse at 50% 40%, rgb(var(--c-panel)) 0%, rgb(var(--c-ground)) 70%)',
+        }}
       />
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
       {/* Depth vignette, so content lower on the page sits on solid ground. */}

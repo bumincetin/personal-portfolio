@@ -125,7 +125,7 @@ export default function AttentionMap({
               key={index}
               d={arc.d}
               fill="none"
-              stroke="#C08A3E"
+              style={{ stroke: 'rgb(var(--c-brass))' }}
               strokeWidth={0.8 + arc.weight * 1.4}
               opacity={0.25 + arc.weight * 0.55}
             />
@@ -150,8 +150,8 @@ export default function AttentionMap({
                   risky ? 'underline decoration-accent/40 decoration-dotted underline-offset-4' : ''
                 }`}
                 style={{
-                  backgroundColor: `rgba(192, 138, 62, ${(weight * 0.22).toFixed(3)})`,
-                  color: weight > 0.05 ? '#E3C089' : undefined,
+                  backgroundColor: `rgb(var(--c-brass) / ${(weight * 0.22).toFixed(3)})`,
+                  color: weight > 0.05 ? 'rgb(var(--c-brass-hi))' : undefined,
                 }}
               >
                 {word}

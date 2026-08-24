@@ -8,28 +8,138 @@
  * Fonts CSS blocked first paint on a third-party round-trip.
  */
 
+/*
+ * THEME TOKENS
+ *
+ * Every colour in the site resolves through these channel triplets, which is
+ * what makes a second theme a ~40-line change rather than a rewrite: the
+ * Tailwind token names (cream / charcoal / surface / accent ...) are bound to
+ * `rgb(var(--c-*) / <alpha-value>)` in tailwind.config.js, so `text-charcoal`
+ * and `bg-surface/70` re-point themselves and no component has to know which
+ * theme is active.
+ *
+ * Values are space-separated channels, not hex, because that is the only form
+ * Tailwind's <alpha-value> placeholder can compose with.
+ *
+ * Dark is the default and the no-JS fallback. The inline script in
+ * src/app/layout.tsx stamps data-theme on <html> before first paint from the
+ * stored choice, falling back to the OS preference, so there is no flash.
+ */
+
 :root {
-  --void: #100C0A;
-  --panel: #1A1411;
-  --panel-raised: #241C17;
-  --hairline: #2C231D;
+  /* Ground + surfaces: espresso black, brushed up in three steps. */
+  --c-ground: 16 12 10;
+  --c-panel: 26 20 17;
+  --c-panel-alt: 21 15 13;
+  --c-panel-raised: 36 28 23;
+  --c-hairline: 44 35 29;
+  --c-hairline-strong: 61 49 41;
 
-  --text: #F0E9DF;
-  --text-muted: #A8998A;
-  --text-dim: #6E6055;
+  /* Type ramp: bone down to a decorative dim. */
+  --c-text: 240 233 223;
+  --c-text-2: 224 216 203;
+  --c-text-3: 203 191 174;
+  --c-muted: 168 153 138;
+  --c-muted-light: 110 96 85;
 
-  --brass: #C08A3E;
-  --copper: #A17C58;
+  /* Accents: brushed brass (warm) + oxidised copper (interactive). */
+  --c-brass: 192 138 62;
+  --c-brass-hi: 227 192 137;
+  --c-brass-lo: 145 101 38;
+  --c-brass-hover: 214 164 92;
+  --c-copper: 161 124 88;
+  --c-copper-hi: 201 164 132;
+  --c-copper-lo: 122 90 60;
+
+  /* Semantic status. */
+  --c-positive: 143 174 126;
+  --c-negative: 192 122 106;
+
+  /* Chrome that is not part of the token scale. */
+  --c-scroll-thumb: 51 41 31;
+  --c-scroll-thumb-hover: 74 59 44;
+  /* Canvas scan light, and a multiplier for canvas line alphas -- thin strokes
+     need more weight on paper than they do on black. */
+  --c-scan: 240 233 223;
+  --canvas-alpha: 1;
+
+  /* Elevation. On black, depth is a shadow; on paper it is a soft warm cast. */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.36);
+  --shadow-hairline: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  --shadow-glow: 0 0 12px rgb(var(--c-brass) / 0.55);
+  --shadow-glow-blue: 0 0 16px rgb(var(--c-copper) / 0.35);
+
+  /* Studio photography sits on black only after being knocked back. */
+  --plate-filter: brightness(0.76) contrast(1.08) saturate(0.82);
+  --portrait-filter: saturate(0.85) brightness(0.95);
+  /* The brand mark is drawn dark; it is inverted to sit on the dark ground. */
+  --brand-filter: invert(1);
 
   /* House easing: fast out of the gate, long soft landing. */
   --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --background: var(--void);
-  --foreground: var(--text);
-  --accent: var(--brass);
-  --border: var(--hairline);
-
   color-scheme: dark;
+}
+
+/*
+ * LIGHT: the same noir-and-brass material seen in daylight -- warm paper
+ * rather than white, espresso ink rather than black, and a brass darkened
+ * until it carries text contrast on a light ground (#8F5E1C reads 5.0:1 on
+ * the paper; the dark theme's #C08A3E would be 2.6:1 and unusable).
+ */
+[data-theme='light'] {
+  --c-ground: 247 243 236;
+  --c-panel: 253 250 244;
+  --c-panel-alt: 240 234 223;
+  --c-panel-raised: 255 255 255;
+  --c-hairline: 226 217 202;
+  --c-hairline-strong: 201 188 167;
+
+  --c-text: 28 21 18;
+  --c-text-2: 51 41 31;
+  --c-text-3: 74 59 44;
+  --c-muted: 106 93 81;
+  --c-muted-light: 140 128 114;
+
+  --c-brass: 143 94 28;
+  --c-brass-hi: 107 69 18;
+  --c-brass-lo: 165 111 38;
+  --c-brass-hover: 107 69 18;
+  --c-copper: 122 82 48;
+  --c-copper-hi: 92 61 35;
+  --c-copper-lo: 154 112 74;
+
+  --c-positive: 61 105 50;
+  --c-negative: 154 61 47;
+
+  --c-scroll-thumb: 214 203 185;
+  --c-scroll-thumb-hover: 188 173 150;
+  --c-scan: 40 30 24;
+  --canvas-alpha: 1.75;
+
+  --shadow-card: 0 1px 2px rgba(63, 45, 22, 0.05), 0 4px 14px rgba(63, 45, 22, 0.07);
+  --shadow-card-hover: 0 8px 18px rgba(63, 45, 22, 0.09), 0 24px 48px rgba(63, 45, 22, 0.11);
+  --shadow-hairline: inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
+  --shadow-glow: 0 0 12px rgb(var(--c-brass) / 0.25);
+  --shadow-glow-blue: 0 0 16px rgb(var(--c-copper) / 0.18);
+
+  /* Paper needs no knock-back; the studio backdrop belongs on it. */
+  --plate-filter: contrast(1.02) saturate(0.95);
+  --portrait-filter: saturate(0.92);
+  /* On paper the mark is used as drawn -- inverting it would erase it. */
+  --brand-filter: none;
+
+  color-scheme: light;
+}
+
+/* Theme swap should read as a dissolve, not a strobe. Transitions are put on
+   only after first paint (see the inline script), so the initial render is
+   not animated, and they are suppressed under reduced motion below. */
+.theme-ready body,
+.theme-ready .theme-fade {
+  transition: background-color 0.45s var(--ease-luxe), color 0.45s var(--ease-luxe),
+    border-color 0.45s var(--ease-luxe);
 }
 
 @layer base {
@@ -40,8 +150,8 @@
   }
 
   body {
-    background-color: var(--void);
-    color: var(--text);
+    background-color: rgb(var(--c-ground));
+    color: rgb(var(--c-text));
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -62,8 +172,8 @@
   }
 
   ::selection {
-    background: rgba(161, 124, 88, 0.28);
-    color: var(--text);
+    background: rgb(var(--c-copper) / 0.28);
+    color: rgb(var(--c-text));
   }
 
   ::-webkit-scrollbar {
@@ -71,19 +181,19 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--void);
+    background: rgb(var(--c-ground));
   }
   ::-webkit-scrollbar-thumb {
-    background: #33291F;
-    border: 2px solid var(--void);
+    background: rgb(var(--c-scroll-thumb));
+    border: 2px solid rgb(var(--c-ground));
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #4A3B2C;
+    background: rgb(var(--c-scroll-thumb-hover));
   }
 
   :focus-visible {
-    outline: 2px solid var(--copper);
+    outline: 2px solid rgb(var(--c-copper));
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -109,11 +219,11 @@
    */
   .shell {
     @apply relative rounded-full p-px;
-    background: linear-gradient(135deg, rgba(192, 138, 62, 0.34), rgba(192, 138, 62, 0.02) 60%, transparent);
+    background: linear-gradient(135deg, rgb(var(--c-brass) / 0.34), rgb(var(--c-brass) / 0.02) 60%, transparent);
   }
   .shell-square {
     @apply relative rounded-editorial p-px;
-    background: linear-gradient(135deg, rgba(192, 138, 62, 0.22), rgba(192, 138, 62, 0.02) 60%, transparent);
+    background: linear-gradient(135deg, rgb(var(--c-brass) / 0.22), rgb(var(--c-brass) / 0.02) 60%, transparent);
   }
 
   /* Frosted panel that lets the constellation field read through it. */
@@ -132,6 +242,13 @@
     @apply border-border-dark shadow-card-hover -translate-y-1;
   }
 
+  .shell-ring-primary {
+    background: linear-gradient(135deg, rgb(var(--c-brass) / 0.55), rgb(var(--c-brass) / 0.05) 60%, transparent);
+  }
+  .shell-ring-secondary {
+    background: linear-gradient(135deg, rgb(var(--c-brass) / 0.22), rgb(var(--c-brass) / 0.02) 60%, transparent);
+  }
+
   .micro-label {
     @apply font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted;
   }
@@ -140,21 +257,21 @@
 @layer utilities {
   .grid-pattern {
     background-image:
-      linear-gradient(rgba(161, 124, 88, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(161, 124, 88, 0.04) 1px, transparent 1px);
+      linear-gradient(rgb(var(--c-copper) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-copper) / 0.06) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 
   .cyber-grid {
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(rgb(var(--c-text) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-text) / 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
   /* Vignette that seats content on top of the canvas field. */
   .field-vignette {
-    background: linear-gradient(to bottom, transparent 0%, rgba(16, 12, 10, 0.25) 60%, rgba(16, 12, 10, 0.75) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgb(var(--c-ground) / 0.25) 60%, rgb(var(--c-ground) / 0.75) 100%);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -175,7 +292,7 @@
     left: 0;
     width: 0;
     height: 1px;
-    background-color: var(--brass);
+    background-color: rgb(var(--c-brass));
     transition: width 0.45s var(--ease-luxe);
   }
   .link-underline:hover::after {
@@ -193,7 +310,7 @@
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: var(--text-muted);
+    color: rgb(var(--c-muted));
   }
 
   .heading-serif {
@@ -204,7 +321,7 @@
   .swiss-divider {
     width: 60px;
     height: 1px;
-    background: linear-gradient(90deg, var(--brass), transparent);
+    background: linear-gradient(90deg, rgb(var(--c-brass)), transparent);
   }
 
   .bento-grid {
@@ -227,7 +344,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    border: 1px solid var(--hairline);
+    border: 1px solid rgb(var(--c-hairline));
     pointer-events: none;
     z-index: 1;
   }
@@ -240,23 +357,23 @@
   }
 
   .text-glow-gold {
-    text-shadow: 0 0 18px rgba(192, 138, 62, 0.35);
+    text-shadow: 0 0 18px rgb(var(--c-brass) / 0.35);
   }
 
   .text-gradient-silver {
-    background: linear-gradient(135deg, #A8998A 0%, #F0E9DF 50%, #6E6055 100%);
+    background: linear-gradient(135deg, rgb(var(--c-muted)) 0%, rgb(var(--c-text)) 50%, rgb(var(--c-muted-light)) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .text-gradient-blue {
-    background: linear-gradient(135deg, #A17C58 0%, #C9A484 50%, #7A5A3C 100%);
+    background: linear-gradient(135deg, rgb(var(--c-copper)) 0%, rgb(var(--c-copper-hi)) 50%, rgb(var(--c-copper-lo)) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .text-gradient-gold {
-    background: linear-gradient(135deg, #C08A3E 0%, #E3C089 50%, #916526 100%);
+    background: linear-gradient(135deg, rgb(var(--c-brass)) 0%, rgb(var(--c-brass-hi)) 50%, rgb(var(--c-brass-lo)) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -333,8 +450,8 @@
 .animate-scan { animation: scan 2s ease-in-out infinite; }
 
 @keyframes golden-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(192, 138, 62, 0.22), 0 0 40px rgba(192, 138, 62, 0.08); }
-  50% { box-shadow: 0 0 40px rgba(192, 138, 62, 0.38), 0 0 80px rgba(192, 138, 62, 0.15); }
+  0%, 100% { box-shadow: 0 0 20px rgb(var(--c-brass) / 0.22), 0 0 40px rgb(var(--c-brass) / 0.08); }
+  50% { box-shadow: 0 0 40px rgb(var(--c-brass) / 0.38), 0 0 80px rgb(var(--c-brass) / 0.15); }
 }
 .animate-golden-pulse { animation: golden-pulse 2s ease-in-out infinite; }
 
@@ -358,6 +475,10 @@
   .reveal-word {
     transform: none;
   }
+  .theme-ready body,
+  .theme-ready .theme-fade {
+    transition: none;
+  }
 }
 
 @layer utilities {
@@ -373,8 +494,8 @@
     opacity: var(--trace-a, 0);
     background: radial-gradient(
       220px circle at var(--trace-x, 50%) var(--trace-y, 50%),
-      rgba(192, 138, 62, 0.65),
-      rgba(192, 138, 62, 0.08) 55%,
+      rgb(var(--c-brass) / 0.65),
+      rgb(var(--c-brass) / 0.08) 55%,
       transparent 75%
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);

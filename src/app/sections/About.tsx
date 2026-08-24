@@ -60,7 +60,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
                     alt="Bumin Kağan Çetin"
                     fill
                     sizes="(max-width: 1024px) 90vw, 400px"
-                    className="object-cover [filter:saturate(0.85)_brightness(0.95)]"
+                    className="object-cover [filter:var(--portrait-filter)]"
                   />
                   
                   {/* Overlay gradient */}

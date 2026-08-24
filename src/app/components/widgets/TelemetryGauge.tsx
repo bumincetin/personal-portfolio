@@ -91,7 +91,7 @@ export default function TelemetryGauge({
         <path
           d={arcPath(START_ANGLE, START_ANGLE + SWEEP, RADIUS)}
           fill="none"
-          stroke="rgba(255,255,255,0.08)"
+          style={{ stroke: 'rgb(var(--c-hairline))' }}
           strokeWidth="6"
           strokeLinecap="round"
         />
@@ -107,7 +107,7 @@ export default function TelemetryGauge({
               y1={inner.y}
               x2={outer.x}
               y2={outer.y}
-              stroke="rgba(168,153,138,0.4)"
+              style={{ stroke: 'rgb(var(--c-muted) / 0.4)' }}
               strokeWidth="1"
             />
           );
@@ -117,14 +117,21 @@ export default function TelemetryGauge({
           <path
             d={arcPath(START_ANGLE, sweepTo, RADIUS)}
             fill="none"
-            stroke="#C08A3E"
+            style={{ stroke: 'rgb(var(--c-brass))' }}
             strokeWidth="6"
             strokeLinecap="round"
           />
         )}
         {/* Needle */}
-        <line x1={CENTER} y1={CENTER} x2={needle.x} y2={needle.y} stroke="#E3C089" strokeWidth="1.5" />
-        <circle cx={CENTER} cy={CENTER} r="3" fill="#C08A3E" />
+        <line
+          x1={CENTER}
+          y1={CENTER}
+          x2={needle.x}
+          y2={needle.y}
+          style={{ stroke: 'rgb(var(--c-brass-hi))' }}
+          strokeWidth="1.5"
+        />
+        <circle cx={CENTER} cy={CENTER} r="3" style={{ fill: 'rgb(var(--c-brass))' }} />
       </svg>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 text-center">

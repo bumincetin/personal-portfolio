@@ -3,9 +3,14 @@
 /**
  * Surface treatment derived from the ThreeUI "constellation field" scene
  * (github.com/MengTo/threeui, MIT); palette is a noir-and-brass register --
- * espresso-black ground, bone type, brushed brass as the single warm accent
- * and oxidised copper as the interactive one. Warm all the way through: no
- * cool hue appears anywhere in the scheme.
+ * espresso ground, bone type, brushed brass as the single warm accent and
+ * oxidised copper as the interactive one. Warm all the way through: no cool
+ * hue appears anywhere in the scheme, in either theme.
+ *
+ * The values live in src/app/globals.css as channel triplets, one set per
+ * theme; every token below is bound to them through <alpha-value>, so the
+ * whole site re-skins from the :root block and `bg-surface/70` keeps working
+ * unchanged. Do not put a literal colour here -- it would be theme-blind.
  *
  * The legacy token names (cream / charcoal / surface / accent ...) are kept so
  * the whole site re-skins from this one file. Their *roles* are unchanged --
@@ -22,30 +27,32 @@ module.exports = {
     extend: {
       colors: {
         // Page ground + inverted foreground
-        cream: '#100C0A',
-        charcoal: '#F0E9DF',
-        navy: '#E0D8CB',
-        'navy-light': '#CBBFAE',
+        cream: 'rgb(var(--c-ground) / <alpha-value>)',
+        charcoal: 'rgb(var(--c-text) / <alpha-value>)',
+        navy: 'rgb(var(--c-text-2) / <alpha-value>)',
+        'navy-light': 'rgb(var(--c-text-3) / <alpha-value>)',
 
         // Accents
-        accent: '#C08A3E',
-        'accent-blue': '#A17C58',
+        accent: 'rgb(var(--c-brass) / <alpha-value>)',
+        'accent-hi': 'rgb(var(--c-brass-hi) / <alpha-value>)',
+        'accent-hover': 'rgb(var(--c-brass-hover) / <alpha-value>)',
+        'accent-blue': 'rgb(var(--c-copper) / <alpha-value>)',
 
         // Text ramp
-        muted: '#A8998A',
-        'muted-light': '#6E6055',
+        muted: 'rgb(var(--c-muted) / <alpha-value>)',
+        'muted-light': 'rgb(var(--c-muted-light) / <alpha-value>)',
 
         // Structure
-        border: '#2C231D',
-        'border-dark': '#3D3129',
-        surface: '#1A1411',
-        'surface-alt': '#150F0D',
-        'surface-raised': '#241C17',
+        border: 'rgb(var(--c-hairline) / <alpha-value>)',
+        'border-dark': 'rgb(var(--c-hairline-strong) / <alpha-value>)',
+        surface: 'rgb(var(--c-panel) / <alpha-value>)',
+        'surface-alt': 'rgb(var(--c-panel-alt) / <alpha-value>)',
+        'surface-raised': 'rgb(var(--c-panel-raised) / <alpha-value>)',
 
-        // Semantic status colours, tuned for a dark ground
-        positive: '#8FAE7E',
-        caution: '#C08A3E',
-        negative: '#C07A6A',
+        // Semantic status colours
+        positive: 'rgb(var(--c-positive) / <alpha-value>)',
+        caution: 'rgb(var(--c-brass) / <alpha-value>)',
+        negative: 'rgb(var(--c-negative) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -96,14 +103,15 @@ module.exports = {
         },
       },
       boxShadow: {
-        // On a dark ground, elevation reads through depth-shadow + a top hairline.
-        hairline: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.04)',
-        editorial: '0 2px 8px rgba(0, 0, 0, 0.30)',
-        'editorial-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
-        card: '0 2px 8px rgba(0, 0, 0, 0.30)',
-        'card-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
-        glow: '0 0 12px rgba(192, 138, 62, 0.55)',
-        'glow-blue': '0 0 16px rgba(161, 124, 88, 0.35)',
+        // Elevation is theme-dependent -- a cast shadow on paper, a depth
+        // shadow plus a lit top edge on black -- so it resolves through vars.
+        hairline: 'var(--shadow-hairline)',
+        editorial: 'var(--shadow-card)',
+        'editorial-hover': 'var(--shadow-card-hover)',
+        card: 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+        glow: 'var(--shadow-glow)',
+        'glow-blue': 'var(--shadow-glow-blue)',
       },
       borderRadius: {
         editorial: '4px',

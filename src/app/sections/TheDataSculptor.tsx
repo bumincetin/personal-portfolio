@@ -113,17 +113,17 @@ const PHASE_STYLES = [
   {
     gradientText: 'text-gradient-silver',
     chip: 'border-muted-light/40 bg-muted/10 text-muted',
-    dot: '#A8998A',
+    dot: 'rgb(var(--c-muted))',
   },
   {
     gradientText: 'text-gradient-blue',
     chip: 'border-accent-blue/40 bg-accent-blue/10 text-accent-blue',
-    dot: '#A17C58',
+    dot: 'rgb(var(--c-copper))',
   },
   {
     gradientText: 'text-gradient-gold',
     chip: 'border-accent/40 bg-accent/10 text-accent',
-    dot: '#C08A3E',
+    dot: 'rgb(var(--c-brass))',
   },
 ];
 
@@ -218,7 +218,7 @@ const PhaseRailItem = ({
   const color = useTransform(
     progress,
     [start - 0.05, start, end, end + 0.05],
-    ['#6E6055', PHASE_STYLES[index].dot, PHASE_STYLES[index].dot, '#6E6055'],
+    ['rgb(var(--c-muted-light))', PHASE_STYLES[index].dot, PHASE_STYLES[index].dot, 'rgb(var(--c-muted-light))'],
   );
   const barScale = useTransform(progress, [start, end], [0, 1]);
 
@@ -347,7 +347,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'linear-gradient(180deg, rgba(16,12,10,0) 0%, rgba(16,12,10,0.94) 14%, rgba(16,12,10,0.94) 88%, rgba(16,12,10,0) 100%)',
+            'linear-gradient(180deg, rgb(var(--c-ground) / 0) 0%, rgb(var(--c-ground) / 0.94) 14%, rgb(var(--c-ground) / 0.94) 88%, rgb(var(--c-ground) / 0) 100%)',
         }}
       />
 
@@ -474,7 +474,7 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
           style={{
             width: useTransform(smoothProgress, [0, 1], ['0%', '100%']),
             background: 'linear-gradient(90deg, #A8998A, #A17C58, #C08A3E)',
-            boxShadow: '0 0 8px rgba(192, 138, 62, 0.4)',
+            boxShadow: '0 0 8px rgb(var(--c-brass) / 0.4)',
           }}
         />
       </div>

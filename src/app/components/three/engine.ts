@@ -12,6 +12,8 @@
  * doubles as a depth cue for size and alpha shading.
  */
 
+import { readCanvasAlpha, readChannels } from '@/lib/theme';
+
 export interface Vec3 {
   x: number;
   y: number;
@@ -262,11 +264,29 @@ export function pointOnRandomEdge(shape: Shape, rnd: () => number): Vec3 {
 
 /**
  * The sculpture's colour story: raw stone warms to oxidised copper as it is
- * refined, then to brushed brass once it is cut. Bone is the scan light.
+ * refined, then to brushed brass once it is cut. `scan` is the light that
+ * sweeps the work -- bone on black, ink on paper.
+ *
+ * Canvas cannot inherit CSS, so these are seeded with the dark values and
+ * re-read from the theme's custom properties by `refreshPalette()`. Mutated in
+ * place rather than replaced, so every consumer holding the reference picks up
+ * a theme change without re-subscribing.
  */
 export const PALETTE = {
   stone: [168, 153, 138] as Rgb,
   copper: [161, 124, 88] as Rgb,
   brass: [192, 138, 62] as Rgb,
-  bone: [240, 233, 223] as Rgb,
+  scan: [240, 233, 223] as Rgb,
 };
+
+/** Multiplier for stroke alphas; thin lines need more weight on paper. */
+export const canvasAlpha = { value: 1 };
+
+/** Pull the live theme's values into PALETTE. Safe to call on every layout. */
+export function refreshPalette() {
+  PALETTE.stone = readChannels('--c-muted', [168, 153, 138]);
+  PALETTE.copper = readChannels('--c-copper', [161, 124, 88]);
+  PALETTE.brass = readChannels('--c-brass', [192, 138, 62]);
+  PALETTE.scan = readChannels('--c-scan', [240, 233, 223]);
+  canvasAlpha.value = readCanvasAlpha();
+}

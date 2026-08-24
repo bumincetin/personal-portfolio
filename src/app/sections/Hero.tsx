@@ -78,7 +78,7 @@ const Hero: React.FC<HeroProps> = ({ t, locale = 'en' }) => {
             {/* Gold bloom behind the frame */}
             <div
               className="pointer-events-none absolute -inset-10 -z-10 opacity-70 blur-3xl"
-              style={{ background: 'radial-gradient(circle at 60% 40%, rgba(206,148,70,0.16), transparent 65%)' }}
+              style={{ background: 'radial-gradient(circle at 60% 40%, rgb(var(--c-brass) / 0.16), transparent 65%)' }}
               aria-hidden="true"
             />
 

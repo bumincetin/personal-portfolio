@@ -5,6 +5,7 @@ import {
   type Shape,
   type Rgb,
   PALETTE,
+  refreshPalette,
   icosahedron,
   octahedron,
   orbits,
@@ -13,6 +14,7 @@ import {
   project,
   rgba,
 } from './engine';
+import { onThemeChange } from '@/lib/theme';
 
 /**
  * Small rotating wireframe ornament on a 2D canvas.
@@ -34,12 +36,13 @@ const SHAPES: Record<ShapeName, () => Shape> = {
 
 export default function Wireframe3D({
   shape = 'icosahedron',
-  color = PALETTE.brass,
+  color,
   speed = 1,
   lineAlpha = 0.5,
   className = '',
 }: {
   shape?: ShapeName;
+  /** Overrides the theme's brass; omit to follow the active theme. */
   color?: Rgb;
   /** Rotation speed multiplier; 1 is a slow, ambient turn. */
   speed?: number;
@@ -53,6 +56,12 @@ export default function Wireframe3D({
     if (!canvas) return;
     const context = canvas.getContext('2d', { alpha: true });
     if (!context) return;
+
+    // Resolved inside the effect rather than as a prop default: PALETTE is
+    // re-read on theme change, and a default captured at render time would
+    // hold the colour from whichever theme was active when it mounted.
+    refreshPalette();
+    let ink: Rgb = color ?? PALETTE.brass;
     const ctx = context;
 
     const model = SHAPES[shape]();
@@ -93,7 +102,7 @@ export default function Wireframe3D({
         const b = projected[edge.b];
         // Depth-shade each edge by the average perspective factor.
         const depth = (a.s + b.s) / 2;
-        ctx.strokeStyle = rgba(color, lineAlpha * (0.35 + (depth - 0.8) * 1.1));
+        ctx.strokeStyle = rgba(ink, lineAlpha * (0.35 + (depth - 0.8) * 1.1));
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
@@ -103,7 +112,7 @@ export default function Wireframe3D({
       // Vertex points, skipped for dense ring shapes where they read as noise.
       if (model.points.length <= 16) {
         for (const p of projected) {
-          ctx.fillStyle = rgba(color, lineAlpha * (0.5 + (p.s - 0.8) * 1.2));
+          ctx.fillStyle = rgba(ink, lineAlpha * (0.5 + (p.s - 0.8) * 1.2));
           ctx.beginPath();
           ctx.arc(p.x, p.y, 1.6 * p.s, 0, Math.PI * 2);
           ctx.fill();
@@ -130,6 +139,11 @@ export default function Wireframe3D({
       else stop();
     };
 
+    const unsubscribeTheme = onThemeChange(() => {
+      refreshPalette();
+      ink = color ?? PALETTE.brass;
+    });
+
     const resizeObserver = new ResizeObserver(layout);
     resizeObserver.observe(canvas);
     const visibilityObserver = new IntersectionObserver(
@@ -146,6 +160,7 @@ export default function Wireframe3D({
     if (!reduceMotion) sync();
 
     return () => {
+      unsubscribeTheme();
       stop();
       resizeObserver.disconnect();
       visibilityObserver.disconnect();

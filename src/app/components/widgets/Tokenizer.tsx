@@ -58,9 +58,9 @@ export default function Tokenizer({ className = '' }: { className?: string }) {
               onFocus={() => setActive(index)}
               className="rounded-[3px] border px-1.5 py-0.5 font-mono text-[0.6875rem] transition-colors duration-200"
               style={{
-                borderColor: `rgba(192, 138, 62, ${(0.16 + weight * 0.7).toFixed(3)})`,
-                backgroundColor: `rgba(192, 138, 62, ${(weight * 0.16).toFixed(3)})`,
-                color: weight > 0.05 ? '#E3C089' : '#A8998A',
+                borderColor: `rgb(var(--c-brass) / ${(0.16 + weight * 0.7).toFixed(3)})`,
+                backgroundColor: `rgb(var(--c-brass) / ${(weight * 0.16).toFixed(3)})`,
+                color: weight > 0.05 ? 'rgb(var(--c-brass-hi))' : 'rgb(var(--c-muted))',
               }}
             >
               {token}

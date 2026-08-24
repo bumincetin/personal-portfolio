@@ -239,7 +239,7 @@ const ConvergedValue = ({
         style={{
           boxShadow: useTransform(
             glowIntensity,
-            (val) => `0 0 ${val * 60}px rgba(176, 122, 52, ${val * 0.6})`
+            (val) => `0 0 ${val * 60}px rgb(var(--c-brass) / ${val * 0.6})`
           )
         }}
       >
@@ -281,8 +281,8 @@ const ConvergedValue = ({
         />
         <defs>
           <linearGradient id="valueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(176, 122, 52, 0.4)" />
-            <stop offset="100%" stopColor="rgba(176, 122, 52, 1)" />
+            <stop offset="0%" stopColor="rgb(var(--c-brass) / 0.4)" />
+            <stop offset="100%" stopColor="rgb(var(--c-brass) / 1)" />
           </linearGradient>
         </defs>
       </svg>
@@ -608,7 +608,7 @@ const SmeJourney: React.FC<SmeJourneyProps> = ({ locale, t }) => {
                 backgroundColor: useTransform(
                   smoothProgress,
                   [i * 0.33, i * 0.33 + 0.1, (i + 1) * 0.33 - 0.1, (i + 1) * 0.33],
-                  ['rgba(0,0,0,0.2)', 'rgba(176,122,52,1)', 'rgba(176,122,52,1)', 'rgba(0,0,0,0.2)']
+                  ['rgba(0,0,0,0.2)', 'rgb(var(--c-brass) / 1)', 'rgb(var(--c-brass) / 1)', 'rgba(0,0,0,0.2)']
                 ),
               }}
             />

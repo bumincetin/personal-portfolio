@@ -14,13 +14,15 @@ import Link from 'next/link';
 
 type Variant = 'primary' | 'secondary';
 
+// The gradients live in globals.css: a Tailwind arbitrary value cannot carry
+// `rgb(var(--x) / a)` -- the slash is parsed as the opacity modifier.
 const SHELL: Record<Variant, string> = {
-  primary: 'bg-[linear-gradient(135deg,rgba(192,138,62,0.55),rgba(192,138,62,0.05)_60%,transparent)]',
-  secondary: 'bg-[linear-gradient(135deg,rgba(192,138,62,0.22),rgba(192,138,62,0.02)_60%,transparent)]',
+  primary: 'shell-ring-primary',
+  secondary: 'shell-ring-secondary',
 };
 
 const FACE: Record<Variant, string> = {
-  primary: 'bg-accent text-cream hover:bg-[#D6A45C]',
+  primary: 'bg-accent text-cream hover:bg-accent-hover',
   secondary: 'bg-surface/70 text-charcoal backdrop-blur-md hover:bg-surface-raised/85 hover:text-accent',
 };
 

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { type Locale, type TranslationType, locales, translations } from '@/lib/translations';
+import ThemeToggle from '@/app/components/ui/ThemeToggle';
 import { BookingModal } from './BookingModal';
 
 interface NavbarProps {
@@ -101,7 +102,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                 width={22}
                 height={22}
                 priority
-                className="h-[22px] w-[22px] object-contain opacity-90 invert"
+                className="h-[22px] w-[22px] object-contain opacity-90 [filter:var(--brand-filter)]"
               />
             </span>
             <span className="hidden text-[0.9375rem] font-light tracking-tight text-charcoal lg:inline">
@@ -151,6 +152,8 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                 </Link>
               ))}
             </div>
+
+            <ThemeToggle />
           </div>
 
           {/* Mobile controls */}
@@ -168,6 +171,8 @@ const Navbar: React.FC<NavbarProps> = ({ locale = 'en', t }) => {
                 </Link>
               ))}
             </div>
+
+            <ThemeToggle />
 
             <button
               type="button"

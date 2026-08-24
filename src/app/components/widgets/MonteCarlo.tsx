@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { onThemeChange, readChannels } from '@/lib/theme';
 
 /**
  * Mini Monte Carlo simulation for the Financial Analytics card.
@@ -18,8 +19,16 @@ const STEPS = 64;
 const DRIFT = 0.0016;
 const VOL = 0.026;
 
-const BRASS = '192, 138, 62';
-const STONE = '168, 153, 138';
+/* Canvas cannot inherit CSS; seeded dark, re-read on mount and theme change. */
+let BRASS = '192, 138, 62';
+let STONE = '168, 153, 138';
+let GRID = '44, 35, 29';
+
+const readTheme = () => {
+  BRASS = readChannels('--c-brass', [192, 138, 62]).join(', ');
+  STONE = readChannels('--c-muted', [168, 153, 138]).join(', ');
+  GRID = readChannels('--c-hairline', [44, 35, 29]).join(', ');
+};
 
 function seededRandom(seed: number) {
   let state = seed >>> 0;
@@ -81,6 +90,7 @@ export default function MonteCarlo({ className = '' }: { className?: string }) {
     const layout = () => {
       const rect = canvas.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return;
+      readTheme();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = rect.width;
       height = rect.height;
@@ -96,11 +106,13 @@ export default function MonteCarlo({ className = '' }: { className?: string }) {
     /* ------------------------------------------------------------ render */
 
     const draw = (t: number) => {
+      // Faint strokes need more weight on paper than on black.
+      const ensembleAlpha = readChannels('--c-ground', [16, 12, 10])[0] > 128 ? 0.3 : 0.13;
       ctx.clearRect(0, 0, width, height);
       const visibleSteps = Math.max(2, Math.floor(t * STEPS));
 
       // Faint value gridlines, the quant graph's paper.
-      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.strokeStyle = `rgba(${GRID}, 0.9)`;
       ctx.lineWidth = 1;
       for (let line = 1; line < 4; line++) {
         const y = (height / 4) * line;
@@ -121,7 +133,7 @@ export default function MonteCarlo({ className = '' }: { className?: string }) {
 
       for (const path of paths) {
         if (path === median) continue;
-        drawPath(path, `rgba(${STONE}, 0.13)`, 1);
+        drawPath(path, `rgba(${STONE}, ${ensembleAlpha})`, 1);
       }
       drawPath(median, `rgba(${BRASS}, 0.9)`, 1.5);
 
@@ -179,12 +191,21 @@ export default function MonteCarlo({ className = '' }: { className?: string }) {
 
     const resizeObserver = new ResizeObserver(layout);
     resizeObserver.observe(canvas);
+
+    // The fan is a one-shot animation, so a theme change has to repaint the
+    // finished frame itself.
+    const unsubscribeTheme = onThemeChange(() => {
+      readTheme();
+      draw(1);
+    });
+
     layout();
 
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
       resizeObserver.disconnect();
+      unsubscribeTheme();
     };
   }, []);
 

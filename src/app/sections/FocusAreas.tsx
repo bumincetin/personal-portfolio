@@ -260,9 +260,9 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                   className="absolute inset-0 opacity-50"
                   animate={{
                     background: [
-                      'radial-gradient(circle at 20% 50%, rgba(192,138,62,0.1) 0%, transparent 50%)',
-                      'radial-gradient(circle at 80% 50%, rgba(192,138,62,0.1) 0%, transparent 50%)',
-                      'radial-gradient(circle at 20% 50%, rgba(192,138,62,0.1) 0%, transparent 50%)',
+                      'radial-gradient(circle at 20% 50%, rgb(var(--c-brass) / 0.1) 0%, transparent 50%)',
+                      'radial-gradient(circle at 80% 50%, rgb(var(--c-brass) / 0.1) 0%, transparent 50%)',
+                      'radial-gradient(circle at 20% 50%, rgb(var(--c-brass) / 0.1) 0%, transparent 50%)',
                     ],
                   }}
                   transition={{ duration: 8, repeat: Infinity }}
@@ -281,7 +281,7 @@ const FocusAreas: React.FC<FocusAreasProps> = ({ t, locale = 'en' }) => {
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
-                      whileHover={{ scale: 1.05, borderColor: 'rgb(192, 138, 62)' }}
+                      whileHover={{ scale: 1.05, borderColor: 'rgb(var(--c-brass))' }}
                       className="text-center p-4 border border-border bg-surface transition-all duration-300"
                     >
                       <div className="text-2xl font-serif text-charcoal mb-1">

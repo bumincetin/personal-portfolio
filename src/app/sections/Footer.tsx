@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
       {/* Gold hairline: marks the seam between page and footer. */}
       <div
         className="absolute inset-x-0 top-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(206,148,70,0.35), transparent)' }}
+        style={{ background: 'linear-gradient(90deg, transparent, rgb(var(--c-brass) / 0.35), transparent)' }}
         aria-hidden="true"
       />
 
