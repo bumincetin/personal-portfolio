@@ -40,10 +40,17 @@ import {
  * or the tab is hidden.
  */
 
-/** Scroll bands: where each morph and effect lives on the 0..1 progress axis. */
-const MORPH_1 = [0.22, 0.42] as const; // chaos -> lattice
-const MORPH_2 = [0.56, 0.78] as const; // lattice -> gem
-const SCAN = [0.38, 0.58] as const; // scan plane sweep, during the lattice hold
+/**
+ * Scroll bands on the 0..1 progress axis.
+ *
+ * They deliberately OVERLAP. Discrete bands with holds between them made the
+ * section read as move-stop-move-stop; here the second morph begins while the
+ * scan is still sweeping, and the scan begins before the lattice has finished
+ * locking, so at no point in the scroll is nothing happening.
+ */
+const MORPH_1 = [0.10, 0.44] as const; // chaos -> lattice
+const MORPH_2 = [0.52, 0.88] as const; // lattice -> gem
+const SCAN = [0.34, 0.62] as const; // scan sweep, bridging the two morphs
 
 export default function DataSculpture({
   progress,
@@ -140,7 +147,7 @@ export default function DataSculpture({
       const morph1 = smootherstep(p, MORPH_1[0], MORPH_1[1]);
       const morph2 = smootherstep(p, MORPH_2[0], MORPH_2[1]);
 
-      const color = mixRgb(mixRgb(PALETTE.grey, PALETTE.ice, morph1), PALETTE.gold, morph2);
+      const color = mixRgb(mixRgb(PALETTE.stone, PALETTE.copper, morph1), PALETTE.brass, morph2);
 
       ctx.clearRect(0, 0, width, height);
 
@@ -149,8 +156,8 @@ export default function DataSculpture({
         const pulse = reduceMotion ? 1 : 0.85 + Math.sin(time * 0.0016) * 0.15;
         const radius = Math.min(width, height) * 0.42;
         const glow = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, radius);
-        glow.addColorStop(0, rgba(PALETTE.gold, 0.22 * morph2 * pulse));
-        glow.addColorStop(1, rgba(PALETTE.gold, 0));
+        glow.addColorStop(0, rgba(PALETTE.brass, 0.22 * morph2 * pulse));
+        glow.addColorStop(1, rgba(PALETTE.brass, 0));
         ctx.fillStyle = glow;
         ctx.fillRect(0, 0, width, height);
       }
@@ -159,7 +166,9 @@ export default function DataSculpture({
       const idle = reduceMotion ? 0 : time;
       const ay = idle * 0.00016 + p * Math.PI * 1.6 + 0.5;
       const ax = -0.42 + p * 0.55 + (reduceMotion ? 0 : Math.sin(time * 0.00011) * 0.05);
-      const scale = Math.min(width, height) * (0.3 + morph2 * 0.045);
+      // Continuous slow push-in across the whole section plus a little extra as
+      // the gem forms: the frame is always creeping, never parked.
+      const scale = Math.min(width, height) * (0.285 + p * 0.022 + morph2 * 0.038);
       const cx = width / 2;
       const cy = height / 2;
 
@@ -224,7 +233,7 @@ export default function DataSculpture({
         ctx.lineWidth = 1.2;
         for (const edge of stone.edges) {
           const depth = (projS[edge.a] + projS[edge.b]) / 2;
-          ctx.strokeStyle = rgba(PALETTE.gold, facetAlpha * (0.32 + (depth - 0.8) * 1.35));
+          ctx.strokeStyle = rgba(PALETTE.brass, facetAlpha * (0.32 + (depth - 0.8) * 1.35));
           ctx.beginPath();
           ctx.moveTo(projX[edge.a], projY[edge.a]);
           ctx.lineTo(projX[edge.b], projY[edge.b]);
@@ -237,9 +246,9 @@ export default function DataSculpture({
         const left = project(rotatePoint({ x: -1.35, y: scanY, z: 0 }, ax, ay), cx, cy, scale);
         const right = project(rotatePoint({ x: 1.35, y: scanY, z: 0 }, ax, ay), cx, cy, scale);
         const beam = ctx.createLinearGradient(left.x, left.y, right.x, right.y);
-        beam.addColorStop(0, rgba(PALETTE.ice, 0));
-        beam.addColorStop(0.5, rgba(PALETTE.ice, 0.55 * scanActive));
-        beam.addColorStop(1, rgba(PALETTE.ice, 0));
+        beam.addColorStop(0, rgba(PALETTE.bone, 0));
+        beam.addColorStop(0.5, rgba(PALETTE.bone, 0.5 * scanActive));
+        beam.addColorStop(1, rgba(PALETTE.bone, 0));
         ctx.strokeStyle = beam;
         ctx.lineWidth = 1.5;
         ctx.beginPath();

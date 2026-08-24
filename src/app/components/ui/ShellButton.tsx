@@ -15,12 +15,12 @@ import Link from 'next/link';
 type Variant = 'primary' | 'secondary';
 
 const SHELL: Record<Variant, string> = {
-  primary: 'bg-[linear-gradient(135deg,rgba(217,190,130,0.55),rgba(217,190,130,0.05)_60%,transparent)]',
-  secondary: 'bg-[linear-gradient(135deg,rgba(217,190,130,0.22),rgba(217,190,130,0.02)_60%,transparent)]',
+  primary: 'bg-[linear-gradient(135deg,rgba(192,138,62,0.55),rgba(192,138,62,0.05)_60%,transparent)]',
+  secondary: 'bg-[linear-gradient(135deg,rgba(192,138,62,0.22),rgba(192,138,62,0.02)_60%,transparent)]',
 };
 
 const FACE: Record<Variant, string> = {
-  primary: 'bg-accent text-cream hover:bg-[#E8D5A6]',
+  primary: 'bg-accent text-cream hover:bg-[#D6A45C]',
   secondary: 'bg-surface/70 text-charcoal backdrop-blur-md hover:bg-surface-raised/85 hover:text-accent',
 };
 

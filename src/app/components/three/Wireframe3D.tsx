@@ -34,7 +34,7 @@ const SHAPES: Record<ShapeName, () => Shape> = {
 
 export default function Wireframe3D({
   shape = 'icosahedron',
-  color = PALETTE.gold,
+  color = PALETTE.brass,
   speed = 1,
   lineAlpha = 0.5,
   className = '',

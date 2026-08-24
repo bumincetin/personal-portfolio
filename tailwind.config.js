@@ -2,9 +2,10 @@
 
 /**
  * Surface treatment derived from the ThreeUI "constellation field" scene
- * (github.com/MengTo/threeui, MIT); palette evolved to an obsidian-and-
- * champagne register -- violet-black ground, ivory type, champagne gold as
- * the single warm accent and moonlight platinum as the interactive one.
+ * (github.com/MengTo/threeui, MIT); palette is a noir-and-brass register --
+ * espresso-black ground, bone type, brushed brass as the single warm accent
+ * and oxidised copper as the interactive one. Warm all the way through: no
+ * cool hue appears anywhere in the scheme.
  *
  * The legacy token names (cream / charcoal / surface / accent ...) are kept so
  * the whole site re-skins from this one file. Their *roles* are unchanged --
@@ -21,30 +22,30 @@ module.exports = {
     extend: {
       colors: {
         // Page ground + inverted foreground
-        cream: '#08070C',
-        charcoal: '#F4F1E9',
-        navy: '#DDD8CC',
-        'navy-light': '#C9C3B4',
+        cream: '#100C0A',
+        charcoal: '#F0E9DF',
+        navy: '#E0D8CB',
+        'navy-light': '#CBBFAE',
 
         // Accents
-        accent: '#D9BE82',
-        'accent-blue': '#A8B8D8',
+        accent: '#C08A3E',
+        'accent-blue': '#A17C58',
 
         // Text ramp
-        muted: '#A39C9B',
-        'muted-light': '#665F66',
+        muted: '#A8998A',
+        'muted-light': '#6E6055',
 
         // Structure
-        border: '#242030',
-        'border-dark': '#332C42',
-        surface: '#100E17',
-        'surface-alt': '#0C0A12',
-        'surface-raised': '#171420',
+        border: '#2C231D',
+        'border-dark': '#3D3129',
+        surface: '#1A1411',
+        'surface-alt': '#150F0D',
+        'surface-raised': '#241C17',
 
         // Semantic status colours, tuned for a dark ground
-        positive: '#7FBFA2',
-        caution: '#D9BE82',
-        negative: '#C98A8A',
+        positive: '#8FAE7E',
+        caution: '#C08A3E',
+        negative: '#C07A6A',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -101,8 +102,8 @@ module.exports = {
         'editorial-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
         card: '0 2px 8px rgba(0, 0, 0, 0.30)',
         'card-hover': '0 16px 40px rgba(0, 0, 0, 0.36)',
-        glow: '0 0 12px rgba(217, 190, 130, 0.55)',
-        'glow-blue': '0 0 16px rgba(168, 184, 216, 0.35)',
+        glow: '0 0 12px rgba(192, 138, 62, 0.55)',
+        'glow-blue': '0 0 16px rgba(161, 124, 88, 0.35)',
       },
       borderRadius: {
         editorial: '4px',

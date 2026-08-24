@@ -83,13 +83,14 @@ const DataPoint = ({
   const startX = Math.cos(angle) * radius + ((index * 37) % 41) - 20;
   const startY = Math.sin(angle) * radius + ((index * 53) % 37) - 18;
 
-  // Absorbed before the lattice finishes forming (MORPH_1 ends at 0.42), so
-  // Phase II reads as a clean structure rather than a crowd of chips over it.
-  const x = useTransform(progress, [0, 0.18, 0.34, 0.48, 0.58], [startX, startX * 0.62, startX * 0.34, startX * 0.12, 0]);
-  const y = useTransform(progress, [0, 0.18, 0.34, 0.48, 0.58], [startY, startY * 0.62, startY * 0.34, startY * 0.12, 0]);
-  const scale = useTransform(progress, [0, 0.22, 0.4, 0.54, 0.6], [0.85, 0.94, 1, 1.02, 0]);
-  const opacity = useTransform(progress, [0, 0.15, 0.3, 0.46, 0.58], [0.35, 0.8, 1, 0.35, 0]);
-  const rotate = useTransform(progress, [0, 0.34, 0.58], [((index % 3) - 1) * 10, ((index % 3) - 1) * 3, 0]);
+  // Drawn in over the same band the cloud collapses on (MORPH_1, 0.10-0.44)
+  // and fully absorbed by the time the lattice locks, so Phase II reads as a
+  // clean structure rather than a crowd of chips over one.
+  const x = useTransform(progress, [0, 0.08, 0.22, 0.33, 0.42], [startX, startX * 0.7, startX * 0.36, startX * 0.12, 0]);
+  const y = useTransform(progress, [0, 0.08, 0.22, 0.33, 0.42], [startY, startY * 0.7, startY * 0.36, startY * 0.12, 0]);
+  const scale = useTransform(progress, [0, 0.1, 0.26, 0.38, 0.44], [0.85, 0.94, 1, 1.02, 0]);
+  const opacity = useTransform(progress, [0, 0.06, 0.2, 0.33, 0.42], [0.35, 0.8, 1, 0.32, 0]);
+  const rotate = useTransform(progress, [0, 0.22, 0.42], [((index % 3) - 1) * 10, ((index % 3) - 1) * 3, 0]);
 
   return (
     <motion.div
@@ -112,18 +113,34 @@ const PHASE_STYLES = [
   {
     gradientText: 'text-gradient-silver',
     chip: 'border-muted-light/40 bg-muted/10 text-muted',
-    dot: '#A39C9B',
+    dot: '#A8998A',
   },
   {
     gradientText: 'text-gradient-blue',
     chip: 'border-accent-blue/40 bg-accent-blue/10 text-accent-blue',
-    dot: '#A8B8D8',
+    dot: '#A17C58',
   },
   {
     gradientText: 'text-gradient-gold',
     chip: 'border-accent/40 bg-accent/10 text-accent',
-    dot: '#D9BE82',
+    dot: '#C08A3E',
   },
+];
+
+/**
+ * When each card owns the stage.
+ *
+ * The swap happens at the VISUAL MIDPOINT of the morph it belongs to -- the
+ * moment the shape stops reading as the old thing and starts reading as the
+ * new one. Cards used to change on even thirds while the morphs ran on their
+ * own bands, so "The Refinement" arrived over a cloud that was still chaos.
+ * Windows are sequential, never overlapping: two translucent panels must
+ * never read through each other.
+ */
+const PHASE_WINDOWS: Array<{ in: [number, number]; out: [number, number] }> = [
+  { in: [0.0, 0.01], out: [0.19, 0.26] }, // out as the cloud starts collapsing
+  { in: [0.26, 0.33], out: [0.63, 0.70] }, // in mid-MORPH_1, out mid-MORPH_2
+  { in: [0.70, 0.77], out: [1.01, 1.02] }, // in as the facets crystallise
 ];
 
 const PhaseCard = ({
@@ -143,16 +160,12 @@ const PhaseCard = ({
   phaseIndex: number;
   isMobile?: boolean;
 }) => {
-  const phaseStart = phaseIndex * 0.33;
-  const phaseEnd = (phaseIndex + 1) * 0.33;
+  const band = PHASE_WINDOWS[phaseIndex];
+  const keyframes = [band.in[0], band.in[1], band.out[0], band.out[1]];
+  const first = phaseIndex === 0;
 
-  // Sequential, not crossfaded: the outgoing card is fully gone before the
-  // next one arrives, so two translucent panels never read through each other.
-  const fadeIn = phaseIndex === 0 ? phaseStart : phaseStart + 0.01;
-  const keyframes = [fadeIn, fadeIn + 0.05, phaseEnd - 0.06, phaseEnd - 0.01];
-
-  const opacity = useTransform(progress, keyframes, [phaseIndex === 0 ? 1 : 0, 1, 1, 0]);
-  const y = useTransform(progress, keyframes, [phaseIndex === 0 ? 0 : 24, 0, 0, -24]);
+  const opacity = useTransform(progress, keyframes, [first ? 1 : 0, 1, 1, 0]);
+  const y = useTransform(progress, keyframes, [first ? 0 : 24, 0, 0, -24]);
 
   const style = PHASE_STYLES[phaseIndex];
 
@@ -161,7 +174,7 @@ const PhaseCard = ({
       className="absolute inset-0 flex items-center justify-center p-4 md:p-8 lg:p-0"
       style={{ opacity, y, pointerEvents: 'none' }}
     >
-      <div className={`w-full max-w-md rounded-editorial border border-border bg-surface/95 shadow-card backdrop-blur-xl ${isMobile ? 'p-4' : 'p-5 md:p-6 2xl:p-8'}`}>
+      <div className={`w-full max-w-md rounded-editorial border border-border bg-surface/95 shadow-card ${isMobile ? 'p-4' : 'p-5 md:p-6 2xl:p-8'}`}>
         <div className={`flex items-center gap-3 ${isMobile ? 'mb-3' : 'mb-4'}`}>
           <span className={`flex items-center justify-center rounded-md border ${style.chip} ${isMobile ? 'h-7 w-7' : 'h-9 w-9'}`}>
             <Icon size={isMobile ? 13 : 16} strokeWidth={1.5} />
@@ -194,13 +207,15 @@ const PhaseRailItem = ({
   index: number;
   progress: MotionValue<number>;
 }) => {
-  const start = index * 0.33;
-  const end = (index + 1) * 0.33;
+  // Same clock as the cards, so the rail never marks a phase the stage is not
+  // actually showing.
+  const start = index === 0 ? 0 : PHASE_WINDOWS[index].in[0];
+  const end = index === PHASE_WINDOWS.length - 1 ? 1 : PHASE_WINDOWS[index + 1].in[0];
   const opacity = useTransform(progress, [start - 0.1, start, end, end + 0.1], [0.35, 1, 1, 0.35]);
   const color = useTransform(
     progress,
     [start - 0.05, start, end, end + 0.05],
-    ['#665F66', PHASE_STYLES[index].dot, PHASE_STYLES[index].dot, '#665F66'],
+    ['#6E6055', PHASE_STYLES[index].dot, PHASE_STYLES[index].dot, '#6E6055'],
   );
   const barScale = useTransform(progress, [start, end], [0, 1]);
 
@@ -242,12 +257,14 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
     offset: ['start start', 'end end'],
   });
 
-  // Loose spring: the sculpture glides a beat behind the scroll rather than
-  // tracking it rigidly, which is most of what makes the section feel liquid.
+  // Overdamped (no overshoot) but stiff enough to stay under the reader's
+  // hand: a wheel notch is a ~100px jump, and this settles it in about a
+  // fifth of a second. The previous, much looser spring smoothed the steps
+  // but trailed far enough behind to read as lag rather than as glide.
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 55,
-    damping: 22,
-    restDelta: 0.001,
+    stiffness: 80,
+    damping: 20,
+    restDelta: 0.0005,
   });
 
   const phases = [
@@ -297,8 +314,20 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
     <section
       id="data-sculptor"
       ref={containerRef}
-      className="relative min-h-[400vh] bg-cream/85 backdrop-blur-sm"
+      className="relative min-h-[400vh]"
     >
+      {/* The stage ground. A flat wash plus a backdrop-filter used to cut a
+          hard seam across the constellation field exactly where the section
+          began; this fades the field out over the first screen and back in
+          over the last, so entering and leaving the sculpture is a dissolve. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(16,12,10,0) 0%, rgba(16,12,10,0.94) 14%, rgba(16,12,10,0.94) 88%, rgba(16,12,10,0) 100%)',
+        }}
+      />
+
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Faint blueprint grid behind the whole stage. */}
         <div className="absolute inset-0 grid-pattern opacity-40" />
@@ -421,8 +450,8 @@ const TheDataSculptor: React.FC<TheDataSculptorProps> = ({ locale, t }) => {
           className="absolute bottom-0 left-0 h-px"
           style={{
             width: useTransform(smoothProgress, [0, 1], ['0%', '100%']),
-            background: 'linear-gradient(90deg, #A39C9B, #A8B8D8, #D9BE82)',
-            boxShadow: '0 0 8px rgba(217, 190, 130, 0.4)',
+            background: 'linear-gradient(90deg, #A8998A, #A17C58, #C08A3E)',
+            boxShadow: '0 0 8px rgba(192, 138, 62, 0.4)',
           }}
         />
       </div>

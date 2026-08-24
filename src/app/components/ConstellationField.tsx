@@ -24,8 +24,8 @@ import { useEffect, useRef } from 'react';
  *  - `prefers-reduced-motion` paints a single static frame and stops.
  */
 
-const GOLD = '217, 190, 130';
-const ICE = '168, 184, 216';
+const BRASS = '192, 138, 62';
+const COPPER = '161, 124, 88';
 
 /** Nodes closer than this (in CSS px) get a connecting line. */
 const LINK_RADIUS = 158;
@@ -154,7 +154,7 @@ export default function ConstellationField({ className = '' }: { className?: str
                   if (distanceSq >= LINK_RADIUS_SQ) continue;
 
                   const closeness = 1 - Math.sqrt(distanceSq) / LINK_RADIUS;
-                  ctx.strokeStyle = `rgba(${GOLD}, ${(0.05 + closeness * 0.22).toFixed(3)})`;
+                  ctx.strokeStyle = `rgba(${BRASS}, ${(0.05 + closeness * 0.22).toFixed(3)})`;
                   ctx.beginPath();
                   ctx.moveTo(nodeA.x, nodeA.y);
                   ctx.lineTo(nodeB.x, nodeB.y);
@@ -177,7 +177,7 @@ export default function ConstellationField({ className = '' }: { className?: str
         // as points of light rather than flat dots at retina scale.
         const pulse = 0.6 + Math.sin(time * 0.001 + node.phase) * 0.22;
         const near = pointer.active && sqDistanceToPointer(node) < POINTER_RADIUS_SQ;
-        const tint = near ? ICE : GOLD;
+        const tint = near ? COPPER : BRASS;
 
         ctx.fillStyle = `rgba(${tint}, ${(pulse * 0.16).toFixed(3)})`;
         ctx.beginPath();
@@ -290,7 +290,7 @@ export default function ConstellationField({ className = '' }: { className?: str
       {/* Radial ground: lifts the centre of the viewport out of pure black. */}
       <div
         className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse at 50% 40%, #100E17 0%, #08070C 70%)' }}
+        style={{ background: 'radial-gradient(ellipse at 50% 40%, #1A1411 0%, #100C0A 70%)' }}
       />
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
       {/* Depth vignette, so content lower on the page sits on solid ground. */}

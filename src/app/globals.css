@@ -9,24 +9,24 @@
  */
 
 :root {
-  --void: #08070C;
-  --panel: #100E17;
-  --panel-raised: #171420;
-  --hairline: #242030;
+  --void: #100C0A;
+  --panel: #1A1411;
+  --panel-raised: #241C17;
+  --hairline: #2C231D;
 
-  --text: #F4F1E9;
-  --text-muted: #A39C9B;
-  --text-dim: #665F66;
+  --text: #F0E9DF;
+  --text-muted: #A8998A;
+  --text-dim: #6E6055;
 
-  --gold: #D9BE82;
-  --ice: #A8B8D8;
+  --brass: #C08A3E;
+  --copper: #A17C58;
 
   /* House easing: fast out of the gate, long soft landing. */
   --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
 
   --background: var(--void);
   --foreground: var(--text);
-  --accent: var(--gold);
+  --accent: var(--brass);
   --border: var(--hairline);
 
   color-scheme: dark;
@@ -62,7 +62,7 @@
   }
 
   ::selection {
-    background: rgba(168, 184, 216, 0.28);
+    background: rgba(161, 124, 88, 0.28);
     color: var(--text);
   }
 
@@ -74,16 +74,16 @@
     background: var(--void);
   }
   ::-webkit-scrollbar-thumb {
-    background: #2A2536;
+    background: #33291F;
     border: 2px solid var(--void);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3D3650;
+    background: #4A3B2C;
   }
 
   :focus-visible {
-    outline: 2px solid var(--ice);
+    outline: 2px solid var(--copper);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -109,11 +109,11 @@
    */
   .shell {
     @apply relative rounded-full p-px;
-    background: linear-gradient(135deg, rgba(217, 190, 130, 0.34), rgba(217, 190, 130, 0.02) 60%, transparent);
+    background: linear-gradient(135deg, rgba(192, 138, 62, 0.34), rgba(192, 138, 62, 0.02) 60%, transparent);
   }
   .shell-square {
     @apply relative rounded-editorial p-px;
-    background: linear-gradient(135deg, rgba(217, 190, 130, 0.22), rgba(217, 190, 130, 0.02) 60%, transparent);
+    background: linear-gradient(135deg, rgba(192, 138, 62, 0.22), rgba(192, 138, 62, 0.02) 60%, transparent);
   }
 
   /* Frosted panel that lets the constellation field read through it. */
@@ -140,8 +140,8 @@
 @layer utilities {
   .grid-pattern {
     background-image:
-      linear-gradient(rgba(168, 184, 216, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(168, 184, 216, 0.04) 1px, transparent 1px);
+      linear-gradient(rgba(161, 124, 88, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(161, 124, 88, 0.04) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 
@@ -154,7 +154,7 @@
 
   /* Vignette that seats content on top of the canvas field. */
   .field-vignette {
-    background: linear-gradient(to bottom, transparent 0%, rgba(8, 7, 12, 0.25) 60%, rgba(8, 7, 12, 0.75) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgba(16, 12, 10, 0.25) 60%, rgba(16, 12, 10, 0.75) 100%);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -175,7 +175,7 @@
     left: 0;
     width: 0;
     height: 1px;
-    background-color: var(--gold);
+    background-color: var(--brass);
     transition: width 0.45s var(--ease-luxe);
   }
   .link-underline:hover::after {
@@ -204,7 +204,7 @@
   .swiss-divider {
     width: 60px;
     height: 1px;
-    background: linear-gradient(90deg, var(--gold), transparent);
+    background: linear-gradient(90deg, var(--brass), transparent);
   }
 
   .bento-grid {
@@ -240,23 +240,23 @@
   }
 
   .text-glow-gold {
-    text-shadow: 0 0 18px rgba(217, 190, 130, 0.35);
+    text-shadow: 0 0 18px rgba(192, 138, 62, 0.35);
   }
 
   .text-gradient-silver {
-    background: linear-gradient(135deg, #A39C9B 0%, #F4F1E9 50%, #665F66 100%);
+    background: linear-gradient(135deg, #A8998A 0%, #F0E9DF 50%, #6E6055 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .text-gradient-blue {
-    background: linear-gradient(135deg, #A8B8D8 0%, #DFE6F4 50%, #7C8BB0 100%);
+    background: linear-gradient(135deg, #A17C58 0%, #C9A484 50%, #7A5A3C 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .text-gradient-gold {
-    background: linear-gradient(135deg, #D9BE82 0%, #F0E2BC 50%, #B79A5C 100%);
+    background: linear-gradient(135deg, #C08A3E 0%, #E3C089 50%, #916526 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -333,8 +333,8 @@
 .animate-scan { animation: scan 2s ease-in-out infinite; }
 
 @keyframes golden-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(217, 190, 130, 0.22), 0 0 40px rgba(217, 190, 130, 0.08); }
-  50% { box-shadow: 0 0 40px rgba(217, 190, 130, 0.38), 0 0 80px rgba(217, 190, 130, 0.15); }
+  0%, 100% { box-shadow: 0 0 20px rgba(192, 138, 62, 0.22), 0 0 40px rgba(192, 138, 62, 0.08); }
+  50% { box-shadow: 0 0 40px rgba(192, 138, 62, 0.38), 0 0 80px rgba(192, 138, 62, 0.15); }
 }
 .animate-golden-pulse { animation: golden-pulse 2s ease-in-out infinite; }
 

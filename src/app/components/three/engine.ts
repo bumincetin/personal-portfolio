@@ -260,8 +260,13 @@ export function pointOnRandomEdge(shape: Shape, rnd: () => number): Vec3 {
   return lerpVec(shape.points[edge.a], shape.points[edge.b], rnd());
 }
 
+/**
+ * The sculpture's colour story: raw stone warms to oxidised copper as it is
+ * refined, then to brushed brass once it is cut. Bone is the scan light.
+ */
 export const PALETTE = {
-  grey: [163, 156, 155] as Rgb,
-  ice: [168, 184, 216] as Rgb,
-  gold: [217, 190, 130] as Rgb,
+  stone: [168, 153, 138] as Rgb,
+  copper: [161, 124, 88] as Rgb,
+  brass: [192, 138, 62] as Rgb,
+  bone: [240, 233, 223] as Rgb,
 };

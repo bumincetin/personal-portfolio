@@ -179,7 +179,7 @@ const About: React.FC<AboutProps> = ({ t, locale = 'en' }) => {
             >
               <Link 
                 href={`/${locale}/about`} 
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-xs uppercase tracking-[0.16em] transition-all duration-300 hover:bg-[#E8D5A6] hover:shadow-editorial-hover"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-cream font-mono text-xs uppercase tracking-[0.16em] transition-all duration-300 hover:bg-[#D6A45C] hover:shadow-editorial-hover"
               >
                 {trans.about.viewBio}
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
