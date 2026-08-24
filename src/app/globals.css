@@ -400,17 +400,29 @@
   filter: none;
 }
 
-/* Masked per-word reveal, ported from ThreeUI's GSAP version to pure CSS. */
+/*
+ * Masked per-word reveal, ported from ThreeUI's GSAP version to pure CSS.
+ *
+ * The mask clips to its padding box, and the display face is set at a tight
+ * 1.05 line-height, so both ends of the glyph run past the line box: ascenders
+ * above it and descenders (g, y, p) below. Each side is given room with
+ * padding, cancelled by an equal negative margin so the extra space is painted
+ * but not laid out -- line spacing is unchanged.
+ */
 .reveal-mask {
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
   padding-top: 0.12em;
   margin-top: -0.12em;
+  padding-bottom: 0.3em;
+  margin-bottom: -0.3em;
 }
 .reveal-word {
   display: inline-block;
-  transform: translateY(112%);
+  /* Must clear the mask's full padding box, descender room included, or the
+     word peeks below the line before its cue. */
+  transform: translateY(calc(100% + 0.36em));
   transition: transform 1.35s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--word-delay, 0ms);
   will-change: transform;

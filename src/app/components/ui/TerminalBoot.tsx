@@ -17,7 +17,7 @@ const BOOT_LINES = [
   '[CALIBRATING_VECTOR_FIELD ..................... OK]',
 ];
 
-const STATUS = 'BOCCONI AI LAB • MILAN, IT';
+const STATUS = 'MILAN, IT';
 
 export default function TerminalBoot({ className = '' }: { className?: string }) {
   const [text, setText] = useState('');
