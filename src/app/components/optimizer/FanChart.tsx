@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { LineChart } from 'lucide-react';
 import type { SimulationOutput } from '@/lib/optimizer/engine';
-import { STRATEGY_COLORS, fmtMoney, fmtMoneyFull, niceTicks } from './format';
+import { STRATEGY_COLORS, fmtCount, fmtMoney, fmtMoneyFull, niceTicks } from './format';
 import { PanelTitle } from './primitives';
 
 const M = { top: 14, right: 64, bottom: 26, left: 52 };
@@ -112,7 +112,7 @@ export default function FanChart({ sim, pending }: { sim: SimulationOutput; pend
 
   return (
     <div>
-      <PanelTitle icon={LineChart} title="Monte Carlo Wealth Fan" hint={`${sim.paths.toLocaleString()} paths · t(ν=5) · ${stepsPerYear === 12 ? 'monthly' : 'quarterly'} steps`} />
+      <PanelTitle icon={LineChart} title="Monte Carlo Wealth Fan" hint={`${fmtCount(sim.paths)} paths · t(ν=5) · ${stepsPerYear === 12 ? 'monthly' : 'quarterly'} steps`} />
       <div className="p-4 pb-3">
         {/* Legend */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-2 font-mono text-[10px] uppercase tracking-wider text-muted">
