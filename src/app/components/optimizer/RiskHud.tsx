@@ -4,7 +4,7 @@ import React from 'react';
 import { Activity, ArrowDownRight, ArrowUpRight, Minus, Gauge, Cpu, Swords } from 'lucide-react';
 import type { AllocationResult, SimulationOutput } from '@/lib/optimizer/engine';
 import { KAPPA, NU } from '@/lib/optimizer/solver';
-import { fmtBps, fmtMs, fmtNum, fmtPct, fmtSignedPct } from './format';
+import { fmtBps, fmtCount, fmtMs, fmtNum, fmtPct, fmtSignedPct } from './format';
 import { Panel, PanelTitle } from './primitives';
 
 function Delta({ value, format, goodWhen }: { value: number; format: (v: number) => string; goodWhen: 'high' | 'low' }) {
@@ -142,7 +142,7 @@ export default function RiskHud({ alloc, sim, mounted }: { alloc: AllocationResu
             <dt className="text-muted-light">Allocation</dt>
             <dd className="text-right text-charcoal tabular-nums">{mounted ? fmtMs(alloc.timingMs) : '—'}</dd>
             <dt className="text-muted-light">Simulation</dt>
-            <dd className="text-right text-charcoal tabular-nums">{mounted ? `${fmtMs(sim.timingMs)} · ${sim.paths.toLocaleString()} paths` : '—'}</dd>
+            <dd className="text-right text-charcoal tabular-nums">{mounted ? `${fmtMs(sim.timingMs)} · ${fmtCount(sim.paths)} paths` : '—'}</dd>
           </dl>
         </div>
       </div>

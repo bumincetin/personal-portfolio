@@ -30,6 +30,18 @@ export const fmtMoney = (x: number): string => {
 export const fmtMoneyFull = (x: number): string =>
   `${x < 0 ? '−' : ''}$${Math.round(Math.abs(x)).toLocaleString('en-US')}`;
 
+/**
+ * Thousands-separated integer.
+ *
+ * The locale is pinned deliberately. A bare `toLocaleString()` takes the
+ * ambient locale, which is en-US on the server and whatever the visitor's
+ * browser is set to on the client -- so a Turkish reader hydrating this
+ * component saw "1.000" against the server's "1,000" and React threw the
+ * whole subtree away and re-rendered it. Every number in this panel is
+ * formatted en-US, so pin it here too.
+ */
+export const fmtCount = (x: number): string => Math.round(x).toLocaleString('en-US');
+
 export const fmtMs = (ms: number): string => (ms < 1 ? '<1 ms' : `${ms.toFixed(ms < 10 ? 1 : 0)} ms`);
 
 /**
