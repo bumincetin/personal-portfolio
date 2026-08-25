@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ArrowLeft, TrendingUp, BarChart3, Shield, LineChart, CheckCircle2 as CheckCircle } from 'lucide-react';
 import { type Locale, type TranslationType } from '@/lib/translations';
 import { FinanceGraph, DashboardChart } from '@/app/components/AnimatedVisuals';
+import PortfolioOptimizer from '@/app/components/optimizer/PortfolioOptimizer';
 
 interface Props {
   locale: Locale;
@@ -165,6 +166,24 @@ export default function FinancialAnalyticsClient({ locale, t }: Props) {
             </div>
           </motion.div>
         </div>
+      </section>
+
+      {/* Interactive: Geopolitical Portfolio Optimizer */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-8 h-px bg-accent"></div>
+            <span className="font-mono text-xs text-charcoal uppercase tracking-wider">
+              {locale === 'tr' ? 'Etkileşimli Model' : locale === 'it' ? 'Modello Interattivo' : 'Interactive Model'}
+            </span>
+          </div>
+          <PortfolioOptimizer />
+        </motion.div>
       </section>
 
       {/* Technical Deep Dive */}
