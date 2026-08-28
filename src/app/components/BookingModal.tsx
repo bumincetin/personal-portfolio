@@ -1,9 +1,25 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { X, Calendar, Check, ArrowRight, Mail, Clock, AlertCircle, Copy } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { X, ArrowRight, Mail, Clock, Copy, Check, MessageCircle, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type Locale, type TranslationType } from '@/lib/translations';
+
+/**
+ * Consultation request dialog.
+ *
+ * Rendered through a portal onto <body>. It used to mount inline wherever its
+ * trigger lived, and `position: fixed` is measured against the nearest
+ * ancestor with a filter/backdrop-filter/transform -- so from the footer
+ * (backdrop-blur) the dialog was boxed into the footer and clipped, and from
+ * any card with a hover transform it would have followed the card.
+ *
+ * There is no mail server: the form composes a message and hands it to the
+ * visitor's own channel (mail app, webmail, WhatsApp, clipboard). The second
+ * step says exactly that -- nothing is "sent" until they press send -- rather
+ * than announcing a request that never left the browser.
+ */
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -14,262 +30,221 @@ interface BookingModalProps {
 }
 
 interface FormErrors {
-  service?: string;
   date?: string;
   time?: string;
   email?: string;
   name?: string;
 }
 
-export const BookingModal: React.FC<BookingModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  locale, 
-  t,
-  selectedService: initialService 
-}) => {
-  const [step, setStep] = useState<'form' | 'success'>('form');
-  const [selectedService, setSelectedService] = useState(initialService || 'financial-analytics');
+const RECIPIENT = 'cetinbumink@gmail.com';
+const WHATSAPP = '393481705207';
+
+const COPY = {
+  en: {
+    readyTitle: 'Your request is ready',
+    readyDesc: 'Nothing has been sent yet. The message below is pre-filled — choose how to deliver it and press send there.',
+    mailApp: 'Open in your email app',
+    gmail: 'Send with Gmail',
+    outlook: 'Send with Outlook',
+    whatsapp: 'Send via WhatsApp',
+    copy: 'Copy the message',
+    copied: 'Copied',
+    recipient: 'Sends to',
+    preview: 'Message',
+    required: 'Required',
+    invalidEmail: 'Enter a valid email address',
+    subject: 'Consultation request',
+  },
+  tr: {
+    readyTitle: 'Talebiniz hazır',
+    readyDesc: 'Henüz hiçbir şey gönderilmedi. Aşağıdaki mesaj hazırlandı — nasıl ileteceğinizi seçin ve orada gönder’e basın.',
+    mailApp: 'E-posta uygulamasında aç',
+    gmail: 'Gmail ile gönder',
+    outlook: 'Outlook ile gönder',
+    whatsapp: 'WhatsApp ile gönder',
+    copy: 'Mesajı kopyala',
+    copied: 'Kopyalandı',
+    recipient: 'Alıcı',
+    preview: 'Mesaj',
+    required: 'Zorunlu',
+    invalidEmail: 'Geçerli bir e-posta adresi girin',
+    subject: 'Görüşme talebi',
+  },
+  it: {
+    readyTitle: 'La tua richiesta è pronta',
+    readyDesc: 'Non è ancora stato inviato nulla. Il messaggio qui sotto è già compilato — scegli come recapitarlo e premi invia lì.',
+    mailApp: 'Apri nell’app di posta',
+    gmail: 'Invia con Gmail',
+    outlook: 'Invia con Outlook',
+    whatsapp: 'Invia via WhatsApp',
+    copy: 'Copia il messaggio',
+    copied: 'Copiato',
+    recipient: 'Destinatario',
+    preview: 'Messaggio',
+    required: 'Obbligatorio',
+    invalidEmail: 'Inserisci un indirizzo email valido',
+    subject: 'Richiesta di consulenza',
+  },
+} as const;
+
+const TIME_SLOTS = Array.from({ length: 10 }, (_, i) => `${String(9 + i).padStart(2, '0')}:00`);
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, locale, t, selectedService: initialService }) => {
+  const [mounted, setMounted] = useState(false);
+  const [step, setStep] = useState<'form' | 'send'>('form');
+  const [service, setService] = useState(initialService || 'financial-analytics');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [errors, setErrors] = useState<FormErrors>({});
   const [honeypot, setHoneypot] = useState('');
-  const [emailContent, setEmailContent] = useState('');
-  const [emailSubject, setEmailSubject] = useState('');
   const [copied, setCopied] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
-  // Defensive check for translations with fallback
-  const booking = t?.methodologyPage?.booking || {
-    title: 'Schedule a Consultation',
-    desc: 'Select a service and provide your details to request a meeting.',
-    selectService: 'Select Service',
-    yourDetails: 'Your Details',
-    yourName: 'Your Name',
-    emailAddress: 'Email Address',
-    selectDate: 'Preferred Date',
-    selectTime: 'Preferred Time',
-    confirm: 'Request Meeting',
-    close: 'Close',
-    success: 'Request Sent',
-    successDesc: 'Your consultation request has been sent. I will get back to you shortly to confirm the meeting time.',
-    loading: 'Sending Request...',
-  };
+  const copy = COPY[locale] ?? COPY.en;
+  const booking = t.methodologyPage.booking;
 
   const services = [
-    { 
-      id: 'financial-analytics', 
-      name: t?.methodologyPage?.section1?.title || 'Financial Analytics & Modeling',
-    },
-    { 
-      id: 'ai-nlp', 
-      name: t?.methodologyPage?.section2?.title || 'AI & Machine Learning Solutions',
-    },
-    { 
-      id: 'business-intelligence', 
-      name: t?.methodologyPage?.section3?.title || 'Business Intelligence & Dashboards',
-    },
-    { 
-      id: 'financial-consultancy', 
-      name: t?.methodologyPage?.section4?.title || 'Financial Consultancy',
-    },
+    { id: 'financial-analytics', name: t.methodologyPage.section1.title },
+    { id: 'ai-nlp', name: t.methodologyPage.section2.title },
+    { id: 'business-intelligence', name: t.methodologyPage.section3.title },
+    { id: 'financial-consultancy', name: t.methodologyPage.section4.title },
   ];
 
-  // Generate time slots (9 AM to 6 PM)
-  const generateTimeSlots = (): string[] => {
-    const slots: string[] = [];
-    for (let hour = 9; hour <= 18; hour++) {
-      slots.push(`${hour.toString().padStart(2, '0')}:00`);
+  // Portals need the document; render nothing on the server.
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (initialService) setService(initialService);
+  }, [initialService]);
+
+  // Scroll lock + Escape + initial focus, all scoped to the open state and
+  // restoring whatever was there before (the navbar's mobile sheet also
+  // locks the body, so this must not blindly clear it).
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    const focusTimer = setTimeout(() => panelRef.current?.focus(), 50);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', onKey);
+      clearTimeout(focusTimer);
+    };
+  }, [isOpen, onClose]);
+
+  const serviceName = services.find((s) => s.id === service)?.name ?? service;
+
+  const formattedDate = (() => {
+    if (!date) return '';
+    try {
+      return new Date(`${date}T00:00:00`).toLocaleDateString(
+        locale === 'tr' ? 'tr-TR' : locale === 'it' ? 'it-IT' : 'en-GB',
+        { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+      );
+    } catch {
+      return date;
     }
-    return slots;
-  };
+  })();
 
-  const timeSlots = generateTimeSlots();
+  const subject = `${copy.subject} — ${serviceName}`;
 
-  const validate = (): boolean => {
-    const newErrors: FormErrors = {};
-    if (!selectedService) newErrors.service = 'Service required';
-    if (!date) newErrors.date = 'Date required';
-    if (!time) newErrors.time = 'Time required';
-    if (!email) newErrors.email = 'Email required';
-    if (!name) newErrors.name = 'Name required';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const message = (() => {
+    const en = `Hello Bumin,
 
-  const getServiceName = (serviceId: string): string => {
-    const service = services.find(s => s.id === serviceId);
-    return service?.name || serviceId;
-  };
-
-  const generateEmailContent = (): string => {
-    const serviceName = getServiceName(selectedService);
-    let formattedDate = '';
-    if (date) {
-      try {
-        formattedDate = new Date(date + 'T00:00:00').toLocaleDateString(
-          locale === 'tr' ? 'tr-TR' : locale === 'it' ? 'it-IT' : 'en-US', 
-          {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          }
-        );
-      } catch (e) {
-        formattedDate = date;
-      }
-    }
-    
-    // English text
-    const englishText = `Hello Bumin,
-
-I would like to schedule a consultation meeting for the following service:
+I would like to schedule a consultation for the following service:
 
 Service: ${serviceName}
-Preferred Date: ${formattedDate}
-Preferred Time: ${time}
+Preferred date: ${formattedDate}
+Preferred time: ${time}
 
-My Details:
 Name: ${name}
 Email: ${email}
 
-I look forward to hearing from you to confirm the meeting time.
+Looking forward to confirming a time.
 
 Best regards,
-${name}
-
----
-
-`;
-
-    // Turkish text
-    const turkishText = `Merhaba Bumin,
+${name}`;
+    const tr = `Merhaba Bumin,
 
 Aşağıdaki hizmet için bir danışmanlık görüşmesi planlamak istiyorum:
 
 Hizmet: ${serviceName}
-Tercih Edilen Tarih: ${formattedDate}
-Tercih Edilen Saat: ${time}
+Tercih edilen tarih: ${formattedDate}
+Tercih edilen saat: ${time}
 
-Bilgilerim:
 Ad: ${name}
 E-posta: ${email}
 
-Görüşme zamanını onaylamak için sizden haber almayı dört gözle bekliyorum.
+Görüşme zamanını onaylamak için sizden haber bekliyorum.
 
 Saygılarımla,
 ${name}`;
+    const it = `Buongiorno Bumin,
 
-    return englishText + turkishText;
+vorrei fissare una consulenza per il seguente servizio:
+
+Servizio: ${serviceName}
+Data preferita: ${formattedDate}
+Orario preferito: ${time}
+
+Nome: ${name}
+Email: ${email}
+
+Resto in attesa di una conferma dell’orario.
+
+Cordiali saluti,
+${name}`;
+    return locale === 'tr' ? tr : locale === 'it' ? it : en;
+  })();
+
+  const validate = (): boolean => {
+    const next: FormErrors = {};
+    if (!name.trim()) next.name = copy.required;
+    if (!email.trim()) next.email = copy.required;
+    else if (!EMAIL_PATTERN.test(email.trim())) next.email = copy.invalidEmail;
+    if (!date) next.date = copy.required;
+    if (!time) next.time = copy.required;
+    setErrors(next);
+    return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Honeypot spam check
+  const mailto = `mailto:${RECIPIENT}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+  const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECIPIENT}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+  const outlook = `https://outlook.live.com/mail/0/deeplink/compose?to=${RECIPIENT}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+  const whatsapp = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`${subject}\n\n${message}`)}`;
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    // Honeypot: bots fill the hidden field; give them the next screen and nothing else.
     if (honeypot) {
-      console.log('Spam detected via honeypot');
-      setStep('success');
+      setStep('send');
       return;
     }
-    
     if (!validate()) return;
-    
-    // Generate mailto link with pre-filled email
-    const subject = encodeURIComponent(
-      locale === 'tr' 
-        ? `Görüşme Talebi - ${getServiceName(selectedService)}`
-        : locale === 'it'
-        ? `Richiesta Incontro - ${getServiceName(selectedService)}`
-        : `Consultation Request - ${getServiceName(selectedService)}`
-    );
-    
-    const body = encodeURIComponent(generateEmailContent());
-    const mailtoLink = `mailto:cetinbumink@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Store email content for fallback options
-    setEmailContent(generateEmailContent());
-    setEmailSubject(
-      locale === 'tr' 
-        ? `Görüşme Talebi - ${getServiceName(selectedService)}`
-        : locale === 'it'
-        ? `Richiesta Incontro - ${getServiceName(selectedService)}`
-        : `Consultation Request - ${getServiceName(selectedService)}`
-    );
-    
-    // Try to open email client immediately (mailto)
-    // Note: mailto links only work if user has a default email client configured
-    // Many users (especially on mobile or without email clients) will need webmail options
-    // We show the success screen with multiple options so everyone can send the email
-    try {
-      window.location.href = mailtoLink;
-      // Show success screen after attempting to open email client
-      // This gives users options even if mailto didn't work
-      setTimeout(() => {
-        setStep('success');
-      }, 500);
-    } catch (error) {
-      console.error('Failed to open email client:', error);
-      // Show success screen with webmail options
-      setStep('success');
-    }
+    setStep('send');
   };
 
-  const copyEmailToClipboard = async () => {
-    const fullEmail = `To: cetinbumink@gmail.com\nSubject: ${emailSubject}\n\n${emailContent}`;
+  const copyMessage = async () => {
     try {
-      await navigator.clipboard.writeText(fullEmail);
+      await navigator.clipboard.writeText(`To: ${RECIPIENT}\nSubject: ${subject}\n\n${message}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error('Failed to copy to clipboard:', error);
+    } catch {
+      // Clipboard blocked: the preview below is selectable.
     }
   };
 
-  const openEmailManually = () => {
-    const subject = encodeURIComponent(emailSubject);
-    const body = encodeURIComponent(emailContent);
-    const mailtoLink = `mailto:cetinbumink@gmail.com?subject=${subject}&body=${body}`;
-    window.location.href = mailtoLink;
-  };
-
-  const openGmail = () => {
-    const subject = encodeURIComponent(emailSubject);
-    const body = encodeURIComponent(emailContent);
-    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=cetinbumink@gmail.com&su=${subject}&body=${body}`;
-    window.open(gmailLink, '_blank');
-  };
-
-  const openOutlook = () => {
-    const subject = encodeURIComponent(emailSubject);
-    const body = encodeURIComponent(emailContent);
-    const outlookLink = `https://outlook.live.com/mail/0/deeplink/compose?to=cetinbumink@gmail.com&subject=${subject}&body=${body}`;
-    window.open(outlookLink, '_blank');
-  };
-
-  const openYandex = () => {
-    const subject = encodeURIComponent(emailSubject);
-    const body = encodeURIComponent(emailContent);
-    const yandexLink = `https://mail.yandex.com/compose?to=cetinbumink@gmail.com&subject=${subject}&body=${body}`;
-    window.open(yandexLink, '_blank');
-  };
-
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     onClose();
+    // Reset once the exit animation has played, so the form does not flash back.
     setTimeout(() => {
       setStep('form');
       setDate('');
@@ -278,74 +253,81 @@ ${name}`;
       setName('');
       setHoneypot('');
       setErrors({});
-      setEmailContent('');
-      setEmailSubject('');
       setCopied(false);
     }, 300);
-  };
+  }, [onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  const field =
+    'w-full rounded-editorial border bg-surface px-4 py-3.5 font-sans text-sm text-charcoal outline-none transition-colors placeholder:text-muted-light focus:border-accent';
+  const fieldBorder = (error?: string) => (error ? 'border-negative' : 'border-border');
+  const secondaryAction =
+    'flex w-full items-center justify-center gap-2.5 rounded-editorial border border-border bg-surface px-4 py-3.5 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-charcoal transition-colors hover:border-accent hover:text-accent';
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div 
-          className="fixed inset-0 z-[120] flex items-center justify-center"
-          style={{
-            padding: 'clamp(0.5rem, 2vw, 1.5rem)',
-            paddingTop: 'max(clamp(0.5rem, 2vw, 1.5rem), env(safe-area-inset-top))',
-            paddingBottom: 'max(clamp(0.5rem, 2vw, 1.5rem), env(safe-area-inset-bottom))',
-          }}
+        <div
+          className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="booking-modal-title"
         >
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm" 
-            onClick={handleClose} 
+            transition={{ duration: 0.25 }}
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={handleClose}
           />
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+
+          <motion.div
+            ref={panelRef}
+            tabIndex={-1}
+            initial={{ opacity: 0, y: 18, scale: 0.985 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative bg-cream w-full max-w-lg rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-border"
-            style={{
-              maxHeight: 'min(92dvh, calc(100vh - 2rem))',
-            }}
+            exit={{ opacity: 0, y: 18, scale: 0.985 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="relative flex w-full max-w-lg flex-col overflow-hidden rounded-editorial border border-border bg-cream shadow-card-hover outline-none"
+            style={{ maxHeight: 'min(92dvh, calc(100vh - 1.5rem))' }}
           >
-            {/* Close button */}
-            <button 
+            {/* Brass hairline along the top edge. */}
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{ background: 'linear-gradient(90deg, transparent, rgb(var(--c-brass) / 0.7), transparent)' }}
+              aria-hidden="true"
+            />
+
+            <button
+              type="button"
               onClick={handleClose}
-              aria-label="Close booking modal"
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 rounded-full bg-surface-raised border border-border flex items-center justify-center text-charcoal active:bg-border sm:hover:border-accent/40 transition-all z-20"
+              aria-label={booking.close}
+              className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:border-accent hover:text-charcoal"
             >
-              <X size={20} />
+              <X size={16} strokeWidth={1.5} />
             </button>
 
             {step === 'form' && (
-              <div 
-                className="p-5 sm:p-8 md:p-12 overflow-y-auto flex-1 min-h-0 overscroll-contain" 
-                style={{ 
-                  WebkitOverflowScrolling: 'touch',
-                }}
-              >
-                <div className="mb-6 sm:mb-8 pr-8 sm:pr-0">
-                  <h2 id="booking-modal-title" className="font-serif text-2xl sm:text-3xl text-charcoal mb-2">
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-6 sm:p-9">
+                <div className="mb-7 pr-12">
+                  <span className="mb-3 block font-mono text-[0.625rem] uppercase tracking-[0.22em] text-muted-light">
+                    {t.nav.contact}
+                  </span>
+                  <h2 id="booking-modal-title" className="font-display text-3xl font-light text-charcoal">
                     {booking.title}
                   </h2>
-                  <p className="font-sans text-sm text-muted">{booking.desc}</p>
+                  <p className="mt-2 font-sans text-sm text-muted">{booking.desc}</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Honeypot field */}
-                  <div className="absolute -left-[9999px] aria-hidden" aria-hidden="true">
-                    <label htmlFor="website">Website (leave empty)</label>
+                <form onSubmit={handleSubmit} noValidate className="space-y-7">
+                  {/* Honeypot */}
+                  <div className="absolute -left-[9999px]" aria-hidden="true">
+                    <label htmlFor="booking-website">Website</label>
                     <input
                       type="text"
-                      id="website"
+                      id="booking-website"
                       name="website"
                       value={honeypot}
                       onChange={(e) => setHoneypot(e.target.value)}
@@ -353,201 +335,194 @@ ${name}`;
                       autoComplete="off"
                     />
                   </div>
-                  
-                  {/* Services */}
-                  <div>
-                    <label className="font-mono text-xs text-muted uppercase tracking-wider block mb-4">
+
+                  {/* Service */}
+                  <fieldset>
+                    <legend className="mb-3 font-mono text-[0.625rem] uppercase tracking-[0.2em] text-muted">
                       {booking.selectService}
-                    </label>
-                    <div className="space-y-3">
-                      {services.map((s) => (
-                        <button
-                          key={s.id}
-                          type="button"
-                          onClick={() => setSelectedService(s.id)}
-                          className={`w-full p-5 rounded-xl text-left transition-all ${
-                            selectedService === s.id 
-                              ? 'bg-accent text-cream border-2 border-accent' 
-                              : 'bg-surface text-charcoal border border-border hover:border-charcoal/30'
-                          }`}
-                        >
-                          <span className="font-serif text-sm font-medium">{s.name}</span>
-                        </button>
-                      ))}
+                    </legend>
+                    <div className="divide-y divide-border border-y border-border">
+                      {services.map((s, index) => {
+                        const active = service === s.id;
+                        return (
+                          <label
+                            key={s.id}
+                            className={`flex cursor-pointer items-center gap-4 px-1 py-3 transition-colors ${
+                              active ? 'text-charcoal' : 'text-muted hover:text-charcoal'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="service"
+                              value={s.id}
+                              checked={active}
+                              onChange={() => setService(s.id)}
+                              className="sr-only"
+                            />
+                            <span className="font-mono text-[0.625rem] tracking-[0.16em] text-accent">0{index + 1}</span>
+                            <span className="flex-1 font-sans text-sm">{s.name}</span>
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full transition-all ${
+                                active ? 'bg-accent shadow-glow' : 'bg-border-dark'
+                              }`}
+                              aria-hidden="true"
+                            />
+                          </label>
+                        );
+                      })}
                     </div>
-                    {errors.service && (
-                      <p className="text-xs text-accent mt-1">{errors.service}</p>
-                    )}
-                  </div>
+                  </fieldset>
 
                   {/* Details */}
                   <div>
-                    <label className="font-mono text-xs text-muted uppercase tracking-wider block mb-4">
+                    <span className="mb-3 block font-mono text-[0.625rem] uppercase tracking-[0.2em] text-muted">
                       {booking.yourDetails}
-                    </label>
+                    </span>
                     <div className="space-y-3">
-                      <input 
-                        type="text"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        placeholder={booking.yourName}
-                        className={`w-full bg-surface border rounded-xl px-5 py-4 font-sans text-sm outline-none focus:border-accent transition-colors placeholder:text-muted ${
-                          errors.name ? 'border-accent' : 'border-border'
-                        }`}
-                      />
-                      {errors.name && (
-                        <p className="text-xs text-accent">{errors.name}</p>
-                      )}
-                      <input 
-                        type="email" 
-                        value={email} 
-                        onChange={e => setEmail(e.target.value)} 
-                        placeholder={booking.emailAddress} 
-                        className={`w-full bg-surface border rounded-xl px-5 py-4 font-sans text-sm outline-none focus:border-accent transition-colors placeholder:text-muted ${
-                          errors.email ? 'border-accent' : 'border-border'
-                        }`}
-                      />
-                      {errors.email && (
-                        <p className="text-xs text-accent">{errors.email}</p>
-                      )}
+                      <div>
+                        <input
+                          type="text"
+                          name="name"
+                          autoComplete="name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder={booking.yourName}
+                          aria-label={booking.yourName}
+                          aria-invalid={!!errors.name}
+                          className={`${field} ${fieldBorder(errors.name)}`}
+                        />
+                        {errors.name && <p className="mt-1.5 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-negative">{errors.name}</p>}
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          name="email"
+                          autoComplete="email"
+                          inputMode="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder={booking.emailAddress}
+                          aria-label={booking.emailAddress}
+                          aria-invalid={!!errors.email}
+                          className={`${field} ${fieldBorder(errors.email)}`}
+                        />
+                        {errors.email && <p className="mt-1.5 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-negative">{errors.email}</p>}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Date & Time */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Date & time */}
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
-                      <label className="font-mono text-xs text-muted uppercase tracking-wider block mb-4 break-words">
+                      <label htmlFor="booking-date" className="mb-3 block font-mono text-[0.625rem] uppercase tracking-[0.2em] text-muted">
                         {booking.selectDate}
                       </label>
-                      <input 
-                        type="date" 
-                        value={date} 
-                        onChange={e => setDate(e.target.value)} 
+                      <input
+                        id="booking-date"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
                         min={new Date().toISOString().split('T')[0]}
-                        className={`w-full bg-surface border rounded-xl px-5 py-4 font-sans text-sm outline-none focus:border-accent transition-colors ${
-                          errors.date ? 'border-accent' : 'border-border'
-                        }`}
+                        aria-invalid={!!errors.date}
+                        className={`${field} ${fieldBorder(errors.date)} [color-scheme:inherit]`}
                       />
-                      {errors.date && (
-                        <p className="text-xs text-accent mt-1">{errors.date}</p>
-                      )}
+                      {errors.date && <p className="mt-1.5 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-negative">{errors.date}</p>}
                     </div>
                     <div>
-                      <label className="font-mono text-[10px] sm:text-xs text-muted uppercase tracking-[0.05em] sm:tracking-wider block mb-4 break-words leading-tight">
+                      <label htmlFor="booking-time" className="mb-3 block font-mono text-[0.625rem] uppercase tracking-[0.2em] text-muted">
                         {booking.selectTime}
                       </label>
                       <div className="relative">
                         <select
+                          id="booking-time"
                           value={time}
-                          onChange={e => setTime(e.target.value)}
-                          className={`w-full bg-surface border rounded-xl px-5 py-4 pr-12 font-sans text-sm outline-none focus:border-accent transition-colors appearance-none ${
-                            errors.time ? 'border-accent' : 'border-border'
-                          }`}
+                          onChange={(e) => setTime(e.target.value)}
+                          aria-invalid={!!errors.time}
+                          className={`${field} ${fieldBorder(errors.time)} appearance-none pr-11`}
                         >
-                          <option value="">{booking.selectTime}</option>
-                          {timeSlots.map((slot) => (
+                          <option value="">—</option>
+                          {TIME_SLOTS.map((slot) => (
                             <option key={slot} value={slot}>
                               {slot}
                             </option>
                           ))}
                         </select>
-                        <Clock className="absolute right-5 top-1/2 transform -translate-y-1/2 text-muted pointer-events-none" size={16} />
+                        <Clock className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-light" size={15} strokeWidth={1.5} />
                       </div>
-                      {errors.time && (
-                        <p className="text-xs text-accent mt-1">{errors.time}</p>
-                      )}
+                      {errors.time && <p className="mt-1.5 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-negative">{errors.time}</p>}
                     </div>
                   </div>
 
-                  <button 
-                    type="submit" 
-                    className="w-full py-5 rounded-xl font-mono text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 bg-accent text-cream hover:bg-[#D6A45C]"
+                  <button
+                    type="submit"
+                    className="flex w-full items-center justify-center gap-2.5 rounded-editorial bg-accent px-6 py-4 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-accent-hover"
                   >
                     {booking.confirm}
-                    <ArrowRight size={14} />
+                    <ArrowRight size={14} strokeWidth={1.5} />
                   </button>
                 </form>
               </div>
             )}
 
-            {step === 'success' && (
-              <div className="p-6 sm:p-8 md:p-12 text-center flex-1 flex flex-col min-h-0 overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                  <Mail size={28} className="text-accent" />
+            {step === 'send' && (
+              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-6 sm:p-9">
+                <div className="mb-6 pr-12">
+                  <span className="mb-3 block font-mono text-[0.625rem] uppercase tracking-[0.22em] text-muted-light">
+                    {t.nav.contact} · 2/2
+                  </span>
+                  <h2 id="booking-modal-title" className="font-display text-3xl font-light text-charcoal">
+                    {copy.readyTitle}
+                  </h2>
+                  <p className="mt-2 font-sans text-sm text-muted">{copy.readyDesc}</p>
                 </div>
-                <h3 className="font-serif text-2xl sm:text-3xl text-charcoal mb-2">{booking.success}</h3>
-                <p className="font-sans text-xs sm:text-sm text-muted mb-6 max-w-sm mx-auto">
-                  {locale === 'tr' 
-                    ? 'E-postanızı göndermek için aşağıdaki seçeneklerden birini kullanın:'
-                    : locale === 'it'
-                    ? 'Usa una delle opzioni seguenti per inviare la tua email:'
-                    : 'Choose one of the options below to send your email:'}
-                </p>
-                
-                <div className="w-full space-y-2.5 mb-4">
-                  {/* Gmail */}
-                  <button 
-                    onClick={openGmail}
-                    className="w-full bg-[#EA4335] text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#C5221F] transition-all flex items-center justify-center gap-2"
+
+                <div className="space-y-2.5">
+                  <a
+                    href={mailto}
+                    className="flex w-full items-center justify-center gap-2.5 rounded-editorial bg-accent px-6 py-4 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-accent-hover"
                   >
-                    <Mail size={16} />
-                    {locale === 'tr' ? 'Gmail ile Gönder' : locale === 'it' ? 'Invia con Gmail' : 'Send with Gmail'}
-                  </button>
-                  
-                  {/* Outlook */}
-                  <button 
-                    onClick={openOutlook}
-                    className="w-full bg-[#0078D4] text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#005A9E] transition-all flex items-center justify-center gap-2"
-                  >
-                    <Mail size={16} />
-                    {locale === 'tr' ? 'Outlook ile Gönder' : locale === 'it' ? 'Invia con Outlook' : 'Send with Outlook'}
-                  </button>
-                  
-                  {/* Yandex */}
-                  <button 
-                    onClick={openYandex}
-                    className="w-full bg-[#FC3F1D] text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#D32F1A] transition-all flex items-center justify-center gap-2"
-                  >
-                    <Mail size={16} />
-                    {locale === 'tr' ? 'Yandex ile Gönder' : locale === 'it' ? 'Invia con Yandex' : 'Send with Yandex'}
-                  </button>
-                  
-                  {/* Default Email Client */}
-                  <button 
-                    onClick={openEmailManually}
-                    className="w-full border-2 border-border text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:border-accent hover:text-accent transition-all flex items-center justify-center gap-2"
-                  >
-                    <Mail size={16} />
-                    {locale === 'tr' ? 'Varsayılan E-posta İstemcisi' : locale === 'it' ? 'Client Email Predefinito' : 'Default Email Client'}
-                  </button>
-                  
-                  {/* Copy to Clipboard */}
-                  <button 
-                    onClick={copyEmailToClipboard}
-                    className="w-full border border-border text-charcoal rounded-xl py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-surface-alt transition-all flex items-center justify-center gap-2"
-                  >
-                    <Copy size={16} />
-                    {copied 
-                      ? (locale === 'tr' ? '✓ Kopyalandı!' : locale === 'it' ? '✓ Copiato!' : '✓ Copied!')
-                      : (locale === 'tr' ? 'E-postayı Kopyala' : locale === 'it' ? 'Copia Email' : 'Copy Email Content')
-                    }
+                    <Mail size={15} strokeWidth={1.5} />
+                    {copy.mailApp}
+                  </a>
+                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                    <a href={gmail} target="_blank" rel="noreferrer" className={secondaryAction}>
+                      <ExternalLink size={14} strokeWidth={1.5} />
+                      {copy.gmail}
+                    </a>
+                    <a href={outlook} target="_blank" rel="noreferrer" className={secondaryAction}>
+                      <ExternalLink size={14} strokeWidth={1.5} />
+                      {copy.outlook}
+                    </a>
+                  </div>
+                  <a href={whatsapp} target="_blank" rel="noreferrer" className={secondaryAction}>
+                    <MessageCircle size={14} strokeWidth={1.5} />
+                    {copy.whatsapp}
+                  </a>
+                  <button type="button" onClick={copyMessage} className={secondaryAction}>
+                    {copied ? <Check size={14} strokeWidth={1.5} className="text-positive" /> : <Copy size={14} strokeWidth={1.5} />}
+                    {copied ? copy.copied : copy.copy}
                   </button>
                 </div>
-                
-                <div className="mt-4 p-4 bg-surface-alt rounded-xl border border-border">
-                  <p className="font-mono text-[10px] text-muted mb-2">
-                    {locale === 'tr' 
-                      ? 'E-posta Adresi:'
-                      : locale === 'it'
-                      ? 'Indirizzo Email:'
-                      : 'Email Address:'}
-                  </p>
-                  <p className="font-mono text-xs text-charcoal break-all">cetinbumink@gmail.com</p>
+
+                <div className="mt-6 border-t border-border pt-5">
+                  <div className="flex items-baseline justify-between gap-4 font-mono text-[0.625rem] uppercase tracking-[0.16em]">
+                    <span className="text-muted-light">{copy.recipient}</span>
+                    <span className="select-all text-charcoal normal-case tracking-normal">{RECIPIENT}</span>
+                  </div>
+                  <details className="group mt-4">
+                    <summary className="cursor-pointer list-none font-mono text-[0.625rem] uppercase tracking-[0.16em] text-muted-light transition-colors hover:text-charcoal">
+                      {copy.preview} <span className="inline-block transition-transform group-open:rotate-90">›</span>
+                    </summary>
+                    <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap rounded-editorial border border-border bg-surface p-4 font-sans text-xs leading-relaxed text-muted">
+                      {message}
+                    </pre>
+                  </details>
                 </div>
-                
-                <button 
-                  onClick={handleClose} 
-                  className="w-full mt-4 border border-border rounded-xl py-3 font-mono text-xs uppercase tracking-wider text-muted hover:text-charcoal transition-all"
+
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="mt-5 w-full py-2 font-mono text-[0.625rem] uppercase tracking-[0.18em] text-muted-light transition-colors hover:text-charcoal"
                 >
                   {booking.close}
                 </button>
@@ -556,6 +531,7 @@ ${name}`;
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
