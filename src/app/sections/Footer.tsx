@@ -61,7 +61,7 @@ const Footer: React.FC<FooterProps> = ({ t, locale = 'en' }) => {
             <RevealText
               as="h2"
               text={trans.footer.ctaTitle}
-              className="text-heading text-charcoal"
+              className="font-display text-chapter text-charcoal"
               stagger={40}
             />
 

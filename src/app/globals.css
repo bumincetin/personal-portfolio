@@ -516,3 +516,148 @@
     mask-composite: exclude;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * STORY LAYER
+ * Surface finish and editorial treatments introduced with the narrative home
+ * page. Several are direct ports of ThreeUI authored-scene conventions
+ * (github.com/MengTo/threeui, MIT): the grain + vignette stack, the "dark
+ * glass" material with an orbiting conic highlight, and the Kage lesson rows.
+ * ---------------------------------------------------------------------- */
+
+:root {
+  --grain-opacity: 0.055;
+  --vignette-alpha: 0.55;
+}
+[data-theme='light'] {
+  --grain-opacity: 0.09;
+  --vignette-alpha: 0.28;
+}
+
+/* Portrait graded into the palette: monochrome under a brass colour wash, so
+   the photograph reads as material rather than a snapshot on the page. */
+.portrait-grade img {
+  filter: grayscale(1) contrast(1.06) brightness(0.94);
+}
+.portrait-tint {
+  background: linear-gradient(165deg, rgb(var(--c-brass-hi)) 0%, rgb(var(--c-brass)) 45%, rgb(var(--c-copper-lo)) 100%);
+  mix-blend-mode: color;
+  opacity: 0.9;
+}
+[data-theme='light'] .portrait-grade img {
+  filter: grayscale(1) contrast(1.02) brightness(1.02);
+}
+[data-theme='light'] .portrait-tint {
+  opacity: 0.75;
+}
+
+/* Scroll cue: a brass drop running down a hairline (Kage `.hero-cue`). */
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  45% { transform: translateY(0); }
+  100% { transform: translateY(200%); }
+}
+.animate-scroll-cue {
+  animation: scroll-cue 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* Marquee fades to nothing at both ends. */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Dark glass: frosted panel, hairline lit only on its upper edge, and a soft
+   conic highlight that orbits the face once every few seconds. */
+.glass {
+  position: relative;
+  overflow: hidden;
+  background: rgb(var(--c-panel) / 0.72);
+  backdrop-filter: blur(28px) saturate(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(1.05);
+  box-shadow: var(--shadow-card), inset 0 1px 0 0 rgb(var(--c-text) / 0.05);
+}
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(170deg, rgb(var(--c-brass) / 0.45), rgb(var(--c-hairline-strong)) 45%, rgb(var(--c-hairline)) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.glass::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: conic-gradient(from 180deg, transparent 0deg, transparent 200deg, rgb(var(--c-brass) / 0.07) 300deg, transparent 360deg);
+  filter: blur(18px);
+  animation: glass-orbit 7s linear infinite;
+  pointer-events: none;
+}
+[data-theme='light'] .glass {
+  background: rgb(var(--c-panel) / 0.82);
+}
+@keyframes glass-orbit {
+  to { transform: rotate(360deg); }
+}
+
+/* Service index rows (Kage `.les`): shift right, brass wash from the left,
+   underline drawn from the left edge. */
+.index-row {
+  position: relative;
+  transition: padding-left 0.5s var(--ease-luxe);
+}
+.index-row::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 -1.5rem;
+  background: linear-gradient(90deg, rgb(var(--c-brass) / 0.08), transparent 46%);
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-luxe);
+  pointer-events: none;
+}
+.index-row:hover {
+  padding-left: clamp(0.5rem, 1.2vw, 1.125rem);
+}
+.index-row:hover::before {
+  opacity: 1;
+}
+.index-row .index-bar {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 100%;
+  background: rgb(var(--c-brass));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s var(--ease-luxe);
+}
+.index-row:hover .index-bar {
+  transform: scaleX(1);
+}
+
+/* Hero exit (Kage `wireHeroExit`): elements are faded, lifted and blurred by
+   scroll position from JS; this only declares that they will be. */
+[data-hero-exit] {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass::after,
+  .animate-scroll-cue {
+    animation: none;
+  }
+  .index-row,
+  .index-row .index-bar {
+    transition: none;
+  }
+}

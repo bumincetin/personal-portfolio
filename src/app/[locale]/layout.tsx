@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../sections/Footer';
 import FieldBackdrop from '../components/FieldBackdrop';
 import HudCursor from '../components/ui/HudCursor';
+import GrainOverlay from '../components/ui/GrainOverlay';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -50,6 +51,7 @@ export default async function LocaleLayout(
   return (
     <div className="relative min-h-screen">
       <FieldBackdrop />
+      <GrainOverlay />
       <HudCursor />
 
       <a

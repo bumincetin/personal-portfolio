@@ -56,8 +56,10 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Editorial serif for display type; `serif` is an alias so the older
+        // page templates that ask for font-serif pick it up unchanged.
+        display: ['var(--font-display)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        serif: ['var(--font-display)', 'Cormorant Garamond', 'Georgia', 'serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'Menlo', 'monospace'],
       },
       fontSize: {
@@ -66,6 +68,9 @@ module.exports = {
         heading: ['clamp(1.875rem, 4vw, 3.25rem)', { lineHeight: '1.1', letterSpacing: '-0.03em', fontWeight: '200' }],
         subheading: ['clamp(1.25rem, 2vw, 1.625rem)', { lineHeight: '1.3', letterSpacing: '-0.02em', fontWeight: '300' }],
         label: ['0.6875rem', { lineHeight: '1', letterSpacing: '0.18em' }],
+        // Serif display sizes: the face is small on the body, so it runs larger.
+        'display-serif': ['clamp(3.25rem, 8.5vw, 7rem)', { lineHeight: '0.98', letterSpacing: '-0.015em', fontWeight: '300' }],
+        'chapter': ['clamp(2.125rem, 4.6vw, 3.875rem)', { lineHeight: '1.05', letterSpacing: '-0.01em', fontWeight: '300' }],
       },
       spacing: {
         section: 'clamp(4.5rem, 10vw, 9rem)',

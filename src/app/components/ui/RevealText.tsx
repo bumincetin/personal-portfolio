@@ -19,6 +19,12 @@ type RevealTextProps<T extends React.ElementType> = {
   /** Milliseconds before the first word moves. */
   delay?: number;
   className?: string;
+  /**
+   * Applied to each word span. Needed for background-clipped text: a gradient
+   * set on the parent does not reach through the overflow-hidden word masks,
+   * so the fill has to be painted per word.
+   */
+  wordClassName?: string;
 };
 
 export default function RevealText<T extends React.ElementType = 'span'>({
@@ -27,6 +33,7 @@ export default function RevealText<T extends React.ElementType = 'span'>({
   stagger = 45,
   delay = 0,
   className = '',
+  wordClassName = '',
   ...rest
 }: RevealTextProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof RevealTextProps<T>>) {
   const Component = (as ?? 'span') as React.ElementType;
@@ -69,7 +76,7 @@ export default function RevealText<T extends React.ElementType = 'span'>({
               <React.Fragment key={`${lineNumber}-${position}`}>
                 <span className="reveal-mask">
                   <span
-                    className="reveal-word"
+                    className={`reveal-word ${wordClassName}`}
                     style={{ '--word-delay': `${delay + wordIndex * stagger}ms` } as React.CSSProperties}
                   >
                     {word}

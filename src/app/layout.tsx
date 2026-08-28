@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import { THEME_INIT_SCRIPT } from '@/lib/theme';
 
@@ -12,6 +12,20 @@ const inter = Inter({
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
   variable: '--font-sans',
+});
+
+/*
+ * Display face. A high-contrast old-style serif at light weights is what
+ * carries the editorial register -- chapter titles, the hero line, pull
+ * quotes -- while Inter stays on everything that has to be read quickly.
+ * Turkish and Italian copy needs latin-ext.
+ */
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['300', '400', '500'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-display',
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -87,7 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // suppressHydrationWarning: the inline script below stamps data-theme on
     // this element before React hydrates, so the server markup deliberately
     // differs from what the client finds.
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${cormorant.variable}`} suppressHydrationWarning>
       <head>
         {/* Must run before first paint, or the page flashes the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
