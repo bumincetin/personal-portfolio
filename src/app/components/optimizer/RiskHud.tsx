@@ -97,7 +97,11 @@ export default function RiskHud({ alloc, sim, mounted }: { alloc: AllocationResu
           <table className="w-full">
             <thead>
               <tr className="font-mono text-[10px] text-muted-light">
-                <th scope="col" className="text-left font-normal"></th>
+                {/* The corner cell still needs an accessible name: an empty column
+                    header leaves the row-header column unannounced. */}
+                <th scope="col" className="text-left font-normal">
+                  <span className="sr-only">Measure</span>
+                </th>
                 <th scope="col" className="text-right font-normal">Adaptive</th>
                 <th scope="col" className="text-right font-normal">60/40</th>
               </tr>

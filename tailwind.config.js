@@ -45,21 +45,26 @@ module.exports = {
         // Structure
         border: 'rgb(var(--c-hairline) / <alpha-value>)',
         'border-dark': 'rgb(var(--c-hairline-strong) / <alpha-value>)',
+        // Interactive control edges; meets WCAG 1.4.11 non-text contrast where
+        // the decorative hairlines above deliberately do not.
+        'border-control': 'rgb(var(--c-hairline-control) / <alpha-value>)',
         surface: 'rgb(var(--c-panel) / <alpha-value>)',
         'surface-alt': 'rgb(var(--c-panel-alt) / <alpha-value>)',
         'surface-raised': 'rgb(var(--c-panel-raised) / <alpha-value>)',
 
         // Semantic status colours
         positive: 'rgb(var(--c-positive) / <alpha-value>)',
-        caution: 'rgb(var(--c-brass) / <alpha-value>)',
+        caution: 'rgb(var(--c-caution) / <alpha-value>)',
         negative: 'rgb(var(--c-negative) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        // Editorial serif for display type; `serif` is an alias so the older
-        // page templates that ask for font-serif pick it up unchanged.
-        display: ['var(--font-display)', 'Cormorant Garamond', 'Georgia', 'serif'],
-        serif: ['var(--font-display)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        // One display face and one text face, both defined in globals.css.
+        // `serif` is an alias for `display` so older templates asking for
+        // font-serif pick up the same face rather than a second one.
+        display: ['var(--font-display)'],
+        serif: ['var(--font-display)'],
+        text: ['var(--font-text)'],
         mono: ['var(--font-mono)', 'ui-monospace', 'Menlo', 'monospace'],
       },
       fontSize: {

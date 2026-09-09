@@ -1,14 +1,18 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/seo';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      // The upload/analysis tool has nothing to index and its results are
-      // per-visitor, so keep it out of search results.
-      disallow: '/api/',
+      disallow: [
+        // Endpoints, not pages. `/api/contact` receives what people write and
+        // `/api/analyze` receives document text; neither has anything to index.
+        '/api/',
+      ],
     },
-    sitemap: 'https://bumincetin.com/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

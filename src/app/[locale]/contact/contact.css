@@ -1,0 +1,450 @@
+/*
+ * The colophon page.
+ *
+ * Built from the shelf's own tokens — paper, ink, rule, accent — so the one
+ * page that is not a volume still reads as part of the same object. The form
+ * inside it keeps the site's component styling; everything around it is set in
+ * the editorial serif the volumes use.
+ */
+
+.colophon-root {
+  min-height: 100svh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+}
+
+.colophon {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 6rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .colophon {
+    padding: 7.5rem 2rem 5rem;
+    gap: 5rem;
+  }
+}
+
+/* ------------------------------------------------------------------ hero */
+
+.colophon-hero {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .colophon-hero {
+    grid-template-columns: 22rem 1fr;
+    gap: 3.5rem;
+  }
+}
+
+.colophon-portrait {
+  margin: 0;
+}
+
+.colophon-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  /* Graded into the palette rather than dropped in as a snapshot. */
+  filter: grayscale(0.35) contrast(1.04) brightness(0.97);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+.colophon-portrait figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 0.9rem;
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.colophon-portrait figcaption svg {
+  color: var(--accent);
+}
+
+.colophon-intro .reader-title,
+.colophon-intro .reader-note {
+  color: var(--ink);
+}
+
+.colophon-intro .reader-eyebrow {
+  color: var(--ink-soft);
+}
+
+.colophon-intro .reader-note {
+  color: var(--ink-soft);
+  max-width: 34em;
+}
+
+.colophon-bio {
+  margin: 1.5rem 0 0;
+  max-width: 36em;
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ form */
+
+/*
+ * THE FORM IS PART OF THE PAGE.
+ *
+ * It used to be a sheet of `--paper-pale` — a cream slab dropped onto a dark
+ * page, with its own inverted ink, its own input colours and its own button
+ * treatment, all of which had to be maintained separately from the rest of the
+ * site. It read as a different page pasted into this one.
+ *
+ * It is a panel now: the same ground, one step lifted, with the site's own
+ * tokens doing the work. Everything below that re-pointed ink at paper is gone.
+ */
+.colophon-form {
+  padding: 2rem 1.5rem;
+  border: 1px solid rgb(var(--c-hairline));
+  border-radius: 4px;
+  background: rgb(var(--c-panel));
+  color: rgb(var(--c-text));
+}
+
+@media (min-width: 768px) {
+  .colophon-form {
+    padding: 3rem;
+  }
+}
+
+/*
+ * The form is the site's own component, built on the site's own tokens, and on
+ * this ground they are already correct. The only thing it needs from here is a
+ * field that reads as a field: a surface a shade darker than the panel, so the
+ * boxes are visible before you focus them.
+ */
+.colophon-form input,
+.colophon-form select,
+.colophon-form textarea {
+  background: rgb(var(--c-ground));
+}
+
+.colophon-form label {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* ---------------------------------------------------------------- record */
+
+.colophon-chapters {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.colophon-chapter-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin: 0 0 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.colophon-chapter-meta span:first-child {
+  color: var(--accent);
+}
+
+.colophon-chapters h3 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.colophon-role {
+  margin: 0 0 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.colophon-body {
+  margin: 0;
+  max-width: 40em;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.colophon-columns {
+  display: grid;
+  gap: 3rem;
+  margin-top: 3.5rem;
+}
+
+@media (min-width: 900px) {
+  .colophon-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.colophon-entries {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.colophon-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.colophon-entry-head strong {
+  font-weight: 400;
+  font-size: 1.0625rem;
+}
+
+.colophon-entry-head span {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.colophon-entry-sub {
+  margin: 0.3rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.colophon-entry-note {
+  margin: 0.6rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.colophon-highlights {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.colophon-highlights li {
+  position: relative;
+  padding-left: 1.2em;
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.colophon-highlights li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.5em;
+  height: 1px;
+  background: var(--accent);
+}
+
+.colophon-languages {
+  margin-top: 3rem;
+}
+
+.colophon-languages ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.colophon-languages strong {
+  font-weight: 400;
+}
+
+.colophon-languages span {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+/* ---------------------------------------------------------------- direct */
+
+.colophon-direct ul {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.colophon-direct a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65em;
+  min-height: 44px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 200ms var(--ease-out);
+}
+
+.colophon-direct a:hover,
+.colophon-direct a:focus-visible {
+  color: var(--accent);
+}
+
+.colophon-direct a > svg:first-child {
+  color: var(--accent);
+}
+
+.colophon-note {
+  margin: 1.5rem 0 2rem;
+  max-width: 40em;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/*
+ * Same as the reader: the application's base layer would otherwise set these
+ * in the sans face at a 200 weight.
+ */
+.colophon .reader-title,
+.colophon-chapters h3,
+.colophon-entry-head strong,
+.colophon-languages strong {
+  font-family: var(--serif);
+  font-weight: 400;
+}
+
+.colophon .reader-heading {
+  font-family: var(--mono);
+}
+
+/*
+ * The reader's type classes are drawn for a paper leaf, so their ink is dark.
+ * On the colophon only the form sits on paper; the sections around it are on
+ * the dark ground and need the page's own ink instead.
+ */
+.colophon-record .reader-heading,
+.colophon-direct .reader-heading,
+.colophon-columns .reader-heading,
+.colophon-languages .reader-heading {
+  color: var(--ink-soft);
+}
+
+/* The form stopped being paper; this said otherwise, and outranked the rule
+   that says what colour a label is, so the heading above the form was ink at
+   1:1 against its own panel. */
+
+/* ═════════════════════════════════════════════════════ page furniture ══ */
+
+/*
+ * Five rules that used to live in `reader.css`.
+ *
+ * That file was 500 lines of styling for the old horizontal-track reader, and
+ * the sketchbook replaced everything in it except the five classes this page
+ * uses. Worse, it was written for a page made of paper: its colours were dark
+ * ink (`rgba(33, 27, 22, …)`), which was correct while the colophon's form sat
+ * on a cream sheet and became invisible the moment that sheet became a panel of
+ * the dark page — the "Contact" label above the form was ink at 1:1 against its
+ * own background.
+ *
+ * They are here now, in the page's own tokens, and `reader.css` is gone. The
+ * book's versions of the same class names are defined by the book, in
+ * `sketchbook-overrides.css`, where they belong.
+ */
+
+.reader-eyebrow {
+  margin: 0 0 1.25rem;
+  color: rgb(var(--c-muted));
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.reader-title {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: rgb(var(--c-text));
+}
+
+.reader-note {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
+  line-height: 1.55;
+  color: rgb(var(--c-text-3));
+}
+
+/* A section label, not a title — which is why it is set in the label face. */
+.reader-heading {
+  margin: 0 0 1rem;
+  color: rgb(var(--c-muted));
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/*
+ * A hairline, not a fill.
+ *
+ * This was a solid rust pill. One saturated block of colour per page is the
+ * surest way to make a considered layout look generated; the edge carries it.
+ */
+.reader-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 48px;
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid rgb(var(--c-hairline-control));
+  border-radius: 999px;
+  background: transparent;
+  color: rgb(var(--c-text));
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.reader-cta:hover,
+.reader-cta:focus-visible {
+  border-color: rgb(var(--c-brass));
+  background: rgb(var(--c-text) / 0.06);
+}

@@ -39,7 +39,9 @@ export default function AllocationChart({ weights, mu, prior }: { weights: Vec; 
                 onMouseLeave={() => setHover(null)}
               >
                 {r.w >= 0.08 ? (
-                  <span className="font-mono text-[10px] tracking-wider text-cream mix-blend-luminosity select-none">{r.asset.ticker}</span>
+                  <span className="select-none rounded-[2px] bg-charcoal px-1 py-px font-mono text-[10px] tracking-wider text-cream">
+                    {r.asset.ticker}
+                  </span>
                 ) : null}
               </div>
             ))}
@@ -80,7 +82,8 @@ export default function AllocationChart({ weights, mu, prior }: { weights: Vec; 
               return (
                 <tr
                   key={r.asset.ticker}
-                  className={`border-t border-border/70 transition-colors ${active ? 'bg-accent/5' : ''} ${zero ? 'opacity-50' : ''}`}
+                  data-unallocated={zero || undefined}
+                  className={`border-t border-border/70 transition-colors ${active ? 'bg-accent/5' : ''} ${zero ? 'bg-surface-alt' : ''}`}
                   onMouseEnter={() => setHover(r.asset.ticker)}
                   onMouseLeave={() => setHover(null)}
                 >
