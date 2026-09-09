@@ -14,9 +14,9 @@
 /coverage
 
 # next.js
-/.next/
+/.next
+/.next-dev/
 /out/
-/docs/
 
 # production
 /build
@@ -31,8 +31,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files. The example carries no secrets and documents what must be set.
 .env*
+!.env.example
 
 # Google API credentials (security sensitive)
 client_secret_*.json

@@ -1,0 +1,787 @@
+/*
+ * Additions to the authored sketchbook stylesheet.
+ *
+ * Kept separate so `sketchbook.css` stays a faithful, generated copy of the
+ * verified source. Everything here is either a hosting concern or the DOM-spread
+ * substitution the engine explains at length.
+ */
+
+/* ═══════════════════════════════════════════════════════════ the ground ══ */
+
+/*
+ * A PAPER BOOK ON A DARK DESK.
+ *
+ * The source is paper end to end: `--paper` is the page *and* the ground, and
+ * all of its chrome — arrows, captions, tools, the index — is dark ink on that
+ * ground.
+ *
+ * Here the ground stays the shelf's, and the paper appears only where paper
+ * actually is: on the leaves. Two reasons. The shelf one route up is lit for
+ * `#171A24` and a warm page around it would put the seam back that removing the
+ * old cream ground took away. And it is what the object is — you take a book off
+ * a dark shelf and open it; the paper is the page, not the room.
+ *
+ * The consequence is that the authored ink tokens now mean "ink on paper" and
+ * cannot be used for anything outside the sheet. Chrome gets its own three, and
+ * the rules below re-point every place the source used the paper ink for
+ * furniture. `scripts/check-contrast.mjs` and `scripts/a11y.mjs` cover both
+ * families.
+ */
+/*
+ * The book uses the site's type, not its own copy of it.
+ *
+ * `sketchbook.css` declares `--display` and `--font` from the authored source.
+ * They name the same two faces the rest of the site now uses, so they are
+ * re-pointed at the shared roles rather than left as a parallel definition that
+ * could drift. `--ui` is added for the chrome, which is the same label face the
+ * shelf uses — a caption under a book and a caption under the shelf should not
+ * be set in different types.
+ */
+.sketchbook-root {
+  --display: var(--font-display);
+  --font: var(--font-text);
+  --ui: var(--font-ui);
+
+  --chrome: rgb(244 238 230);
+  --chrome-soft: rgb(200 194 186);
+  --chrome-faint: rgb(168 162 154);
+  --chrome-hairline: rgba(244, 238, 230, 0.18);
+
+  position: relative;
+  min-height: 100svh;
+  background: rgb(var(--c-ground));
+  color: var(--chrome);
+  font-family: var(--font);
+}
+
+/* ══════════════════════════════════════════════════ the leaves as source ══ */
+
+/*
+ * The pages, as the server rendered them — and which of the two you see.
+ *
+ * `#sbSource` is the whole document: every leaf, in order, as ordinary prose.
+ * The book is built from clones of it, and it never leaves the DOM.
+ *
+ * Three states, and the switch has to get all three right:
+ *
+ *   1. **Scripting, book built.** The default below: the source is hidden and
+ *      the book is shown. Hidden by default rather than after boot, so the page
+ *      does not flash a long prose document before the book replaces it.
+ *   2. **No scripting.** The `<noscript>` block in `Sketchbook.tsx` swaps them
+ *      back. A stylesheet rule rather than a `hidden` attribute, because an
+ *      attribute would take the content away from exactly the readers it is for.
+ *   3. **Scripting, but the engine never arrived.** The component sets
+ *      `data-fallback` and the source comes back. Without this the reader would
+ *      get an empty book, which is the one outcome worse than no book.
+ *
+ * This deliberately keys on the book being *built*, not on scripting being
+ * available. There is no `js` class on this site any more, and even when there
+ * was, `<html className>` is a React-managed prop — a class stamped on it by an
+ * inline script is wiped on hydration. Asking the component itself is both
+ * simpler and a stronger guarantee.
+ */
+.sb-source {
+  display: none;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 4rem;
+}
+
+.sketchbook-root[data-fallback] .sb-source {
+  display: block;
+}
+
+.sketchbook-root[data-fallback] .sb-wrap,
+.sketchbook-root[data-fallback] .sb-index {
+  display: none;
+}
+
+/* ═════════════════════════════════════════════════════════ the DOM spread ══ */
+
+/*
+ * What replaces the source's PNG.
+ *
+ * `.sb-spread` fills the book box; `.sb-paper` is the sheet inside it, inset by
+ * the same fractions the engine uses for the curl span, the gutter shading and
+ * the loupe's sheet bounds. Keep these two numbers and PAPER_X/PAPER_Y in
+ * `engine.js` in step — they are the same measurement stated twice, once for
+ * layout and once for arithmetic.
+ */
+.sketchbook-root .sb-spread {
+  position: absolute;
+  inset: 0;
+}
+
+.sketchbook-root .sb-paper {
+  position: absolute;
+  inset: 5% 2.5%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 2px;
+  /* The type scales with the book, as type on a page does. At the 900px the
+     book tops out at, this is ~15px — a comfortable measure for a ~420px page. */
+  font-size: calc(var(--bw, 900px) * 0.0166);
+  line-height: 1.62;
+}
+
+/* The gutter: two pages of one sheet, with the fold between them. */
+.sketchbook-root .sb-page {
+  position: relative;
+  min-width: 0;
+  padding: 2.6em 2.2em;
+  overflow: hidden;
+}
+
+.sketchbook-root .sb-page.left {
+  box-shadow: inset -18px 0 26px -22px rgba(43, 39, 33, 0.55);
+}
+
+.sketchbook-root .sb-page.right {
+  box-shadow: inset 18px 0 26px -22px rgba(43, 39, 33, 0.55);
+}
+
+/*
+ * A full-width copy of the spread inside a clipping window.
+ *
+ * This is the substitution: where the source sets `background-position-x` on a
+ * strip, the engine sets `left` on one of these. Same offset, same arithmetic,
+ * live text instead of a bitmap.
+ */
+.sketchbook-root .sb-sheet {
+  position: absolute;
+  top: 0;
+  width: var(--bw, 0px);
+  height: var(--bh, 0px);
+}
+
+/* The source's halves and faces clipped a background; ours clip a sheet. */
+.sketchbook-root .sb-half {
+  overflow: hidden;
+}
+
+.sketchbook-root .face {
+  overflow: hidden;
+  /* The sheet inside carries the paper, but the strip's own edge is what shows
+     at a steep angle, so it must not be transparent. */
+  background: var(--paper);
+}
+
+/* The overlays the source lays over each face have to stay above the sheet. */
+.sketchbook-root .face .sh,
+.sketchbook-root .face .gl {
+  z-index: 2;
+}
+
+/*
+ * The sheet is the drag handle.
+ *
+ * The authored `.sb-zone` overlay is not rendered — see `engine.js` for why —
+ * so the cursor has to come from the sheet itself, and it has to give way over
+ * anything you can actually press.
+ */
+.sketchbook-root .sb-full .sb-paper {
+  cursor: grab;
+}
+
+.sketchbook-root .sb-full .sb-paper:active {
+  cursor: grabbing;
+}
+
+.sketchbook-root .sb-full a,
+.sketchbook-root .sb-full button,
+.sketchbook-root .sb-full input,
+.sketchbook-root .sb-full select,
+.sketchbook-root .sb-full textarea,
+.sketchbook-root .sb-full label {
+  cursor: auto;
+}
+
+.sketchbook-root .sb-full a,
+.sketchbook-root .sb-full button {
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════ leaf typography ══ */
+
+/*
+ * The page, set for reading.
+ *
+ * Sizes are in `em` against `.sb-paper`, so the whole page scales with the book
+ * rather than breaking its measure at a breakpoint. The display face is the
+ * source's Instrument Serif and the text face its Newsreader — the two the
+ * configured usage names.
+ */
+.sketchbook-root .sb-leaf {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sketchbook-root .sb-leaf .reader-eyebrow {
+  margin: 0 0 1.4em;
+  color: rgba(43, 39, 33, 0.6);
+  font-family: var(--font);
+  font-size: 0.72em;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+}
+
+.sketchbook-root .sb-leaf .reader-title {
+  margin: 0 0 0.5em;
+  font-family: var(--display);
+  font-size: 2.6em;
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: 0.01em;
+}
+
+.sketchbook-root .sb-leaf .reader-heading {
+  margin: 0 0 0.8em;
+  font-family: var(--display);
+  font-size: 1.62em;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.sketchbook-root .sb-leaf .reader-note,
+.sketchbook-root .sb-leaf .reader-prose,
+.sketchbook-root .sb-leaf .reader-lede {
+  margin: 0 0 1em;
+  font-weight: 300;
+  letter-spacing: 0.005em;
+}
+
+.sketchbook-root .sb-leaf .reader-note {
+  color: rgba(43, 39, 33, 0.72);
+}
+
+.sketchbook-root .sb-leaf ul,
+.sketchbook-root .sb-leaf ol {
+  margin: 0 0 1em;
+  padding-left: 1.1em;
+}
+
+.sketchbook-root .sb-leaf li {
+  margin-bottom: 0.5em;
+  font-weight: 300;
+}
+
+.sketchbook-root .sb-leaf dl {
+  margin: 0;
+}
+
+.sketchbook-root .sb-leaf dt {
+  font-family: var(--display);
+  font-size: 1.08em;
+  margin-top: 0.9em;
+}
+
+.sketchbook-root .sb-leaf dd {
+  margin: 0.2em 0 0;
+  font-weight: 300;
+  color: rgba(43, 39, 33, 0.78);
+}
+
+.sketchbook-root .sb-leaf a {
+  color: var(--earth);
+  text-decoration: underline;
+  text-decoration-color: rgba(154, 106, 62, 0.45);
+  text-underline-offset: 3px;
+}
+
+.sketchbook-root .sb-leaf a:hover,
+.sketchbook-root .sb-leaf a:focus-visible {
+  text-decoration-color: var(--earth);
+}
+
+/* The folio, printed at the foot of its own page as a folio is. */
+.sketchbook-root .sb-leaf .reader-folio {
+  margin-top: auto;
+  padding-top: 1.2em;
+  color: rgba(43, 39, 33, 0.5);
+  font-size: 0.72em;
+  letter-spacing: 0.14em;
+}
+
+.sketchbook-root .sb-page.right .reader-folio {
+  text-align: right;
+}
+
+/*
+ * The block types a leaf can hold.
+ *
+ * `volume-pages.ts` emits ten kinds and the reader renders each with the same
+ * class names the old dark reader used, so this is the sketchbook's setting of
+ * a vocabulary that already existed rather than a new one.
+ */
+.sketchbook-root .sb-leaf .reader-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.sketchbook-root .sb-leaf .reader-list li {
+  position: relative;
+  padding-left: 1.1em;
+}
+
+.sketchbook-root .sb-leaf .reader-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.42em;
+  height: 1px;
+  background: rgba(43, 39, 33, 0.45);
+}
+
+.sketchbook-root .sb-leaf .reader-pairs > div {
+  padding-bottom: 0.7em;
+  margin-bottom: 0.7em;
+  border-bottom: 1px solid rgba(43, 39, 33, 0.12);
+}
+
+.sketchbook-root .sb-leaf .reader-pairs > div:last-child {
+  border-bottom: 0;
+}
+
+/* The evidence record: a figure, then what it does and does not tell you. */
+.sketchbook-root .sb-leaf .reader-metric {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1em;
+  margin: 0 0 0.5em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid rgba(43, 39, 33, 0.2);
+}
+
+.sketchbook-root .sb-leaf .reader-metric span {
+  font-size: 0.76em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(43, 39, 33, 0.62);
+}
+
+.sketchbook-root .sb-leaf .reader-metric strong {
+  font-family: var(--display);
+  font-size: 1.9em;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.sketchbook-root .sb-leaf .reader-evidence dl {
+  display: grid;
+  gap: 0.35em;
+}
+
+.sketchbook-root .sb-leaf .reader-evidence dt {
+  font-family: var(--font);
+  font-size: 0.72em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(43, 39, 33, 0.55);
+  margin: 0.45em 0 0;
+}
+
+.sketchbook-root .sb-leaf .reader-evidence dd {
+  font-size: 0.92em;
+}
+
+.sketchbook-root .sb-leaf .reader-links {
+  list-style: none;
+  padding-left: 0;
+}
+
+.sketchbook-root .sb-leaf .reader-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;
+}
+
+.sketchbook-root .sb-leaf .reader-offer-name {
+  margin: 0 0 0.4em;
+  font-family: var(--display);
+  font-size: 1.3em;
+}
+
+.sketchbook-root .sb-leaf .reader-provenance {
+  margin-bottom: 1em;
+}
+
+/* The call to action at the end of a volume: an ink-ruled button on paper. */
+.sketchbook-root .sb-leaf .reader-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  align-self: flex-start;
+  min-height: 44px;
+  padding: 0.55em 1.2em;
+  border: 1px solid rgba(43, 39, 33, 0.42);
+  border-radius: 999px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.92em;
+  letter-spacing: 0.02em;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.sketchbook-root .sb-leaf .reader-cta:hover,
+.sketchbook-root .sb-leaf .reader-cta:focus-visible {
+  background: rgba(43, 39, 33, 0.07);
+  border-color: var(--ink);
+}
+
+/*
+ * A plate and an instrument get the whole sheet.
+ *
+ * The engine already gives these leaves a spread of their own (`data-solo`);
+ * this lets the content use its width instead of sitting in a half-page column.
+ */
+.sketchbook-root .sb-paper.single .sb-page {
+  padding: 2.2em 2.8em;
+}
+
+.sketchbook-root .sb-leaf .reader-figure,
+.sketchbook-root .sb-leaf .reader-demo {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+/*
+ * The optimizer, tipped in as a plate.
+ *
+ * It is built on the site's own tokens, which are a dark palette — put it
+ * straight onto paper and its headings are bone-white on cream. Rather than
+ * re-skin a working instrument for one page, it gets its own dark ground on the
+ * sheet, the way a photograph is tipped into a sketchbook. Everything inside it
+ * is then back on the ground it was designed and contrast-checked for.
+ */
+.sketchbook-root .sb-leaf .reader-demo {
+  margin-top: 0.4em;
+  padding: 1.1em;
+  border-radius: 3px;
+  background: rgb(var(--c-ground));
+  color: rgb(var(--c-text));
+  box-shadow:
+    0 1px 2px rgba(43, 39, 33, 0.3),
+    0 10px 22px rgba(43, 39, 33, 0.22);
+}
+
+/* This is the one leaf that scrolls, and the exception is deliberate: an
+   instrument split across a page turn is unusable, and clipping it would fail
+   WCAG 1.4.10. `scripts/smoke.mjs` exempts it by name and asserts every other
+   leaf fits. */
+.sketchbook-root .sb-leaf .reader-demo {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--c-hairline-strong)) transparent;
+}
+
+.sketchbook-root .sb-leaf .reader-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/*
+ * A leaf that genuinely cannot fit scrolls rather than clipping.
+ *
+ * WCAG 1.4.4 and 1.4.10 require the content to stay reachable; on any ordinary
+ * viewport the pagination in `volume-pages.ts` means this never engages. The
+ * scroll container is the leaf rather than the page around it, because the leaf
+ * is the `<article>` the engine makes focusable — a scrollable box a keyboard
+ * cannot enter fails 2.1.1.
+ */
+.sketchbook-root .sb-full .sb-leaf {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(43, 39, 33, 0.28) transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════ chrome ══ */
+
+/*
+ * Everything outside the sheet is set in the label face.
+ *
+ * The authored source sets its captions, hints and index rows in the book's own
+ * text face. That is right on a page of paper and wrong on the furniture around
+ * it, which belongs to the site: the shelf's captions and the book's captions
+ * are the same kind of thing and are now the same type.
+ */
+.sketchbook-root .sb-caption,
+.sketchbook-root .sb-hint,
+.sketchbook-root .sb-running,
+.sketchbook-root .sb-back,
+.sketchbook-root .zoom-read,
+.sketchbook-root .section-label,
+.sketchbook-root .plate .n,
+.sketchbook-root .plate .p {
+  font-family: var(--ui);
+}
+
+/*
+ * Everything outside the sheet, re-pointed off the paper ink.
+ *
+ * The source's values are kept — the same sizes, tracking and transitions —
+ * only the colour changes, because the ground under this furniture is now the
+ * dark desk rather than paper.
+ */
+.sketchbook-root .sb-arrow {
+  color: var(--chrome-faint);
+}
+
+.sketchbook-root .sb-arrow:hover,
+.sketchbook-root .sb-arrow:focus-visible {
+  color: var(--chrome);
+}
+
+.sketchbook-root .sb-caption {
+  color: var(--chrome-soft);
+}
+
+.sketchbook-root .sb-hint {
+  color: var(--chrome-faint);
+}
+
+.sketchbook-root .sb-tools {
+  border-color: var(--chrome-hairline);
+  background: rgba(23, 26, 36, 0.72);
+}
+
+.sketchbook-root .tool {
+  color: var(--chrome-soft);
+}
+
+.sketchbook-root .tool:hover:not(:disabled) {
+  background: rgba(244, 238, 230, 0.12);
+  color: var(--chrome);
+}
+
+.sketchbook-root .tool[aria-pressed='true'] {
+  background: rgba(214, 133, 88, 0.22);
+  color: rgb(var(--c-brass-hi));
+}
+
+.sketchbook-root .tool-sep {
+  background: var(--chrome-hairline);
+}
+
+.sketchbook-root .zoom-read {
+  color: var(--chrome-soft);
+}
+
+.sketchbook-root .section-label {
+  color: var(--chrome-soft);
+}
+
+/* The painted divider is an earth-toned brush stroke on transparency, so it
+   reads on the dark ground as it does on paper — only the weight changes. */
+.sketchbook-root .rule {
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════════════════════ the index ══ */
+
+.sketchbook-root .sb-index {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px) clamp(32px, 5vh, 56px);
+  /* An anchored row must not land under the fixed navigation bar. */
+  scroll-margin-top: 6rem;
+}
+
+.sketchbook-root .plate-list {
+  border-top-color: var(--chrome-hairline);
+}
+
+.sketchbook-root .plate {
+  border-bottom-color: var(--chrome-hairline);
+  color: var(--chrome);
+}
+
+.sketchbook-root .plate:hover,
+.sketchbook-root .plate:focus-visible,
+.sketchbook-root .plate[aria-current='true'] {
+  background: rgba(244, 238, 230, 0.07);
+}
+
+.sketchbook-root .plate .n {
+  color: var(--chrome-faint);
+}
+
+.sketchbook-root .plate .p {
+  color: var(--chrome-faint);
+}
+
+.sketchbook-root .plate[aria-current='true'] .p {
+  color: rgb(var(--c-brass-hi));
+}
+
+/* ═══════════════════════════════════════════════════════════════ layout ══ */
+
+/*
+ * The book is the page.
+ *
+ * The stage takes the viewport minus the bar above it, so the spread is centred
+ * and the index sits below the fold — reachable by scrolling, which this route
+ * does do: the index is a list, and a list wants to scroll.
+ */
+.sketchbook-root .sb-wrap {
+  padding: clamp(1rem, 3vh, 2rem) clamp(12px, 3vw, 40px) clamp(1.5rem, 4vh, 3rem);
+}
+
+.sketchbook-root .sb-3d {
+  max-width: 900px;
+}
+
+/* The running head and the way back to the shelf. */
+.sketchbook-root .sb-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 1080px;
+  margin: 0 auto;
+  /* Clear of the fixed navigation bar. One shorthand, because a `padding-top`
+     before a `padding` shorthand is silently thrown away by it. */
+  padding: clamp(5rem, 9vh, 6rem) clamp(20px, 5vw, 48px) 0;
+}
+
+.sketchbook-root .sb-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 44px;
+  color: var(--chrome-soft);
+  font-size: 0.8125rem;
+  letter-spacing: var(--track-nav);
+  transition: color 0.2s;
+}
+
+.sketchbook-root .sb-back:hover,
+.sketchbook-root .sb-back:focus-visible {
+  color: var(--chrome);
+}
+
+.sketchbook-root .sb-running {
+  margin: 0;
+  color: var(--chrome-soft);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+}
+
+/* A visible focus ring on the dark ground, matching the rest of the site. */
+.sketchbook-root :focus-visible {
+  outline: 2px solid rgb(var(--c-copper));
+  outline-offset: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════ small print ══ */
+
+.sketchbook-root .sb-smallprint {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px) clamp(32px, 6vh, 64px);
+  color: var(--chrome-faint);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+/*
+ * A phone gets one leaf, not half a spread.
+ *
+ * The engine regroups the leaves at this breakpoint so a narrow book holds one
+ * page — see `perSpread()`. This rule only lays that out; it never hides a
+ * page, because a hidden page is a page the reader never reaches.
+ */
+.sketchbook-root .sb-paper.single {
+  grid-template-columns: 1fr;
+}
+
+/*
+ * THE SINGLE-PAGE TURN.
+ *
+ * The outgoing sheet slides off in the direction of travel and the incoming one
+ * follows it in. `--slide` runs 0 to 1 across the turn and `--away` is -1 or 1
+ * for the direction, both set by the engine — so a drag scrubs the turn exactly
+ * as the curl does on a wider screen, and the same spring lands it.
+ */
+.sketchbook-root .sb-leaving,
+.sketchbook-root .sb-arriving {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+}
+
+.sketchbook-root .sb-leaving {
+  transform: translateX(calc(var(--away, -1) * var(--slide, 0) * 62%));
+  opacity: calc(1 - var(--slide, 0));
+}
+
+.sketchbook-root .sb-arriving {
+  transform: translateX(calc(var(--away, -1) * (var(--slide, 0) - 1) * -62%));
+  opacity: var(--slide, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sketchbook-root .sb-leaving,
+  .sketchbook-root .sb-arriving {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  /*
+   * A portrait book.
+   *
+   * The authored box is 1760/1240 because it holds an open spread. One page is
+   * not that shape, and forcing it to be produced a letterbox a paragraph could
+   * not fit in — the leaf was clipped at the third line. A page is taller than
+   * it is wide, so on a phone the book is too.
+   */
+  .sketchbook-root .sb-book {
+    aspect-ratio: 3 / 4.1;
+  }
+
+  .sketchbook-root .sb-paper {
+    inset: 2.5% 2.5%;
+    font-size: calc(var(--bw, 360px) * 0.0405);
+  }
+
+  .sketchbook-root .sb-page {
+    padding: 2em 1.7em;
+    box-shadow: none;
+  }
+
+  .sketchbook-root .sb-wrap {
+    padding-top: 0.5rem;
+  }
+
+  /* The arrows sit over the sheet rather than beside it: at this width there is
+     no room beside it. Authored behaviour, kept. */
+  .sketchbook-root .sb-3d {
+    max-width: none;
+  }
+
+  /*
+   * No magnifier on a phone.
+   *
+   * The authored sheet already hides it for a coarse pointer; this hides it by
+   * width as well, because a 165px glass dragged across a 340px page magnifies
+   * half a column and covers the rest. The toolbar loses its button with it —
+   * a control that toggles something invisible is worse than no control.
+   */
+  .sketchbook-root .loupe,
+  .sketchbook-root #loupeBtn,
+  .sketchbook-root .tool-sep {
+    display: none;
+  }
+}

@@ -1,29 +1,34 @@
 import type { MetadataRoute } from 'next';
 import { locales } from '@/lib/translations';
+import { volumeSlugs } from '@/lib/content/volume-pages';
+import { SITE_URL } from '@/lib/seo';
 
-const SITE_URL = 'https://bumincetin.com';
-
-const ROUTES = [
-  '',
-  '/methodology',
-  '/assets',
-  '/portal',
-  '/why-sme',
-  '/about',
-  '/services/financial-analytics',
-  '/services/ai-nlp',
-  '/services/business-intelligence',
-  '/services/financial-consultancy',
-];
-
+/**
+ * Sitemap.
+ *
+ * The site is a shelf, seven volumes and a contact page. Volume slugs come from
+ * the same source the routes do, so a new volume cannot be added without
+ * appearing here.
+ *
+ * The retired paths (/methodology, /assets, /services/*, /why-sme, /portal,
+ * /about) are deliberately absent: they now 308 to their volume, and listing a
+ * redirect in a sitemap is a instruction to crawl something that no longer
+ * exists.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
+  const paths = ['', '/contact', ...volumeSlugs.map((slug) => `/volumes/${slug}`)];
+
   return locales.flatMap((locale) =>
-    ROUTES.map((route) => ({
-      url: `${SITE_URL}/${locale}${route}`,
+    paths.map((path) => ({
+      url: `${SITE_URL}/${locale}${path}`,
       changeFrequency: 'monthly' as const,
-      priority: route === '' ? 1 : 0.7,
+      priority: path === '' ? 1 : path === '/contact' ? 0.9 : 0.8,
       alternates: {
-        languages: Object.fromEntries(locales.map((code) => [code, `${SITE_URL}/${code}${route}`])),
+        languages: {
+          // Every route exists in all three locales, generated from one source.
+          ...Object.fromEntries(locales.map((code) => [code, `${SITE_URL}/${code}${path}`])),
+          'x-default': `${SITE_URL}/en${path}`,
+        },
       },
     })),
   );

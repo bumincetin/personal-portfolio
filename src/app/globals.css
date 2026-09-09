@@ -3,143 +3,189 @@
 @tailwind utilities;
 
 /*
- * Fonts are loaded through next/font in src/app/layout.tsx, which self-hosts
- * them and inlines the @font-face rules. The previous @import of the Google
- * Fonts CSS blocked first paint on a third-party round-trip.
+ * TYPE, AND WHY THERE IS ONLY ONE SET OF IT.
+ *
+ * The site used to render in three different type systems depending on which
+ * route you were on. The shelf set the whole document in its own serif, so even
+ * the navigation changed face when you left the home page; the volumes used
+ * Instrument Serif and Newsreader; and the colophon used a third stack whose
+ * first entry, "Iowan Old Style", exists only on macOS — so it silently fell
+ * back to a fourth face for everyone else. Changing page changed the typography,
+ * which is what this fixes.
+ *
+ * There are three roles now and one face for each, everywhere:
+ *
+ *   --font-display   Instrument Serif   every title and heading
+ *   --font-text      Newsreader         every run of prose
+ *   --font-ui        Inter              navigation, controls, small-caps labels
+ *
+ * The two serifs are the faces the sketchbook design names, self-hosted from
+ * `public/sketchbook/` and verified byte-for-byte against their published
+ * hashes. Declaring them here rather than in `sketchbook.css` is what makes them
+ * available on every route instead of only inside a book — the generator drops
+ * its own copies for that reason.
+ *
+ * Inter and JetBrains Mono still come through next/font in the layout, which
+ * self-hosts them and inlines their @font-face rules. Cormorant Garamond was
+ * dropped: nothing asks for it any more.
  */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/sketchbook/instrument-serif.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/sketchbook/instrument-serif-italic.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 200 600;
+  font-display: swap;
+  src: url(/sketchbook/newsreader.woff2) format('woff2');
+}
 
 /*
  * THEME TOKENS
  *
- * Every colour in the site resolves through these channel triplets, which is
- * what makes a second theme a ~40-line change rather than a rewrite: the
+ * Every colour in the site resolves through these channel triplets: the
  * Tailwind token names (cream / charcoal / surface / accent ...) are bound to
- * `rgb(var(--c-*) / <alpha-value>)` in tailwind.config.js, so `text-charcoal`
- * and `bg-surface/70` re-point themselves and no component has to know which
- * theme is active.
+ * `rgb(var(--c-*) / <alpha-value>)` in tailwind.config.js, so no component has
+ * to know a colour, only a role. Values are space-separated channels, not hex,
+ * because that is the only form Tailwind's <alpha-value> placeholder composes
+ * with.
  *
- * Values are space-separated channels, not hex, because that is the only form
- * Tailwind's <alpha-value> placeholder can compose with.
+ * ONE GROUND, AND IT IS THE SHELF'S.
  *
- * Dark is the default and the no-JS fallback. The inline script in
- * src/app/layout.tsx stamps data-theme on <html> before first paint from the
- * stored choice, falling back to the OS preference, so there is no flash.
+ * There used to be two themes, a warm paper one and a dark one, with a toggle
+ * and a pre-paint script to resolve them. That made sense when the site was a
+ * conventional set of pages. It stopped making sense when the shelf became the
+ * site: the ThreeUI scene is lit for #171A24 and cannot be re-lit per theme,
+ * so the paper theme put a cream page around a dark canvas and every route had
+ * to negotiate the seam.
+ *
+ * So the ground below is the shelf's own `--paper`, and every surface above it
+ * is a translucent step off it rather than a second colour. Chrome — the nav,
+ * the panels, the form fields — is transparent over the scene instead of a bar
+ * laid across it.
+ *
+ * Contrast is not assumed. Every pair a visitor reads is asserted by
+ * scripts/check-contrast.mjs against WCAG 2.2 AA, and scripts/a11y.mjs scans
+ * the rendered result.
  */
-
 :root {
-  /* Ground + surfaces: espresso black, brushed up in three steps. */
-  --c-ground: 16 12 10;
-  --c-panel: 26 20 17;
-  --c-panel-alt: 21 15 13;
-  --c-panel-raised: 36 28 23;
-  --c-hairline: 44 35 29;
-  --c-hairline-strong: 61 49 41;
+  /*
+   * Ground + surfaces: a warm espresso, not a blue-black.
+   *
+   * This used to be the shelf's `#171A24`, which is ultramarine dark — a cool
+   * ground that made the whole site read cold and gave the warm accent nothing
+   * to sit on. The room is warm now and the shelf's own scene was warmed with
+   * it (see the palettes in `volumes.ts`), so the page and the canvas still
+   * meet without a seam.
+   */
+  --c-ground: 26 21 17;
+  --c-panel: 34 27 22;
+  --c-panel-alt: 30 24 20;
+  --c-panel-raised: 43 35 28;
+  --c-hairline: 58 47 38;
+  --c-hairline-strong: 81 66 53;
+  /* Boundary for interactive controls -- input, select, textarea edges. WCAG
+     1.4.11 wants 3:1 for the edge of a control a person has to find, which the
+     decorative hairlines above do not and need not meet. Verified by
+     scripts/check-contrast.mjs. */
+  --c-hairline-control: 138 116 97;
 
-  /* Type ramp: bone down to a decorative dim. */
-  --c-text: 240 233 223;
-  --c-text-2: 224 216 203;
-  --c-text-3: 203 191 174;
-  --c-muted: 168 153 138;
-  --c-muted-light: 110 96 85;
+  /* Type ramp: warm bone down to a decorative dim. */
+  --c-text: 242 234 224;
+  --c-text-2: 228 218 205;
+  --c-text-3: 205 193 178;
+  --c-muted: 182 168 151;
+  --c-muted-light: 150 137 122;
 
-  /* Accents: brushed brass (warm) + oxidised copper (interactive). */
-  --c-brass: 192 138 62;
-  --c-brass-hi: 227 192 137;
-  --c-brass-lo: 145 101 38;
-  --c-brass-hover: 214 164 92;
-  --c-copper: 161 124 88;
-  --c-copper-hi: 201 164 132;
-  --c-copper-lo: 122 90 60;
+  /*
+   * The single accent, deliberately quiet.
+   *
+   * It was #D68558 — a saturated salmon that filled every call to action with a
+   * bright pill and made the site look generated rather than designed. This is
+   * an old brass instead: warm, low-chroma, and used as ink and as a hairline
+   * rather than as a fill. Nothing on the site is a solid block of it any more.
+   */
+  --c-brass: 194 156 110;
+  --c-brass-hi: 222 196 160;
+  --c-brass-lo: 148 116 78;
+  --c-brass-hover: 214 182 144;
+  --c-copper: 180 137 100;
+  --c-copper-hi: 205 168 134;
+  --c-copper-lo: 142 104 72;
 
-  /* Semantic status. */
-  --c-positive: 143 174 126;
-  --c-negative: 192 122 106;
+  --c-positive: 146 172 128;
+  --c-negative: 206 140 124;
+  /* Caution is its own burnt tone rather than an alias of brass, so a
+     "synthetic sample" badge cannot be mistaken for an ordinary accent. */
+  --c-caution: 214 154 98;
 
-  /* Chrome that is not part of the token scale. */
-  --c-scroll-thumb: 51 41 31;
-  --c-scroll-thumb-hover: 74 59 44;
-  /* Canvas scan light, and a multiplier for canvas line alphas -- thin strokes
-     need more weight on paper than they do on black. */
-  --c-scan: 240 233 223;
+  --c-scroll-thumb: 58 47 38;
+  --c-scroll-thumb-hover: 81 66 53;
+  /* Canvas scan light, and a multiplier for canvas line alphas. */
+  --c-scan: 242 234 224;
   --canvas-alpha: 1;
 
-  /* Elevation. On black, depth is a shadow; on paper it is a soft warm cast. */
+  /* Elevation on a dark ground is shadow, not cast. */
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.36);
   --shadow-hairline: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
-  --shadow-glow: 0 0 12px rgb(var(--c-brass) / 0.55);
-  --shadow-glow-blue: 0 0 16px rgb(var(--c-copper) / 0.35);
+  --shadow-glow: 0 0 12px rgb(var(--c-brass) / 0.4);
+  --shadow-glow-blue: 0 0 16px rgb(var(--c-copper) / 0.28);
 
-  /* Studio photography sits on black only after being knocked back. */
-  --plate-filter: brightness(0.76) contrast(1.08) saturate(0.82);
-  --portrait-filter: saturate(0.85) brightness(0.95);
-  /* The brand mark is drawn dark; it is inverted to sit on the dark ground. */
-  --brand-filter: invert(1);
+  /* Studio photography sits on this ground only after being knocked back. */
+  --plate-filter: brightness(0.78) contrast(1.06) saturate(0.84);
+  --portrait-filter: saturate(0.9) brightness(0.97);
+  /*
+   * The brand mark is used as drawn.
+   *
+   * It was inverted, which turned a dark monogram on white into a white smear
+   * on the dark bar. The artwork has its own opaque white ground; letting it
+   * keep it is what "natural" means here, and it reads as a printed card on the
+   * rail rather than a filtered asset.
+   */
+  --brand-filter: none;
+
+  /* The three type roles. Every surface on the site resolves to one of them. */
+  --font-display: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-text: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-ui: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 
   /* House easing: fast out of the gate, long soft landing. */
   --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /*
+   * READING SCALE
+   *
+   * Body copy is 18px from the medium breakpoint up and 17px below it, which is
+   * comfortably inside the 16-18px target without forcing a second reflow on
+   * small screens. `--measure` is the long-form column: 68ch lands at roughly
+   * 65 characters for this face, inside the 60-70 range.
+   */
+  --text-body: 1.0625rem;
+  --leading-body: 1.7;
+  --measure: 68ch;
+  --measure-narrow: 56ch;
+
   color-scheme: dark;
 }
 
-/*
- * LIGHT: the same noir-and-brass material seen in daylight -- warm paper
- * rather than white, espresso ink rather than black, and a brass darkened
- * until it carries text contrast on a light ground (#8F5E1C reads 5.0:1 on
- * the paper; the dark theme's #C08A3E would be 2.6:1 and unusable).
- */
-[data-theme='light'] {
-  --c-ground: 247 243 236;
-  --c-panel: 253 250 244;
-  --c-panel-alt: 240 234 223;
-  --c-panel-raised: 255 255 255;
-  --c-hairline: 226 217 202;
-  --c-hairline-strong: 201 188 167;
-
-  --c-text: 28 21 18;
-  --c-text-2: 51 41 31;
-  --c-text-3: 74 59 44;
-  --c-muted: 106 93 81;
-  --c-muted-light: 140 128 114;
-
-  --c-brass: 143 94 28;
-  --c-brass-hi: 107 69 18;
-  --c-brass-lo: 165 111 38;
-  --c-brass-hover: 107 69 18;
-  --c-copper: 122 82 48;
-  --c-copper-hi: 92 61 35;
-  --c-copper-lo: 154 112 74;
-
-  --c-positive: 61 105 50;
-  --c-negative: 154 61 47;
-
-  --c-scroll-thumb: 214 203 185;
-  --c-scroll-thumb-hover: 188 173 150;
-  --c-scan: 40 30 24;
-  --canvas-alpha: 1.75;
-
-  --shadow-card: 0 1px 2px rgba(63, 45, 22, 0.05), 0 4px 14px rgba(63, 45, 22, 0.07);
-  --shadow-card-hover: 0 8px 18px rgba(63, 45, 22, 0.09), 0 24px 48px rgba(63, 45, 22, 0.11);
-  --shadow-hairline: inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
-  --shadow-glow: 0 0 12px rgb(var(--c-brass) / 0.25);
-  --shadow-glow-blue: 0 0 16px rgb(var(--c-copper) / 0.18);
-
-  /* Paper needs no knock-back; the studio backdrop belongs on it. */
-  --plate-filter: contrast(1.02) saturate(0.95);
-  --portrait-filter: saturate(0.92);
-  /* On paper the mark is used as drawn -- inverting it would erase it. */
-  --brand-filter: none;
-
-  color-scheme: light;
-}
-
-/* Theme swap should read as a dissolve, not a strobe. Transitions are put on
-   only after first paint (see the inline script), so the initial render is
-   not animated, and they are suppressed under reduced motion below. */
-.theme-ready body,
-.theme-ready .theme-fade {
-  transition: background-color 0.45s var(--ease-luxe), color 0.45s var(--ease-luxe),
-    border-color 0.45s var(--ease-luxe);
+@media (min-width: 768px) {
+  :root {
+    --text-body: 1.125rem;
+  }
 }
 
 @layer base {
@@ -381,91 +427,15 @@
 }
 
 /*
- * Scroll-reveal. An IntersectionObserver in <Reveal> flips data-revealed,
- * so the transition is CSS-driven and costs no React re-render per frame.
- */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px) scale(0.995);
-  filter: blur(5px);
-  transition:
-    opacity 1s var(--ease-luxe),
-    transform 1s var(--ease-luxe),
-    filter 0.9s var(--ease-luxe);
-  transition-delay: var(--reveal-delay, 0ms);
-}
-.reveal[data-revealed='true'] {
-  opacity: 1;
-  transform: none;
-  filter: none;
-}
-
-/*
- * Masked per-word reveal, ported from ThreeUI's GSAP version to pure CSS.
+ * THE ANIMATION KIT THAT WENT WITH THE OLD HOME PAGE.
  *
- * The mask clips to its padding box, and the display face is set at a tight
- * 1.05 line-height, so both ends of the glyph run past the line box: ascenders
- * above it and descenders (g, y, p) below. Each side is given room with
- * padding, cancelled by an equal negative margin so the extra space is painted
- * but not laid out -- line spacing is unchanged.
+ * Removed rather than kept: a scroll-reveal system (`.reveal`, `.reveal-mask`,
+ * `.reveal-word`), four staggered fade-ins, a glitch, a scan line and a golden
+ * pulse. Every one of them belonged to a page that scrolled through six
+ * sections of prose. Nothing scrolls now except the contact page, so nothing
+ * reveals on scroll, and `scripts/find-orphans.mjs` had already flagged the
+ * component that drove them.
  */
-.reveal-mask {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-  padding-top: 0.12em;
-  margin-top: -0.12em;
-  padding-bottom: 0.3em;
-  margin-bottom: -0.3em;
-}
-.reveal-word {
-  display: inline-block;
-  /* Must clear the mask's full padding box, descender room included, or the
-     word peeks below the line before its cue. */
-  transform: translateY(calc(100% + 0.36em));
-  transition: transform 1.35s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--word-delay, 0ms);
-  will-change: transform;
-}
-[data-revealed='true'] .reveal-word {
-  transform: translateY(0);
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-
-@keyframes glitch {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-}
-.animate-glitch { animation: glitch 0.3s ease-in-out infinite; }
-
-@keyframes scan {
-  0% { top: 0%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-.animate-scan { animation: scan 2s ease-in-out infinite; }
-
-@keyframes golden-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgb(var(--c-brass) / 0.22), 0 0 40px rgb(var(--c-brass) / 0.08); }
-  50% { box-shadow: 0 0 40px rgb(var(--c-brass) / 0.38), 0 0 80px rgb(var(--c-brass) / 0.15); }
-}
-.animate-golden-pulse { animation: golden-pulse 2s ease-in-out infinite; }
 
 /* Honour the OS-level motion preference across every decorative animation. */
 @media (prefers-reduced-motion: reduce) {
@@ -479,185 +449,72 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-  .reveal-word {
-    transform: none;
-  }
-  .theme-ready body,
-  .theme-ready .theme-fade {
-    transition: none;
-  }
 }
 
-@layer utilities {
-  /* Pointer-traced border highlight, driven by --trace-x/y/a from TiltCard.
-     The two-layer mask keeps only a 1px ring of the radial gradient, so the
-     card edge lights up under the cursor rather than the whole face. */
-  .trace-ring {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    padding: 1px;
-    opacity: var(--trace-a, 0);
-    background: radial-gradient(
-      220px circle at var(--trace-x, 50%) var(--trace-y, 50%),
-      rgb(var(--c-brass) / 0.65),
-      rgb(var(--c-brass) / 0.08) 55%,
-      transparent 75%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-  }
-}
 
 /* ------------------------------------------------------------------------
- * STORY LAYER
- * Surface finish and editorial treatments introduced with the narrative home
- * page. Several are direct ports of ThreeUI authored-scene conventions
- * (github.com/MengTo/threeui, MIT): the grain + vignette stack, the "dark
- * glass" material with an orbiting conic highlight, and the Kage lesson rows.
+ * SURFACE
+ *
+ * What is left of a much larger layer. The grain and vignette stack is a port
+ * of a ThreeUI authored-scene convention (github.com/MengTo/threeui, MIT) and
+ * still sits over the whole site.
+ *
+ * The rest of it — glass panels, Kage index rows, a marquee mask, a scroll cue,
+ * a hero-exit hook, a pointer-traced ring — belonged to a home page that
+ * scrolled through six sections of prose. That page is a shelf now and the
+ * prose is a book, so they are gone rather than left to rot.
  * ---------------------------------------------------------------------- */
 
 :root {
   --grain-opacity: 0.055;
   --vignette-alpha: 0.55;
 }
-[data-theme='light'] {
-  --grain-opacity: 0.09;
-  --vignette-alpha: 0.28;
-}
 
-/* Portrait graded into the palette: monochrome under a brass colour wash, so
-   the photograph reads as material rather than a snapshot on the page. */
-.portrait-grade img {
-  filter: grayscale(1) contrast(1.06) brightness(0.94);
-}
-.portrait-tint {
-  background: linear-gradient(165deg, rgb(var(--c-brass-hi)) 0%, rgb(var(--c-brass)) 45%, rgb(var(--c-copper-lo)) 100%);
-  mix-blend-mode: color;
-  opacity: 0.9;
-}
-[data-theme='light'] .portrait-grade img {
-  filter: grayscale(1) contrast(1.02) brightness(1.02);
-}
-[data-theme='light'] .portrait-tint {
-  opacity: 0.75;
-}
-
-/* Scroll cue: a brass drop running down a hairline (Kage `.hero-cue`). */
-@keyframes scroll-cue {
-  0% { transform: translateY(-100%); }
-  45% { transform: translateY(0); }
-  100% { transform: translateY(200%); }
-}
-.animate-scroll-cue {
-  animation: scroll-cue 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-
-/* Marquee fades to nothing at both ends. */
-.marquee-mask {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-
-/* Dark glass: frosted panel, hairline lit only on its upper edge, and a soft
-   conic highlight that orbits the face once every few seconds. */
-.glass {
-  position: relative;
-  overflow: hidden;
-  background: rgb(var(--c-panel) / 0.72);
-  backdrop-filter: blur(28px) saturate(1.05);
-  -webkit-backdrop-filter: blur(28px) saturate(1.05);
-  box-shadow: var(--shadow-card), inset 0 1px 0 0 rgb(var(--c-text) / 0.05);
-}
-.glass::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(170deg, rgb(var(--c-brass) / 0.45), rgb(var(--c-hairline-strong)) 45%, rgb(var(--c-hairline)) 100%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
-}
-.glass::after {
-  content: '';
-  position: absolute;
-  top: -40%;
-  left: -40%;
-  width: 180%;
-  height: 180%;
-  background: conic-gradient(from 180deg, transparent 0deg, transparent 200deg, rgb(var(--c-brass) / 0.07) 300deg, transparent 360deg);
-  filter: blur(18px);
-  animation: glass-orbit 7s linear infinite;
-  pointer-events: none;
-}
-[data-theme='light'] .glass {
-  background: rgb(var(--c-panel) / 0.82);
-}
-@keyframes glass-orbit {
-  to { transform: rotate(360deg); }
-}
-
-/* Service index rows (Kage `.les`): shift right, brass wash from the left,
-   underline drawn from the left edge. */
-.index-row {
-  position: relative;
-  transition: padding-left 0.5s var(--ease-luxe);
-}
-.index-row::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 0 -1.5rem;
-  background: linear-gradient(90deg, rgb(var(--c-brass) / 0.08), transparent 46%);
-  opacity: 0;
-  transition: opacity 0.55s var(--ease-luxe);
-  pointer-events: none;
-}
-.index-row:hover {
-  padding-left: clamp(0.5rem, 1.2vw, 1.125rem);
-}
-.index-row:hover::before {
-  opacity: 1;
-}
-.index-row .index-bar {
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  height: 1px;
-  width: 100%;
-  background: rgb(var(--c-brass));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.7s var(--ease-luxe);
-}
-.index-row:hover .index-bar {
-  transform: scaleX(1);
-}
-
-/* Hero exit (Kage `wireHeroExit`): elements are faded, lifted and blurred by
-   scroll position from JS; this only declares that they will be. */
-[data-hero-exit] {
-  will-change: opacity, transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glass::after,
-  .animate-scroll-cue {
-    animation: none;
+@layer utilities {
+  /*
+   * Long-form reading column, for any run of copy a visitor is expected to
+   * actually read rather than scan. 68ch lands at roughly 65 characters for
+   * this face, inside the 60-70 target.
+   */
+  .measure {
+    max-width: var(--measure);
   }
-  .index-row,
-  .index-row .index-bar {
-    transition: none;
+  .measure-narrow {
+    max-width: var(--measure-narrow);
+  }
+  .body-text {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+  }
+
+  /*
+   * Fluid display sizes. The lower bound is what has to fit a 360px screen
+   * without the headline dominating it; the upper bound is the editorial size.
+   * clamp() means neither end needs a breakpoint, and neither end clips.
+   */
+  .display-1 {
+    font-size: clamp(2rem, 1.35rem + 2.9vw, 3.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .display-2 {
+    font-size: clamp(1.625rem, 1.2rem + 1.9vw, 2.75rem);
+    line-height: 1.14;
+    letter-spacing: -0.025em;
+  }
+  .display-3 {
+    font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  /*
+   * Bounded scroll region for dense content -- tables, code, wide figures. The
+   * page body must never be the thing that scrolls sideways.
+   */
+  .scroll-x {
+    overflow-x: auto;
+    max-width: 100%;
+    overscroll-behavior-x: contain;
   }
 }

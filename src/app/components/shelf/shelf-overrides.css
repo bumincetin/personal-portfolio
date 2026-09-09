@@ -1,0 +1,381 @@
+/*
+ * Additions to the authored shelf stylesheet.
+ *
+ * Kept in a separate file so shelf.css stays a faithful, generated copy of the
+ * source. Everything here is either a hosting concern or one of the two content
+ * additions the component makes.
+ */
+
+/*
+ * FONT FALLBACKS.
+ *
+ * The source asks for `"Iowan Old Style", "Baskerville", "Times New Roman"`.
+ * Iowan and Baskerville ship with macOS and neither exists on Windows, Android
+ * or most Linux, so the authored serif silently became Times New Roman for the
+ * majority of visitors — which is not the typeface the design was drawn for.
+ *
+ * The requested faces stay first, so a Mac still renders exactly as authored.
+ * Cormorant Garamond is inserted behind them as a hosted old-style serif with
+ * the same high-contrast register, and it is already self-hosted by next/font
+ * for this site, so it costs no extra request. Inter likewise resolves to the
+ * self-hosted copy instead of a Google Fonts round-trip.
+ */
+html[data-shelf],
+.shelf-root {
+  --serif: 'Iowan Old Style', 'Baskerville', var(--font-display), 'Times New Roman', serif;
+  --mono: 'Inter', var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /*
+   * A WARM ROOM.
+   *
+   * The authored ground is `#171A24` — ultramarine dark, chosen for a cover
+   * palette this site does not use. It made every surface it touched read cold,
+   * and the colophon, which paints itself with `--paper`, was the coldest page
+   * on the site.
+   *
+   * These are the same values as `--c-ground` and its neighbours in
+   * globals.css, so the shelf's chrome, the site's chrome and the 3D room (see
+   * the palettes in `volumes.ts`) are one temperature. Only the ground moves;
+   * the ink, the rule and the accent are the authored ones.
+   */
+  --paper: #1a1511;
+  --paper-deep: #120e0b;
+  --walnut: #3a2118;
+  --walnut-deep: #1c0e0a;
+}
+
+/*
+ * ONE TYPOGRAPHY, AND THE SHELF DOES NOT GET ITS OWN.
+ *
+ * The authored stylesheet asks for `"Iowan Old Style", "Baskerville", "Times New
+ * Roman"`. Iowan and Baskerville ship with macOS and exist almost nowhere else,
+ * so that stack rendered as two different faces depending on the visitor's
+ * machine — and it was applied to `html` and `body`, which meant the navigation
+ * changed face on the home page and changed back when you left it. That is the
+ * font change you notice when you move between pages.
+ *
+ * The three roles are the site's, defined in globals.css. `--serif` is the
+ * display face, `--mono` is the label face (a sans, despite the authored name),
+ * and `--text` is added for the shelf's small prose, which was previously set in
+ * the display face at 12px.
+ */
+html[data-shelf],
+.shelf-root {
+  --serif: var(--font-display);
+  --text: var(--font-text);
+  --mono: var(--font-ui);
+}
+
+/* The document keeps the application's own font; only the shelf is the shelf. */
+html[data-shelf],
+html[data-shelf] body {
+  font-family: var(--font-ui);
+}
+
+.shelf-root {
+  font-family: var(--font-text);
+}
+
+/* Decks and notes are prose, not display type. */
+.shelf-root .selection__note,
+.shelf-root .detail-deck,
+.shelf-root .fallback__status,
+.shelf-root .fallback__footer {
+  font-family: var(--text);
+}
+
+/*
+ * The link out of a volume. Styled on the authored `.text-button` so it sits in
+ * the same family as the controls beside it, with the underline and larger hit
+ * area that distinguish a navigation link from a button.
+ */
+.shelf-root .volume-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  align-self: flex-start;
+  margin: 0.25rem 0 0.5rem;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 34%, transparent);
+  border-radius: 999px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background-color 240ms var(--ease-out), border-color 240ms var(--ease-out);
+}
+
+.shelf-root .volume-link:hover,
+.shelf-root .volume-link:focus-visible {
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  border-color: var(--accent);
+}
+
+/*
+ * Skip link out of the canvas.
+ *
+ * A WebGL scene must never be the only route past the top of a page. Visually
+ * hidden until focused, then placed above the experience.
+ */
+.shelf-root .shelf-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 40;
+}
+
+.shelf-root .shelf-skip:focus-visible {
+  left: 1.25rem;
+  top: 1.25rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  text-decoration: none;
+}
+
+/*
+ * The static catalogue is the fallback *and* the crawlable form of this
+ * section, so its titles are links. The authored rule styles the <strong>
+ * itself, which leaves the anchor inside it unstyled.
+ */
+.shelf-root .fallback-book strong a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.shelf-root .fallback-book strong a:hover,
+.shelf-root .fallback-book strong a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/*
+ * REDUCED MOTION.
+ *
+ * The authored page is a continuously animated scene. Under a reduced-motion
+ * preference the shelf still renders and stays fully operable — the engine's own
+ * transitions are what get suppressed — and the static catalogue is offered
+ * alongside it rather than instead of it.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .shelf-root *,
+  .shelf-root *::before,
+  .shelf-root *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/*
+ * TAKEOVER, AS AUTHORED.
+ *
+ * The source is a standalone page: `.experience` is `position: fixed; inset: 0`
+ * and the document is `overflow: hidden`. That is now true here too, and the
+ * overrides that used to make the shelf a hero above a scrolling page are gone.
+ *
+ * The reason is the wheel. The authored gesture browses volumes; a document
+ * that also scrolled gave one gesture two meanings, and the reader underneath
+ * inherited the same problem — a horizontal page track inside a vertically
+ * scrolling document is two scrollbars for one book. Nothing below the shelf
+ * scrolls now because there is nothing below the shelf: the argument that used
+ * to live there is the front matter, read as pages.
+ *
+ * `html[data-shelf]` is set by <Shelf /> and by the reader while either is
+ * mounted, and removed on unmount, so the contact page — the one route that
+ * scrolls — is unaffected.
+ */
+
+/* A visible, always-available way into the front matter. */
+.shelf-root .shelf-continue {
+  position: absolute;
+  left: 50%;
+  /* Clear of the browse UI, which owns the bottom band of the viewport. */
+  bottom: clamp(8.5rem, 17vh, 11.5rem);
+  /* Below the browse UI and the detail panel, above the canvas. */
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  transform: translateX(-50%);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  transition: color 240ms var(--ease-out), border-color 240ms var(--ease-out);
+}
+
+.shelf-root .shelf-continue:hover,
+.shelf-root .shelf-continue:focus-visible {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/*
+ * SMALL TYPE, RAISED.
+ *
+ * The authored chrome sets its microcopy at 8-9 px: the browse hint, the volume
+ * counter, the collection note and the edition line. Contrast is not the problem
+ * — `scripts/check-canvas-contrast.mjs` measures all four between 6.1:1 and
+ * 7.6:1 against the scene — but 8 px is hard to read whatever colour it is, and
+ * two of these four (the counter and the hint) are the only things that tell a
+ * visitor how the shelf is operated.
+ *
+ * This is a deliberate departure from the source, and the only one that changes
+ * a value the design specifies rather than adapting it to its host. It is a step,
+ * not a redesign: 8 -> 10 px and 9 -> 10.5 px, letter-spacing left alone, so the
+ * proportions of the browse UI are unchanged. Delete this block to get the
+ * authored sizes back exactly.
+ */
+.shelf-root .browse-ui .microcopy {
+  font-size: 0.625rem;
+}
+
+.shelf-root .counter,
+.shelf-root .editorial-identity span,
+.shelf-root .editorial-index span {
+  font-size: 0.65625rem;
+}
+
+/*
+ * TEXT OVER THE SCENE CARRIES ITS OWN GROUND.
+ *
+ * The authored controls are outline chips: a hairline border, a transparent
+ * fill and near-white ink, sitting directly on the 3D scene. That is a good
+ * look and an unreliable contrast, because what is behind them is not a colour
+ * — it is whichever book has rotated into place. Measured against the composited
+ * frame by `scripts/check-canvas-contrast.mjs`, the Open button came out at
+ * 3.68:1 and the reading cue at 4.02:1, both under the 4.5:1 that body-sized
+ * text needs. Neither is visible in a static screenshot of a good frame, which
+ * is exactly why the check samples several.
+ *
+ * The fix keeps the chip and gives it a floor: a paper scrim dark enough that
+ * the ratio is a property of the control rather than of where the shelf happens
+ * to have drifted. The border, the radius, the blur and the hover state are the
+ * authored ones.
+ */
+.shelf-root .browse-actions .text-button,
+.shelf-root .browse-actions .round-button {
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+/*
+ * The cue is the way into the argument, so it is set in full ink rather than the
+ * soft ink the authored microcopy uses. `--ink-soft` on an 88% scrim measured
+ * 4.02:1; `--ink` on the same scrim clears the bar with room to spare.
+ */
+.shelf-root .shelf-continue {
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  /*
+   * On a phone the browse UI owns the lower band, so the cue moves to the top
+   * rail rather than disappearing. It used to be hidden here, which was
+   * defensible when it only scrolled the page down; it is the way into the
+   * argument now, and hiding the way into the argument on the majority of
+   * devices is not.
+   */
+  .shelf-root .shelf-continue {
+    top: calc(env(safe-area-inset-top, 0px) + 4.75rem);
+    bottom: auto;
+    font-size: 0.6875rem;
+    padding: 0.4rem 0.9rem;
+  }
+}
+
+/*
+ * COEXISTING WITH THE SITE NAVIGATION.
+ *
+ * The source owns the whole viewport, so its editorial header sits at the very
+ * top. Here the site's own fixed navigation bar is already there — the two
+ * collided, with the collection name printed over the nav links.
+ *
+ * The shelf header moves below the bar. Its identity block is kept, because
+ * "Working Volumes" names the collection rather than the person and the nav
+ * carries the person.
+ */
+.shelf-root .editorial-header {
+  top: 88px;
+}
+
+@media (max-width: 720px) {
+  .shelf-root .editorial-header {
+    top: 80px;
+  }
+}
+
+/*
+ * The navigation bar sits over a near-black scene at the top of this page, and
+ * its own palette is the light one. While the shelf is mounted and the bar is
+ * still transparent, it borrows the shelf's ink; as soon as it takes its
+ * opaque scrolled background it reverts to the site's own colours.
+ *
+ * `:not(.bg-cream\/85)` keys off the class the bar adds when scrolled, so this
+ * needs no extra state plumbing between two unrelated components.
+ */
+/*
+ * `nav[class*='fixed']` is the top bar specifically. An earlier version matched
+ * any labelled <nav>, which also caught the footer's volume index — and gave it
+ * bone-coloured links on the light ground, at 1.03:1.
+ *
+ * The filled primary action is deliberately left alone: `text-cream` already
+ * resolves to the right label colour in both palettes (5.0:1 on the light brass,
+ * 6.1:1 on the dark one), and overriding it broke the lighter case.
+ */
+html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) a:not([class*='bg-accent']),
+html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) button,
+/* The brand link wraps its text in spans that set their own colour, so
+   inheriting from the anchor is not enough. */
+html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) a:not([class*='bg-accent']) > span,
+html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) button > svg {
+  color: #f4eee6;
+}
+
+html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) span[class*='border-border'],
+html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border-border'] {
+  border-color: rgba(244, 238, 230, 0.24);
+}
+
+/*
+ * The scroll cue must not sit over the shelf's own controls.
+ *
+ * It is absolutely positioned at the foot of the hero, which put it on top of
+ * the detail panel's close button once a volume was open — the click landed on
+ * the cue instead. The engine marks that state with `.mode-detail` on
+ * `.experience`, so the cue simply steps aside while a volume is being read.
+ */
+.shelf-root .experience.mode-detail .shelf-continue {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/*
+ * NOTHING TO NEGOTIATE ANY MORE.
+ *
+ * There used to be ~70 lines here re-pointing the application's colour tokens
+ * at the shelf's palette whenever a whole page was dark, plus a set of rules
+ * that made the navigation bar's brand plate survive over the scene. Both
+ * existed because the site had a light ground and the shelf did not.
+ *
+ * It has one ground now, and it is the shelf's — see the `:root` block in
+ * globals.css. The bar, the panels and the form fields are already on it, so
+ * they need no correction, and the brand mark is inverted globally through
+ * `--brand-filter`.
+ */
