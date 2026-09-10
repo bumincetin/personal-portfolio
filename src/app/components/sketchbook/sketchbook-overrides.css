@@ -785,3 +785,22 @@
     display: none;
   }
 }
+/* Make the reader's essential controls easy to find on the dark desk. */
+.sketchbook-root .sb-arrow {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgb(var(--c-hairline-control));
+  border-radius: 50%;
+  background: rgb(var(--c-ground) / 0.94);
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.sketchbook-root .sb-arrow:hover:not(:disabled) {
+  border-color: rgb(var(--c-brass-hi));
+  background: rgb(var(--c-panel-raised));
+}
+
+.sketchbook-root .plate {
+  transition: background-color 200ms ease, color 200ms ease;
+}

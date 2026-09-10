@@ -189,9 +189,9 @@ export default function ContactPageClient({ locale, configured, initialTopic }: 
   return (
     <div>
       {!configured && (
-        <div className="mb-8 rounded-editorial border border-caution/40 bg-caution/5 p-5 sm:p-6">
+        <div className="contact-email-note mb-8 rounded-editorial border border-border bg-cream p-5 sm:p-6">
           <div className="flex items-start gap-3">
-            <AlertCircle className="mt-0.5 flex-shrink-0 text-caution" size={20} aria-hidden="true" />
+            <Mail className="mt-0.5 flex-shrink-0 text-accent" size={20} aria-hidden="true" />
             <div>
               <h2 className="text-base font-medium text-charcoal">{ui.contact.disabledTitle}</h2>
               <p className="measure mt-2 text-[0.9375rem] leading-relaxed text-muted">{ui.contact.disabledBody}</p>

@@ -336,9 +336,9 @@ const en: UIStrings = {
     failureTitle: 'That did not go through',
     failureBody:
       'Nothing was sent. Your message is still in the form — you can try again, or email it directly using the address below.',
-    disabledTitle: 'The form is not connected yet',
+    disabledTitle: 'Start a conversation by email',
     disabledBody:
-      'Rather than show a form that silently discards what you write, it is disabled until its mail provider is configured. Email reaches me directly and is read the same day.',
+      'The inquiry form is currently unavailable. Send me a few sentences about your project by email; your message reaches me directly.',
     whatHappensNext: 'What happens next',
     nextSteps: [
       'I read your message myself. Nothing is routed through an assistant or an autoresponder.',
@@ -546,9 +546,9 @@ const tr: UIStrings = {
     failureTitle: 'Bu gönderilemedi',
     failureBody:
       'Hiçbir şey gönderilmedi. Mesajınız hâlâ formda duruyor — yeniden deneyebilir veya aşağıdaki adresi kullanarak doğrudan e-posta atabilirsiniz.',
-    disabledTitle: 'Form henüz bağlı değil',
+    disabledTitle: 'E-posta ile iletişime geçin',
     disabledBody:
-      'Yazdıklarınızı sessizce çöpe atan bir form göstermek yerine, e-posta sağlayıcısı yapılandırılana kadar devre dışı bırakıldı. E-posta bana doğrudan ulaşıyor ve aynı gün okunuyor.',
+      'İletişim formu şu anda kullanılamıyor. Projenizi birkaç cümleyle e-posta ile anlatın; mesajınız doğrudan bana ulaşır.',
     whatHappensNext: 'Bundan sonra ne oluyor',
     nextSteps: [
       'Mesajınızı kendim okuyorum. Hiçbir şey bir asistana veya otomatik yanıtlayıcıya yönlendirilmiyor.',
@@ -756,9 +756,9 @@ const it: UIStrings = {
     failureTitle: 'Non è andato a buon fine',
     failureBody:
       'Non è stato inviato nulla. Il messaggio è ancora nel modulo — puoi riprovare oppure scrivermi direttamente all’indirizzo qui sotto.',
-    disabledTitle: 'Il modulo non è ancora collegato',
+    disabledTitle: 'Iniziamo con un’email',
     disabledBody:
-      'Invece di mostrare un modulo che scarta in silenzio quello che scrivi, è disattivato finché il servizio di posta non è configurato. L’email mi arriva direttamente e viene letta in giornata.',
+      'Il modulo di contatto non è al momento disponibile. Raccontami il tuo progetto in poche righe via email; il messaggio arriva direttamente a me.',
     whatHappensNext: 'Cosa succede dopo',
     nextSteps: [
       'Leggo io il tuo messaggio. Nulla passa da un assistente o da una risposta automatica.',

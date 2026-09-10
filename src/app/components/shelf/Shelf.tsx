@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { Locale } from '@/lib/translations';
+import { getUI } from '@/lib/content/ui';
 import { getShelfBooks, VOLUMES } from './volumes';
 import { getShelfUI } from './shelf-ui';
 import './shelf.css';
@@ -46,6 +47,7 @@ interface ShelfProps {
 
 export default function Shelf({ locale, readHref }: ShelfProps) {
   const ui = getShelfUI(locale);
+  const siteUI = getUI(locale);
   const rootRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -67,9 +69,10 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
           woodTextureUrl: '/shelf/wood.webp',
         });
       } catch {
-        // Nothing to do: the authored `.static-fallback` is visible until the
-        // engine adds `webgl-ready`, so a chunk that never arrives leaves the
-        // readable catalogue on screen by itself.
+        // Dismiss the loading veil so a failed engine download still leaves
+        // the static catalogue and its links usable.
+        const loading = rootRef.current?.querySelector<HTMLElement>('#loading');
+        if (!cancelled && loading) loading.hidden = true;
       }
     })();
 
@@ -111,6 +114,7 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
 
   return (
     <main className="shelf-root" ref={rootRef}>
+      <noscript><style>{'.shelf-root .loading { display: none; }'}</style></noscript>
       <div className="experience" id="experience">
         <div className="scene-shell">
           <canvas id="scene" aria-hidden="true"></canvas>
@@ -118,7 +122,8 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
 
         <header className="editorial-header" aria-label={ui.collection}>
           <div className="editorial-identity">
-            <strong>{ui.identity}</strong>
+            <p className="collection-eyebrow">{siteUI.home.heroEyebrow}</p>
+            <h1>{ui.identity}<span className="collection-period" aria-hidden="true">.</span></h1>
             <span>{ui.identityNote}</span>
           </div>
         </header>
@@ -134,9 +139,10 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
               01 / 0{books.length}
             </span>
             <div className="selection__copy">
-              <h1 className="selection__title" id="selection-title">
+              <p className="selection__discipline">{active.discipline}</p>
+              <h2 className="selection__title" id="selection-title">
                 {books[0].title}
-              </h1>
+              </h2>
               <p className="selection__note" id="selection-note">
                 {books[0].note}
               </p>
@@ -151,6 +157,7 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
             </button>
             <button className="text-button" id="inspect" type="button">
               {ui.open}
+              <span aria-hidden="true">↗</span>
             </button>
             <button className="round-button" id="next" type="button" aria-label={ui.nextVolume}>
               <svg viewBox="0 0 16 16" aria-hidden="true">
@@ -172,9 +179,7 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
           aria-modal="true"
           aria-labelledby="detail-title"
           aria-hidden="true"
-          // @ts-expect-error -- `inert` is valid HTML the engine toggles; React 18's
-          // type definitions predate it.
-          inert=""
+          inert={true}
         >
           <button className="close-button" id="close-detail" type="button" aria-label={ui.returnVolume}>
             <svg viewBox="0 0 16 16" aria-hidden="true">

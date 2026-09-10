@@ -89,7 +89,7 @@ const UI: Record<Locale, ShelfUI> = {
       'The shelf presentation is an original Three.js work by ThreeUI, used under licence. The problems, evidence and figures in it are this practice’s own.',
     loading: 'Binding the collection',
     skipToReading: 'Skip the shelf and read the page',
-    continueBelow: 'Keep reading',
+    continueBelow: 'About the practice',
   },
   tr: {
     collection: 'Koleksiyon',
@@ -128,7 +128,7 @@ const UI: Record<Locale, ShelfUI> = {
       'Raf sunumu, lisans altında kullanılan, ThreeUI’ye ait özgün bir Three.js çalışmasıdır. İçindeki problemler, kanıtlar ve rakamlar bu pratiğe aittir.',
     loading: 'Koleksiyon ciltleniyor',
     skipToReading: 'Rafı atlayıp sayfayı okuyun',
-    continueBelow: 'Okumaya devam',
+    continueBelow: 'Çalışma yaklaşımım',
   },
   it: {
     collection: 'Collezione',
@@ -167,7 +167,7 @@ const UI: Record<Locale, ShelfUI> = {
       'La presentazione dello scaffale è un’opera Three.js originale di ThreeUI, usata su licenza. I problemi, le prove e i numeri al suo interno sono di questo studio.',
     loading: 'Rilegatura della collezione',
     skipToReading: 'Salta lo scaffale e leggi la pagina',
-    continueBelow: 'Continua a leggere',
+    continueBelow: 'Il mio approccio',
   },
 };
 

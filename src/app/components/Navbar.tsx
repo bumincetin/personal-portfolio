@@ -4,7 +4,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
 import { type Locale, locales } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
 import { PROFILE } from '@/lib/profile';
@@ -45,6 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const volumesRef = useRef<HTMLDivElement>(null);
+  const volumesTriggerRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
   const volumesId = useId();
 
@@ -70,6 +71,16 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
     setVolumesOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1280px)');
+    const closeDisclosures = () => {
+      setIsOpen(false);
+      setVolumesOpen(false);
+    };
+    desktop.addEventListener('change', closeDisclosures);
+    return () => desktop.removeEventListener('change', closeDisclosures);
+  }, []);
+
   /** Close the volumes disclosure on outside click or Escape. */
   useEffect(() => {
     if (!volumesOpen) return;
@@ -77,7 +88,10 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
       if (!volumesRef.current?.contains(event.target as Node)) setVolumesOpen(false);
     };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setVolumesOpen(false);
+      if (event.key === 'Escape') {
+        setVolumesOpen(false);
+        volumesTriggerRef.current?.focus();
+      }
     };
     document.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('keydown', onKeyDown);
@@ -154,11 +168,11 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
     <>
       <nav
         aria-label={ui.nav.mainLabel}
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        className={`site-nav fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
           scrolled ? 'border-b border-border bg-cream/85 shadow-editorial backdrop-blur-xl' : 'border-b border-transparent'
         }`}
       >
-        <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
+        <div className="nav-inner mx-auto flex h-[68px] items-center justify-between gap-4">
           <Link
             href={`/${locale}`}
             className="group flex flex-shrink-0 items-center gap-2.5 rounded transition-opacity hover:opacity-90"
@@ -184,16 +198,13 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
               priority
               className="h-[30px] w-[30px] flex-shrink-0 object-contain"
             />
-            <span className="hidden text-[0.9375rem] font-normal tracking-tight text-charcoal lg:inline">
+            <span className="text-[0.9375rem] font-normal tracking-tight text-charcoal">
               {PROFILE.name}
-            </span>
-            <span className="text-[0.9375rem] font-normal tracking-[0.12em] text-charcoal lg:hidden">
-              {PROFILE.initials}
             </span>
           </Link>
 
           {/* Desktop navigation */}
-          <div className="hidden flex-shrink-0 items-center gap-6 lg:gap-7 md:flex">
+          <div className="hidden flex-shrink-0 items-center gap-7 xl:flex">
             <Link href={`/${locale}`} aria-current={onShelf ? 'page' : undefined} className={itemClass(onShelf)}>
               {ui.nav.shelf}
             </Link>
@@ -208,19 +219,21 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
 
             <div className="relative" ref={volumesRef}>
               <button
+                ref={volumesTriggerRef}
                 type="button"
                 onClick={() => setVolumesOpen((open) => !open)}
                 aria-expanded={volumesOpen}
                 aria-controls={volumesId}
-                className={itemClass(onVolume)}
+                className={`${itemClass(onVolume)} inline-flex items-center gap-1.5`}
               >
                 {ui.nav.volumes}
+                <ChevronDown size={13} aria-hidden="true" className={`transition-transform duration-200 ${volumesOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {volumesOpen && (
                 <div
                   id={volumesId}
-                  className="absolute left-1/2 top-full z-10 mt-3 w-[23rem] -translate-x-1/2 rounded-editorial border border-border bg-surface p-2 shadow-editorial"
+                  className="nav-disclosure absolute left-1/2 top-full z-10 mt-3 w-[23rem] -translate-x-1/2 rounded-editorial border border-border bg-surface p-2 shadow-editorial"
                 >
                   <ul>
                     {VOLUMES.map((volume, index) => (
@@ -255,7 +268,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
 
             <Link
               href={`/${locale}/contact`}
-              className="inline-flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-full px-5 text-[0.875rem] border border-control text-charcoal transition-colors duration-200 hover:border-accent hover:text-accent-hi"
+              className="nav-cta inline-flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-full px-5 text-[0.875rem] border border-control text-charcoal transition-colors duration-200 hover:border-accent hover:text-accent-hi"
             >
               {ui.nav.primaryCta}
               <ArrowRight size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -270,7 +283,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
                   lang={loc}
                   aria-current={locale === loc ? 'true' : undefined}
                   aria-label={LANGUAGE_LABELS[loc]}
-                  className={`rounded px-1.5 py-1 font-mono text-[0.6875rem] tracking-[0.1em] transition-colors ${
+                  className={`inline-flex min-h-[44px] items-center rounded px-1.5 py-1 font-mono text-[0.6875rem] tracking-[0.1em] transition-colors ${
                     locale === loc ? 'text-accent' : 'text-muted hover:text-charcoal'
                   }`}
                 >
@@ -282,7 +295,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
           </div>
 
           {/* Compact controls */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <Link
               href={`/${locale}/contact`}
               className="hidden min-h-[44px] items-center rounded-full px-4 text-[0.8125rem] border border-control text-charcoal transition-colors duration-200 hover:border-accent hover:text-accent-hi sm:inline-flex"
@@ -312,7 +325,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
         aria-modal={isOpen || undefined}
         aria-label={ui.nav.menu}
         hidden={!isOpen}
-        className="fixed inset-x-0 bottom-0 top-[68px] z-40 overflow-y-auto bg-cream md:hidden"
+        className="nav-mobile fixed inset-x-0 bottom-0 top-[68px] z-40 overflow-y-auto bg-cream xl:hidden"
       >
         <div className="flex min-h-full flex-col px-5 py-6">
           {/* Inside an already-labelled dialog, so it needs no landmark label. */}

@@ -97,6 +97,9 @@ export default async function ContactPage(props: {
             <h1 className="reader-title">{ui.contact.title}</h1>
             <p className="reader-note">{ui.contact.lede}</p>
             <p className="colophon-bio">{t.about.desc1}</p>
+            <a className="reader-cta" href="#inquiry-heading">
+              {ui.nav.primaryCta}<span aria-hidden="true">↗</span>
+            </a>
           </div>
         </section>
 

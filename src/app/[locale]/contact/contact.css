@@ -448,3 +448,100 @@
   border-color: rgb(var(--c-brass));
   background: rgb(var(--c-text) / 0.06);
 }
+/* A quieter portrait, a readable record, and a clear route into the inquiry. */
+.colophon-root {
+  font-family: var(--font-text);
+}
+
+.colophon-hero {
+  align-items: center;
+}
+
+.colophon-portrait img {
+  border-radius: 8px;
+  filter: grayscale(0.2) contrast(1.02);
+}
+
+.colophon-intro .reader-title {
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  line-height: 1.06;
+}
+
+.colophon-intro .reader-cta {
+  margin-top: 1.75rem;
+  gap: 1.5rem;
+}
+
+.colophon-form {
+  border-radius: 12px;
+  border-top-color: rgb(var(--c-brass) / 0.65);
+  box-shadow: 0 20px 64px rgb(0 0 0 / 0.12);
+}
+
+#inquiry-heading {
+  scroll-margin-top: 7rem;
+}
+
+.colophon-form input:focus-visible,
+.colophon-form select:focus-visible,
+.colophon-form textarea:focus-visible {
+  outline: 2px solid rgb(var(--c-brass));
+  outline-offset: 3px;
+}
+
+.contact-email-note {
+  border-radius: 8px;
+}
+
+.colophon-record,
+.colophon-direct {
+  padding-top: 2.5rem;
+  border-top: 1px solid rgb(var(--c-hairline-strong));
+}
+
+.colophon-chapters {
+  gap: 0;
+}
+
+.colophon-chapters > li {
+  position: relative;
+  margin-left: 4px;
+  padding: 0 0 2.5rem 1.75rem;
+  border-left: 1px solid rgb(var(--c-hairline-strong));
+}
+
+.colophon-chapters > li:last-child {
+  padding-bottom: 0;
+}
+
+.colophon-chapters > li::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(var(--c-brass));
+  box-shadow: 0 0 0 5px rgb(var(--c-ground));
+}
+
+.colophon-chapters h3 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.2;
+}
+
+.colophon-entry-head strong {
+  font-family: var(--font-text);
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+  .colophon { padding-inline: var(--page-gutter); }
+  .colophon-intro { order: -1; }
+  .colophon-portrait { max-width: 240px; }
+  .colophon-portrait figcaption { line-height: 1.5; align-items: flex-start; }
+  .colophon-portrait figcaption svg { flex-shrink: 0; margin-top: 3px; }
+  .colophon-form { padding: 1.5rem 1rem; }
+}

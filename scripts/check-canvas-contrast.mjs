@@ -60,8 +60,10 @@ const TARGETS = [
   ['#counter', 'the volume counter'],
   ['#inspect', 'the Open button'],
   ['.shelf-continue', 'the reading cue'],
-  ['.editorial-identity strong', 'the collection name'],
-  ['.editorial-identity span', 'the collection note'],
+  ['.editorial-identity h1', 'the collection name'],
+  ['.editorial-identity > span', 'the collection note'],
+  ['.collection-eyebrow', 'the practice discipline'],
+  ['.selection__discipline', 'the selected service'],
   // The `.editorial-index` block — an edition line and a palette name
   // ("Ultramarine · bone · copper") — is no longer rendered. It described the
   // colours of a cover rather than the problem inside it.

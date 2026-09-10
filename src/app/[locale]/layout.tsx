@@ -67,7 +67,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export const viewport: Viewport = {
   // One ground, so one hint. #171A24 is the shelf's --paper: the browser chrome
   // and the canvas are the same colour.
-  themeColor: '#171A24',
+  themeColor: '#1a1511',
   colorScheme: 'dark',
 };
 
