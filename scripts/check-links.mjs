@@ -65,11 +65,32 @@ const browser = await chromium.launch({ channel: 'chrome' });
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const page = await context.newPage();
 
+/*
+ * A remote origin is not localhost.
+ *
+ * Waiting for `load` means waiting for the WebGL bundle, the textures and three
+ * self-hosted faces to arrive over a real network, which is comfortably past
+ * Playwright's 30s default — and the timeout it throws looks nothing like a
+ * slow page, it looks like the check failing. This is what lets the same script
+ * run against a deployed site.
+ */
+page.setDefaultNavigationTimeout(90000);
+
+/*
+ * Any failing response, not only 404.
+ *
+ * This watched for 404 alone until a run against production came back green
+ * while quietly scraping three links off a Cloudflare 5xx error page — the
+ * check had rendered a route that errored, found no 404s on it, and passed. A
+ * 502 is not a better outcome than a 404, and a checker that knows only one of
+ * them will keep saying "nothing is broken" about a site that is.
+ */
 page.on('response', (response) => {
-  if (response.status() !== 404) return;
+  const code = response.status();
+  if (code < 400) return;
   const url = response.url();
   if (!url.startsWith(BASE)) return;
-  const at = url.slice(BASE.length);
+  const at = `${code}  ${url.slice(BASE.length)}`;
   if (!missingAssets.has(at)) missingAssets.set(at, new Set());
   missingAssets.get(at).add(page.url().slice(BASE.length) || '/');
 });
@@ -144,10 +165,10 @@ let failures = 0;
 console.log(`Checked ${toCheck.length} internal paths and ${RENDERED.length} rendered routes.\n`);
 
 if (missingAssets.size === 0) {
-  console.log('PASS  no asset returned 404');
+  console.log('PASS  every request the pages made succeeded');
 } else {
   failures += missingAssets.size;
-  console.log(`FAIL  ${missingAssets.size} asset(s) returned 404:`);
+  console.log(`FAIL  ${missingAssets.size} request(s) failed:`);
   for (const [asset, pages] of missingAssets) {
     console.log(`        ${asset}\n          requested by: ${[...pages].join(', ')}`);
   }
@@ -179,4 +200,4 @@ if (failures > 0) {
   console.error(`Link check failed: ${failures} problem(s).`);
   process.exit(1);
 }
-console.log('Link check passed: nothing on this site 404s.');
+console.log('Link check passed: every link, asset and sitemap entry resolves.');
