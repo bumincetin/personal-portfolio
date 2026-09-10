@@ -52,6 +52,61 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
+    const root = rootRef.current;
+    const canvas = root?.querySelector<HTMLCanvasElement>('#scene');
+    const experience = root?.querySelector('#experience');
+    if (!canvas || !experience) return;
+
+    let gesture: { id: number; x: number; y: number; horizontal: boolean } | null = null;
+    let suppressClickUntil = 0;
+    const onDown = (event: PointerEvent) => {
+      if (event.pointerType !== 'touch' || !event.isPrimary || experience.classList.contains('mode-detail')) return;
+      gesture = { id: event.pointerId, x: event.clientX, y: event.clientY, horizontal: false };
+    };
+    const onMove = (event: PointerEvent) => {
+      if (!gesture || event.pointerId !== gesture.id) return;
+      const dx = event.clientX - gesture.x;
+      const dy = event.clientY - gesture.y;
+      if (!gesture.horizontal && Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) {
+        gesture = null;
+        return;
+      }
+      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        gesture.horizontal = true;
+        canvas.setPointerCapture(event.pointerId);
+      }
+    };
+    const onEnd = (event: PointerEvent) => {
+      if (!gesture || event.pointerId !== gesture.id) return;
+      const current = gesture;
+      gesture = null;
+      if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      if (event.type !== 'pointerup' || !current.horizontal) return;
+      suppressClickUntil = performance.now() + 500;
+      const dx = event.clientX - current.x;
+      if (Math.abs(dx) < 36 || experience.classList.contains('mode-detail')) return;
+      root?.querySelector<HTMLButtonElement>(dx < 0 ? '#next' : '#previous')?.click();
+    };
+    const onClick = (event: MouseEvent) => {
+      if (performance.now() >= suppressClickUntil) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    };
+    canvas.addEventListener('pointerdown', onDown);
+    canvas.addEventListener('pointermove', onMove);
+    canvas.addEventListener('pointerup', onEnd);
+    canvas.addEventListener('pointercancel', onEnd);
+    canvas.addEventListener('click', onClick, true);
+    return () => {
+      canvas.removeEventListener('pointerdown', onDown);
+      canvas.removeEventListener('pointermove', onMove);
+      canvas.removeEventListener('pointerup', onEnd);
+      canvas.removeEventListener('pointercancel', onEnd);
+      canvas.removeEventListener('click', onClick, true);
+    };
+  }, []);
+
+  useEffect(() => {
     let dispose: (() => void) | undefined;
     let cancelled = false;
 

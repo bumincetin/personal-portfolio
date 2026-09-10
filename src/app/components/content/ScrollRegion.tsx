@@ -24,7 +24,7 @@ export default function ScrollRegion({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`scroll-x ${className}`} tabIndex={0} role="group" aria-label={label}>
+    <div className={`scroll-x ${className}`} data-scroll-region tabIndex={0} role="group" aria-label={label}>
       {children}
     </div>
   );

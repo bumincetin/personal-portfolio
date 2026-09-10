@@ -40,6 +40,7 @@ Individually:
 | `npm run test:i18n` | en/tr/it are structurally identical, with no empty strings |
 | `npm run test:contrast` | every colour pair the site renders, against WCAG 2.2 AA |
 | `npm run test:smoke -- <url>` | the real build in a real browser |
+| `npm run test:mobile -- <url>` | native touch scrolling, shelf swipes, reader zoom, and every reader leaf at phone and tablet widths |
 | `npm run test:a11y -- <url>` | axe-core over every route at three viewports |
 | `npm run test:canvas -- <url>` | the shelf's overlay text against the rendered scene — the one thing axe cannot measure |
 

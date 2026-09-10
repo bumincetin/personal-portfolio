@@ -120,9 +120,8 @@
   background: var(--paper);
   color: var(--ink);
   border-radius: 2px;
-  /* The type scales with the book, as type on a page does. At the 900px the
-     book tops out at, this is ~15px — a comfortable measure for a ~420px page. */
-  font-size: calc(var(--bw, 900px) * 0.0166);
+  /* Preserve a readable minimum when the desktop spread becomes narrower. */
+  font-size: clamp(1rem, calc(var(--bw, 900px) * 0.018), 1.0625rem);
   line-height: 1.62;
 }
 
@@ -235,6 +234,7 @@
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: 0.01em;
+  color: var(--ink);
 }
 
 .sketchbook-root .sb-leaf .reader-heading {
@@ -251,7 +251,7 @@
 .sketchbook-root .sb-leaf .reader-prose,
 .sketchbook-root .sb-leaf .reader-lede {
   margin: 0 0 1em;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.005em;
 }
 
@@ -259,30 +259,32 @@
   color: rgba(43, 39, 33, 0.72);
 }
 
-.sketchbook-root .sb-leaf ul,
-.sketchbook-root .sb-leaf ol {
+.sketchbook-root .sb-leaf > ul,
+.sketchbook-root .sb-leaf > ol {
   margin: 0 0 1em;
   padding-left: 1.1em;
 }
 
-.sketchbook-root .sb-leaf li {
+.sketchbook-root .sb-leaf > ul li,
+.sketchbook-root .sb-leaf > ol li {
   margin-bottom: 0.5em;
-  font-weight: 300;
+  font-weight: 400;
 }
 
-.sketchbook-root .sb-leaf dl {
+.sketchbook-root .sb-leaf > dl {
   margin: 0;
 }
 
-.sketchbook-root .sb-leaf dt {
+.sketchbook-root .sb-leaf > dl dt {
   font-family: var(--display);
   font-size: 1.08em;
   margin-top: 0.9em;
 }
 
-.sketchbook-root .sb-leaf dd {
+.sketchbook-root .sb-leaf > dl dd,
+.sketchbook-root .sb-leaf .reader-evidence dd {
   margin: 0.2em 0 0;
-  font-weight: 300;
+  font-weight: 400;
   color: rgba(43, 39, 33, 0.78);
 }
 
@@ -738,7 +740,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   /*
    * A portrait book.
    *
@@ -753,7 +755,7 @@
 
   .sketchbook-root .sb-paper {
     inset: 2.5% 2.5%;
-    font-size: calc(var(--bw, 360px) * 0.0405);
+    font-size: calc(1.0625rem * var(--reading-scale, 1));
   }
 
   .sketchbook-root .sb-page {
@@ -765,10 +767,9 @@
     padding-top: 0.5rem;
   }
 
-  /* The arrows sit over the sheet rather than beside it: at this width there is
-     no room beside it. Authored behaviour, kept. */
+  /* Keep a single page comfortable to read on tablets as well as phones. */
   .sketchbook-root .sb-3d {
-    max-width: none;
+    max-width: 620px;
   }
 
   /*
@@ -780,6 +781,7 @@
    * a control that toggles something invisible is worse than no control.
    */
   .sketchbook-root .loupe,
+  .sketchbook-root .zoomwrap,
   .sketchbook-root #loupeBtn,
   .sketchbook-root .tool-sep {
     display: none;
@@ -803,4 +805,106 @@
 
 .sketchbook-root .plate {
   transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* The turn already crossfades its captions. Keep the landed label readable. */
+.sketchbook-root .sb-wrap:not(.intro) .sb-caption:not(.live) {
+  animation: none;
+}
+
+/* Keep gestures local: charts and tables scroll; ordinary leaves turn. */
+.sketchbook-root .sb-stage {
+  touch-action: auto;
+}
+
+.sketchbook-root .sb-leaf {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sketchbook-root .sb-leaf > * {
+  flex-shrink: 0;
+}
+
+.sketchbook-root .sb-leaf:not(:has([data-scroll-region], .reader-demo, .reader-figure)) {
+  touch-action: pan-y pinch-zoom;
+}
+
+[data-scroll-region] {
+  max-width: 100%;
+  min-width: 0;
+  touch-action: pan-x pan-y pinch-zoom;
+  overscroll-behavior-x: contain;
+}
+
+.sketchbook-root .sb-leaf .reader-figure,
+.sketchbook-root .sb-leaf .reader-demo {
+  flex: none;
+  min-width: 0;
+  overflow: visible;
+}
+
+.sketchbook-root .sb-leaf .reader-evidence dd {
+  font-size: 1em;
+  color: #494239;
+}
+
+.sketchbook-root .sb-leaf .reader-evidence dt,
+.sketchbook-root .sb-leaf .reader-eyebrow,
+.sketchbook-root .sb-leaf .reader-metric span,
+.sketchbook-root .sb-leaf .reader-folio {
+  color: #655b4e;
+  font-size: max(0.72em, 0.75rem);
+  letter-spacing: 0.1em;
+}
+
+.sketchbook-root .sb-leaf .reader-note {
+  font-size: 1em;
+  line-height: inherit;
+  color: #494239;
+}
+
+.sketchbook-root .sb-leaf .reader-evidence a,
+.sketchbook-root .sb-leaf > .reader-links a {
+  color: #79502c;
+}
+
+.sketchbook-root .sb-leaf .reader-metric {
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+/* The no-script and failed-load versions are paper too. */
+.sketchbook-root .sb-source {
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.sketchbook-root .sb-source > .sb-leaf {
+  height: auto;
+  padding-block: 1.5rem;
+}
+
+@media (pointer: coarse) {
+  .sketchbook-root .zoomwrap { display: none; }
+}
+
+@media (max-width: 900px) {
+  .sketchbook-root .sb-wrap { width: 100%; margin-inline: 0; gap: 16px; padding-inline: 12px; }
+  .sketchbook-root .sb-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sketchbook-root .sb-3d { grid-column: 1 / -1; grid-row: 1; width: 100%; justify-self: center; }
+  .sketchbook-root .sb-arrow { position: static; transform: none; grid-row: 2; }
+  .sketchbook-root .sb-arrow.left { justify-self: end; }
+  .sketchbook-root .sb-arrow.right { justify-self: start; }
+  .sketchbook-root .sb-page,
+  .sketchbook-root .sb-paper.single .sb-page { padding: 1.25rem 1.125rem; box-shadow: none; }
+  .sketchbook-root .sb-leaf .reader-title { font-size: 2.1em; }
+  .sketchbook-root .sb-leaf .reader-heading { font-size: 1.5em; }
+  .sketchbook-root .sb-leaf .reader-demo { padding: 12px; }
+  .sketchbook-root .reader-figure > figure { padding: 16px; }
+  .sketchbook-root .sb-caption { font-size: 0.8125rem; letter-spacing: 0.08em; }
+  .sketchbook-root .sb-hint { font-size: 0.75rem; letter-spacing: 0.04em; }
+  .sketchbook-root .sb-head { gap: 0.25rem; padding-top: 5rem; }
 }

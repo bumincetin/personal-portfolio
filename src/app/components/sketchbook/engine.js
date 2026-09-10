@@ -124,7 +124,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
    * the kind of thing that looks fine in a screenshot and loses the reader
    * every second page.
    */
-  const NARROW = '(max-width: 640px)';
+  const NARROW = '(max-width: 900px)';
   const perSpread = () => (matchMedia(NARROW).matches ? 1 : 2);
 
   let SPREADS = [];
@@ -534,7 +534,10 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   function applyView() {
     sb3d.style.setProperty('--rx', `${view.rx.toFixed(2)}deg`);
     sb3d.style.setProperty('--ry', `${view.ry.toFixed(2)}deg`);
-    sb3d.style.setProperty('--zoom', view.z.toFixed(3));
+    // On a narrow screen, enlarge the text inside the sheet. Scaling the
+    // entire book pushes its edges and controls outside the viewport.
+    sb3d.style.setProperty('--zoom', singleUp() ? '1' : view.z.toFixed(3));
+    sb3d.style.setProperty('--reading-scale', view.z.toFixed(3));
     if (view.z !== lastZ) {
       lastZ = view.z;
       placeLoupe();
@@ -611,6 +614,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   const onDown = (e) => {
     if (e.button !== 0 || introOn) return;
     if (!e.target.closest('#sbBook')) return;
+    if (e.target.closest('[data-scroll-region], .reader-demo, .reader-figure')) return;
     // A control on the page keeps the gesture. The leaf itself is focusable so
     // it can be scrolled, which is why `[tabindex="-1"]` is excluded above and
     // the leaf is checked separately rather than through the selector.
@@ -639,6 +643,10 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     // Not yet a turn: wait for a gesture that is clearly horizontal. A vertical
     // drag belongs to the page, and a small one belongs to the text.
     if (!drag.dir) {
+      if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx) * 1.2) {
+        drag = null;
+        return;
+      }
       if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
       drag.dir = dx < 0 ? 'next' : 'prev';
       drag.x0 = e.clientX;
@@ -668,6 +676,11 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     if (!drag) return;
     const d = drag;
     drag = null;
+    if (stage.hasPointerCapture(d.pointerId)) stage.releasePointerCapture(d.pointerId);
+    if (e?.type === 'pointercancel') {
+      if (turn) cancel();
+      return;
+    }
 
     // Never became a drag. On a touch screen a tap on the sheet turns the page,
     // the way tapping a page of an e-reader does; with a mouse it does not,
@@ -786,7 +799,9 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    if (t?.closest('input, textarea, select, .sb-leaf button, [contenteditable], [data-scroll-region], .reader-demo, .reader-figure')) return;
+    const leaf = t?.closest('.sb-leaf');
+    if (leaf && leaf.scrollWidth > leaf.clientWidth + 1) return;
     e.preventDefault();
     hideHint();
     step(e.key === 'ArrowRight' ? 'next' : 'prev');
@@ -829,6 +844,10 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   function syncZoomLayer() {
     if (!zoomInner) return;
     zoomInner.textContent = '';
+    if (singleUp() || matchMedia('(pointer: coarse)').matches) {
+      if (zoomWrap) zoomWrap.style.opacity = '0';
+      return;
+    }
 
     /*
      * Not while a leaf is in the air.
@@ -1000,6 +1019,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
       paint();
     }
     layout();
+    applyView();
     lx = null;
     restLoupe();
   };
@@ -1081,7 +1101,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     });
   }
   function startIntro() {
-    const coarse = matchMedia('(max-width: 640px), (pointer: coarse)').matches;
+    const coarse = singleUp() || matchMedia('(pointer: coarse)').matches;
     if (coarse || REDUCED || M < 3) {
       paint();
       return;

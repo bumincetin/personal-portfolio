@@ -43,7 +43,7 @@ export default function ComparisonTable({ alloc, sim }: { alloc: AllocationResul
       <PanelTitle icon={Table2} title="Strategy Comparison" hint={`paid in ${fmtMoney(sim.totalContributed)}`} />
       {/* Focusable: a scroll container that a keyboard cannot enter strands
           the columns that overflow. */}
-      <div className="p-4 pt-2 overflow-x-auto" tabIndex={0} role="group" aria-label="Strategy comparison">
+      <div className="p-4 pt-2 overflow-x-auto" data-scroll-region tabIndex={0} role="group" aria-label="Strategy comparison">
         <table className="w-full min-w-[420px] border-collapse">
           <thead>
             <tr>

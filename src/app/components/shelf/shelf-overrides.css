@@ -381,6 +381,10 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
  * `--brand-filter`.
  */
 /* Editorial hierarchy around the interactive collection. */
+.shelf-root .experience:not(.mode-detail) #scene {
+  touch-action: pan-y pinch-zoom !important;
+}
+
 .shelf-root .static-fallback {
   padding-top: 100px;
 }

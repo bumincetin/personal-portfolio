@@ -309,7 +309,7 @@ export default function CaseStudyFigure({
       {/* The SVG is aria-hidden and the description sits beside it as real text,
           so it is available to every reader rather than only to a screen reader. */}
       <ScrollRegion label={`${ui.work.figureLabel}: ${caption}`}>
-        <div className="min-w-[440px]">
+        <div className="min-w-[600px]">
           <Figure />
         </div>
       </ScrollRegion>
