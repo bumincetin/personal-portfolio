@@ -28,12 +28,10 @@ try {
       assert.equal(await page.locator('.conversation-panel').count(),0);
       assert.ok(await noOverflow(page));
       await scan(page, `${locale} chapters ${width}`);
-      await page.locator('#chapter-III').scrollIntoViewIfNeeded();
+      await page.locator('.career-reel a[href="#chapter-III"]').click();
       await page.waitForTimeout(400);
-      if(width>700) {
-        assert.equal(await page.locator('.career-reel a[aria-current]').getAttribute('href'),'#chapter-III');
-        assert.ok(await page.locator('.career-film').evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=68 && r.top<160;}),'film must stay pinned beside the active chapter');
-      }
+      assert.equal(await page.locator('.career-reel a[aria-current]').getAttribute('href'),'#chapter-III');
+      assert.equal(await page.locator('.career-story').getAttribute('data-enhanced'),'false','reduced motion uses the native horizontal gallery');
       assert.ok(await noOverflow(page));
       if(locale==='en') await scan(page, `timeline ${width}`);
       await page.locator('#career-record').scrollIntoViewIfNeeded();
@@ -97,8 +95,11 @@ try {
   const c = await capture(); await page.waitForTimeout(300); const d = await capture();
   assert.ok(c !== d,'the 3D neuron must animate');
   await page.goto(`${BASE}/en/chapters`);
-  await page.locator('#chapter-IV').scrollIntoViewIfNeeded(); await page.waitForTimeout(1700);
+  await page.locator('.career-reel a[href="#chapter-IV"]').click(); await page.waitForTimeout(1700);
   assert.equal(await page.locator('.career-reel a[aria-current]').getAttribute('href'),'#chapter-IV');
+  assert.equal(await page.locator('.career-story').getAttribute('data-enhanced'),'true');
+  assert.ok(await page.locator('.career-film').evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=68 && r.top<100;}),'horizontal stage stays pinned during scrolling');
+  assert.ok(await page.locator('#chapter-IV').evaluate(e=>{const r=e.getBoundingClientRect();return Math.abs(r.left+r.width/2-innerWidth/2)<3;}),'selected card is centered');
   await page.emulateMedia({media:'print'});
   assert.ok(await page.locator('.chapters-print-identity').isVisible());
   assert.ok(await page.locator('.career-film').isHidden());

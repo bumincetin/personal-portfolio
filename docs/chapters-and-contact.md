@@ -2,9 +2,14 @@
 
 `/[locale]/chapters` owns the portrait, five career chapters, education,
 experience and languages. The dates and roles come from the existing `story.ts`
-and `translations.ts`. Desktop scroll advances a pinned sequence of illustrated
-scenes; phones use an ordinary vertical timeline with local reveals. Neither
-captures scrolling. The print stylesheet exposes the CV and contact identity.
+and `translations.ts`. Inspired by the public
+[Meng Timeline preview](https://threeui.com/motion-design/meng-timeline), desktop
+scroll moves illustrated cards horizontally through a pinned perspective stage,
+with oversized years, rays and a synchronized date ruler. Date links and arrow
+buttons select chapters directly. Phones, short viewports and reduced motion use
+a native horizontal gallery with scroll snapping; the focused gallery also
+supports arrow keys, Home and End. Neither mode captures wheel or touch scrolling.
+All five chapters remain readable without JavaScript. The print stylesheet exposes the CV and contact identity.
 `/about` redirects here. Both new destinations appear in navigation and sitemap.
 
 `/[locale]/contact` asks for name/company, subject, idea and timing. It compiles
