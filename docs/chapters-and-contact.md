@@ -4,11 +4,15 @@
 experience and languages. The dates and roles come from the existing `story.ts`
 and `translations.ts`. Inspired by the public
 [Meng Timeline preview](https://threeui.com/motion-design/meng-timeline), desktop
-scroll moves illustrated cards horizontally through a pinned perspective stage,
-with oversized years, rays and a synchronized date ruler. Date links and arrow
-buttons select chapters directly. Phones, short viewports and reduced motion use
-a native horizontal gallery with scroll snapping; the focused gallery also
-supports arrow keys, Home and End. Neither mode captures wheel or touch scrolling.
+scroll moves illustrated paper leaves horizontally through a pinned perspective
+stage, with oversized years, rays and a synchronized date ruler. Each leaf pivots
+at its binding as it moves, with paper grain, a shaded gutter, thin page edges,
+running heads and folios. Phones and short viewports use a bound stack: horizontal
+touch gestures turn the sheet around its spine, exposing its reverse side and
+moving fold shadow. Vertical touch scrolling remains native so longer pages can
+be read normally. Date links, arrow buttons and keyboard navigation (arrows, Home,
+End) also turn pages. Reduced motion uses a native horizontal gallery with scroll
+snapping and no animated page turns.
 All five chapters remain readable without JavaScript. The print stylesheet exposes the CV and contact identity.
 `/about` redirects here. Both new destinations appear in navigation and sitemap.
 
@@ -36,3 +40,9 @@ cannot put answers into the page URL.
 all three locales, accessibility at multiple states, answer retention, URL
 encoding, animation/pause, printing and no-JavaScript fallbacks. The suite never
 opens a messaging destination or submits an inquiry.
+
+`npm run test:chapter-pages -- <url>` exercises actual emulated touch input in
+all three locales: forward/backward page turns, the reverse face, moving fold
+light, native vertical scrolling, date/keyboard navigation, reduced motion and
+accessibility. It also checks desktop leaf rotation and that every selected page
+fits above the timeline controls.

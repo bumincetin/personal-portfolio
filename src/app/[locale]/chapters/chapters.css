@@ -15,7 +15,7 @@ html:has(.chapters-root), body:has(.chapters-root) { overflow-x: clip; overflow-
 .chapters-portrait img { width: 100%; aspect-ratio: 4/4.6; object-fit: cover; object-position: center 30%; filter: saturate(.7); border-radius: 160px 160px 2px 2px; }
 .chapters-portrait figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; margin-top: 15px; color: #b6a897; font: 400 10px/1.6 var(--font-ui); }
 .portrait-edition { position: absolute; top: 22%; right: -33px; writing-mode: vertical-rl; color: #c9aa81; font: 400 10px var(--font-ui); letter-spacing: .16em; }
-/* A native horizontal gallery is the baseline; desktop scrolling adds depth. */
+/* Paper leaves: native gallery fallback, touch-driven binding, desktop timeline. */
 .career-story { position: relative; width: 100vw; margin-left: calc(50% - 50vw); background: #14110e; border-block: 1px solid #4d3d2f; scroll-margin-top: 80px; }
 .career-film { position: relative; isolation: isolate; overflow: hidden; padding: 28px 0 24px; }
 .career-film-top { position: relative; z-index: 2; display: flex; justify-content: space-between; margin: 0 clamp(20px, 4vw, 64px); color: #dfc7a5; font: 500 11px/1.5 var(--font-ui); text-transform: uppercase; letter-spacing: .15em; }
@@ -28,34 +28,49 @@ html:has(.chapters-root), body:has(.chapters-root) { overflow-x: clip; overflow-
 .career-ruler i { display: block; flex: 0 0 1px; height: 32px; background: #b5986b; opacity: .2; }
 .career-ruler i[data-major="true"] { height: 64px; opacity: .35; }
 .career-track { position: relative; display: flex; align-items: flex-start; gap: 32px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #8d7557 #211a14; padding: 65px max(24px, calc((100% - 440px) / 2)) 28px; }
-.career-chapter { position: relative; flex: 0 0 440px; width: 440px; max-width: calc(100vw - 40px); scroll-snap-align: center; scroll-margin-top: 110px; }
-.chapter-card-meta { display: flex; justify-content: space-between; gap: 16px; padding: 0 8px 12px; color: #d9c5a9; font: 11px/1.5 var(--font-ui); }
+.career-chapter { perspective: 1400px; position: relative; flex: 0 0 440px; width: 440px; max-width: calc(100vw - 40px); scroll-snap-align: center; scroll-margin-top: 110px; }
+.career-chapter::before { content: ''; position: absolute; inset: 4px -5px -5px 5px; border: 1px solid #b2a084; border-radius: 1px; background: #e5dbc5; border-bottom: 4px double #ad9776; border-right: 4px double #ad9776; box-shadow: 4px 6px 0 -2px #a89679, 8px 10px 0 -4px #dacbb0, 12px 22px 28px #0005; }
+.chapter-leaf { position: relative; height: 100%; transform-origin: left center; transform-style: preserve-3d; }
+.chapter-card-surface, .chapter-page-back { position: relative; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 1px solid #bbaa8d; border-radius: 1px 3px 3px 1px; background: #eee5d2; color: #30261e; }
+.chapter-card-surface { display: flex; flex-direction: column; min-height: 100%; overflow: hidden; background-image: linear-gradient(90deg, #6d573c35, #6d573c0c 3%, #fff6 9%, transparent 20%, #8f77510a 94%, #fff8 99%, #9b835c55); box-shadow: 1px 1px 2px #fff7 inset, 5px 18px 35px #0004; }
+.chapter-card-surface::before, .chapter-page-back::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .15; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23807158' filter='url(%23paper)' opacity='.5' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
+.chapter-card-surface::after { content: ''; position: absolute; pointer-events: none; top: 0; bottom: 0; left: 14px; width: 1px; background: #a38c6133; box-shadow: -5px 0 8px #6d573c28; }
+.chapter-card-meta { display: flex; justify-content: space-between; gap: 16px; margin: 0 26px 0 30px; padding: 19px 0 11px; border-bottom: 1px solid #9a855e70; color: #64553f; font: 10px/1.5 var(--font-ui); }
 .chapter-card-meta > span:last-child { display: inline-flex; gap: 5px; align-items: center; text-align: right; }
-.chapter-card-surface { border: 1px solid #68533b; border-radius: 15px; overflow: hidden; background: #e9dfd0; color: #30261e; box-shadow: 0 25px 65px #0005, 0 0 0 8px #ae8d5910; }
-.chapter-card-heading { display: flex; align-items: center; gap: 12px; padding: 20px; }
-.chapter-monogram { flex: 0 0 38px; height: 38px; display: grid; place-items: center; border: 1px solid #9c8870; border-radius: 50%; color: #453425; font: 16px var(--font-display); }
+.chapter-card-heading { display: flex; align-items: center; gap: 12px; padding: 17px 26px 18px 30px; }
 .chapter-card-heading > div { flex: 1; min-width: 0; }
-.chapter-card-heading h2 { font: 500 15px/1.3 var(--font-ui); margin: 0 0 4px; }
+.chapter-running-title { margin: 0 0 8px; color: #6e593a; font: 500 8px/1.5 var(--font-ui); letter-spacing: .16em; text-transform: uppercase; }
+.chapter-card-heading h2 { font: 400 25px/1.1 var(--font-display); margin: 0 0 6px; }
 .chapter-role { font: 400 10px/1.5 var(--font-ui); color: #665442; margin: 0; }
-.chapter-number { align-self: flex-start; font: italic 19px var(--font-display); color: #665442; }
-.chapter-art-panel { position: relative; height: 150px; overflow: hidden; margin: 0 12px; border-radius: 6px; background: radial-gradient(ellipse at 60% 50%, #4a4934, #24281e 75%); }
-.chapter-art-panel[data-scene="1"] { background: radial-gradient(ellipse at 60% 50%, #3f5554, #192c2e 75%); }
-.chapter-art-panel[data-scene="2"] { background: radial-gradient(ellipse at 60% 50%, #626047, #30352b 75%); }
-.chapter-art-panel[data-scene="3"] { background: radial-gradient(ellipse at 60% 50%, #4e4c65, #282333 75%); }
-.chapter-art-panel[data-scene="4"] { background: radial-gradient(ellipse at 60% 50%, #715238, #3a251a 75%); }
-.career-art { display: block; color: #e6c68a; width: 100%; height: 100%; }
-.chapter-art-panel .career-art { position: absolute; width: 260px; height: 230px; right: -2px; top: -37px; }
-.chapter-art-panel > span { position: absolute; bottom: 20px; left: 18px; max-width: 135px; color: #f2ddbd; font: 400 16px/1.2 var(--font-display); }
-.chapter-card-copy { padding: 22px 24px 25px; }
+.chapter-number { align-self: center; font: italic 38px var(--font-display); color: #766042; }
+.chapter-art-panel { position: relative; height: 124px; flex-shrink: 0; overflow: hidden; margin: 0 26px 0 30px; border-block: 1px solid #a18c674d; background: radial-gradient(ellipse at 70% 50%, #d0cbb4, #e3dac4 80%); }
+.career-art { display: block; color: #695d3e; width: 100%; height: 100%; }
+.chapter-art-panel[data-scene="1"] .career-art { color: #416260; }
+.chapter-art-panel[data-scene="3"] .career-art { color: #5d526b; }
+.chapter-art-panel .career-art { position: absolute; width: 260px; height: 230px; right: -20px; top: -48px; mix-blend-mode: multiply; }
+.chapter-art-panel > span { position: absolute; bottom: 16px; left: 13px; max-width: 135px; color: #4d422e; font: italic 15px/1.2 var(--font-display); }
+.chapter-card-copy { padding: 20px 26px 20px 30px; }
 .chapter-scene-label { color: #735633; font: 500 9px/1.5 var(--font-ui); letter-spacing: .12em; text-transform: uppercase; margin: 0 0 10px; }
 .chapter-card-copy h3 { font: 400 25px/1.15 var(--font-display); letter-spacing: -.02em; margin: 0 0 14px; }
 .chapter-body { color: #5c4b3b; font: 400 15px/1.65 var(--font-text); margin: 0; }
-.chapter-card-footer { display: flex; align-items: center; gap: 9px; padding: 17px 10px 0; color: #cebca3; font: 10px/1.5 var(--font-ui); }
-.chapter-card-footer > span:last-child { margin-left: auto; }
-.chapter-status-dot { width: 6px; height: 6px; background: #d6b47f; border-radius: 50%; box-shadow: 0 0 12px #d6b47f66; }
+.chapter-card-footer { display: flex; justify-content: space-between; gap: 9px; margin: auto 26px 0 30px; padding: 12px 0 17px; border-top: 1px solid #9a855e70; color: #665442; font: 9px/1.5 var(--font-ui); }
+.chapter-card-footer > span:last-child { font: 15px/1 var(--font-display); }
+.chapter-fold-light { position: absolute; inset: 0; z-index: 2; pointer-events: none; background-image: linear-gradient(90deg, transparent 12%, #fff9 36%, #332311 52%, #fff9 64%, transparent 85%); background-size: 240% 100%; mix-blend-mode: multiply; }
+.chapter-page-back { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px; transform: rotateY(180deg) translateZ(1px); background-image: linear-gradient(90deg, #82693d26, transparent 30%, #fff5 65%, #82693d33); box-shadow: -8px 15px 30px #0005; }
+.chapter-page-back > span:first-child { opacity: .15; font: italic 140px/1 var(--font-display); }
+.chapter-page-back > span:last-child { color: #715c3d; font: 9px/1.5 var(--font-ui); text-transform: uppercase; letter-spacing: .16em; }
+.career-story[data-book="true"] .career-track { display: grid; overflow: visible; width: min(440px, calc(100% - 48px)); margin: 65px auto 28px; padding: 0; gap: 0; touch-action: pan-y; cursor: grab; }
+.career-story[data-book="true"] .career-track:active { cursor: grabbing; user-select: none; }
+.career-story[data-book="true"] .career-chapter[data-active="true"] { pointer-events: auto; }
+.career-page-instruction { position: absolute; top: 64px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 9px; color: #d6c4a6; font: 10px/1.5 var(--font-ui); }
+.career-story[data-book="true"] .career-scroll-hint { display: none; }
+.career-story[data-book="true"] .career-chapter { grid-area: 1 / 1; width: 100%; max-width: none; min-width: 0; align-self: stretch; pointer-events: none; }
+.career-story[data-book="true"] .career-chapter::before { display: none; }
+.career-story[data-book="true"] .career-track::before { content: ''; position: absolute; inset: -8px -9px -12px -10px; background: linear-gradient(90deg, #34271d 0 7px, #71583a 8px 10px, #443423 12px 100%); border: 1px solid #7d6442; border-radius: 3px; box-shadow: 0 24px 45px #0008; }
+.career-story[data-book="true"] .career-track::after { content: ''; position: absolute; z-index: 0; inset: 4px -5px -6px 5px; background: repeating-linear-gradient(0deg, #b8a786 0 1px, #e6dbc4 1px 3px); border: 1px solid #a8916b; box-shadow: 2px 2px 1px #0006; }
 .career-timeline-controls { position: relative; z-index: 12; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; margin: 18px clamp(20px, 4vw, 64px) 0; }
 .career-scroll-hint { display: flex; align-items: center; gap: 10px; font: 10px/1.5 var(--font-ui); color: #b6a897; }
-.career-story[data-enhanced="false"] .career-scroll-hint { visibility: hidden; }
+.career-story[data-enhanced="false"][data-book="false"] .career-scroll-hint { visibility: hidden; }
 .career-reel { display: flex; gap: 0; }
 .career-reel a { position: relative; display: grid; grid-template-columns: 1fr; justify-items: center; gap: 5px; min-width: 68px; min-height: 54px; color: #b6a897; font: 11px/1.5 var(--font-ui); }
 .career-reel a::before { position: absolute; content: ''; top: 4px; left: 0; right: 0; height: 1px; background: #69533b; }
@@ -71,7 +86,7 @@ html:has(.chapters-root), body:has(.chapters-root) { overflow-x: clip; overflow-
 .career-story[data-enhanced="true"] { height: calc(var(--chapter-count) * 100svh); }
 .career-story[data-enhanced="true"] .career-film { position: sticky; top: 80px; height: calc(100svh - 80px); min-height: 680px; display: flex; flex-direction: column; }
 .career-story[data-enhanced="true"] .career-track { flex: 1; overflow: visible; display: block; padding: 0; margin: 0; perspective: 1200px; }
-.career-story[data-enhanced="true"] .career-chapter { position: absolute; top: 50%; left: calc(50% - 220px); transform-origin: center center; will-change: transform, opacity; }
+.career-story[data-enhanced="true"] .career-chapter { position: absolute; top: 50%; left: calc(50% - 220px); transform-origin: center center; will-change: transform; }
 .career-story[data-enhanced="true"] .career-timeline-controls { flex-shrink: 0; }
 .career-record { margin-top: 70px; padding-top: 55px; border-top: 1px solid #5b4835; scroll-margin-top: 95px; }
 .career-record > header { display: flex; gap: 24px; align-items: center; justify-content: space-between; margin-bottom: 55px; }
@@ -101,20 +116,24 @@ html:has(.chapters-root), body:has(.chapters-root) { overflow-x: clip; overflow-
   .career-track { gap: 20px; padding-top: 90px; }
   .career-chapter { flex-basis: calc(100vw - 48px); max-width: 440px; }
   .career-timeline-controls { grid-template-columns: 1fr auto; gap: 12px; }
-  .career-scroll-hint { display: none; }
+  .career-scroll-hint { grid-column: 1 / -1; justify-content: center; order: 3; margin-top: 8px; }
   .career-reel { justify-content: space-between; }
   .career-reel a { min-width: 36px; flex: 1; font-size: 10px; }
   .career-arrows { gap: 5px; }
   .career-arrows button { width: 40px; height: 40px; }
-  .chapter-card-heading { padding: 16px; gap: 9px; }
-  .chapter-card-heading h2 { font-size: 13px; }
-  .chapter-monogram { flex-basis: 32px; height: 32px; font-size: 13px; }
-  .chapter-card-copy { padding: 20px; }
+  .chapter-card-heading { padding: 16px 21px 18px 26px; gap: 9px; }
+  .chapter-card-heading h2 { font-size: 24px; }
+  .chapter-number { font-size: 30px; }
+  .chapter-card-meta { margin-inline: 26px 21px; font-size: 9px; }
+  .chapter-card-copy { padding: 20px 21px 20px 26px; }
+  .chapter-card-footer { margin-inline: 26px 21px; }
+  .chapter-art-panel { margin-inline: 26px 21px; }
   .chapter-card-copy h3 { font-size: 24px; }
-  .chapter-art-panel .career-art { right: -40px; }
+  .chapter-art-panel .career-art { right: -55px; }
   .chapter-art-panel > span { max-width: 100px; font-size: 15px; }
   .career-edition { margin-left: 5px; }
   .career-film-top { font-size: 9px; }
+  .career-story[data-book="true"] .career-track { margin-top: 80px; }
   .career-record { margin-top: 30px; padding-top: 35px; } .career-record > header { display: block; margin-bottom: 35px; }
   .career-print { margin-top: 22px; } .career-record-grid { grid-template-columns: 1fr; gap: 30px; }
   .career-record h2 { font-size: 39px; } .career-languages ul { flex-direction: column; gap: 14px; }

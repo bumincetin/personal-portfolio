@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { animate, motion, useMotionValue, useMotionValueEvent, useScroll, useTransform, type MotionValue } from 'framer-motion';
-import { ArrowDown, ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, MoveHorizontal, MapPin } from 'lucide-react';
 import type { Chapter } from '@/lib/story';
 import type { ExperienceCopy } from '@/lib/experience-copy';
 import CareerArt from './CareerArt';
@@ -87,13 +87,15 @@ export default function CareerTimeline({ chapters, copy }: { chapters: Chapter[]
     else turnAnimation.current = animate(bookPosition, target, {
       duration: Math.min(1.8, .85 * Math.max(1, Math.abs(target - bookPosition.get()))),
       ease: [.32, .05, .2, 1],
+      onComplete: () => window.history.replaceState(null, '', `#chapter-${chapters[target].numeral}`),
     });
-  }, [bookPosition, chapters.length]);
+  }, [bookPosition, chapters]);
 
   const goTo = useCallback((index: number, instant = false) => {
     if (!root.current || !stage.current || !track.current) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const behavior = instant || reduced ? 'instant' : 'smooth';
+    if (!instant) window.history.replaceState(null, '', `#chapter-${chapters[index].numeral}`);
     if (enhanced) {
       const top = root.current.getBoundingClientRect().top + window.scrollY;
       const distance = root.current.offsetHeight - window.innerHeight;
@@ -107,7 +109,7 @@ export default function CareerTimeline({ chapters, copy }: { chapters: Chapter[]
       window.scrollTo({ top: root.current.getBoundingClientRect().top + window.scrollY - 80, behavior });
       setActive(index);
     }
-  }, [enhanced, book, turnTo, chapters.length]);
+  }, [enhanced, book, turnTo, chapters]);
 
   useEffect(() => {
     const followHash = () => {
@@ -125,6 +127,7 @@ export default function CareerTimeline({ chapters, copy }: { chapters: Chapter[]
     <div ref={stage} className="career-film">
       <div className="career-film-top"><span>{copy.chapters} <span className="career-edition">/ 2020 — 2025</span></span><span>{String(active + 1).padStart(2, '0')} <span className="career-edition">/ {String(chapters.length).padStart(2, '0')}</span></span></div>
       <div className="career-year" aria-hidden="true">{chapters[active].years.slice(0, 4)}</div>
+      {book && <p className="career-page-instruction"><MoveHorizontal size={14} />{copy.turnPage}</p>}
       <div className="career-perspective" aria-hidden="true"><svg viewBox="0 0 1440 800" preserveAspectRatio="none"><path d="M720 0 110 800M720 0 450 800M720 0 990 800M720 0 1330 800M720 0V800" /></svg></div>
       <div className="career-ruler" aria-hidden="true"><motion.div style={enhanced || book ? { x: rulerX } : { x: -active * 110 }}>{Array.from({ length: 81 }, (_, i) => <i key={i} data-major={i % 5 === 0} />)}</motion.div></div>
       <div ref={track} className="career-track" tabIndex={0} role="group" aria-label={copy.chapters} onKeyDown={event => {
@@ -168,10 +171,10 @@ export default function CareerTimeline({ chapters, copy }: { chapters: Chapter[]
         {chapters.map((chapter, i) => <TimelineCard key={chapter.numeral} chapter={chapter} index={i} position={currentPosition} enhanced={enhanced} book={book} active={i === active} copy={copy} />)}
       </div>
       <div className="career-timeline-controls">
-        <p className="career-scroll-hint"><ArrowDown size={14} /><span>{copy.scroll}</span></p>
+        <p className="career-scroll-hint">{book ? <MoveHorizontal size={14} /> : <ArrowDown size={14} />}<span>{book ? copy.turnPage : copy.scroll}</span></p>
         <nav className="career-reel" aria-label={copy.chapters}>{chapters.map((chapter, i) => <a href={`#chapter-${chapter.numeral}`} key={chapter.numeral}
           aria-label={`${chapter.numeral}: ${chapter.institution}`} aria-current={i === active ? 'step' : undefined}
-          onClick={event => { event.preventDefault(); goTo(i); window.history.replaceState(null, '', `#chapter-${chapter.numeral}`); }}>
+          onClick={event => { event.preventDefault(); goTo(i); }}>
           <span className="reel-dot" /><span>{chapter.years.slice(0, 4)}</span><span className="reel-numeral">{chapter.numeral}</span>
         </a>)}</nav>
         <div className="career-arrows"><button type="button" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label={copy.back}><ArrowLeft size={18} /></button><button type="button" onClick={() => goTo(active + 1)} disabled={active === chapters.length - 1} aria-label={copy.next}><ArrowRight size={18} /></button></div>
