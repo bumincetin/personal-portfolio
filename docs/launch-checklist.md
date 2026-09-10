@@ -155,7 +155,10 @@ To enable:
 - [ ] `npm run verify` (lint → types → i18n → contrast → unit → build)
 - [ ] `npm run test:smoke -- <preview-url>` — 42 checks
 - [ ] `npm run test:a11y -- <preview-url>` — 55 scans
-- [ ] `npm run test:canvas -- <preview-url>` — 9 overlay elements over the scene
+- [ ] `npm run test:canvas -- <preview-url>` — 8 overlay elements over the scene
+- [ ] `npm run test:links -- <preview-url>` — nothing 404s. Worth running against
+      the deployed origin as well as locally: a static asset that resolves from
+      the dev server can still be missing from what actually got uploaded.
 - [ ] `npm run test:redirects -- <preview-url>` — 44 retired URLs. Run this
       against the **deployed** origin, not just locally: redirects are the one
       thing that a hosting layer can silently rewrite.

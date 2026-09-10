@@ -304,7 +304,8 @@ All commands run from the project root against a production build.
 | Unit | `npm test` | **26/26** |
 | Build | `npm run build:next` | pass — 33 static pages |
 | Browser smoke | `npm run test:smoke -- <url> --configured <url>` | **48/48** |
-| Redirects | `npm run test:redirects -- <url>` | pass — 44 retired URLs |
+| Redirects | `npm run test:redirects -- <url>` | pass — 46 retired URLs |
+| Nothing 404s | `npm run test:links -- <url>` | pass — 45 paths, 30 rendered routes, 27 sitemap entries |
 | Accessibility | `npm run test:a11y -- <url>` | **0 violations**, 55 scans |
 
 `npm run verify` chains lint → types → i18n → contrast → unit → build.

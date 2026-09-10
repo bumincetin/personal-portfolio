@@ -47,6 +47,7 @@ Individually:
 verified ThreeUI source in `vendor/threeui/`, and refuses to run if that file's
 SHA-256 no longer matches.
 | `npm run test:redirects -- <url>` | every retired URL still resolves to its replacement |
+| `npm run test:links -- <url>` | renders every route and fails on any 404 — a link, an asset, a sitemap entry |
 
 The browser suites need a running server and use the installed Chrome:
 

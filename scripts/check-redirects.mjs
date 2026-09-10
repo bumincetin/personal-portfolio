@@ -84,6 +84,10 @@ async function main() {
   // The bare root has no page: the locale segment owns the document.
   await expectRedirect('/', '/en');
 
+  // The icon paths iOS asks for by convention, before it has read the document.
+  await expectRedirect('/apple-touch-icon.png', '/apple-icon.png');
+  await expectRedirect('/apple-touch-icon-precomposed.png', '/apple-icon.png');
+
   for (const locale of LOCALES) {
     for (const [from, to] of Object.entries(RETIRED)) {
       await expectRedirect(`/${locale}${from}`, `/${locale}${to}`);

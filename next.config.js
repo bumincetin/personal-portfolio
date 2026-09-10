@@ -1,16 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /*
-   * Build output directory, overridable per process.
+   * Build output directory: dev and production never share one.
    *
-   * A dev server and a production server sharing one `.next` corrupt each
-   * other: dev rewrites the directory continuously while `next start` is still
-   * serving asset URLs stamped with the previous build id, which shows up as
-   * 400s on chunks and then 500s on pages. Running dev with
-   * `NEXT_DIST_DIR=.next-dev` keeps the two apart so the browser smoke tests
-   * can run against a production build while dev stays up.
+   * A dev server and a production server writing the same `.next` corrupt each
+   * other. Dev rewrites the directory continuously while `next start` is still
+   * handing out asset URLs stamped with the previous build id, so the browser
+   * asks for chunks that no longer exist and gets 404s — on a page that
+   * otherwise looks fine, which is what makes it confusing rather than obvious.
+   *
+   * This used to be documented as "run dev with NEXT_DIST_DIR=.next-dev", and
+   * `"dev": "next dev"` never set it, so the separation existed only in a
+   * comment. Deciding it here instead means it cannot be forgotten, and it
+   * needs no cross-platform env-var shim in the npm script.
+   *
+   * The variable still wins when it is set, which is what the smoke and
+   * accessibility runs use to point a second server at a build of their own.
    */
-  distDir: process.env.NEXT_DIST_DIR || '.next',
+  distDir: process.env.NEXT_DIST_DIR || (process.env.NODE_ENV === 'development' ? '.next-dev' : '.next'),
 
   images: {
     // Serve modern formats first; the source art in /public is already WebP.
@@ -64,6 +71,17 @@ const nextConfig = {
 
     return [
       { source: '/', destination: '/en', permanent: true },
+
+      /*
+       * The icon iOS asks for before it has read the document.
+       *
+       * `src/app/apple-icon.png` makes Next emit a `<link rel="apple-touch-icon">`,
+       * which is the real fix — a client that parses the page never guesses. But
+       * anything that does not parse it first still asks for these two paths by
+       * convention, and both answered 404 in production. They cost two lines.
+       */
+      { source: '/apple-touch-icon.png', destination: '/apple-icon.png', permanent: true },
+      { source: '/apple-touch-icon-precomposed.png', destination: '/apple-icon.png', permanent: true },
 
       // Service pages -> the four service volumes.
       volume('/services/ai-nlp', 'document-intelligence'),
