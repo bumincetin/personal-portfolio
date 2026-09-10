@@ -20,7 +20,21 @@ export function generateStaticParams() {
   return locales.flatMap((locale) => volumeSlugs.map((slug) => ({ locale, slug })));
 }
 
-export const dynamicParams = false;
+/*
+ * No `dynamicParams = false` here, and that is deliberate.
+ *
+ * It used to be, as belt-and-braces on top of the `notFound()` calls below —
+ * and on Cloudflare it was the belt that strangled the page. Every volume and
+ * the front matter answered 404 in production while the shelf and the colophon
+ * were fine, and the two sets differ by exactly this line. The 404s carried
+ * `x-nextjs-cache: MISS`: the prerendered page was not found at the edge, and
+ * `dynamicParams = false` forbids rendering it on demand, so the request had
+ * nowhere to go.
+ *
+ * Nothing is lost by removing it. An unknown locale or slug still 404s, because
+ * that is decided by the guards in the component rather than by the config —
+ * which is where a decision like that belongs anyway.
+ */
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string; slug: string }>;
