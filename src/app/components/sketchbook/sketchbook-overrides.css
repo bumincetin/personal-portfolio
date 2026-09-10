@@ -711,7 +711,6 @@
 /* A narrow reader uses the full curved leaf, hinged at its left paper edge. */
 .sketchbook-root .curl.single-turn { left: 2.5%; }
 .sketchbook-root .sb-verso { position: absolute; inset: var(--pg) 0; background: var(--paper); background-image: var(--paper-grain); }
-.sketchbook-root .sb-leaf-shadow { position: absolute; inset: var(--pg) 2.5%; pointer-events: none; background: linear-gradient(90deg, #33261488, #33261433 24%, transparent 75%); opacity: calc(var(--shade, 0) * .65); }
 .sketchbook-root .sb-underleaf { pointer-events: none; }
 .sketchbook-root .face .sb-leaf { overflow: hidden; }
 

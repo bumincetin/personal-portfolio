@@ -372,7 +372,6 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     } else if (singleUp()) {
       const under = el('div', 'sb-full sb-underleaf');
       under.appendChild(spreadEl(turn.dir === 'next' ? turn.to : turn.from, false));
-      under.appendChild(el('div', 'sb-leaf-shadow'));
       book.append(under, buildCurl(turn.dir, turn.from, turn.to));
       applyTurn(turn.t);
     } else {
