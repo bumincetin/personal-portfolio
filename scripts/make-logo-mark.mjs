@@ -33,6 +33,23 @@ import path from 'node:path';
 const SOURCE = 'public/logo.webp';
 const OUT = 'public/logo-mark.webp';
 
+/*
+ * The home-screen icon, from the same cut.
+ *
+ * iOS asks every site for `/apple-touch-icon.png` unless the document points it
+ * somewhere else, and until now this one answered 404 — locally and in
+ * production. Next's `apple-icon` file convention emits the `<link>` that stops
+ * the guess, so the file below is written into `src/app/` rather than `public/`.
+ *
+ * It cannot be the transparent mark: a home-screen icon is composited on
+ * whatever wallpaper is behind it, and bone on nothing is invisible on a pale
+ * one. It gets the site's own ground, which is also what makes it recognisable
+ * next to the site itself.
+ */
+const APPLE_ICON = 'src/app/apple-icon.png';
+const APPLE_ICON_SIZE = 180;
+const GROUND = { r: 26, g: 21, b: 17 };
+
 /** The ink the mark is rendered in: the site's `--c-text`. */
 const INK = { r: 242, g: 234, b: 224 };
 
@@ -115,3 +132,18 @@ console.log(
   `${OUT}: 256x256, ${size} bytes — monogram cut from ${path.basename(SOURCE)} ` +
     `at ${square.width}x${square.height} from (${square.left}, ${square.top})`,
 );
+
+/* The same mark, inset on the site's ground, for the home screen. */
+const inset = Math.round(APPLE_ICON_SIZE * 0.2);
+const markForIcon = await sharp(mark)
+  .resize(APPLE_ICON_SIZE - inset * 2, APPLE_ICON_SIZE - inset * 2, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .toBuffer();
+
+await sharp({
+  create: { width: APPLE_ICON_SIZE, height: APPLE_ICON_SIZE, channels: 4, background: { ...GROUND, alpha: 1 } },
+})
+  .composite([{ input: markForIcon, top: inset, left: inset }])
+  .png()
+  .toFile(APPLE_ICON);
+
+console.log(`${APPLE_ICON}: ${APPLE_ICON_SIZE}x${APPLE_ICON_SIZE} — the mark on the site's ground`);
