@@ -22,7 +22,8 @@
     "test:canvas": "node scripts/check-canvas-contrast.mjs",
     "test:smoke": "node scripts/smoke.mjs",
     "test:a11y": "node scripts/a11y.mjs",
-    "test:mobile": "node scripts/check-mobile.mjs"
+    "test:mobile": "node scripts/check-mobile.mjs",
+    "test:experience": "node scripts/check-experience.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.35.0",

@@ -1,0 +1,92 @@
+.chapters-root { background: #1a1511; color: #f2eae0; }
+.chapters-print-identity { display: none; }
+/* Clip sideways overflow without creating an ancestor that traps sticky scenes. */
+html:has(.chapters-root), body:has(.chapters-root) { overflow-x: clip; overflow-y: visible; }
+.chapters-page { max-width: 1320px; padding: 140px 48px 0; margin: auto; }
+.chapters-hero { display: grid; grid-template-columns: 1.5fr 1fr; gap: 100px; align-items: center; padding-bottom: 96px; }
+.chapters-eyebrow { font: 500 11px/1.6 var(--font-ui); text-transform: uppercase; letter-spacing: .16em; color: #c9aa81; }
+.chapters-eyebrow > span { margin-left: 22px; color: #b6a897; }
+.chapters-hero h1 { font: 400 clamp(52px, 6.6vw, 94px)/.97 var(--font-display); letter-spacing: -.035em; margin: 28px 0; }
+.chapters-hero h1 em, .chapters-next h2 em { color: #d4b489; font-weight: 400; }
+.chapters-lede { max-width: 530px; font: 400 20px/1.6 var(--font-text); color: #b6a897; }
+.chapters-hero-links { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 28px; }
+.chapters-hero-links a { min-height: 44px; display: inline-flex; align-items: center; gap: 14px; font: 400 12px/1.5 var(--font-ui); border-bottom: 1px solid #78644c; color: #e5d4bc; }
+.chapters-portrait { position: relative; margin: 0; max-width: 330px; justify-self: end; }
+.chapters-portrait img { width: 100%; aspect-ratio: 4/4.6; object-fit: cover; object-position: center 30%; filter: saturate(.7); border-radius: 160px 160px 2px 2px; }
+.chapters-portrait figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; margin-top: 15px; color: #b6a897; font: 400 10px/1.6 var(--font-ui); }
+.portrait-edition { position: absolute; top: 22%; right: -33px; writing-mode: vertical-rl; color: #c9aa81; font: 400 10px var(--font-ui); letter-spacing: .16em; }
+.career-story { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 96px; border-top: 1px solid #4d3d2f; scroll-margin-top: 90px; }
+.career-film { position: sticky; top: 105px; align-self: start; padding-top: 25px; }
+.career-film-top { display: flex; justify-content: space-between; font: 400 10px/1.5 var(--font-ui); text-transform: uppercase; letter-spacing: .15em; color: #c9bba8; margin-bottom: 20px; }
+.career-film-frame { position: relative; overflow: hidden; aspect-ratio: 1; border: 1px solid #5a4937; background: radial-gradient(ellipse at 50% 40%, #40413444, #201a15 70%); }
+.career-frame-grid { position: absolute; inset: 20px; border: 1px solid #bc9d6826; }
+.career-frame-grid::before, .career-frame-grid::after { content: ''; position: absolute; width: 22px; height: 22px; border-color: #a68d67; }
+.career-frame-grid::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
+.career-frame-grid::after { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
+.career-art { display: block; width: 100%; height: 100%; color: #d3b680; }
+.career-shot { position: absolute; inset: 10% 0 2%; }
+.career-year { position: absolute; left: 34px; top: 22px; color: #dbc39e; font: 400 clamp(44px, 5vw, 74px)/1 var(--font-display); }
+.career-film-caption { position: absolute; bottom: 32px; left: 34px; font: 400 10px/1.4 var(--font-ui); letter-spacing: .14em; text-transform: uppercase; color: #c9bba8; }
+.career-reel { display: flex; gap: 12px; margin-top: 18px; }
+.career-reel a { display: flex; align-items: center; gap: 10px; flex: 1; min-height: 44px; color: #b6a897; font: 11px var(--font-ui); }
+.reel-line { height: 1px; flex: 1; background: #71604d; transition: background .4s; }
+.career-reel a[aria-current] { color: #e1c08f; }
+.career-reel a[aria-current] .reel-line { background: #e1c08f; }
+.career-film-progress { height: 2px; background: #bb9861; transform-origin: left; margin-top: 4px; }
+.career-chapter { position: relative; min-height: 85svh; display: flex; flex-direction: column; justify-content: center; padding: 60px 0 60px 33px; border-left: 1px solid #65523c; scroll-margin-top: 85px; }
+.chapter-marker { display: flex; gap: 14px; align-items: center; margin-bottom: 36px; }
+.chapter-marker > span { position: absolute; left: -18px; width: 35px; height: 35px; display: grid; place-items: center; background: #1a1511; border: 1px solid #b2926b; border-radius: 50%; color: #e2c69d; font: 12px var(--font-ui); }
+.chapter-marker p { color: #dbc29e; font: 400 12px/1.7 var(--font-ui); }
+.chapter-marker p span { color: #b6a897; font-size: 11px; }
+.chapter-scene-label { color: #c9aa81; font: 500 10px/1.5 var(--font-ui); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 18px; }
+.career-chapter h2 { font: 400 clamp(30px, 3.1vw, 44px)/1.13 var(--font-display); letter-spacing: -.018em; margin: 0 0 25px; }
+.chapter-institution { font: 500 13px/1.6 var(--font-ui); color: #e7d6be; margin: 0 0 5px; }
+.chapter-role { font: 400 12px/1.6 var(--font-ui); color: #b6a897; margin: 0 0 24px; }
+.chapter-body { font: 400 19px/1.75 var(--font-text); color: #c3b6a4; margin: 0; }
+.career-mobile-art { display: none; }
+.career-record { margin-top: 70px; padding-top: 55px; border-top: 1px solid #5b4835; scroll-margin-top: 95px; }
+.career-record > header { display: flex; gap: 24px; align-items: center; justify-content: space-between; margin-bottom: 55px; }
+.career-record h2 { font: 400 48px/1.1 var(--font-display); margin: 14px 0; }
+.career-record header p:not(.chapters-eyebrow) { font: 18px/1.6 var(--font-text); color: #b6a897; }
+.career-print { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 12px 18px; font: 12px/1.5 var(--font-ui); border: 1px solid #a48b70; white-space: nowrap; color: #e8d7bf; }
+.career-record-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 96px; }
+.career-record h3 { font: 500 11px/1.5 var(--font-ui); text-transform: uppercase; letter-spacing: .15em; color: #c9aa81; margin: 0 0 25px; }
+.career-record article { border-top: 1px solid #4d3d2f; padding: 24px 0; break-inside: avoid; }
+.record-date { font: 11px/1.6 var(--font-ui); color: #c9bba8; margin-bottom: 11px; }
+.career-record h4 { font: 400 26px/1.2 var(--font-display); margin: 0 0 8px; }
+.record-institution { font: 400 12px/1.7 var(--font-ui); color: #d1baa0; }
+.record-detail, .career-record article li { font: 400 17px/1.7 var(--font-text); color: #c3b6a4; margin-top: 12px; }
+.career-record article ul { list-style: disc; padding-left: 18px; }
+.career-languages { margin-top: 36px; padding: 30px 0; border-block: 1px solid #4d3d2f; }
+.career-languages ul { display: flex; flex-wrap: wrap; gap: 30px 65px; list-style: none; margin: 0; padding: 0; }
+.career-languages li { display: flex; gap: 14px; font: 14px/1.6 var(--font-ui); }.career-languages li span { color: #b6a897; }
+.chapters-next { padding: 100px 0; text-align: center; }
+.chapters-next h2 { font: 400 clamp(38px, 4.5vw, 64px)/1.1 var(--font-display); margin: 20px 0; }
+.chapters-next a { display: inline-flex; align-items: center; gap: 20px; min-height: 48px; border-bottom: 1px solid #b2926b; color: #e6d1b2; font: 13px var(--font-ui); }
+@media (max-width: 1000px) { .chapters-page { padding: 115px 30px 0; } .chapters-hero { gap: 50px; } .career-story, .career-record-grid { gap: 45px; } .career-chapter { padding-left: 26px; } .chapter-body { font-size: 18px; } }
+@media (max-width: 700px) {
+  .chapters-page { padding: 104px 20px 0; } .chapters-hero { grid-template-columns: 1fr; gap: 40px; padding-bottom: 50px; }
+  .chapters-hero h1 { font-size: clamp(48px, 12vw, 70px); } .chapters-lede { font-size: 18px; }
+  .chapters-eyebrow > span { display: block; margin: 8px 0 0; } .chapters-portrait { width: 72%; justify-self: center; }
+  .chapters-portrait img { aspect-ratio: 1; } .career-story { display: block; padding-top: 18px; }
+  .career-film { display: none; } .career-narrative { margin-left: 17px; }
+  .career-chapter { min-height: auto; padding: 28px 0 50px 24px; } .chapter-marker { margin-bottom: 8px; }
+  .career-mobile-art { display: block; height: 220px; margin: 0 0 18px -10px; }
+  .career-chapter h2 { font-size: 33px; } .chapter-body { font-size: 18px; }
+  .career-record { margin-top: 30px; padding-top: 35px; } .career-record > header { display: block; margin-bottom: 35px; }
+  .career-print { margin-top: 22px; } .career-record-grid { grid-template-columns: 1fr; gap: 30px; }
+  .career-record h2 { font-size: 39px; } .career-languages ul { flex-direction: column; gap: 14px; }
+  .chapters-next { padding: 65px 0; }
+}
+@media (prefers-reduced-motion: reduce) { .chapters-root *, .chapters-root *::before { animation: none !important; transition: none !important; scroll-behavior: auto !important; } .career-shot > div, .career-mobile-art { transform: none !important; } }
+@media print {
+  .chapters-print-identity { display: block; font-size: 14px; font-weight: 500; margin-bottom: 16px; }
+  body:has(.chapters-root), .chapters-root { background: white !important; color: #171717 !important; }
+  body:has(.chapters-root) .site-nav, body:has(.chapters-root) footer, .chapters-hero-links, .career-story, .career-print, .chapters-next, .chapters-portrait, body:has(.chapters-root) .pointer-events-none { display: none !important; }
+  .chapters-page { padding: 0; max-width: none; } .chapters-hero { display: block; padding: 0 0 12px; }
+  .chapters-hero h1 { font-size: 32px; margin: 12px 0; } .chapters-root * { color: #171717 !important; }
+  .chapters-lede { max-width: none; font-size: 12px; } .career-record { margin: 0; padding-top: 16px; }
+  .career-record > header { margin-bottom: 20px; } .career-record h2 { font-size: 24px; }
+  .career-record-grid { gap: 28px; } .career-record h4 { font-size: 18px; }
+  .record-detail, .career-record article li, .career-record header p:not(.chapters-eyebrow) { font-size: 12px; }
+}

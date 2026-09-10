@@ -1,6 +1,6 @@
 # bumincetin.com
 
-A shelf of seven volumes and a colophon. Each volume is titled by an expensive
+A shelf of seven volumes, a career timeline, and a guided contact page. Each volume is titled by an expensive
 problem — the thing that costs money while it goes unfixed — and opens into a
 book you can read page by page.
 
@@ -41,6 +41,7 @@ Individually:
 | `npm run test:contrast` | every colour pair the site renders, against WCAG 2.2 AA |
 | `npm run test:smoke -- <url>` | the real build in a real browser |
 | `npm run test:mobile -- <url>` | native touch scrolling, shelf swipes, reader zoom, and every reader leaf at phone and tablet widths |
+| `npm run test:experience -- <url>` | Chapters and Contact in three languages; 3D, motion, accessible forms, message encoding, print and fallbacks |
 | `npm run test:a11y -- <url>` | axe-core over every route at three viewports |
 | `npm run test:canvas -- <url>` | the shelf's overlay text against the rendered scene — the one thing axe cannot measure |
 
@@ -59,14 +60,11 @@ npm run test:a11y      -- http://localhost:3112
 npm run test:redirects -- http://localhost:3112
 ```
 
-To exercise the contact form's full lifecycle, start a second instance with
-dummy credentials and point the smoke suite at it. The request is intercepted in
-the browser, so nothing is ever sent:
+The guided contact flow works without a mail provider. Its browser checks inspect
+the completed WhatsApp and email links without opening them or sending anything:
 
 ```bash
-RESEND_API_KEY=dummy CONTACT_TO_EMAIL=nobody@example.invalid \
-CONTACT_FROM_EMAIL=noreply@example.invalid npx next start -p 3113 &
-npm run test:smoke -- http://localhost:3112 --configured http://localhost:3113
+npm run test:experience -- http://localhost:3112
 ```
 
 There is also `node scripts/find-orphans.mjs`, which reports source modules no
@@ -74,10 +72,10 @@ route can reach.
 
 ## Configuration
 
-Copy `.env.example` to `.env.local`. Nothing is required to run the site: with
-no mail provider configured the contact form renders **disabled** and offers the
-published email address instead, rather than silently discarding what someone
-writes. See `docs/launch-checklist.md`.
+Nothing is required for the contact conversation. Destinations live in
+`src/lib/profile.ts`; answers stay in React state until the visitor opens an app.
+The retained `/api/contact` endpoint can still use the optional mail-provider
+configuration in `.env.example`, but the guided contact page does not call it.
 
 ---
 
@@ -86,10 +84,13 @@ writes. See `docs/launch-checklist.md`.
 ```
 src/app/[locale]/page.tsx              the shelf + the written argument
 src/app/[locale]/volumes/[slug]/       one volume, read as a book
-src/app/[locale]/contact/              portrait, the record, the inquiry form
+src/app/[locale]/chapters/             cinematic career timeline and printable CV
+src/app/[locale]/contact/              3D neuron-book and guided message composition
 src/app/api/contact/route.ts           the only endpoint
 
 src/lib/profile.ts                     identity and contact channels
+src/lib/experience-copy.ts             Chapters and Contact vocabulary, three locales
+src/lib/contact/draft.ts               localised message templates and Outlook links
 src/lib/content/evidence.ts            every published number, with provenance
 src/lib/content/services.ts            service spine + localised prose
 src/lib/content/case-studies.ts        evidence spine + localised prose

@@ -8,6 +8,7 @@ import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
 import { type Locale, locales } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
 import { PROFILE } from '@/lib/profile';
+import { getExperienceCopy } from '@/lib/experience-copy';
 import { VOLUMES, getShelfBooks } from '@/app/components/shelf/volumes';
 
 /**
@@ -36,6 +37,7 @@ const LANGUAGE_LABELS: Record<Locale, string> = { en: 'English', tr: 'Türkçe',
 const Navbar: React.FC<NavbarProps> = ({ locale }) => {
   const pathname = usePathname();
   const ui = getUI(locale);
+  const experienceCopy = getExperienceCopy(locale);
   const books = getShelfBooks(locale);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -155,7 +157,8 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
   const onVolume = pathWithoutLocale.startsWith('/volumes');
   const onContact = pathWithoutLocale === '/contact';
   const onFrontMatter = pathWithoutLocale === '/front-matter';
-  const onShelf = !onVolume && !onContact && !onFrontMatter;
+  const onChapters = pathWithoutLocale === '/chapters';
+  const onShelf = pathWithoutLocale === '';
 
   const itemClass = (active: boolean) =>
     `relative whitespace-nowrap py-2 text-[0.875rem] transition-colors duration-200 ${
@@ -204,7 +207,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
           </Link>
 
           {/* Desktop navigation */}
-          <div className="hidden flex-shrink-0 items-center gap-7 xl:flex">
+          <div className="hidden flex-shrink-0 items-center gap-5 xl:flex">
             <Link href={`/${locale}`} aria-current={onShelf ? 'page' : undefined} className={itemClass(onShelf)}>
               {ui.nav.shelf}
             </Link>
@@ -215,6 +218,10 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
               className={itemClass(onFrontMatter)}
             >
               {ui.nav.frontMatter}
+            </Link>
+
+            <Link href={`/${locale}/chapters`} aria-current={onChapters ? 'page' : undefined} className={itemClass(onChapters)}>
+              {experienceCopy.chapters}
             </Link>
 
             <div className="relative" ref={volumesRef}>
@@ -344,6 +351,10 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
               className="border-b border-border py-4 text-xl tracking-tight text-charcoal"
             >
               {ui.nav.frontMatter}
+            </Link>
+
+            <Link href={`/${locale}/chapters`} onClick={() => setIsOpen(false)} aria-current={onChapters ? 'page' : undefined} className="border-b border-border py-4 text-xl tracking-tight text-charcoal">
+              {experienceCopy.chapters}
             </Link>
 
             <p className="border-b border-border pb-2 pt-6 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted">

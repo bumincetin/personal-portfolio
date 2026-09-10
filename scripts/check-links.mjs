@@ -39,6 +39,7 @@ const ROUTES = [
   ...LOCALES.flatMap((locale) => [
     `/${locale}`,
     `/${locale}/front-matter`,
+    `/${locale}/chapters`,
     `/${locale}/contact`,
     ...VOLUMES.map((slug) => `/${locale}/volumes/${slug}`),
   ]),

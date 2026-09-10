@@ -38,12 +38,15 @@ const ROUTES = [
   '/en',
   '/en/front-matter',
   '/en/contact',
+  '/en/chapters',
   ...VOLUMES.map((slug) => `/en/volumes/${slug}`),
   '/tr',
   '/tr/front-matter',
   '/tr/contact',
+  '/tr/chapters',
   '/tr/volumes/reporting',
   '/it/front-matter',
+  '/it/chapters',
   '/it/volumes/cross-border',
 ];
 

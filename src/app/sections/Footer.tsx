@@ -5,6 +5,7 @@ import { type Locale } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
 import { VOLUMES, getShelfBooks } from '@/app/components/shelf/volumes';
 import { CONTACT, PROFILE, mailtoHref, whatsappHref } from '@/lib/profile';
+import { getExperienceCopy } from '@/lib/experience-copy';
 
 /**
  * Footer.
@@ -35,6 +36,7 @@ export default function Footer({ locale }: { locale: Locale }) {
               {PROFILE.city}, {PROFILE.country}
             </p>
             <p className="measure-narrow mt-4 text-[0.875rem] leading-relaxed text-muted">{ui.home.brandLine}</p>
+            <Link href={`/${locale}/chapters`} className="mt-4 inline-flex min-h-[44px] items-center text-sm text-accent">{getExperienceCopy(locale).chapters} / CV ↗</Link>
           </div>
 
           <nav aria-label={ui.nav.volumes}>

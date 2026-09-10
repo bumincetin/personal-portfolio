@@ -106,8 +106,8 @@ const nextConfig = {
       { source: '/:locale(en|tr|it)/why-sme', destination: '/:locale', permanent: true },
       { source: '/:locale(en|tr|it)/portal', destination: '/:locale', permanent: true },
 
-      // About is now part of the contact page, alongside the portrait.
-      { source: '/:locale(en|tr|it)/about', destination: '/:locale/contact', permanent: true },
+      // The biography and CV have their own home, separate from inquiries.
+      { source: '/:locale(en|tr|it)/about', destination: '/:locale/chapters', permanent: true },
     ];
   },
 

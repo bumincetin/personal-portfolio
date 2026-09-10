@@ -9,12 +9,9 @@
  * Deliberately not a full end-to-end suite. It covers the scenarios that would
  * be embarrassing to get wrong and that only a browser can observe.
  *
- * It never submits an inquiry to a real recipient. Against the default instance
- * the provider is unconfigured, so the form is exercised against its honest
- * disabled state; against `--configured` the request is intercepted in the
- * browser and answered with a canned response.
+ * Message handoff is covered by scripts/check-experience.mjs. No inquiry is sent.
  *
- * Usage: node scripts/smoke.mjs [baseUrl] [--shots <dir>] [--configured <baseUrl>]
+ * Usage: node scripts/smoke.mjs [baseUrl] [--shots <dir>]
  */
 
 import { chromium } from 'playwright';
@@ -24,8 +21,6 @@ import path from 'node:path';
 const BASE = process.argv[2]?.startsWith('http') ? process.argv[2] : 'http://localhost:3112';
 const shotsIndex = process.argv.indexOf('--shots');
 const SHOTS = shotsIndex > -1 ? process.argv[shotsIndex + 1] : null;
-const configuredIndex = process.argv.indexOf('--configured');
-const CONFIGURED_BASE = configuredIndex > -1 ? process.argv[configuredIndex + 1] : null;
 if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
 
 const WIDTHS = [360, 390, 768, 1440];
@@ -49,6 +44,7 @@ const VOLUMES = [
 const PAGES = [
   '/en',
   '/en/contact',
+  '/en/chapters',
   ...VOLUMES.map((slug) => `/en/volumes/${slug}`),
   '/tr',
   '/tr/contact',
@@ -296,25 +292,15 @@ try {
   await page.goto(`${BASE}/en/contact`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(1400);
 
-  record('the colophon shows the portrait', await page.locator('.colophon-portrait img').isVisible());
-  record(
-    'the colophon carries the record that was on About',
-    (await page.getByText('Bocconi', { exact: false }).count()) > 0,
-  );
-  // Contact is the one route that scrolls, so it is the one that has a footer.
-  record('the contact page scrolls and carries the footer', await page.locator('footer').count() === 1);
+  record('contact has a guided conversation', await page.locator('#conversation-name').isVisible());
+  record('contact keeps the CV on its own page', await page.locator('.career-chapter, .colophon-portrait').count() === 0);
+  record('the inquiry fields work without a mail provider', await page.locator('#conversation-name').isEnabled());
+  record('a direct email fallback is offered', await page.locator('.conversation-direct a[href^="mailto:"]').count() === 1);
+  if (SHOTS) await capture(page, path.join(SHOTS, 'contact.png'));
 
-  const submit = page.getByRole('button', { name: /send inquiry/i });
-  record('submit is disabled while the mail provider is unconfigured', await submit.isDisabled());
-  record(
-    'the fields themselves are disabled, not just the button',
-    await page.getByLabel('Name', { exact: true }).isDisabled(),
-  );
-  record(
-    'an email fallback is offered instead',
-    (await page.getByRole('link', { name: /cetinbumink@gmail\.com/ }).count()) > 0,
-  );
-  if (SHOTS) await capture(page, path.join(SHOTS, 'colophon.png'));
+  await page.goto(BASE + '/en/chapters', { waitUntil: 'domcontentloaded' });
+  record('Chapters contains the career timeline', await page.locator('.career-chapter').count() === 5);
+  record('Chapters carries education and experience', await page.locator('#education-title, #experience-title').count() === 2);
 
   /* ----------------------------------------------------------------
    * Keyboard, mobile navigation, no-JS, reduced motion.
@@ -418,99 +404,6 @@ try {
   await context.close();
 } finally {
   await browser.close();
-}
-
-/* ------------------------------------------------------------------
- * Contact form against a configured instance.
- *
- * That instance is started with dummy provider credentials so the form renders
- * enabled; every request to /api/contact is then intercepted in the browser and
- * answered with a canned response. Nothing is sent, no provider is contacted,
- * and the dummy key is never exercised.
- * ------------------------------------------------------------------ */
-if (CONFIGURED_BASE) {
-  const browser2 = await chromium.launch({ channel: 'chrome' });
-  try {
-    const ctx = await browser2.newContext({ viewport: { width: 1280, height: 900 } });
-    const page = await ctx.newPage();
-
-    let lastRequestBody = null;
-    let mode = 'accept';
-    await page.route('**/api/contact', async (route) => {
-      lastRequestBody = JSON.parse(route.request().postData() ?? '{}');
-      await route.fulfill(
-        mode === 'accept'
-          ? { status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, delivered: true }) }
-          : { status: 502, contentType: 'application/json', body: JSON.stringify({ ok: false, code: 'provider-error' }) },
-      );
-    });
-
-    await page.goto(`${CONFIGURED_BASE}/en/contact`, { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(1400);
-
-    const submit = page.getByRole('button', { name: /send inquiry/i });
-    record('the form is enabled once a provider is configured', !(await submit.isDisabled()));
-
-    await submit.click();
-    await page.waitForTimeout(400);
-    record('submitting an empty form shows an error summary', (await page.getByRole('alert').count()) > 0);
-
-    const nameField = page.getByLabel('Name', { exact: true });
-    record('the invalid field is marked aria-invalid', (await nameField.getAttribute('aria-invalid')) === 'true');
-
-    const describedBy = await nameField.getAttribute('aria-describedby');
-    const errorText = describedBy ? await page.locator(`[id="${describedBy}"]`).innerText() : '';
-    record('the field error is programmatically associated', Boolean(describedBy && errorText), errorText);
-    record('no request is sent for an invalid form', lastRequestBody === null);
-
-    await nameField.fill('Test Person');
-    await page.getByLabel('Email', { exact: true }).fill('not-an-email');
-    await page
-      .getByLabel(/What are you trying to improve/i)
-      .fill('Our monthly reporting takes a week and nobody trusts it.');
-    await submit.click();
-    await page.waitForTimeout(400);
-    record(
-      'an invalid email is rejected client-side',
-      (await page.getByLabel('Email', { exact: true }).getAttribute('aria-invalid')) === 'true',
-    );
-    record('still no request sent', lastRequestBody === null);
-
-    mode = 'fail';
-    await page.getByLabel('Email', { exact: true }).fill('test@example.com');
-    await submit.click();
-    await page.waitForTimeout(900);
-    record(
-      'a provider failure does not show a success state',
-      (await page.getByText('Received', { exact: true }).count()) === 0,
-    );
-    record('a provider failure is announced', (await page.getByText('That did not go through').count()) > 0);
-    record(
-      'input survives a failed submission',
-      (await page.getByLabel(/What are you trying to improve/i).inputValue()).length > 0,
-    );
-
-    mode = 'accept';
-    lastRequestBody = null;
-    await submit.click();
-    await page.waitForTimeout(900);
-    record('backend acceptance shows the success state', (await page.getByText('Received', { exact: true }).count()) > 0);
-    record('the success state explains the next step', (await page.getByText('What happens next').count()) > 0);
-    record(
-      'the submitted payload carries the expected fields',
-      Boolean(lastRequestBody?.email && lastRequestBody?.message),
-    );
-    record('a real submission leaves the honeypot empty', lastRequestBody?.website === '');
-
-    await page.goto(`${CONFIGURED_BASE}/en/contact?topic=forecasting`, { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(1100);
-    const topic = await page.getByLabel(/What is this about/i).inputValue();
-    record('service context is carried into the form', topic === 'forecasting', topic);
-
-    await ctx.close();
-  } finally {
-    await browser2.close();
-  }
 }
 
 const failed = results.filter((r) => !r.ok);

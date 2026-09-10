@@ -16,7 +16,7 @@ import { SITE_URL } from '@/lib/seo';
  * exists.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ['', '/contact', ...volumeSlugs.map((slug) => `/volumes/${slug}`)];
+  const paths = ['', '/front-matter', '/chapters', '/contact', ...volumeSlugs.map((slug) => `/volumes/${slug}`)];
 
   return locales.flatMap((locale) =>
     paths.map((path) => ({

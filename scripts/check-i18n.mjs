@@ -95,6 +95,7 @@ const { UI } = await load('src/lib/content/ui.ts');
 // the silent gap this script exists to catch.
 const { SHELF_UI } = await load('src/app/components/shelf/shelf-ui.ts');
 const { SKETCHBOOK_UI } = await load('src/app/components/sketchbook/sketchbook-ui.ts');
+const { EXPERIENCE_COPY } = await load('src/lib/experience-copy.ts');
 const services = await load('src/lib/content/services.ts');
 const caseStudies = await load('src/lib/content/case-studies.ts');
 
@@ -102,6 +103,7 @@ compare('translations', translations);
 compare('ui', UI);
 compare('shelf-ui', SHELF_UI);
 compare('sketchbook-ui', SKETCHBOOK_UI);
+compare('experience-copy', EXPERIENCE_COPY);
 
 compare(
   'services',

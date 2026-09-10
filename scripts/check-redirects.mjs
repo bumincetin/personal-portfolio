@@ -39,7 +39,7 @@ const RETIRED = {
   '/methodology': '',
   '/why-sme': '',
   '/portal': '',
-  '/about': '/contact',
+  '/about': '/chapters',
 };
 
 const results = [];

@@ -88,10 +88,10 @@ export const RESPONSIBILITY = {
 export type ResponsibilityKind = (typeof RESPONSIBILITY)[keyof typeof RESPONSIBILITY];
 
 export const mailtoHref = (subject?: string, body?: string) => {
-  const params = new URLSearchParams();
-  if (subject) params.set('subject', subject);
-  if (body) params.set('body', body);
-  const query = params.toString();
+  const params: string[] = [];
+  if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+  if (body) params.push(`body=${encodeURIComponent(body)}`);
+  const query = params.join('&');
   return `mailto:${CONTACT.email.address}${query ? `?${query}` : ''}`;
 };
 
