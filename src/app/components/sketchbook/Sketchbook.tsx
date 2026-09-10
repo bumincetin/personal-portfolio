@@ -127,6 +127,7 @@ export default function Sketchbook({
 
           <div className="sb-3d" id="sb3d">
             <div className="sb-tilt" id="sbTilt">
+              <div className="sb-binding" aria-hidden="true"><span className="sb-page-block left" /><span className="sb-page-block right" /></div>
               <div className="sb-cast ambient" aria-hidden="true"></div>
               <div className="sb-cast contact" aria-hidden="true"></div>
               <div className="sb-cast hair" aria-hidden="true"></div>

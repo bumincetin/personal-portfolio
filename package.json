@@ -24,7 +24,8 @@
     "test:a11y": "node scripts/a11y.mjs",
     "test:mobile": "node scripts/check-mobile.mjs",
     "test:experience": "node scripts/check-experience.mjs",
-    "test:chapter-pages": "node scripts/check-chapter-pages.mjs"
+    "test:chapter-pages": "node scripts/check-chapter-pages.mjs",
+    "test:volume-turns": "node scripts/check-volume-turns.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.35.0",

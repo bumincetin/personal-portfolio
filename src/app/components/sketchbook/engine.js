@@ -6,12 +6,12 @@
  * e0330548b1ac905cf1b81698163ffa29f8a3a8c39b8d39f9b71ba5b9255b6dd1, verified on
  * download before any of this was written.
  *
- * The authored geometry, physics and constants are the source's, unchanged: the
+ * The desktop geometry and physics are adapted from the source: the
  * chain of N nested strips whose tangent sweeps an arc so paper bends instead of
  * pivoting like a door; the spring and the tween; the drag threshold and the
  * fling velocity; the tilt limits; the loupe with its magnified copy, its
- * fade-off-the-sheet and its shove; the riffle intro. Where a number appears
- * below it is the number from the source.
+ * fade-off-the-sheet and its shove; the riffle intro. A single-page viewport
+ * uses the same curved strip chain, hinged at the left edge of the whole leaf.
  *
  * ────────────────────────────────────────────────────────────────────────────
  * THE ONE STRUCTURAL DEPARTURE, AND WHY IT IS NOT OPTIONAL
@@ -31,7 +31,7 @@
  * access, and every WCAG contrast guarantee the rest of this site is measured
  * against. It would trade the content for the container.
  *
- * So the picture is replaced by live DOM, and nothing else is. Each face is a
+ * The picture is replaced by live DOM. Each face is a
  * clipping window (`overflow: hidden`) holding a full-width copy of the spread,
  * shifted by the same offset the source passes to `background-position-x`. The
  * arithmetic is the authored arithmetic; only the thing being sliced changed.
@@ -171,6 +171,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   /* Declared up here rather than with the rest of the riffle: `buildCurl` reads
      it, and `buildCurl` can run before that section's `let`s have executed. */
   let introOn = false;
+  const scrollPositions = new Map();
 
   const el = (t, c) => {
     const e = document.createElement(t);
@@ -276,25 +277,36 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
    */
   function buildCurl(dir, from, to) {
     strips = [];
+    const single = singleUp();
     const n = introOn ? N_RIFFLE : N;
-    const c = el('div', `curl ${dir}`);
+    const span = single ? 1 - PAPER_X * 2 : SPAN;
+    const c = el('div', `curl ${single ? 'next single-turn' : dir}`);
     c.setAttribute('aria-hidden', 'true');
+    c.inert = true;
     c.style.setProperty('--n', n);
-    c.style.setProperty('--span', SPAN);
+    c.style.setProperty('--span', span);
     let host = c;
 
     for (let i = 0; i < n; i += 1) {
       const s = el('div', 'strip');
       s.style.setProperty('--i', i);
-      const gut = 'calc(var(--bw) * 0.5)';
-      const sw = `calc(var(--bw) * ${SPAN} / ${n})`;
+      const gut = `calc(var(--bw) * ${single ? PAPER_X : 0.5})`;
+      const sw = `calc(var(--bw) * ${span} / ${n})`;
       const A = `calc(-1 * (${gut} + ${i} * ${sw}))`;
       const B = `calc(${i + 1} * ${sw} - ${gut})`;
 
       const f = el('div', 'face front');
       const b = el('div', 'face back');
-      f.appendChild(sheet(from, dir === 'next' ? A : B));
-      b.appendChild(sheet(to, dir === 'next' ? B : A));
+      if (single) {
+        // Turning back unfolds the previous leaf over the current one.
+        // The reverse is blank paper, not a mirrored copy of the next page.
+        f.appendChild(sheet(dir === 'next' ? from : to, A));
+        const reverse = el('div', 'sb-verso');
+        b.appendChild(reverse);
+      } else {
+        f.appendChild(sheet(from, dir === 'next' ? A : B));
+        b.appendChild(sheet(to, dir === 'next' ? B : A));
+      }
       for (const face of [f, b]) {
         face.appendChild(el('div', 'sh'));
         face.appendChild(el('div', 'gl'));
@@ -310,20 +322,12 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     return c;
   }
 
-  /** The authored lighting pass, unchanged — and the slide, which is not. */
+  /** One curved surface and lighting pass for both spreads and single leaves. */
   function applyTurn(t) {
-    if (singleUp()) {
-      // One number drives both sheets: the old one leaves in the direction of
-      // travel, the new one comes in behind it.
-      const away = turn && turn.dir === 'next' ? -1 : 1;
-      sb3d.style.setProperty('--slide', t.toFixed(3));
-      sb3d.style.setProperty('--away', String(away));
-      sb3d.style.setProperty('--shade', Math.sin(Math.PI * t).toFixed(3));
-      fadeCaption(t);
-      return;
-    }
-    const th = Math.PI * t;
-    const beta = BETA * Math.sin(Math.PI * t);
+    if (REDUCED) return;
+    const progress = Math.max(0, Math.min(1, singleUp() && turn?.dir === 'prev' ? 1 - t : t));
+    const th = Math.PI * progress;
+    const beta = BETA * Math.sin(Math.PI * progress);
     const D = 180 / Math.PI;
     const tt = th + beta;
     const td = (2 * beta) / (strips.length || N);
@@ -344,37 +348,32 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   /**
    * True while the book is showing one leaf rather than a spread.
    *
-   * A phone gets one page, and a curl is a fold down the middle of a *spread* —
-   * with one page there is no middle to fold. Rather than show half an empty
-   * sheet so the authored geometry still applies, a single-page book turns the
-   * way a single sheet does: the leaf leaves, the next one arrives.
+   * The strip chain hinges at the gutter on a spread and at the left paper
+   * edge on a single leaf. Both turn as a continuous curved sheet.
    */
   const singleUp = () => perSpread() === 1;
 
   function paint() {
+    for (const leaf of leaves) {
+      if (book.contains(leaf)) scrollPositions.set(leaf.dataset.folio, leaf.scrollTop);
+    }
     // Hand the live leaves back before the book is torn down, or emptying it
     // would take the real content with it.
     reclaim();
     book.textContent = '';
-    wrap.classList.toggle('slide', singleUp());
+    wrap.classList.toggle('single-page', singleUp());
     // A single-page book has no magnifier to mention.
     if (hint) hint.textContent = singleUp() ? labels.hintTurn : labels.hint;
-    if (!turn) {
+    if (!turn || REDUCED) {
       const f = el('div', 'sb-full');
       f.appendChild(spreadEl(idx, false));
       book.appendChild(f);
       sb3d.style.setProperty('--shade', '0');
     } else if (singleUp()) {
-      /*
-       * One sheet replacing another. The outgoing leaf is a copy, because the
-       * incoming one is the leaf you are about to read and has to be live.
-       */
-      const out = el('div', 'sb-leaving');
-      out.setAttribute('aria-hidden', 'true');
-      out.appendChild(spreadEl(turn.from, true));
-      const into = el('div', 'sb-arriving');
-      into.appendChild(spreadEl(turn.to, false));
-      book.append(out, into);
+      const under = el('div', 'sb-full sb-underleaf');
+      under.appendChild(spreadEl(turn.dir === 'next' ? turn.to : turn.from, false));
+      under.appendChild(el('div', 'sb-leaf-shadow'));
+      book.append(under, buildCurl(turn.dir, turn.from, turn.to));
       applyTurn(turn.t);
     } else {
       const next = turn.dir === 'next';
@@ -397,6 +396,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
      * knows what it is standing on.
      */
     layout();
+    restoreScroll();
     caption();
     marks();
     syncZoomLayer();
@@ -470,6 +470,14 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   function layout() {
     sb3d.style.setProperty('--bw', `${book.clientWidth}px`);
     sb3d.style.setProperty('--bh', `${book.clientHeight}px`);
+  }
+
+  function restoreScroll() {
+    // Long pages keep their reading position on the curved clones and when a
+    // cancelled drag puts the live leaf back into the book.
+    book.querySelectorAll('.sb-leaf').forEach(leaf => {
+      leaf.scrollTop = scrollPositions.get(leaf.dataset.folio) ?? 0;
+    });
   }
 
   /* ------------------------------------------------------- the spring loop */
@@ -694,7 +702,10 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     }
 
     if (!turn) return;
-    if (turn.t > 0.42 || d.vel > 1.1) commit();
+    // A held leaf is no longer a fling. Let a short, paused drag return to the
+    // original page instead of committing using an old pointer velocity.
+    const releaseVelocity = performance.now() - d.tPrev < 120 ? d.vel : 0;
+    if (turn.t > 0.42 || releaseVelocity > 1.1) commit();
     else cancel();
   };
 
@@ -752,6 +763,11 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   }
   function cancel() {
     if (!turn) return;
+    if (REDUCED) {
+      turn = null;
+      paint();
+      return;
+    }
     animateTo(
       0,
       () => {
