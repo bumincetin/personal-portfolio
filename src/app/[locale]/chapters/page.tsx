@@ -31,7 +31,7 @@ export default async function ChaptersPage({ params }: { params: Promise<{ local
       <p className="chapters-print-identity">{PROFILE.name} · {CONTACT.email.address} · {CONTACT.whatsapp.display}</p>
       <header className="chapters-hero">
         <div><p className="chapters-eyebrow">{c.cv} <span>2020 — 2025</span></p><h1>{c.title}<br /><em>{c.titleAccent}</em></h1><p className="chapters-lede">{c.intro}</p><div className="chapters-hero-links"><a href="#career-story">{c.scroll}<ArrowDown size={16} /></a><a href="#career-record">{c.record}<ArrowUpRight size={16} /></a></div></div>
-        <figure className="chapters-portrait"><Image src="/portrait.jpg" alt={PROFILE.name} width={720} height={720} priority sizes="(max-width: 700px) 70vw, 330px" /><figcaption><span>{PROFILE.name}</span><span>{PROFILE.city}, {PROFILE.country}</span></figcaption><span className="portrait-edition" aria-hidden="true">BKÇ / 01</span></figure>
+        <figure className="chapters-portrait"><Image src="/portrait.jpg" alt={PROFILE.name} width={720} height={720} priority sizes="(max-width: 700px) 64px, 230px" /><figcaption><span>{PROFILE.name}</span><span>{PROFILE.city}, {PROFILE.country}</span></figcaption><span className="portrait-edition" aria-hidden="true">BKÇ / 01</span></figure>
       </header>
       <CareerTimeline chapters={story.chapters} copy={c} />
       <section id="career-record" className="career-record" aria-labelledby="record-title">

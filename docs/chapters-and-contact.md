@@ -4,15 +4,14 @@
 experience and languages. The dates and roles come from the existing `story.ts`
 and `translations.ts`. Inspired by the public
 [Meng Timeline preview](https://threeui.com/motion-design/meng-timeline), desktop
-scroll moves illustrated paper leaves horizontally through a pinned perspective
-stage, with oversized years, rays and a synchronized date ruler. Each leaf pivots
-at its binding as it moves, with paper grain, a shaded gutter, thin page edges,
-running heads and folios. Phones and short viewports use a bound stack: horizontal
-touch gestures turn the sheet around its spine, exposing its reverse side and
-moving fold shadow. Vertical touch scrolling remains native so longer pages can
-be read normally. Date links, arrow buttons and keyboard navigation (arrows, Home,
-End) also turn pages. Reduced motion uses a native horizontal gallery with scroll
-snapping and no animated page turns.
+scroll moves a media carousel through a pinned perspective stage. The featured
+chapter advances at full brightness while neighboring panels shrink, tilt and
+dim. Each illustration has its own palette, soft spotlight and subtle parallax;
+the complete narrative appears beneath the reel. Phones, tablets and short
+viewports use native horizontal touch scrolling with centered snap positions;
+mouse dragging is also supported. Date links, arrow buttons, exposed neighboring
+cards and keyboard navigation (arrows, Home, End) select chapters. Reduced motion
+keeps the gallery flat and navigates instantly.
 All five chapters remain readable without JavaScript. The print stylesheet exposes the CV and contact identity.
 `/about` redirects here. Both new destinations appear in navigation and sitemap.
 
@@ -42,7 +41,7 @@ encoding, animation/pause, printing and no-JavaScript fallbacks. The suite never
 opens a messaging destination or submits an inquiry.
 
 `npm run test:chapter-pages -- <url>` exercises actual emulated touch input in
-all three locales: forward/backward page turns, the reverse face, moving fold
-light, native vertical scrolling, date/keyboard navigation, reduced motion and
-accessibility. It also checks desktop leaf rotation and that every selected page
-fits above the timeline controls.
+all three locales: forward/backward swipes, featured-card centering, depth and
+dimming, date/keyboard navigation, reduced motion and accessibility. It also
+checks selection of neighboring cards, desktop scroll progression, tablet mouse
+dragging, translated story fit in the pinned viewport, and no-JavaScript reading.

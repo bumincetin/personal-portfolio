@@ -1,9 +1,10 @@
 import type { Locale } from './translations';
 
 const en = {
+  carouselTitle: 'The story so far.', swipeChapters: 'Swipe to explore', scrollChapters: 'Scroll to explore',
   chapters: 'Chapters', cv: 'Career & curriculum vitae', title: 'A career in', titleAccent: 'five chapters.',
   intro: 'From economics to algorithms. From understanding risk to building something of my own. The experiences that shaped how I work.',
-  scroll: 'Scroll through the story', turnPage: 'Swipe to turn the page', record: 'The full record', recordNote: 'Education, experience and working languages. Dates as recorded in my CV.',
+  scroll: 'Scroll through the story', record: 'The full record', recordNote: 'Education, experience and working languages. Dates as recorded in my CV.',
   scenes: ['The foundations', 'Learning the stakes', 'Models meet reality', 'Reading between lines', 'Building the practice'],
   sceneLabels: ['Economics × computer science', 'Risk × responsibility', 'Data × industry', 'Language × evidence', 'Italy × Turkey'],
   nextTitle: 'What comes next starts', nextAccent: 'with a conversation.', nextLink: 'Start a conversation', print: 'Print / save CV',
@@ -30,9 +31,10 @@ const en = {
 };
 export type ExperienceCopy = typeof en;
 const tr: ExperienceCopy = {
+  carouselTitle: 'Buraya kadar gelen hikâye.', swipeChapters: 'Keşfetmek için kaydır', scrollChapters: 'Keşfetmek için kaydır',
   chapters: 'Bölümler', cv: 'Kariyer ve özgeçmiş', title: 'Beş bölümde', titleAccent: 'bir kariyer.',
   intro: 'Ekonomiden algoritmalara. Riski anlamaktan kendi işimi kurmaya. Çalışma biçimimi şekillendiren deneyimler.',
-  scroll: 'Hikâyeyi kaydırarak keşfet', turnPage: 'Sayfayı çevirmek için kaydır', record: 'Özgeçmiş', recordNote: 'Eğitim, deneyim ve çalışma dilleri. Tarihler özgeçmişimdeki kayıtlara göredir.',
+  scroll: 'Hikâyeyi kaydırarak keşfet', record: 'Özgeçmiş', recordNote: 'Eğitim, deneyim ve çalışma dilleri. Tarihler özgeçmişimdeki kayıtlara göredir.',
   scenes: ['Temeller', 'Sorumluluğu öğrenmek', 'Modeller gerçeklikle buluşuyor', 'Satır aralarını okumak', 'Kendi işimi kurmak'],
   sceneLabels: ['Ekonomi × bilgisayar bilimi', 'Risk × sorumluluk', 'Veri × endüstri', 'Dil × kanıt', 'İtalya × Türkiye'],
   nextTitle: 'Sıradaki bölüm', nextAccent: 'bir sohbetle başlar.', nextLink: 'Bir sohbet başlat', print: 'Yazdır / CV kaydet',
@@ -58,9 +60,10 @@ const tr: ExperienceCopy = {
   greeting: 'Merhaba Bumin,', introduction: 'Ben', from: 'şirketinden', interest: 'Görüşmek istediğim konu', timingLabel: 'Zamanlama', closing: 'Sonraki adımları görüşmek için müsait olur musunuz?', subject: 'Proje hakkında görüşme',
 };
 const it: ExperienceCopy = {
+  carouselTitle: 'La storia, fin qui.', swipeChapters: 'Scorri per esplorare', scrollChapters: 'Scorri per esplorare',
   chapters: 'Capitoli', cv: 'Carriera e curriculum vitae', title: 'Una carriera in', titleAccent: 'cinque capitoli.',
   intro: 'Dall’economia agli algoritmi. Dalla comprensione del rischio alla costruzione di una mia attività. Le esperienze che hanno formato il mio modo di lavorare.',
-  scroll: 'Scorri la storia', turnPage: 'Scorri per voltare pagina', record: 'Il curriculum completo', recordNote: 'Formazione, esperienze e lingue di lavoro. Date come riportate nel mio CV.',
+  scroll: 'Scorri la storia', record: 'Il curriculum completo', recordNote: 'Formazione, esperienze e lingue di lavoro. Date come riportate nel mio CV.',
   scenes: ['Le fondamenta', 'Imparare la responsabilità', 'I modelli incontrano la realtà', 'Leggere tra le righe', 'Costruire la pratica'],
   sceneLabels: ['Economia × informatica', 'Rischio × responsabilità', 'Dati × industria', 'Linguaggio × evidenza', 'Italia × Turchia'],
   nextTitle: 'Il prossimo capitolo inizia', nextAccent: 'con una conversazione.', nextLink: 'Inizia una conversazione', print: 'Stampa / salva CV',
