@@ -58,44 +58,5 @@ export function Slider(props: React.InputHTMLAttributes<HTMLInputElement>) {
   );
 }
 
-/** Radio-group of segmented buttons. */
-export function SegmentedChoice<T extends string>({
-  label,
-  value,
-  options,
-  onChange,
-  columns = 2,
-}: {
-  label: string;
-  value: T;
-  options: { id: T; label: string; icon?: LucideIcon; hint?: string }[];
-  onChange: (id: T) => void;
-  columns?: 1 | 2;
-}) {
-  return (
-    <div role="radiogroup" aria-label={label} className={`grid gap-1.5 ${columns === 2 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-      {options.map((opt) => {
-        const active = opt.id === value;
-        const Icon = opt.icon;
-        return (
-          <button
-            key={opt.id}
-            type="button"
-            role="radio"
-            aria-checked={active}
-            title={opt.hint}
-            onClick={() => onChange(opt.id)}
-            className={`flex items-center gap-2 px-2.5 py-2 rounded-editorial border text-left transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
-              active
-                ? 'border-accent/60 bg-accent/10 text-charcoal'
-                : 'border-border bg-surface-alt/60 text-muted hover:text-charcoal hover:border-border-dark'
-            }`}
-          >
-            {Icon ? <Icon size={13} className={active ? 'text-accent shrink-0' : 'text-muted-light shrink-0'} aria-hidden="true" /> : null}
-            <span className="font-sans text-xs leading-tight">{opt.label}</span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
+/** Kokonut UI selector, adapted to native radio inputs. */
+export { default as SegmentedChoice } from '../ui/kokonut/SmoothChoice';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
-import { motion, useMotionValue, useMotionValueEvent, useScroll, useTransform, type MotionStyle, type MotionValue } from 'framer-motion';
+import { motion, useMotionValue, useMotionValueEvent, useScroll, useTransform, type MotionStyle, type MotionValue } from 'motion/react';
 import { ArrowDown, ArrowLeft, ArrowRight, MapPin, MoveHorizontal } from 'lucide-react';
 import type { Chapter } from '@/lib/story';
 import type { ExperienceCopy } from '@/lib/experience-copy';

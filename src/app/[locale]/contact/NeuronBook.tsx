@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { Pause, Play } from 'lucide-react';
-import { useReducedMotion } from 'framer-motion';
+import { useReducedMotion } from 'motion/react';
 import type { ExperienceCopy } from '@/lib/experience-copy';
 import type { createNeuronScene } from './neuron-scene';
 

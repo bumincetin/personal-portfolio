@@ -33,7 +33,7 @@ const nextConfig = {
   // Rewrites barrel imports to per-icon/per-export paths so a single `import
   // { ArrowRight }` does not pull the whole library into the client bundle.
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion'],
+    optimizePackageImports: ['lucide-react', 'motion/react'],
   },
 
   compiler: {

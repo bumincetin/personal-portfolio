@@ -8,6 +8,7 @@ import { PROFILE } from '@/lib/profile';
 import { SITE_URL } from '@/lib/seo';
 import Navbar from '../components/Navbar';
 import GrainOverlay from '../components/ui/GrainOverlay';
+import MotionProvider from '../components/ui/MotionProvider';
 
 /**
  * Root layout.
@@ -96,6 +97,7 @@ export default async function LocaleLayout(props: {
       */
     <html lang={locale} className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen overflow-x-hidden bg-cream font-sans text-charcoal antialiased">
+        <MotionProvider>
         <div className="relative min-h-screen">
           <GrainOverlay />
 
@@ -120,6 +122,7 @@ export default async function LocaleLayout(props: {
             {children}
           </div>
         </div>
+        </MotionProvider>
       </body>
     </html>
   );

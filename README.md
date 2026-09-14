@@ -7,6 +7,12 @@ book you can read page by page.
 Next.js 15 (App Router) · TypeScript · Tailwind · Three.js r165 ·
 Cloudflare Workers via OpenNext · English, Turkish, Italian.
 
+Motion (`motion/react`) powers shelf dragging, hover feedback and layout
+transitions, with system reduced-motion preferences respected. The optimizer
+uses a Kokonut UI Smooth Tab adaptation for its selectors and Bklit UI pie
+primitives for allocation. Public source references and MIT notices are in
+`vendor/kokonutui/` and `vendor/bklit/`.
+
 ---
 
 ## Running it
@@ -42,6 +48,7 @@ Individually:
 | `npm run test:smoke -- <url>` | the real build in a real browser |
 | `npm run test:mobile -- <url>` | native touch scrolling, shelf swipes, reader zoom, and every reader leaf at phone and tablet widths |
 | `npm run test:experience -- <url>` | Chapters and Contact in three languages; 3D, motion, accessible forms, message encoding, print and fallbacks |
+| `npm run test:motion -- <url>` | Mouse/touch dragging, cancellation, reduced motion, chart rendering and keyboard selection |
 | `npm run test:a11y -- <url>` | axe-core over every route at three viewports |
 | `npm run test:canvas -- <url>` | the shelf's overlay text against the rendered scene — the one thing axe cannot measure |
 

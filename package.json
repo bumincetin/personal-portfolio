@@ -25,16 +25,23 @@
     "test:mobile": "node scripts/check-mobile.mjs",
     "test:experience": "node scripts/check-experience.mjs",
     "test:chapter-pages": "node scripts/check-chapter-pages.mjs",
-    "test:volume-turns": "node scripts/check-volume-turns.mjs"
+    "test:volume-turns": "node scripts/check-volume-turns.mjs",
+    "test:motion": "node scripts/check-motion.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.35.0",
     "@opennextjs/cloudflare": "^1.20.2",
-    "framer-motion": "^12.5.0",
+    "@visx/group": "^4.0.1-alpha.0",
+    "@visx/responsive": "^4.0.1-alpha.0",
+    "@visx/shape": "^4.0.1-alpha.0",
+    "clsx": "^2.1.1",
+    "d3-shape": "^3.2.0",
     "lucide-react": "^0.561.0",
+    "motion": "^13.3.0",
     "next": "^15.5.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tailwind-merge": "^3.7.0",
     "three": "^0.165.0",
     "xlsx": "^0.18.5"
   },

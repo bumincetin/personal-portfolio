@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { motion, useDragControls, useReducedMotion } from 'motion/react';
 import type { Locale } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
 import { getShelfBooks, VOLUMES } from './volumes';
@@ -51,60 +52,13 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
   const rootRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const root = rootRef.current;
-    const canvas = root?.querySelector<HTMLCanvasElement>('#scene');
-    const experience = root?.querySelector('#experience');
-    if (!canvas || !experience) return;
-
-    let gesture: { id: number; x: number; y: number; horizontal: boolean } | null = null;
-    let suppressClickUntil = 0;
-    const onDown = (event: PointerEvent) => {
-      if (event.pointerType !== 'touch' || !event.isPrimary || experience.classList.contains('mode-detail')) return;
-      gesture = { id: event.pointerId, x: event.clientX, y: event.clientY, horizontal: false };
-    };
-    const onMove = (event: PointerEvent) => {
-      if (!gesture || event.pointerId !== gesture.id) return;
-      const dx = event.clientX - gesture.x;
-      const dy = event.clientY - gesture.y;
-      if (!gesture.horizontal && Math.abs(dy) > 12 && Math.abs(dy) > Math.abs(dx)) {
-        gesture = null;
-        return;
-      }
-      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-        gesture.horizontal = true;
-        canvas.setPointerCapture(event.pointerId);
-      }
-    };
-    const onEnd = (event: PointerEvent) => {
-      if (!gesture || event.pointerId !== gesture.id) return;
-      const current = gesture;
-      gesture = null;
-      if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-      if (event.type !== 'pointerup' || !current.horizontal) return;
-      suppressClickUntil = performance.now() + 500;
-      const dx = event.clientX - current.x;
-      if (Math.abs(dx) < 36 || experience.classList.contains('mode-detail')) return;
-      root?.querySelector<HTMLButtonElement>(dx < 0 ? '#next' : '#previous')?.click();
-    };
-    const onClick = (event: MouseEvent) => {
-      if (performance.now() >= suppressClickUntil) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    };
-    canvas.addEventListener('pointerdown', onDown);
-    canvas.addEventListener('pointermove', onMove);
-    canvas.addEventListener('pointerup', onEnd);
-    canvas.addEventListener('pointercancel', onEnd);
-    canvas.addEventListener('click', onClick, true);
-    return () => {
-      canvas.removeEventListener('pointerdown', onDown);
-      canvas.removeEventListener('pointermove', onMove);
-      canvas.removeEventListener('pointerup', onEnd);
-      canvas.removeEventListener('pointercancel', onEnd);
-      canvas.removeEventListener('click', onClick, true);
-    };
-  }, []);
+  const dragControls = useDragControls();
+  const suppressClickUntil = useRef(0);
+  const reduced = useReducedMotion();
+  const buttonMotion = {
+    whileHover: reduced ? undefined : { y: -2, scale: 1.04 },
+    whileTap: reduced ? undefined : { scale: 0.95 },
+  };
 
   useEffect(() => {
     let dispose: (() => void) | undefined;
@@ -172,7 +126,23 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
       <noscript><style>{'.shelf-root .loading { display: none; }'}</style></noscript>
       <div className="experience" id="experience">
         <div className="scene-shell">
-          <canvas id="scene" aria-hidden="true"></canvas>
+          <motion.canvas id="scene" aria-hidden="true"
+            drag="x" dragControls={dragControls} dragListener={false}
+            dragConstraints={{ left: 0, right: 0 }} dragElastic={0} dragMomentum={false}
+            onPointerDown={event => {
+              if (!event.isPrimary || event.button !== 0 || rootRef.current?.querySelector('#experience')?.classList.contains('mode-detail')) return;
+              dragControls.start(event);
+            }}
+            onDrag={() => { suppressClickUntil.current = performance.now() + 500; }}
+            onDragEnd={(event, info) => {
+              if (event.type === 'pointercancel' || Math.abs(info.offset.x) < 36 || Math.abs(info.offset.x) < Math.abs(info.offset.y) * 1.2) return;
+              if (rootRef.current?.querySelector('#experience')?.classList.contains('mode-detail')) return;
+              suppressClickUntil.current = performance.now() + 500;
+              rootRef.current?.querySelector<HTMLButtonElement>(info.offset.x < 0 ? '#next' : '#previous')?.click();
+            }}
+            onClickCapture={event => {
+              if (performance.now() < suppressClickUntil.current) { event.preventDefault(); event.stopPropagation(); }
+            }} />
         </div>
 
         <header className="editorial-header" aria-label={ui.collection}>
@@ -205,20 +175,20 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
           </div>
 
           <div className="browse-actions">
-            <button className="round-button" id="previous" type="button" aria-label={ui.previousVolume}>
+            <motion.button {...buttonMotion} className="round-button" id="previous" type="button" aria-label={ui.previousVolume}>
               <svg viewBox="0 0 16 16" aria-hidden="true">
                 <path d="m10.5 3.5-4.5 4.5 4.5 4.5"></path>
               </svg>
-            </button>
-            <button className="text-button" id="inspect" type="button">
+            </motion.button>
+            <motion.button {...buttonMotion} className="text-button" id="inspect" type="button">
               {ui.open}
               <span aria-hidden="true">↗</span>
-            </button>
-            <button className="round-button" id="next" type="button" aria-label={ui.nextVolume}>
+            </motion.button>
+            <motion.button {...buttonMotion} className="round-button" id="next" type="button" aria-label={ui.nextVolume}>
               <svg viewBox="0 0 16 16" aria-hidden="true">
                 <path d="m5.5 3.5 4.5 4.5-4.5 4.5"></path>
               </svg>
-            </button>
+            </motion.button>
           </div>
 
           <nav className="index-nav" aria-label={ui.volumeIndex}>
@@ -236,11 +206,11 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
           aria-hidden="true"
           inert={true}
         >
-          <button className="close-button" id="close-detail" type="button" aria-label={ui.returnVolume}>
+          <motion.button {...buttonMotion} className="close-button" id="close-detail" type="button" aria-label={ui.returnVolume}>
             <svg viewBox="0 0 16 16" aria-hidden="true">
               <path d="m4 4 8 8M12 4l-8 8"></path>
             </svg>
-          </button>
+          </motion.button>
           <p className="eyebrow" id="detail-eyebrow">
             {ui.volume} I · {books[0].discipline}
           </p>
@@ -276,30 +246,30 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
           </Link>
 
           <div className="page-navigation" role="group" aria-label={ui.browsePages}>
-            <button className="page-button" id="previous-page" type="button" aria-label={ui.previousPage} disabled>
+            <motion.button {...buttonMotion} className="page-button" id="previous-page" type="button" aria-label={ui.previousPage} disabled>
               <svg viewBox="0 0 16 16" aria-hidden="true">
                 <path d="m10.5 3.5-4.5 4.5 4.5 4.5"></path>
               </svg>
-            </button>
+            </motion.button>
             <p className="page-status" aria-live="off">
               <strong id="page-label">{ui.closed}</strong>
               <span id="page-counter">{ui.clickToOpen}</span>
             </p>
-            <button className="page-button" id="next-page" type="button" aria-label={ui.nextPage} disabled>
+            <motion.button {...buttonMotion} className="page-button" id="next-page" type="button" aria-label={ui.nextPage} disabled>
               <svg viewBox="0 0 16 16" aria-hidden="true">
                 <path d="m5.5 3.5 4.5 4.5-4.5 4.5"></path>
               </svg>
-            </button>
+            </motion.button>
           </div>
           <div className="detail-controls">
             <p className="microcopy">{ui.dragHint}</p>
             <div className="detail-buttons">
-              <button className="text-button reset-button" id="toggle-book" type="button" aria-pressed="false">
+              <motion.button {...buttonMotion} className="text-button reset-button" id="toggle-book" type="button" aria-pressed="false">
                 {ui.openBook}
-              </button>
-              <button className="text-button reset-button" id="reset-view" type="button">
+              </motion.button>
+              <motion.button {...buttonMotion} className="text-button reset-button" id="reset-view" type="button">
                 {ui.resetView}
-              </button>
+              </motion.button>
             </div>
           </div>
         </aside>
