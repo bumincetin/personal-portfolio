@@ -1,0 +1,24 @@
+[
+  {
+    "name": "webkit",
+    "version": "26.6",
+    "shader": true,
+    "selection": true,
+    "menu": true,
+    "anchorFocus": true,
+    "reduced": true,
+    "orientation": true,
+    "errors": []
+  },
+  {
+    "name": "firefox",
+    "version": "155.0",
+    "shader": true,
+    "selection": true,
+    "menu": true,
+    "anchorFocus": true,
+    "reduced": true,
+    "orientation": true,
+    "errors": []
+  }
+]

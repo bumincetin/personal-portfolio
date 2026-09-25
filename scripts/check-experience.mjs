@@ -42,8 +42,12 @@ try {
       assert.equal(await page.locator('.colophon-portrait').count(),0);
       assert.ok(await noOverflow(page));
       await scan(page, `${locale} contact ${width}`);
+      assert.ok(await page.locator('#conversation-idea').isVisible(), 'one-screen composer is primary');
+      assert.equal(await page.locator('.neuron-canvas').count(), 0, 'sculpture waits for activation');
+      await page.locator('[data-contact-guided]').click();
       const next = async () => { await page.locator('.conversation-actions button[type="submit"]').click(); await page.waitForTimeout(100); };
-      await next(); assert.ok(await page.locator('#conversation-error').isVisible());
+      await next(); assert.ok(await page.locator('input[value="forecasting"]').isVisible(), 'name is optional');
+      await page.locator('.conversation-back').click();
       await page.locator('#conversation-name').fill('Çağla & Alex');
       await page.locator('#conversation-company').fill('A+B Studio');
       await next();
@@ -54,15 +58,19 @@ try {
       assert.ok(await page.locator('input[value="document-intelligence"]').isChecked(),'back preserves answers');
       await next(); await next(); assert.ok(await page.locator('#conversation-error').isVisible());
       await page.locator('#conversation-idea').fill('We need to review reports in Turkish & Italian. Can we discuss scope + delivery?');
+      await page.locator('[data-contact-simple]').click();
+      assert.equal(await page.locator('#conversation-name').inputValue(), 'Çağla & Alex');
+      assert.ok((await page.locator('#conversation-idea').inputValue()).includes('scope + delivery?'));
+      await page.locator('[data-contact-guided]').click();
       await next(); await page.locator('input[name="timing"][value="1"]').check(); await next();
       assert.ok(await page.locator('#conversation-draft').isVisible());
       const draft = await page.locator('#conversation-draft').inputValue();
       assert.ok(draft.includes('Çağla & Alex') && draft.includes('A+B Studio') && draft.includes('scope + delivery?'));
       const edited = draft + '\nAn extra note: 50% scope / phase #1.';
       await page.locator('#conversation-draft').fill(edited);
-      const wa = new URL(await page.locator('.conversation-delivery a').first().getAttribute('href'));
+      const wa = new URL(await page.locator('.conversation-delivery a[href*="wa.me"]').getAttribute('href'));
       assert.equal(wa.hostname,'wa.me'); assert.equal(wa.pathname,'/393481705207'); assert.equal(wa.searchParams.get('text'),edited);
-      const email = new URL(await page.locator('.conversation-delivery a').nth(1).getAttribute('href'));
+      const email = new URL(await page.locator('.conversation-delivery a[href^="mailto:"]').getAttribute('href'));
       assert.equal(email.searchParams.get('body'),edited);
       const web = new URL(await page.locator('.conversation-alternatives a').getAttribute('href'));
       assert.equal(web.hostname,'outlook.office.com'); assert.equal(web.searchParams.get('body'),edited);
@@ -79,6 +87,7 @@ try {
   const motionErrors = [];
   page.on('pageerror', error => motionErrors.push(error.message));
   await page.goto(`${BASE}/en/contact`);
+  await page.locator('.contact-optional-scene > button').click();
   await page.locator('.neuron-book[data-ready="true"]').waitFor({timeout:60000});
   await page.getByRole('button',{name:'Pause animation'}).click();
   await page.waitForTimeout(800); // Let the canvas entrance opacity settle.

@@ -7,17 +7,8 @@ import { VOLUMES, getShelfBooks } from '@/app/components/shelf/volumes';
 import { CONTACT, PROFILE, mailtoHref, whatsappHref } from '@/lib/profile';
 import { getExperienceCopy } from '@/lib/experience-copy';
 
-/**
- * Footer.
- *
- * A server component with no client JavaScript. It lists all seven volumes,
- * which is the site's only complete index outside the shelf itself — a crawler
- * or a reader with no WebGL still reaches every page from here.
- *
- * The terminal prompt, the booking dialog and the 3D wireframe that used to
- * live down here are gone; between them they shipped roughly 65 kB of
- * JavaScript to every route to render decoration below the fold, and the
- * contact route now does the job properly.
+/** Server-rendered secondary directory and verified contact links.
+ * Interface labels share Inter instead of loading a separate face below the fold.
  */
 
 export default function Footer({ locale }: { locale: Locale }) {
@@ -26,8 +17,9 @@ export default function Footer({ locale }: { locale: Locale }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10 border-t border-border bg-surface-alt">
+    <footer className="experience-footer relative z-10 border-t border-border bg-surface-alt">
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-10">
+        <p className="footer-signature" aria-hidden="true">{PROFILE.shortName}</p>
         <div className="grid gap-10 py-12 lg:grid-cols-[1fr_2fr_1fr]">
           <div>
             <p className="text-[0.9375rem] font-medium text-charcoal">{PROFILE.name}</p>
@@ -40,7 +32,7 @@ export default function Footer({ locale }: { locale: Locale }) {
           </div>
 
           <nav aria-label={ui.nav.volumes}>
-            <h2 className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted">{ui.nav.volumes}</h2>
+            <h2 className="font-sans text-[0.8125rem] uppercase tracking-[0.18em] text-muted">{ui.nav.volumes}</h2>
             <ul className="mt-4 grid gap-x-8 gap-y-1 sm:grid-cols-2">
               {VOLUMES.map((volume, index) => (
                 <li key={volume.id}>
@@ -48,7 +40,7 @@ export default function Footer({ locale }: { locale: Locale }) {
                     href={`/${locale}${volume.href}`}
                     className="flex items-baseline gap-2.5 py-1.5 text-[0.875rem] text-charcoal transition-colors hover:text-accent"
                   >
-                    <span className="w-6 flex-shrink-0 font-mono text-[0.6875rem] text-muted" aria-hidden="true">
+                    <span className="w-6 flex-shrink-0 font-sans text-[0.8125rem] text-muted" aria-hidden="true">
                       {books[index].roman}
                     </span>
                     {books[index].title}
@@ -59,7 +51,7 @@ export default function Footer({ locale }: { locale: Locale }) {
           </nav>
 
           <div>
-            <h2 className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted">{ui.nav.contact}</h2>
+            <h2 className="font-sans text-[0.8125rem] uppercase tracking-[0.18em] text-muted">{ui.nav.contact}</h2>
             <ul className="mt-4 space-y-1">
               <li>
                 <a

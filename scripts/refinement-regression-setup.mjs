@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+let s=fs.readFileSync('scripts/redesign-regression.mjs','utf8');
+s=s.replace("const changed=immutable.filter",`const sourceBefore=JSON.parse(fs.readFileSync('artifacts/refinement/before/source.json','utf8'));
+const copyOnly=s=>s.replace(/import palette from [^;]+;/g,'').replace(/\\/\\*[\\s\\S]*?\\*\\//g,'').replace(/(['"])(#[\\da-f]{6})\\1/gi,'COLOR').replace(/palette\\["[\\w-]+"\\]/g,'COLOR').replace(/\\s/g,'');
+const colorOnly=x=>x.file==='src/app/components/shelf/volumes.ts'&&copyOnly(sourceBefore[x.file])===copyOnly(fs.readFileSync(x.file,'utf8'));
+const changed=immutable.filter`);
+s=s.replace("!==x.sha256);","!==x.sha256&&!colorOnly(x));");
+s=s.replace("headless:true}","headless:true,channel:'chromium'}");
+s=s.replaceAll('artifacts/redesign/qa','artifacts/refinement/after');
+fs.writeFileSync('scripts/refinement-regression.mjs',s);
+for(const name of ['redesign-interactions','redesign-mobile-routes'])fs.writeFileSync(`scripts/refinement-${name.replace('redesign-','')}.mjs`,fs.readFileSync(`scripts/${name}.mjs`,'utf8').replaceAll('artifacts/redesign/qa','artifacts/refinement/after').replace('chromium.launch()','chromium.launch({headless:true,channel:"chromium"})'));

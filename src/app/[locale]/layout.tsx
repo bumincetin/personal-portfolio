@@ -1,14 +1,20 @@
+import palette from "@/lib/palette.json";
 import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import '../globals.css';
+import '../components/experience/system.css';
+import '../components/experience/palette.css';
+import '../components/experience/refinement.css';
 import { locales, isLocale, type Locale } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
+import { getLibraryUI } from '@/lib/content/library-ui';
+import { getShelfBooks } from '@/app/components/shelf/volumes';
 import { PROFILE } from '@/lib/profile';
 import { SITE_URL } from '@/lib/seo';
-import Navbar from '../components/Navbar';
-import GrainOverlay from '../components/ui/GrainOverlay';
+import Navbar from '../components/experience/ExperienceNavigation';
 import MotionProvider from '../components/ui/MotionProvider';
+import ScrollProvider from '../components/experience/director/ScrollProvider';
 
 /**
  * Root layout.
@@ -21,8 +27,8 @@ import MotionProvider from '../components/ui/MotionProvider';
  * own the document. `/` is redirected to `/en` by next.config.js instead of by
  * a page component, so nothing lives outside this segment.
  *
- * next/font self-hosts the three faces and inlines their @font-face rules, so
- * there is no render-blocking round-trip to a font host on first paint.
+ * next/font self-hosts Inter and JetBrains Mono. The existing Instrument Serif
+ * and Newsreader assets are served locally through the global stylesheet.
  */
 
 const inter = Inter({
@@ -32,13 +38,14 @@ const inter = Inter({
 });
 
 /**
- * Display face, used for the brand line and a small number of editorial
- * moments. Turkish and Italian copy needs latin-ext.
+ * Optional data labels and code use this face. Avoid a preload on routes
+ * whose interface uses Inter exclusively.
  */
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
   display: 'swap',
+  preload: false,
   variable: '--font-mono',
 });
 
@@ -66,9 +73,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 }
 
 export const viewport: Viewport = {
-  // One ground, so one hint. #171A24 is the shelf's --paper: the browser chrome
-  // and the canvas are the same colour.
-  themeColor: '#1a1511',
+  // Match the canonical carbon environment in browser chrome.
+  themeColor: palette["black"],
   colorScheme: 'dark',
 };
 
@@ -84,6 +90,8 @@ export default async function LocaleLayout(props: {
   if (!isLocale(locale)) notFound();
 
   const ui = getUI(locale);
+  const library = getLibraryUI(locale);
+  const books = getShelfBooks(locale).map(({ id, href, roman, title, discipline }) => ({ id, href, roman, title, discipline }));
 
   return (
     /*
@@ -96,10 +104,13 @@ export default async function LocaleLayout(props: {
       * suppression that went with it.
       */
     <html lang={locale} className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <head>
+        <link rel="preload" href="/sketchbook/instrument-serif.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-screen overflow-x-hidden bg-cream font-sans text-charcoal antialiased">
         <MotionProvider>
+        <ScrollProvider>
         <div className="relative min-h-screen">
-          <GrainOverlay />
 
           <a
             href="#main"
@@ -108,7 +119,13 @@ export default async function LocaleLayout(props: {
             {ui.nav.skipToContent}
           </a>
 
-          <Navbar locale={locale} />
+          <Navbar locale={locale} nav={{ ...ui.nav, shelf: library.home, frontMatter: library.approach, volumes: library.directory }} about={library.about} books={books} />
+          <noscript><style>{'.atlas-menu-trigger{display:none}'}</style><nav className="no-script-nav" aria-label={ui.nav.mainLabel}>
+            <a href={`/${locale}`}>{library.directory}</a>
+            <a href={`/${locale}/front-matter`}>{library.approach}</a>
+            <a href={`/${locale}/chapters`}>{library.about}</a>
+            <a href={`/${locale}/contact`}>{ui.nav.contact}</a>
+          </nav></noscript>
           {/* A wrapper, not a landmark: each page renders its own <main>,
               and nesting one inside another would break the landmark tree.
 
@@ -122,6 +139,7 @@ export default async function LocaleLayout(props: {
             {children}
           </div>
         </div>
+        </ScrollProvider>
         </MotionProvider>
       </body>
     </html>

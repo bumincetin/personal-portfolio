@@ -1,0 +1,6 @@
+{
+  "readingCancellation": true,
+  "closeCancellation": true,
+  "nextInspection": true,
+  "printHeaderContrast": true
+}

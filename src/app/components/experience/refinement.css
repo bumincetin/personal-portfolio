@@ -1,0 +1,151 @@
+/* Shared rhythm and surface roles. Color values live only in palette.json. */
+:root {
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 20px;
+  --space-5: 32px; --space-6: 48px; --space-7: 72px; --space-8: 112px;
+  --page-x: clamp(22px, 4vw, 80px); --page-y: clamp(56px, 7vw, 112px);
+  --panel-padding: clamp(22px, 2vw, 32px); --editorial-max: 740px;
+  --inspector-width: clamp(320px, 27vw, 420px);
+  --page-padding: var(--page-x);
+  --background: var(--color-black); --foreground: var(--color-bone);
+  --muted: var(--color-light-muted); --accent: var(--color-citron);
+  --line: var(--line-dark); --surface: var(--color-surface);
+}
+body .atlas-nav { height: 60px; background: rgb(var(--rgb-carbon) / .9); border-color: var(--line-dark); }
+body .atlas-menu-trigger { border: 0; padding-left: var(--space-3); }
+body .atlas-menu-primary a { font-weight: 400; }
+body .atlas-menu-volumes > a { border-color: var(--line-dark); }
+body :focus-visible { outline-color: var(--color-citron); }
+.experience-icon { display: inline-block; width: 20px; height: 20px; flex: 0 0 auto; vertical-align: middle; }
+.lucide { stroke-width: 1.4; }
+.atlas-contact-title .experience-icon, .atlas-case-open .experience-icon { width: 1em; height: 1em; }
+.atlas-service h3 .experience-icon { width: .65em; height: .65em; }
+
+/* The annotation is a single content-height surface, never a stretched drawer. */
+.world-stage .world-inspection {
+  inset: clamp(92px, 13vh, 140px) var(--page-x) auto auto;
+  width: var(--inspector-width); max-width: 42vw; max-height: min(76svh, calc(100svh - 210px));
+  padding: 0 var(--panel-padding) var(--space-3);
+  background: rgb(var(--rgb-carbon) / .97); color: var(--color-bone);
+  border: 0; border-radius: 2px; box-shadow: none;
+  overflow: auto; overscroll-behavior: contain;
+  animation: annotation-enter 400ms 180ms var(--ease-primary) both;
+}
+.world-stage .world-return { border: 0; padding: var(--space-3) 0; color: var(--color-light-muted); font-size: 12px; min-height: 48px; flex-shrink: 0; }
+.world-stage .world-return:hover { background: transparent; color: var(--color-citron); }
+.world-stage .world-return > span:last-child { font-size: 10px; }
+.world-stage .world-inspection-body { padding: var(--space-3) 0 0; overflow: visible; flex: initial; }
+.world-stage .world-inspection .world-eyebrow { color: var(--color-citron); font-size: 12px; line-height: 1.6; letter-spacing: .08em; }
+.world-inspection .world-eyebrow span { display: block; color: var(--color-light-muted); margin-top: var(--space-1); }
+.world-stage .world-inspection h2 { font-size: clamp(32px, 3vw, 48px); line-height: 1.02; margin: var(--space-4) 0; text-wrap: balance; }
+.world-stage .world-inspection-body > p:not(.world-eyebrow) { font-size: 17px; line-height: 1.55; color: var(--color-bone); }
+.world-stage .world-output { border: 0; padding: 0; margin-top: var(--space-4); }
+.world-stage .world-output > span { font-size: 12px; letter-spacing: .06em; color: var(--color-muted); }
+.world-stage .world-output > p { font-size: 14px; line-height: 1.55; color: var(--color-light-muted); }
+.world-stage .world-read { margin-top: var(--space-4); font-size: 15px; min-height: 48px; color: var(--color-citron); border-color: var(--line-dark); }
+.world-stage .world-paging { border: 0; font-size: 12px; justify-content: flex-end; gap: var(--space-3); padding-top: var(--space-1); color: var(--color-light-muted); }
+.world-stage .world-paging button { min-width: 44px; min-height: 44px; display: grid; place-items: center; }
+.world-stage .world-paging button:hover { background: transparent; color: var(--color-citron); }
+.world-stage .world-index { border: 0; background: rgb(var(--rgb-carbon) / .92); backdrop-filter: none; }
+.world-stage .world-index a { border: 0; }
+.world-stage .world-index a[aria-current="true"] { background: transparent; color: var(--color-citron); box-shadow: inset 0 -2px var(--color-citron); }
+.world-stage .world-marker > span:first-child { border-color: var(--color-muted); box-shadow: none; }
+.world-stage .world-marker[data-active="true"] > span:first-child { border-color: var(--color-citron); }
+.world-stage .world-signal { box-shadow: none; }
+.world-chapter[data-departing="true"] .world-inspection { opacity: 0; transform: translateY(12px); transition: opacity 220ms, transform 300ms; animation: none; pointer-events: none; }
+.world-chapter[data-departing="true"] .world-canvas { opacity: .35; transition: opacity 420ms; }
+.world-chapter[data-closing="true"] .world-inspection { opacity: 0; transform: translateY(8px); animation: none; transition: opacity 160ms, transform 160ms; }
+@keyframes annotation-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* Publication: dark margins, generous type, a measured column, unboxed evidence. */
+.experience-route .sketchbook-root[data-view="article"] { background: rgb(var(--rgb-carbon) / .97); color: var(--color-bone); --paper: var(--color-carbon); --ink: var(--color-bone); --ink-soft: var(--color-light-muted); }
+.experience-route .sketchbook-root[data-view="article"] .sb-head { background: transparent; padding-top: calc(var(--page-y) + 60px); }
+.experience-route .sketchbook-root[data-view="article"] .sb-running { font-size: clamp(56px, 8vw, 118px); max-width: 18ch; }
+.experience-route .sketchbook-root[data-view="article"] .reader-viewbar { top: 60px; background: var(--color-carbon); padding-block: var(--space-3); border: 0; }
+.experience-route .sketchbook-root[data-view="article"] .reader-viewbar button { border: 0; background: transparent; padding-inline: 0; margin-right: var(--space-4); color: var(--color-light-muted); }
+.experience-route .sketchbook-root[data-view="article"] .reader-viewbar button[aria-pressed="true"] { color: var(--color-citron); background: transparent; box-shadow: inset 0 -1px var(--color-citron); }
+.experience-route .sketchbook-root[data-view="article"] .reader-article-contents { border-color: var(--line-dark); }
+.experience-route .sketchbook-root[data-view="article"] .article-contents summary,
+.experience-route .sketchbook-root[data-view="article"] .reader-view-status,
+.experience-route .sketchbook-root[data-view="article"] .reader-eyebrow,
+.experience-route .sketchbook-root[data-view="article"] .sb-smallprint { color: var(--color-light-muted); }
+.experience-route .sketchbook-root[data-view="article"] .sb-source { max-width: 1120px; padding-block: var(--space-6) var(--page-y); }
+.experience-route .sketchbook-root[data-view="article"] .reader-section { padding-block: var(--space-6); border-color: var(--line-dark); }
+.experience-route .sketchbook-root[data-view="article"] .reader-section::before { color: var(--color-citron); }
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf { max-width: var(--editorial-max); color: var(--color-bone); font-size: 19px; }
+.experience-route .sketchbook-root[data-view="article"] .reader-prose,
+.experience-route .sketchbook-root[data-view="article"] .reader-list li,
+.experience-route .sketchbook-root[data-view="article"] .reader-pairs dd { font-size: 19px; line-height: 1.8; color: var(--color-light-muted); }
+.experience-route .sketchbook-root[data-view="article"] .reader-note { font-size: clamp(24px, 2.5vw, 34px); color: var(--color-bone); }
+.experience-route .sketchbook-root[data-view="article"] .reader-evidence article { background: transparent; border: 0; border-top: 1px solid var(--line-dark); padding: var(--space-4) 0; box-shadow: none; }
+.experience-route .sketchbook-root[data-view="article"] .reader-instrument-button { background: var(--color-citron); color: var(--color-black); }
+.experience-route .sketchbook-root[data-view="article"] .sb-smallprint { border-color: var(--line-dark); }
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-evidence dd,
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-metric,
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-links a,
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-pairs dt { color: var(--color-bone); }
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf a { color: var(--color-citron); }
+.experience-route .sketchbook-root[data-view="article"] .reader-pairs > div { border-color: var(--line-dark); }
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-list li::before { background: var(--color-muted); }
+.sketchbook-root { --earth: var(--color-graphite); --paper: var(--color-bone); --ink: var(--color-carbon); --ink-soft: var(--color-graphite); }
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf:has(.reader-demo) { max-width: none; }
+.experience-route .sketchbook-root[data-view="article"] .reader-section:has(.reader-demo) { padding-left: 0; }
+.experience-route .sketchbook-root[data-view="article"] .reader-section:has(.reader-demo)::before { position: static; display: block; margin-bottom: var(--space-4); }
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-demo { background: transparent; padding: 0; box-shadow: none; border: 0; }
+.sketchbook-root[data-view="book"] .reader-viewbar { border-color: var(--line-dark); }
+.sketchbook-root[data-view="book"] .reader-viewbar button { border: 0; background: transparent; border-radius: 0; }
+.sketchbook-root[data-view="book"] .reader-viewbar button[aria-pressed="true"] { color: var(--color-citron); box-shadow: inset 0 -1px var(--color-citron); }
+.experience-route .sketchbook-root[data-view="book"] .sb-leaf :is(.reader-eyebrow,.reader-folio,.reader-evidence dt,.reader-metric span) { color: var(--color-graphite); }
+.shelf-root .volume-link, .shelf-root .shelf-skip, .sketchbook-root .reader-cta { border-radius: 2px; }
+
+/* Work index, profile and contact keep their distinct compositions. */
+.atlas-page .atlas-context { background: var(--color-bone); }
+.atlas-page .atlas-research { background: var(--color-carbon); color: var(--color-bone); }
+.atlas-page .atlas-case .atlas-meta { color: var(--color-light-muted); }
+.atlas-page .atlas-service-plate, .atlas-page .atlas-service:nth-child(n) .atlas-service-plate { --plate-ground: var(--color-surface); color: var(--color-light-muted); background: var(--plate-ground); }
+body .atlas-page .atlas-case-art { background: var(--color-surface); color: var(--color-light-muted); }
+.atlas-page .atlas-case-roman { color: var(--color-bone); }
+.atlas-page .atlas-case-open, .atlas-page .atlas-contact-title > span { color: var(--color-citron); }
+.atlas-page .atlas-conversation { background: var(--color-carbon); color: var(--color-bone); border-top: 1px solid var(--line-dark); }
+.atlas-page .atlas-contact-title { border-color: var(--line-dark); }
+.atlas-page .atlas-bindings > div { color: var(--color-bone); box-shadow: 3px 2px 0 var(--color-muted); }
+body .atlas-page .atlas-bindings > div:is(:nth-child(2),:nth-child(3),:nth-child(6),:nth-child(7)) { color: var(--color-black); }
+.chapters-root .career-record { background: var(--color-carbon); color: var(--color-bone); }
+.chapters-root .career-record h3, .chapters-root .career-record .chapters-eyebrow,
+.chapters-root .record-date, .chapters-root .record-institution,
+.chapters-root .career-record header p:not(.chapters-eyebrow), .chapters-root .record-detail,
+.chapters-root .career-record article li, .chapters-root .career-languages li span { color: var(--color-light-muted); }
+.chapters-root .career-record article, .chapters-root .career-languages { border-color: var(--line-dark); }
+.chapters-root .career-record .career-print { color: var(--color-citron); border-color: var(--color-muted); }
+.chapters-root .career-media { border: 0; border-radius: 2px; box-shadow: none; }
+.chapters-root .career-media-top > span:first-child::before { box-shadow: none; }
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-evidence dt,
+.experience-route .sketchbook-root[data-view="article"] .sb-leaf .reader-metric span { color: var(--color-light-muted); }
+.conversation-root .conversation-option { border: 0; border-bottom: 1px solid var(--line-dark); padding-inline: 0; background: transparent; }
+.conversation-root .conversation-option:has(input:checked) { background: transparent; border-color: var(--color-citron); }
+.conversation-root .conversation-fields > textarea { background: transparent; border-width: 0 0 1px; padding-inline: 0; }
+.conversation-root .conversation-panel { background: transparent; border: 0; box-shadow: none; padding-inline: 0; }
+.library-dialog, .library-button, .conversation-root button, .conversation-root input, .conversation-root textarea { border-radius: 2px; }
+.shader-atmosphere .atmosphere-static { background: radial-gradient(ellipse at var(--field-x,50%) var(--field-y,35%), rgb(var(--rgb-electric-blue) / .08), transparent 67%), var(--color-black); }
+.shader-atmosphere[data-phase="contact"] .atmosphere-static { background: radial-gradient(ellipse at 75% 65%, rgb(var(--rgb-citron) / .06), transparent 55%), var(--color-blue-black); }
+@media(max-width:700px) {
+  .world-stage .world-inspection { inset: auto var(--page-x) 88px; width: auto; max-width: none; max-height: min(65svh, calc(100svh - 160px)); padding-inline: var(--space-4); }
+  .world-stage .world-inspection h2 { font-size: 34px; margin-block: var(--space-3); }
+  .world-stage .world-inspection-body { padding-top: var(--space-1); }
+  .world-stage .world-paging { display: none; }
+  .world-stage .world-inspection .world-eyebrow { font-size: 12px; }
+  .world-chapter:not([data-selected=""]) .world-browse, .world-chapter:not([data-selected=""]) .world-guide { display: none; }
+  .world-stage .world-bottom { bottom: max(22px, env(safe-area-inset-bottom)); }
+  .experience-route .sketchbook-root[data-view="article"] .reader-section { padding: 64px 0 var(--space-5); }
+  .experience-route .sketchbook-root[data-view="article"] .sb-running { font-size: clamp(48px, 13vw, 70px); }
+  .experience-route .sketchbook-root[data-view="article"] .reader-prose,
+  .experience-route .sketchbook-root[data-view="article"] .reader-list li,
+  .experience-route .sketchbook-root[data-view="article"] .reader-pairs dd { font-size: 18px; }
+}
+@media(prefers-reduced-motion:reduce) { .world-stage .world-inspection { animation: none; } .world-chapter[data-departing] * { transition: none; } }
+@media print {
+  .shader-atmosphere { display: none !important; }
+  .experience-route .sketchbook-root[data-view="article"], .chapters-root .career-record { background: var(--color-soft-white); color: var(--color-black); }
+  .experience-route .sketchbook-root .sb-source * { color: var(--color-carbon) !important; border-color: var(--line-light) !important; }
+  .experience-route .sketchbook-root .sb-head * { color: var(--color-carbon) !important; }
+  .experience-route .sketchbook-root .sb-source :is(article,section,figure) { background: transparent !important; }
+}

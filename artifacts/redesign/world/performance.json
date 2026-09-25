@@ -1,0 +1,580 @@
+[
+  {
+    "mode": "desktop",
+    "configuration": "1440x900, local unthrottled Chromium",
+    "lcp": 460,
+    "cls": 0.00006816421320408951,
+    "loadLongTasks": [
+      139,
+      319
+    ],
+    "totalBlockingMs": 358,
+    "phases": [
+      {
+        "phase": "LOADING",
+        "time": 91.09999999776483
+      },
+      {
+        "phase": "INTRO",
+        "time": 966
+      },
+      {
+        "phase": "HOME",
+        "time": 2564.699999999255
+      }
+    ],
+    "scene": {
+      "engine": "three.js r165",
+      "camera": "HOME",
+      "draws": "76",
+      "frames": "98",
+      "quality": "1.00",
+      "geometries": "76",
+      "textures": "10",
+      "position": "11.00,8.50,17.01",
+      "width": 1440,
+      "height": 900,
+      "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x00009A49) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    "idleFrames": 0,
+    "animation": {
+      "frameIntervals": [
+        21.10000000074524,
+        16.59999999999991,
+        16.699999999999818,
+        16.800000000000182,
+        16.799999999999727,
+        16.5,
+        16.5,
+        17,
+        16.5,
+        16.800000000000182,
+        16.699999999999818,
+        16.700000000000273,
+        16.59999999999991,
+        16.40000000000009,
+        17,
+        16.699999999999818,
+        16.700000000000273,
+        16.299999999999727,
+        16.59999999999991,
+        16.700000000000273,
+        16.799999999999727,
+        16.5,
+        16.800000000000182,
+        16.5,
+        16.699999999999818,
+        16.699999999999818,
+        16.600000000000364,
+        16.600000000000364,
+        16.799999999999272,
+        16.600000000000364,
+        16.699999999999818,
+        16.699999999999818,
+        16.700000000000728,
+        16.699999999999818,
+        16.5,
+        16.800000000000182,
+        16.699999999999818,
+        16.599999999999454,
+        16.800000000000182,
+        16.800000000000182,
+        16.399999999999636,
+        16.700000000000728,
+        16.599999999999454,
+        16.699999999999818,
+        16.700000000000728,
+        16.599999999999454,
+        16.800000000000182,
+        16.699999999999818,
+        16.699999999999818,
+        16.5,
+        16.700000000000728,
+        16.699999999999818,
+        16.699999999999818,
+        16.600000000000364,
+        16.699999999999818,
+        16.699999999999818,
+        16.699999999999818,
+        16.600000000000364,
+        16.800000000000182,
+        16.599999999999454,
+        16.600000000000364,
+        16.800000000000182,
+        16.5
+      ],
+      "scene": {
+        "engine": "three.js r165",
+        "camera": "VOLUME_07",
+        "draws": "76",
+        "frames": "161",
+        "quality": "1.00",
+        "geometries": "76",
+        "textures": "10",
+        "position": "4.70,4.20,13.00"
+      },
+      "elapsed": 2604.7000000007447
+    },
+    "interactionEvents": [
+      {
+        "name": "pointerdown",
+        "duration": 32
+      },
+      {
+        "name": "pointerup",
+        "duration": 32
+      },
+      {
+        "name": "click",
+        "duration": 32
+      },
+      {
+        "name": "keydown",
+        "duration": 56
+      },
+      {
+        "name": "keyup",
+        "duration": 56
+      },
+      {
+        "name": "pointerdown",
+        "duration": 56
+      },
+      {
+        "name": "pointerup",
+        "duration": 56
+      },
+      {
+        "name": "click",
+        "duration": 56
+      }
+    ],
+    "jsEncodedBytes": 254034,
+    "fontEncodedBytes": 195768,
+    "imageEncodedBytes": 0,
+    "resources": [
+      {
+        "name": "image?url=%2Flogo-mark.webp&w=32&q=75",
+        "type": "link",
+        "encoded": 663,
+        "transfer": 963,
+        "duration": 113.39999999850988
+      },
+      {
+        "name": "c88a57ddd49b4922.css",
+        "type": "link",
+        "encoded": 8793,
+        "transfer": 9093,
+        "duration": 57.19999999925494
+      },
+      {
+        "name": "b7bf4fb041e8cc33.css",
+        "type": "link",
+        "encoded": 5542,
+        "transfer": 5842,
+        "duration": 57.899999998509884
+      },
+      {
+        "name": "webpack-8fcff0a8c18afc8b.js",
+        "type": "link",
+        "encoded": 2528,
+        "transfer": 2828,
+        "duration": 55.30000000074506
+      },
+      {
+        "name": "4bd1b696-c023c6e3521b1417.js",
+        "type": "script",
+        "encoded": 54358,
+        "transfer": 54658,
+        "duration": 80.70000000298023
+      },
+      {
+        "name": "main-app-263780611c38eb6d.js",
+        "type": "script",
+        "encoded": 557,
+        "transfer": 857,
+        "duration": 71
+      },
+      {
+        "name": "255-59971d1efcac0287.js",
+        "type": "script",
+        "encoded": 46436,
+        "transfer": 46736,
+        "duration": 87.10000000149012
+      },
+      {
+        "name": "619-ba102abea3e3d0e4.js",
+        "type": "script",
+        "encoded": 3389,
+        "transfer": 3689,
+        "duration": 79.69999999925494
+      },
+      {
+        "name": "356-1143d17a0ca27254.js",
+        "type": "script",
+        "encoded": 5161,
+        "transfer": 5461,
+        "duration": 80.19999999925494
+      },
+      {
+        "name": "layout-d327ff492b722800.js",
+        "type": "script",
+        "encoded": 2808,
+        "transfer": 3108,
+        "duration": 86.5
+      },
+      {
+        "name": "page-b901fd8d4308c022.js",
+        "type": "script",
+        "encoded": 4129,
+        "transfer": 4429,
+        "duration": 88.19999999925494
+      },
+      {
+        "name": "instrument-serif.woff2",
+        "type": "link",
+        "encoded": 15040,
+        "transfer": 15340,
+        "duration": 51.600000001490116
+      },
+      {
+        "name": "e4af272ccee01ff0-s.p.woff2",
+        "type": "css",
+        "encoded": 48432,
+        "transfer": 48732,
+        "duration": 172.59999999776483
+      },
+      {
+        "name": "558ca1a6aa3cb55e-s.woff2",
+        "type": "css",
+        "encoded": 31340,
+        "transfer": 31640,
+        "duration": 135
+      },
+      {
+        "name": "instrument-serif-italic.woff2",
+        "type": "css",
+        "encoded": 15684,
+        "transfer": 15984,
+        "duration": 135.19999999925494
+      },
+      {
+        "name": "8e9860b6e62d6359-s.p.woff2",
+        "type": "css",
+        "encoded": 85272,
+        "transfer": 85572,
+        "duration": 51.80000000074506
+      },
+      {
+        "name": "b536a0f1.7974b352d827e310.js",
+        "type": "script",
+        "encoded": 130501,
+        "transfer": 130801,
+        "duration": 54.5
+      },
+      {
+        "name": "375.e3edb66bc3bb5e40.js",
+        "type": "script",
+        "encoded": 1157,
+        "transfer": 1457,
+        "duration": 3.199999999254942
+      },
+      {
+        "name": "296.7a76012c384c1820.js",
+        "type": "script",
+        "encoded": 5538,
+        "transfer": 5838,
+        "duration": 4
+      },
+      {
+        "name": "favicon.ico",
+        "type": "other",
+        "encoded": 15086,
+        "transfer": 15386,
+        "duration": 36.30000000074506
+      }
+    ],
+    "heapBytes": 10816816
+  },
+  {
+    "mode": "mobile-4g",
+    "configuration": "393x852, 1.6Mbps down, 150ms latency, 4x CPU slowdown",
+    "lcp": 1568,
+    "cls": 0,
+    "loadLongTasks": [
+      313,
+      496,
+      611,
+      77,
+      785,
+      453,
+      52
+    ],
+    "totalBlockingMs": 2437,
+    "phases": [
+      {
+        "phase": "LOADING",
+        "time": 270.3999999985099
+      },
+      {
+        "phase": "INTRO",
+        "time": 5500.60000000149
+      },
+      {
+        "phase": "HOME",
+        "time": 7186.89999999851
+      }
+    ],
+    "scene": {
+      "engine": "three.js r165",
+      "camera": "HOME",
+      "draws": "75",
+      "frames": "80",
+      "quality": "1.00",
+      "geometries": "76",
+      "textures": "10",
+      "position": "20.00,23.00,31.01",
+      "width": 393,
+      "height": 852,
+      "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x00009A49) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    "idleFrames": 0,
+    "animation": {
+      "frameIntervals": [
+        167.40000000074542,
+        33.5,
+        16.69999999999891,
+        33.20000000000073,
+        33.399999999999636,
+        16.700000000000728,
+        33.399999999999636,
+        16.5,
+        33.29999999999927,
+        16.700000000000728,
+        16.799999999999272,
+        50,
+        16.600000000000364,
+        33.30000000000109,
+        16.799999999999272,
+        16.600000000000364,
+        16.69999999999891,
+        16.5,
+        16.80000000000109,
+        16.69999999999891,
+        16.700000000000728,
+        33.29999999999927,
+        33.30000000000109,
+        16.600000000000364,
+        16.799999999999272,
+        16.700000000000728,
+        16.69999999999891,
+        33.100000000000364,
+        16.899999999999636,
+        16.600000000000364,
+        16.600000000000364,
+        16.600000000000364,
+        16.799999999999272,
+        16.799999999999272,
+        16.5,
+        16.700000000000728,
+        16.600000000000364,
+        16.600000000000364,
+        16.799999999999272,
+        16.700000000000728,
+        16.69999999999891,
+        33.20000000000073,
+        16.799999999999272,
+        16.399999999999636,
+        16.700000000000728,
+        16.700000000000728,
+        16.799999999999272,
+        16.600000000000364,
+        33.399999999999636
+      ],
+      "scene": {
+        "engine": "three.js r165",
+        "camera": "VOLUME_07",
+        "draws": "55",
+        "frames": "130",
+        "quality": "1.00",
+        "geometries": "76",
+        "textures": "10",
+        "position": "4.70,6.00,15.00"
+      },
+      "elapsed": 2601.1000000007443
+    },
+    "interactionEvents": [
+      {
+        "name": "pointerdown",
+        "duration": 80
+      },
+      {
+        "name": "pointerup",
+        "duration": 80
+      },
+      {
+        "name": "click",
+        "duration": 80
+      },
+      {
+        "name": "keydown",
+        "duration": 40
+      },
+      {
+        "name": "keyup",
+        "duration": 32
+      },
+      {
+        "name": "pointerdown",
+        "duration": 352
+      },
+      {
+        "name": "pointerup",
+        "duration": 344
+      },
+      {
+        "name": "click",
+        "duration": 344
+      }
+    ],
+    "jsEncodedBytes": 254034,
+    "fontEncodedBytes": 164428,
+    "imageEncodedBytes": 0,
+    "resources": [
+      {
+        "name": "image?url=%2Flogo-mark.webp&w=32&q=75",
+        "type": "link",
+        "encoded": 663,
+        "transfer": 963,
+        "duration": 172.89999999850988
+      },
+      {
+        "name": "c88a57ddd49b4922.css",
+        "type": "link",
+        "encoded": 8793,
+        "transfer": 9093,
+        "duration": 336.19999999925494
+      },
+      {
+        "name": "b7bf4fb041e8cc33.css",
+        "type": "link",
+        "encoded": 5542,
+        "transfer": 5842,
+        "duration": 285.9000000022352
+      },
+      {
+        "name": "webpack-8fcff0a8c18afc8b.js",
+        "type": "link",
+        "encoded": 2528,
+        "transfer": 2828,
+        "duration": 251.19999999925494
+      },
+      {
+        "name": "4bd1b696-c023c6e3521b1417.js",
+        "type": "script",
+        "encoded": 54358,
+        "transfer": 54658,
+        "duration": 1102.7999999970198
+      },
+      {
+        "name": "255-59971d1efcac0287.js",
+        "type": "script",
+        "encoded": 46436,
+        "transfer": 46736,
+        "duration": 1080.1000000014901
+      },
+      {
+        "name": "main-app-263780611c38eb6d.js",
+        "type": "script",
+        "encoded": 557,
+        "transfer": 857,
+        "duration": 419.5
+      },
+      {
+        "name": "619-ba102abea3e3d0e4.js",
+        "type": "script",
+        "encoded": 3389,
+        "transfer": 3689,
+        "duration": 517.5
+      },
+      {
+        "name": "356-1143d17a0ca27254.js",
+        "type": "script",
+        "encoded": 5161,
+        "transfer": 5461,
+        "duration": 581.2999999970198
+      },
+      {
+        "name": "layout-d327ff492b722800.js",
+        "type": "script",
+        "encoded": 2808,
+        "transfer": 3108,
+        "duration": 655.8999999985099
+      },
+      {
+        "name": "page-b901fd8d4308c022.js",
+        "type": "script",
+        "encoded": 4129,
+        "transfer": 4429,
+        "duration": 712.5
+      },
+      {
+        "name": "instrument-serif.woff2",
+        "type": "link",
+        "encoded": 15040,
+        "transfer": 15340,
+        "duration": 460
+      },
+      {
+        "name": "e4af272ccee01ff0-s.p.woff2",
+        "type": "css",
+        "encoded": 48432,
+        "transfer": 48732,
+        "duration": 863.6999999992549
+      },
+      {
+        "name": "instrument-serif-italic.woff2",
+        "type": "css",
+        "encoded": 15684,
+        "transfer": 15984,
+        "duration": 452.80000000074506
+      },
+      {
+        "name": "8e9860b6e62d6359-s.p.woff2",
+        "type": "css",
+        "encoded": 85272,
+        "transfer": 85572,
+        "duration": 759.6000000014901
+      },
+      {
+        "name": "favicon.ico",
+        "type": "other",
+        "encoded": 15086,
+        "transfer": 15386,
+        "duration": 240.20000000298023
+      },
+      {
+        "name": "b536a0f1.7974b352d827e310.js",
+        "type": "script",
+        "encoded": 130501,
+        "transfer": 130801,
+        "duration": 879
+      },
+      {
+        "name": "375.e3edb66bc3bb5e40.js",
+        "type": "script",
+        "encoded": 1157,
+        "transfer": 1457,
+        "duration": 204.90000000223517
+      },
+      {
+        "name": "296.7a76012c384c1820.js",
+        "type": "script",
+        "encoded": 5538,
+        "transfer": 5838,
+        "duration": 229.80000000074506
+      }
+    ],
+    "heapBytes": 13047280
+  }
+]

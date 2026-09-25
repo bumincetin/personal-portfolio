@@ -7,49 +7,31 @@ import type { Locale } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
 import { getShelfBooks, VOLUMES } from './volumes';
 import { getShelfUI } from './shelf-ui';
-import './shelf.css';
+import './shelf-palette.css';
 import './shelf-overrides.css';
 
 /**
- * Working Volumes shelf.
- *
- * The markup below is the authored structure from the registered ThreeUI source
- * for `CompleteShelfLandingPage` (public/landing-pages/complete-shelf-v2.html,
- * SHA-256 606f200fed86…, verified on download), transcribed to JSX with its ids
- * and classes intact — the engine finds every element by id, so the structure is
- * load-bearing rather than decorative.
- *
- * Content is this site's. Seven volumes, each titled by the expensive problem it
- * addresses, in three languages, and each linking through to the real page
- * behind it.
- *
- * Two additions to the authored markup, both content rather than design:
- *
- *   - a "Read the full page" link inside the detail panel, so a volume is a way
- *     into the site rather than a dead end;
- *   - a skip link out of the canvas, because a WebGL scene should never be the
- *     only way past the top of a page. It leads to the front matter, which is
- *     the argument in readable pages.
- *
- * The shelf is the whole home page. Nothing sits below it and the document does
- * not scroll: the authored wheel gesture browses volumes, and a page that also
- * scrolled would give the same gesture two meanings. Everything that used to be
- * prose underneath is now the front matter, read as pages.
- *
- * The engine is loaded on demand. It is roughly 135 kB plus three@0.165.0, and
- * no other route needs any of it.
+ * Optional immersive host for ThreeUI CompleteShelfLandingPage.
+ * Canonical source SHA-256: 606f200fed8602c243f40a11c8c364f0e625c57f80e7c97dc76419da207f198e.
+ * Authored markup IDs are retained for the generated, scoped engine adapter.
+ * ShelfLauncher owns the outer modal and restores page scrolling on exit.
  */
 
 interface ShelfProps {
   locale: Locale;
   /** Where the skip link and the reading cue lead: the front matter. */
   readHref: string;
+  onFailure: (message: string) => void;
+  paused: boolean;
 }
 
-export default function Shelf({ locale, readHref }: ShelfProps) {
+export default function Shelf({ locale, readHref, onFailure, paused }: ShelfProps) {
   const ui = getShelfUI(locale);
   const siteUI = getUI(locale);
-  const rootRef = useRef<HTMLElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const controller = useRef<ReturnType<typeof import('./engine').createShelf> | null>(null);
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const dragControls = useDragControls();
@@ -63,6 +45,9 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
   useEffect(() => {
     let dispose: (() => void) | undefined;
     let cancelled = false;
+    const abort = new AbortController();
+    const root = rootRef.current;
+    if (!root) return;
 
     // The document-level rules (fixed positioning, overflow lock) apply only
     // while the shelf is mounted.
@@ -73,20 +58,29 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
         const { createShelf } = await import('./engine');
         if (cancelled) return;
         dispose = createShelf({
+          root,
+          labels: ui,
+          signal: abort.signal,
+          onFallback: onFailure,
           books: getShelfBooks(locale),
           coverAtlasUrl: '/shelf/covers.webp',
           woodTextureUrl: '/shelf/wood.webp',
         });
+        controller.current = dispose as ReturnType<typeof createShelf>;
+        controller.current.pause(pausedRef.current);
       } catch {
         // Dismiss the loading veil so a failed engine download still leaves
         // the static catalogue and its links usable.
         const loading = rootRef.current?.querySelector<HTMLElement>('#loading');
         if (!cancelled && loading) loading.hidden = true;
+        if (!cancelled) onFailure(ui.failed);
       }
     })();
 
     return () => {
       cancelled = true;
+      abort.abort();
+      controller.current = null;
       document.documentElement.removeAttribute('data-shelf');
       try {
         dispose?.();
@@ -94,7 +88,9 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
         // Teardown after a failed init is not worth surfacing.
       }
     };
-  }, [locale]);
+  }, [locale, ui, onFailure]);
+
+  useEffect(() => controller.current?.pause(paused), [paused]);
 
   /**
    * Tracks which volume is selected by watching the counter the engine writes
@@ -122,7 +118,7 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
   const active = books[activeIndex] ?? books[0];
 
   return (
-    <main className="shelf-root" ref={rootRef}>
+    <div className="shelf-root" ref={rootRef}>
       <noscript><style>{'.shelf-root .loading { display: none; }'}</style></noscript>
       <div className="experience" id="experience">
         <div className="scene-shell">
@@ -276,14 +272,8 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
 
         <div className="sr-only" id="live-region" aria-live="polite"></div>
 
-        {/*
-          The authored static catalogue. It is on screen until the engine adds
-          `webgl-ready`, so it is what a crawler indexes, what a reader without
-          JavaScript gets, and what remains if WebGL is unavailable — carrying
-          the same seven problems and linking to the same seven pages. The
-          authored stylesheet owns that switch; do not add a `hidden` attribute
-          here, which would take it away from exactly the readers it is for.
-        */}
+        {/* Retained authored fallback while the optional engine initializes.
+            Failure returns to the primary HTML catalogue through onFailure. */}
         <section className="static-fallback" id="static-fallback" aria-labelledby="fallback-title">
           <div className="fallback__header">
             <div>
@@ -340,6 +330,6 @@ export default function Shelf({ locale, readHref }: ShelfProps) {
           <span aria-hidden="true">→</span>
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

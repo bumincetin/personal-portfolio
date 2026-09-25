@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.no-script-nav { position: relative; z-index: 30; padding: 84px 20px 12px; display: flex; flex-wrap: wrap; gap: 20px; }
+.no-script-nav a { min-height: 44px; padding-block: 10px; text-decoration: underline; }
+
 /*
  * TYPE, AND WHY THERE IS ONLY ONE SET OF IT.
  *
@@ -53,95 +56,52 @@
   src: url(/sketchbook/newsreader.woff2) format('woff2');
 }
 
-/*
- * THEME TOKENS
- *
- * Every colour in the site resolves through these channel triplets: the
- * Tailwind token names (cream / charcoal / surface / accent ...) are bound to
- * `rgb(var(--c-*) / <alpha-value>)` in tailwind.config.js, so no component has
- * to know a colour, only a role. Values are space-separated channels, not hex,
- * because that is the only form Tailwind's <alpha-value> placeholder composes
- * with.
- *
- * ONE GROUND, AND IT IS THE SHELF'S.
- *
- * There used to be two themes, a warm paper one and a dark one, with a toggle
- * and a pre-paint script to resolve them. That made sense when the site was a
- * conventional set of pages. It stopped making sense when the shelf became the
- * site: the ThreeUI scene is lit for #171A24 and cannot be re-lit per theme,
- * so the paper theme put a cream page around a dark canvas and every route had
- * to negotiate the seam.
- *
- * So the ground below is the shelf's own `--paper`, and every surface above it
- * is a translucent step off it rather than a second colour. Chrome — the nav,
- * the panels, the form fields — is transparent over the scene instead of a bar
- * laid across it.
- *
- * Contrast is not assumed. Every pair a visitor reads is asserted by
- * scripts/check-contrast.mjs against WCAG 2.2 AA, and scripts/a11y.mjs scans
- * the rendered result.
- */
+/* Compatibility aliases consume the shared carbon/bone/citron palette. */
 :root {
-  /*
-   * Ground + surfaces: a warm espresso, not a blue-black.
-   *
-   * This used to be the shelf's `#171A24`, which is ultramarine dark — a cool
-   * ground that made the whole site read cold and gave the warm accent nothing
-   * to sit on. The room is warm now and the shelf's own scene was warmed with
-   * it (see the palettes in `volumes.ts`), so the page and the canvas still
-   * meet without a seam.
-   */
-  --c-ground: 26 21 17;
-  --c-panel: 34 27 22;
-  --c-panel-alt: 30 24 20;
-  --c-panel-raised: 43 35 28;
-  --c-hairline: 58 47 38;
-  --c-hairline-strong: 81 66 53;
+  /* Compatibility aliases consume the shared carbon/bone/citron palette. */
+  --c-ground: var(--rgb-black);
+  --c-panel: var(--rgb-surface);
+  --c-panel-alt: var(--rgb-carbon);
+  --c-panel-raised: var(--rgb-surface-elevated);
+  --c-hairline: var(--rgb-graphite);
+  --c-hairline-strong: var(--rgb-muted);
   /* Boundary for interactive controls -- input, select, textarea edges. WCAG
      1.4.11 wants 3:1 for the edge of a control a person has to find, which the
      decorative hairlines above do not and need not meet. Verified by
      scripts/check-contrast.mjs. */
-  --c-hairline-control: 138 116 97;
+  --c-hairline-control: var(--rgb-muted);
 
   /* Type ramp: warm bone down to a decorative dim. */
-  --c-text: 242 234 224;
-  --c-text-2: 228 218 205;
-  --c-text-3: 205 193 178;
-  --c-muted: 182 168 151;
-  --c-muted-light: 150 137 122;
+  --c-text: var(--rgb-bone);
+  --c-text-2: var(--rgb-bone);
+  --c-text-3: var(--rgb-light-muted);
+  --c-muted: var(--rgb-light-muted);
+  --c-muted-light: var(--rgb-muted);
 
-  /*
-   * The single accent, deliberately quiet.
-   *
-   * It was #D68558 — a saturated salmon that filled every call to action with a
-   * bright pill and made the site look generated rather than designed. This is
-   * an old brass instead: warm, low-chroma, and used as ink and as a hairline
-   * rather than as a fill. Nothing on the site is a solid block of it any more.
-   */
-  --c-brass: 194 156 110;
-  --c-brass-hi: 222 196 160;
-  --c-brass-lo: 148 116 78;
-  --c-brass-hover: 214 182 144;
-  --c-copper: 180 137 100;
-  --c-copper-hi: 205 168 134;
-  --c-copper-lo: 142 104 72;
+  /* Compatibility aliases consume the shared carbon/bone/citron palette. */
+  --c-brass: var(--rgb-citron);
+  --c-brass-hi: var(--rgb-bone);
+  --c-brass-lo: var(--rgb-muted);
+  --c-brass-hover: var(--rgb-bone);
+  --c-copper: var(--rgb-citron);
+  --c-copper-hi: var(--rgb-bone);
+  --c-copper-lo: var(--rgb-muted);
 
-  --c-positive: 146 172 128;
-  --c-negative: 206 140 124;
-  /* Caution is its own burnt tone rather than an alias of brass, so a
-     "synthetic sample" badge cannot be mistaken for an ordinary accent. */
-  --c-caution: 214 154 98;
+  --c-positive: var(--rgb-citron);
+  --c-negative: var(--rgb-bone);
+  /* Compatibility aliases consume the shared carbon/bone/citron palette. */
+  --c-caution: var(--rgb-bone);
 
-  --c-scroll-thumb: 58 47 38;
-  --c-scroll-thumb-hover: 81 66 53;
+  --c-scroll-thumb: var(--rgb-graphite);
+  --c-scroll-thumb-hover: var(--rgb-muted);
   /* Canvas scan light, and a multiplier for canvas line alphas. */
-  --c-scan: 242 234 224;
+  --c-scan: var(--rgb-bone);
   --canvas-alpha: 1;
 
   /* Elevation on a dark ground is shadow, not cast. */
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.36);
-  --shadow-hairline: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  --shadow-card: 0 2px 8px rgb(var(--rgb-black) / 0.3);
+  --shadow-card-hover: 0 16px 40px rgb(var(--rgb-black) / 0.36);
+  --shadow-hairline: inset 0 1px 0 0 rgb(var(--rgb-soft-white) / 0.04);
   --shadow-glow: 0 0 12px rgb(var(--c-brass) / 0.4);
   --shadow-glow-blue: 0 0 16px rgb(var(--c-copper) / 0.28);
 
@@ -208,10 +168,10 @@
     overflow-x: hidden;
   }
 
-  /* Display type is ultralight; body copy stays at a readable weight. */
+  /* Display face supports regular weight. Interface headings opt into Inter. */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-    font-weight: 200;
+    font-family: var(--font-display);
+    font-weight: 400;
     letter-spacing: -0.03em;
     text-wrap: balance;
     text-rendering: optimizeLegibility;
@@ -551,7 +511,7 @@
 .nav-disclosure {
   border-radius: 12px;
   padding: 0.6rem;
-  box-shadow: 0 24px 64px rgb(0 0 0 / 0.35);
+  box-shadow: 0 24px 64px rgb(var(--rgb-black) / 0.35);
   animation: navigation-enter 200ms var(--ease-luxe) both;
 }
 

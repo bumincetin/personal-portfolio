@@ -17,7 +17,7 @@
  *
  * Here the ground stays the shelf's, and the paper appears only where paper
  * actually is: on the leaves. Two reasons. The shelf one route up is lit for
- * `#171A24` and a warm page around it would put the seam back that removing the
+ * `var(--color-carbon)` and a warm page around it would put the seam back that removing the
  * old cream ground took away. And it is what the object is — you take a book off
  * a dark shelf and open it; the paper is the page, not the room.
  *
@@ -42,10 +42,10 @@
   --font: var(--font-text);
   --ui: var(--font-ui);
 
-  --chrome: rgb(244 238 230);
-  --chrome-soft: rgb(200 194 186);
-  --chrome-faint: rgb(168 162 154);
-  --chrome-hairline: rgba(244, 238, 230, 0.18);
+  --chrome: var(--color-bone);
+  --chrome-soft: var(--color-light-muted);
+  --chrome-faint: var(--color-light-muted);
+  --chrome-hairline: rgb(var(--rgb-bone) / 0.18);
 
   position: relative;
   min-height: 100svh;
@@ -134,11 +134,11 @@
 }
 
 .sketchbook-root .sb-page.left {
-  box-shadow: inset -18px 0 26px -22px rgba(43, 39, 33, 0.55);
+  box-shadow: inset -18px 0 26px -22px rgb(var(--rgb-surface-elevated) / 0.55);
 }
 
 .sketchbook-root .sb-page.right {
-  box-shadow: inset 18px 0 26px -22px rgba(43, 39, 33, 0.55);
+  box-shadow: inset 18px 0 26px -22px rgb(var(--rgb-surface-elevated) / 0.55);
 }
 
 /*
@@ -220,7 +220,7 @@
 
 .sketchbook-root .sb-leaf .reader-eyebrow {
   margin: 0 0 1.4em;
-  color: rgba(43, 39, 33, 0.6);
+  color: rgb(var(--rgb-surface-elevated) / 0.6);
   font-family: var(--font);
   font-size: 0.72em;
   letter-spacing: var(--track-caps);
@@ -256,7 +256,7 @@
 }
 
 .sketchbook-root .sb-leaf .reader-note {
-  color: rgba(43, 39, 33, 0.72);
+  color: rgb(var(--rgb-surface-elevated) / 0.72);
 }
 
 .sketchbook-root .sb-leaf > ul,
@@ -285,13 +285,13 @@
 .sketchbook-root .sb-leaf .reader-evidence dd {
   margin: 0.2em 0 0;
   font-weight: 400;
-  color: rgba(43, 39, 33, 0.78);
+  color: rgb(var(--rgb-surface-elevated) / 0.78);
 }
 
 .sketchbook-root .sb-leaf a {
   color: var(--earth);
   text-decoration: underline;
-  text-decoration-color: rgba(154, 106, 62, 0.45);
+  text-decoration-color: rgb(var(--rgb-muted) / 0.45);
   text-underline-offset: 3px;
 }
 
@@ -304,7 +304,7 @@
 .sketchbook-root .sb-leaf .reader-folio {
   margin-top: auto;
   padding-top: 1.2em;
-  color: rgba(43, 39, 33, 0.5);
+  color: rgb(var(--rgb-surface-elevated) / 0.5);
   font-size: 0.72em;
   letter-spacing: 0.14em;
 }
@@ -337,13 +337,13 @@
   top: 0.72em;
   width: 0.42em;
   height: 1px;
-  background: rgba(43, 39, 33, 0.45);
+  background: rgb(var(--rgb-surface-elevated) / 0.45);
 }
 
 .sketchbook-root .sb-leaf .reader-pairs > div {
   padding-bottom: 0.7em;
   margin-bottom: 0.7em;
-  border-bottom: 1px solid rgba(43, 39, 33, 0.12);
+  border-bottom: 1px solid rgb(var(--rgb-surface-elevated) / 0.12);
 }
 
 .sketchbook-root .sb-leaf .reader-pairs > div:last-child {
@@ -358,14 +358,14 @@
   gap: 1em;
   margin: 0 0 0.5em;
   padding-bottom: 0.4em;
-  border-bottom: 1px solid rgba(43, 39, 33, 0.2);
+  border-bottom: 1px solid rgb(var(--rgb-surface-elevated) / 0.2);
 }
 
 .sketchbook-root .sb-leaf .reader-metric span {
   font-size: 0.76em;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(43, 39, 33, 0.62);
+  color: rgb(var(--rgb-surface-elevated) / 0.62);
 }
 
 .sketchbook-root .sb-leaf .reader-metric strong {
@@ -385,7 +385,7 @@
   font-size: 0.72em;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(43, 39, 33, 0.55);
+  color: rgb(var(--rgb-surface-elevated) / 0.55);
   margin: 0.45em 0 0;
 }
 
@@ -423,7 +423,7 @@
   align-self: flex-start;
   min-height: 44px;
   padding: 0.55em 1.2em;
-  border: 1px solid rgba(43, 39, 33, 0.42);
+  border: 1px solid rgb(var(--rgb-surface-elevated) / 0.42);
   border-radius: 999px;
   color: var(--ink);
   text-decoration: none;
@@ -434,7 +434,7 @@
 
 .sketchbook-root .sb-leaf .reader-cta:hover,
 .sketchbook-root .sb-leaf .reader-cta:focus-visible {
-  background: rgba(43, 39, 33, 0.07);
+  background: rgb(var(--rgb-surface-elevated) / 0.07);
   border-color: var(--ink);
 }
 
@@ -471,8 +471,8 @@
   background: rgb(var(--c-ground));
   color: rgb(var(--c-text));
   box-shadow:
-    0 1px 2px rgba(43, 39, 33, 0.3),
-    0 10px 22px rgba(43, 39, 33, 0.22);
+    0 1px 2px rgb(var(--rgb-surface-elevated) / 0.3),
+    0 10px 22px rgb(var(--rgb-surface-elevated) / 0.22);
 }
 
 /* This is the one leaf that scrolls, and the exception is deliberate: an
@@ -502,7 +502,7 @@
 .sketchbook-root .sb-full .sb-leaf {
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(43, 39, 33, 0.28) transparent;
+  scrollbar-color: rgb(var(--rgb-surface-elevated) / 0.28) transparent;
 }
 
 /* ═══════════════════════════════════════════════════════════════ chrome ══ */
@@ -552,7 +552,7 @@
 
 .sketchbook-root .sb-tools {
   border-color: var(--chrome-hairline);
-  background: rgba(23, 26, 36, 0.72);
+  background: rgb(var(--rgb-carbon) / 0.72);
 }
 
 .sketchbook-root .tool {
@@ -560,12 +560,12 @@
 }
 
 .sketchbook-root .tool:hover:not(:disabled) {
-  background: rgba(244, 238, 230, 0.12);
+  background: rgb(var(--rgb-bone) / 0.12);
   color: var(--chrome);
 }
 
 .sketchbook-root .tool[aria-pressed='true'] {
-  background: rgba(214, 133, 88, 0.22);
+  background: rgb(var(--rgb-muted) / 0.22);
   color: rgb(var(--c-brass-hi));
 }
 
@@ -609,7 +609,7 @@
 .sketchbook-root .plate:hover,
 .sketchbook-root .plate:focus-visible,
 .sketchbook-root .plate[aria-current='true'] {
-  background: rgba(244, 238, 230, 0.07);
+  background: rgb(var(--rgb-bone) / 0.07);
 }
 
 .sketchbook-root .plate .n {
@@ -820,14 +820,14 @@
 
 .sketchbook-root .sb-leaf .reader-evidence dd {
   font-size: 1em;
-  color: #494239;
+  color: var(--color-graphite);
 }
 
 .sketchbook-root .sb-leaf .reader-evidence dt,
 .sketchbook-root .sb-leaf .reader-eyebrow,
 .sketchbook-root .sb-leaf .reader-metric span,
 .sketchbook-root .sb-leaf .reader-folio {
-  color: #655b4e;
+  color: var(--color-muted);
   font-size: max(0.72em, 0.75rem);
   letter-spacing: 0.1em;
 }
@@ -835,12 +835,12 @@
 .sketchbook-root .sb-leaf .reader-note {
   font-size: 1em;
   line-height: inherit;
-  color: #494239;
+  color: var(--color-graphite);
 }
 
 .sketchbook-root .sb-leaf .reader-evidence a,
 .sketchbook-root .sb-leaf > .reader-links a {
-  color: #79502c;
+  color: var(--color-graphite);
 }
 
 .sketchbook-root .sb-leaf .reader-metric {
@@ -889,24 +889,24 @@
   --pg: 5%;
 }
 .sketchbook-root .sb-binding { position: absolute; inset: var(--pg) 2.5%; z-index: 0; pointer-events: none; transform: translateZ(-2px); }
-.sketchbook-root .sb-binding::before { content: ''; position: absolute; inset: -5px -7px -12px; border: 1px solid #7c6040; border-radius: 5px 5px 7px 7px; background: linear-gradient(90deg, #493825, #655035 48%, #30251b 50%, #655035 52%, #493825); box-shadow: 0 3px 5px #0007, 0 20px 32px #0005; }
-.sketchbook-root .sb-page-block { position: absolute; top: 3px; bottom: -7px; width: 50%; border: 1px solid #b3a187; background: repeating-linear-gradient(0deg, #d2c3aa 0 1px, #f0e7d5 1px 3px); box-shadow: 0 2px 2px #0003; }
+.sketchbook-root .sb-binding::before { content: ''; position: absolute; inset: -5px -7px -12px; border: 1px solid var(--color-muted); border-radius: 5px 5px 7px 7px; background: linear-gradient(90deg, var(--color-graphite), var(--color-graphite) 48%, var(--color-surface-elevated) 50%, var(--color-graphite) 52%, var(--color-graphite)); box-shadow: 0 3px 5px rgb(var(--rgb-black) / 0.467), 0 20px 32px rgb(var(--rgb-black) / 0.333); }
+.sketchbook-root .sb-page-block { position: absolute; top: 3px; bottom: -7px; width: 50%; border: 1px solid var(--color-light-muted); background: repeating-linear-gradient(0deg, var(--color-light-muted) 0 1px, var(--color-bone) 1px 3px); box-shadow: 0 2px 2px rgb(var(--rgb-black) / 0.200); }
 .sketchbook-root .sb-page-block.left { left: -3px; border-radius: 2px 0 5px 3px; transform: rotate(-.25deg); transform-origin: right center; }
 .sketchbook-root .sb-page-block.right { right: -3px; border-radius: 0 2px 3px 5px; transform: rotate(.25deg); transform-origin: left center; }
-.sketchbook-root .sb-paper { background-color: #eee7d7; background-image: var(--paper-grain); border-radius: 2px 2px 5px 5px; }
+.sketchbook-root .sb-paper { background-color: var(--color-bone); background-image: var(--paper-grain); border-radius: 2px 2px 5px 5px; }
 .sketchbook-root .sb-page { background-color: transparent; }
-.sketchbook-root .sb-page.left { background-image: linear-gradient(90deg, #8b744b12, #fff4 8%, transparent 38%, #5a422612 89%, #5a42264a 99%, #fff5); box-shadow: inset -1px 0 #68523150; }
-.sketchbook-root .sb-page.right { background-image: linear-gradient(90deg, #5a422645, #5a422614 8%, transparent 45%, #fff4 91%, #8b744b18); box-shadow: inset 1px 0 #fff6; }
-.sketchbook-root .sb-paper.single .sb-page { background-image: linear-gradient(90deg, #5a42263a, #5a42260c 5%, #fff4 12%, transparent 38%, #8b744b0a 94%, #fff5 99%, #8b744b38); box-shadow: inset 1px 0 #fff6; }
-.sketchbook-root .sb-leaf .reader-folio { border-top: 1px solid #97805a50; padding-top: .7em; }
+.sketchbook-root .sb-page.left { background-image: linear-gradient(90deg, rgb(var(--rgb-muted) / 0.071), rgb(var(--rgb-soft-white) / 0.267) 8%, transparent 38%, rgb(var(--rgb-graphite) / 0.071) 89%, rgb(var(--rgb-graphite) / 0.290) 99%, rgb(var(--rgb-soft-white) / 0.333)); box-shadow: inset -1px 0 rgb(var(--rgb-graphite) / 0.314); }
+.sketchbook-root .sb-page.right { background-image: linear-gradient(90deg, rgb(var(--rgb-graphite) / 0.271), rgb(var(--rgb-graphite) / 0.078) 8%, transparent 45%, rgb(var(--rgb-soft-white) / 0.267) 91%, rgb(var(--rgb-muted) / 0.094)); box-shadow: inset 1px 0 rgb(var(--rgb-soft-white) / 0.400); }
+.sketchbook-root .sb-paper.single .sb-page { background-image: linear-gradient(90deg, rgb(var(--rgb-graphite) / 0.227), rgb(var(--rgb-graphite) / 0.047) 5%, rgb(var(--rgb-soft-white) / 0.267) 12%, transparent 38%, rgb(var(--rgb-muted) / 0.039) 94%, rgb(var(--rgb-soft-white) / 0.333) 99%, rgb(var(--rgb-muted) / 0.220)); box-shadow: inset 1px 0 rgb(var(--rgb-soft-white) / 0.400); }
+.sketchbook-root .sb-leaf .reader-folio { border-top: 1px solid rgb(var(--rgb-muted) / 0.314); padding-top: .7em; }
 /* The chain includes transparent space above and below the sheet. Coloring the
    entire face would turn that space into a solid rectangular paddle. */
 .sketchbook-root .face { background: transparent; }
-.sketchbook-root .face::before { content: ''; position: absolute; inset: var(--pg) 0; background: #eee7d7; }
+.sketchbook-root .face::before { content: ''; position: absolute; inset: var(--pg) 0; background: var(--color-bone); }
 .sketchbook-root .face .sb-sheet { z-index: 1; }
 .sketchbook-root .face .sh, .sketchbook-root .face .gl { z-index: 2; }
-.sketchbook-root .sb-verso { background-color: #e8ddc7; }
-.sketchbook-root .sb-cast.ambient { background: radial-gradient(ellipse at 50% 65%, #0008, transparent 72%); }
+.sketchbook-root .sb-verso { background-color: var(--color-bone); }
+.sketchbook-root .sb-cast.ambient { background: radial-gradient(ellipse at 50% 65%, rgb(var(--rgb-black) / 0.533), transparent 72%); }
 @media (max-width: 900px) {
   .sketchbook-root { --pg: 2.5%; }
   .sketchbook-root .sb-binding::before { inset: -4px -5px -10px; }

@@ -1,0 +1,378 @@
+[
+  {
+    "state": "home",
+    "buttons": [
+      "Close [ESC]",
+      "",
+      "",
+      "Contact Us",
+      "",
+      "Menu",
+      "Contact Us",
+      "Roll Me In ",
+      "close",
+      "SEND MESSAGE →"
+    ],
+    "links": [
+      {
+        "text": "Home",
+        "href": "/"
+      },
+      {
+        "text": "Services",
+        "href": "/services"
+      },
+      {
+        "text": "Showcase",
+        "href": "/showcase"
+      },
+      {
+        "text": "People",
+        "href": "/people"
+      },
+      {
+        "text": "Blog",
+        "href": "/blog"
+      },
+      {
+        "text": "Lab",
+        "href": "/lab"
+      },
+      {
+        "text": "",
+        "href": "https://x.ai"
+      },
+      {
+        "text": "",
+        "href": "https://vercel.com"
+      },
+      {
+        "text": "",
+        "href": "https://nextjs.org"
+      },
+      {
+        "text": "",
+        "href": "https://linear.app"
+      },
+      {
+        "text": "",
+        "href": "https://www.cursor.com/"
+      },
+      {
+        "text": "",
+        "href": "https://scale.com"
+      },
+      {
+        "text": "",
+        "href": "https://www.worldlabs.ai/"
+      },
+      {
+        "text": "",
+        "href": "https://elevenlabs.io/"
+      },
+      {
+        "text": "",
+        "href": "https://www.mintlify.com/"
+      },
+      {
+        "text": "",
+        "href": "https://www.harvey.ai/"
+      },
+      {
+        "text": "",
+        "href": "https://www.baseten.co/"
+      },
+      {
+        "text": "",
+        "href": "https://www.together.ai/"
+      },
+      {
+        "text": "",
+        "href": "https://blackforestlabs.ai/"
+      },
+      {
+        "text": "",
+        "href": "https://www.tryprofound.com/"
+      },
+      {
+        "text": "",
+        "href": "https://www.rox.com/"
+      },
+      {
+        "text": "",
+        "href": "https://factory.ai/"
+      },
+      {
+        "text": "",
+        "href": "https://www.untillabs.com/"
+      },
+      {
+        "text": "",
+        "href": "https://www.speakeasy.com/"
+      },
+      {
+        "text": "",
+        "href": "https://xbow.com/"
+      },
+      {
+        "text": "",
+        "href": "https://www.krea.ai/"
+      },
+      {
+        "text": "",
+        "href": "https://apollographql.com"
+      },
+      {
+        "text": "",
+        "href": "https://cal.com"
+      },
+      {
+        "text": "",
+        "href": "https://trunk.io/"
+      },
+      {
+        "text": "",
+        "href": "https://replicate.com"
+      },
+      {
+        "text": "",
+        "href": "https://graphite.dev/"
+      },
+      {
+        "text": "",
+        "href": "https://spiraldb.com/"
+      },
+      {
+        "text": "",
+        "href": "https://www.native.security/"
+      },
+      {
+        "text": "",
+        "href": "https://base.org"
+      },
+      {
+        "text": "",
+        "href": "https://flox.dev/"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/@MrBeast"
+      },
+      {
+        "text": "",
+        "href": "https://daylightcomputer.com/"
+      },
+      {
+        "text": "",
+        "href": "https://edglrd.com/"
+      },
+      {
+        "text": "",
+        "href": "https://kidsuper.world/"
+      },
+      {
+        "text": "",
+        "href": "https://www.usavionix.com"
+      },
+      {
+        "text": "",
+        "href": "https://www.serval.com"
+      },
+      {
+        "text": "",
+        "href": "https://latenthealth.com"
+      },
+      {
+        "text": "",
+        "href": "/showcase/vercel-ship-a-home-for-innovation"
+      },
+      {
+        "text": "Vercel Ship",
+        "href": "/showcase/vercel-ship-a-home-for-innovation"
+      },
+      {
+        "text": "Vercel Ship",
+        "href": "/showcase/vercel-ship-a-home-for-innovation"
+      },
+      {
+        "text": "",
+        "href": "/showcase/daylight-simplicity-in-motion"
+      },
+      {
+        "text": "Daylight",
+        "href": "/showcase/daylight-simplicity-in-motion"
+      },
+      {
+        "text": "Daylight",
+        "href": "/showcase/daylight-simplicity-in-motion"
+      },
+      {
+        "text": "",
+        "href": "/showcase/kidsuper-breaking-the-norm"
+      },
+      {
+        "text": "KidSuper",
+        "href": "/showcase/kidsuper-breaking-the-norm"
+      },
+      {
+        "text": "KidSuper",
+        "href": "/showcase/kidsuper-breaking-the-norm"
+      },
+      {
+        "text": "",
+        "href": "/showcase/mrbeast-built-to-handle-the-beast"
+      },
+      {
+        "text": "Shop MrBeast",
+        "href": "/showcase/mrbeast-built-to-handle-the-beast"
+      },
+      {
+        "text": "Shop MrBeast",
+        "href": "/showcase/mrbeast-built-to-handle-the-beast"
+      },
+      {
+        "text": "Websites & Features",
+        "href": "/showcase?category=Websites%20%26%20Features"
+      },
+      {
+        "text": "Visual Branding",
+        "href": "/showcase?category=Visual%20Branding"
+      },
+      {
+        "text": "IRL Experience Design",
+        "href": "/showcase?category=IRL%20Experience%20Design"
+      },
+      {
+        "text": "Marketing Execution",
+        "href": "/showcase?category=Marketing%20Execution"
+      },
+      {
+        "text": "hello@basement.studio",
+        "href": "mailto:hello@basement.studio"
+      },
+      {
+        "text": "Home",
+        "href": "/"
+      },
+      {
+        "text": "Services",
+        "href": "/services"
+      },
+      {
+        "text": "Showcase(26)",
+        "href": "/showcase"
+      },
+      {
+        "text": "People",
+        "href": "/people"
+      },
+      {
+        "text": "Blog(29)",
+        "href": "/blog"
+      },
+      {
+        "text": "Lab",
+        "href": "/lab"
+      },
+      {
+        "text": "𝕏",
+        "href": "https://x.com/basementstudio"
+      },
+      {
+        "text": "Instagram",
+        "href": "https://www.instagram.com/basementdotstudio"
+      },
+      {
+        "text": "GitHub",
+        "href": "https://github.com/basementstudio"
+      },
+      {
+        "text": "LinkedIn",
+        "href": "https://www.linkedin.com/company/basementstudio"
+      },
+      {
+        "text": "𝕏",
+        "href": "https://x.com/basementstudio"
+      },
+      {
+        "text": "Instagram",
+        "href": "https://www.instagram.com/basementdotstudio"
+      },
+      {
+        "text": "GitHub",
+        "href": "https://github.com/basementstudio"
+      },
+      {
+        "text": "LinkedIn",
+        "href": "https://www.linkedin.com/company/basementstudio"
+      },
+      {
+        "text": "X (Twitter)",
+        "href": "https://x.com/basementstudio"
+      },
+      {
+        "text": "Instagram",
+        "href": "https://www.instagram.com/basementdotstudio"
+      },
+      {
+        "text": "GitHub",
+        "href": "https://github.com/basementstudio"
+      },
+      {
+        "text": "(hello@basement.studio)",
+        "href": "mailto:hello@basement.studio"
+      },
+      {
+        "text": "Machine",
+        "href": "/ai/home"
+      }
+    ]
+  },
+  {
+    "state": "services",
+    "url": "https://basement.studio/services",
+    "text": "[🇫🇷]\n\nHome\nServices\nShowcase\n(26)\nPeople\nBlog\n(29)\nLab\nOnline\n()\nPress [/] to chat\nContact Us\nServices\n\nWe craft digital experiences and brands that inspire action, turn heads, and bring communities together for companies that move fast, think big, and expect results. From early-stage disruptors to multi-billion-dollar category leaders, we create digital ecosystems that captivate, convert, and scale.\n\nWebsites & Features\n\nFrom pre-launch landing pages to complete website redesigns, we create next-generation digital experiences that capture attention and inspire action.\n\nVisual Branding\n\nFrom lean identities for early startups to comprehensive brand platforms for industry leaders, we craft scalable brand systems that are impossible to ignore.\n\nIRL Experience Design\n\nFrom annual summits to local meetups, we design unforgettable in-real-life events, creating moments that engage audiences and build brand love.\n\nMarketing Execution\n\nFrom brand to product marketing, we collaborate with marketing teams to create assets that drive awareness, demand, and conversions.\n\n“basement has shipped some of the fastest and most sophisticated frontend experiences on the web.”\n\nGuillermo Rauch\n-\n@rauchg\n\nCEO at Vercel\n\nAwards\n\nx32\n\nAwwwards Developer Award\nUSAvionix\nSeptember 9, 2026\nAwwwards Site of the Day\nUSAvionix\nSeptember 9, 2026\nAwwwards Developer Award\nbasement.studio 2025\nApril 25, 2025\nAwwwards Site of the Day\nbasement.studio 2025\nApril 25, 2025\nFWA Site of the Day\nbasement.studio 2025\nMarch 29, 2025\nAwwwards Developer Award\nNext.js Conf: Raising the Bar, Again\nSeptember 16, 2024\nAwwwards Site of the Day\nNext.js Conf: Raising the Bar, Again\nSeptember 16, 2024\nAwwwards Developer Award\nDaylight: Simplicity in Motion\nJune 18, 2024\nAwwwards Site of the Day\nDaylight: Simplicity in Motion\nJune 18, 2024\nFWA Site of the Day\nDaylight: Simplicity in Motion\nMay 28, 2024\nWebby Award\nKidSuper: Breaking the Norm\nApril 23, 2024\nAwwwards Developer Award\nKidSuper: Breaking the Norm\nJanuary 9, 2024\nAwwwards Site of the Day\nKidSuper: Breaking the Norm\nJanuary 9, 2024\nFWA Site of the Day\nKidSuper: Breaking the Norm\nJanuary 5, 2024\nAwwwards Developer Award\nBasement Chronicles: The Internet Needs You\nNovember 8, 2023\nAwwwards Site of the Day\nBasement Chronicles: The Internet Needs You\nNovember 8, 2023\nFWA Site of the Day\nBasement Chronicles: The Internet Needs You\nOctober 28, 2023\nWebby Award\nMrBeast: Built to Handle the Beast\nMay 25, 2023\nAwwwards Developer Award\nBasement Foundry\nJanuary 9, 2023\nAwwwards Site of the Day\nBasement Foundry\nJanuary 9, 2023\nAwwwards Developer Award\nMrBeast: Built to Handle the Beast\nSeptember 8, 2022\nAwwwards Site of the Day\nMrBeast: Built to Handle the Beast\nSeptember 8, 2022\nFWA Site of the Day\nMrBeast: Built to Handle the Beast\nAugust 29, 2022\nAwwwards Developer Award\nbasement.studio 2022\nJune 15, 2022\nAwwwards Site of the Day\nbasement.studio 2022\nJune 15, 2022\nAwwwards Developer Award\nRanboo: One Merch Drop at a Time\nDecember 6, 2021\nAwwwards Site of the Day\nRanboo: One Merch Drop at a Time\nDecember 6, 2021\nAwwwards Developer Award\nBad Boys Store\nJanuary 15, 2021\nAwwwards Site of the Day\nBad Boys Store\nJanuary 15, 2021\nAwwwards Developer Award\nBoost Gummies\nNovember 16, 2020\nAwwwards Site of the Day\nBoost Gummies\nNovember 16, 2020\nFWA Site of the Day\nBoost Gummies\nNovember 15, 2020\nBasement Ventures\n\nAn early-stage venture studio incubating and investing in disruptive companies at their earliest stages. Get More Info →\n\nContact\n\nLet's make an impact together.\n\nhello@basement.studio\nHome\nServices\nShowcase\n(26)\nPeople\nBlog\n(29)\nLab\nContact Us\n\nReady to tap into the basement vibe? Sign up for our newsletter and stay plugged into all the cool stuff we’re cooking up.\n\nRoll Me In\n𝕏\n,\nInstagram\n,\nGitHub\n,\nLinkedIn\n\n© basement.studio LLC 2026 all rights reserved\n\nCONTACT US\nCLOSE\nSEND MESSAGE →\nX (TWITTER)\n,\nINSTAGRAM\n,\nGITHUB\n(HELLO@BASEMENT.STUDIO)\nHUMAN\nMACHINE"
+  },
+  {
+    "state": "contact",
+    "url": "https://basement.studio/",
+    "text": "Home\nServices\nShowcase\n(26)\nPeople\nBlog\n(29)\nLab\nOnline\n()\nPress [/] to chat\nContact Us\nA digital studio & branding powerhouse making cool shit that performs\n\nWe partner with the world’s most ambitious startups, scale-ups and brands to unlock their true potential and growth through the convergence of creativity, design, and technology.\n\nTrusted by Visionaries\nFeatured Projects\n\nPartnering with Vercel means pushing the limits of performance and innovation. Together, we craft a digital ecosystem built for speed, precision, and impact.\n\nWebsites & Features\nMarketing Execution\nIRL Experience Design\n\nVercel Ship\n\nA bold vision needs a strong launch. We crafted a high-performance, story-driven website that cut through the noise, connected with Daylight’s audience, and sold out inventory in hours.\n\nWebsites & Features\n\nDaylight\n\nBy blending crafted visuals with digital experiences, we helped KidSuper elevate their brand into a dynamic showcase—bridging art, technology, and culture in a way that captivates and inspires.\n\nWebsites & Features\n\nKidSuper\n\nThe world’s biggest YouTuber needed a storefront built for millions—high-performance, wildly engaging, and as dynamic as a MrBeast video.\n\nWebsites & Features\n\nShop MrBeast\nCapabilities\n\nWe're here to create the extraordinary.\n\nNo shortcuts, just bold, precision-engineered work that elevates the game & leaves a mark.\n\nWebsites & Features\n\nFrom pre-launch landing pages to complete website redesigns, we create next-generation digital experiences that capture attention and inspire action.\n\nProduct Strategy\n\nUX/UI Design\n\nEngineering\n\n3D & Motion Design\n\nVisual Branding\n\nFrom lean identities for early startups to comprehensive brand platforms for industry leaders, we craft scalable brand systems that are impossible to ignore.\n\nVisual Identity\n\nBranding Systems\n\nIRL Experience Design\n\nFrom annual summits to local meetups, we design unforgettable in-real-life events, creating moments that engage audiences and build brand love.\n\nVisual Identity\n\nSpace Design\n\nKeynote Design\n\nDigital & Interactive\n\nMarketing Execution\n\nFrom brand to product marketing, we collaborate with marketing teams to create assets that drive awareness, demand, and conversions.\n\nOmni-channel Campaign Content\n\nGrowth Experiments\n\nSales Materials\n\nContact\n\nLet's make an impact together.\n\nhello@basement.studio\nHome\nServices\nShowcase\n(26)\nPeople\nBlog\n(29)\nLab\nContact Us\n\nReady to tap into the basement vibe? Sign up for our newsletter and stay plugged into all the cool stuff we’re cooking up.\n\nRoll Me In\n𝕏\n,\nInstagram\n,\nGitHub\n,\nLinkedIn\n\n© basement.studio LLC 2026 all rights reserved\n\nCONTACT US\nCLOSE\nSEND MESSAGE →\nX (TWITTER)\n,\nINSTAGRAM\n,\nGITHUB\n(HELLO@BASEMENT.STUDIO)\nHUMAN\nMACHINE"
+  },
+  {
+    "state": "mobile",
+    "buttons": [
+      {
+        "text": "Close [ESC]",
+        "aria": null
+      },
+      {
+        "text": "",
+        "aria": "Go to homepage"
+      },
+      {
+        "text": "",
+        "aria": "Turn music on"
+      },
+      {
+        "text": "Contact Us",
+        "aria": null
+      },
+      {
+        "text": "",
+        "aria": "Turn music on"
+      },
+      {
+        "text": "Menu",
+        "aria": "Open menu"
+      },
+      {
+        "text": "Contact Us",
+        "aria": null
+      },
+      {
+        "text": "Roll Me In ",
+        "aria": null
+      }
+    ]
+  }
+]

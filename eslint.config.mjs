@@ -30,6 +30,7 @@ const eslintConfig = [
       'node_modules/**',
       'next-env.d.ts',
       'public/**',
+      'artifacts/**',
     ],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),

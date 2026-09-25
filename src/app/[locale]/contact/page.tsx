@@ -4,18 +4,20 @@ import { notFound } from 'next/navigation';
 import { ArrowUpRight, Mail, MessageCircle } from 'lucide-react';
 import { locales, isLocale } from '@/lib/translations';
 import { getExperienceCopy } from '@/lib/experience-copy';
+import { getLibraryUI } from '@/lib/content/library-ui';
 import { pageMetadata } from '@/lib/seo';
 import { CONTACT, mailtoHref, whatsappHref } from '@/lib/profile';
 import Footer from '@/app/sections/Footer';
 import ContactConversation from './ContactConversation';
 import './contact.css';
+import '@/app/components/experience/interior.css';
 
 export function generateStaticParams() { return locales.map(locale => ({ locale })); }
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const c = getExperienceCopy(locale);
-  return pageMetadata({ locale, path: '/contact', title: c.contact, description: c.contactIntro });
+  return pageMetadata({ locale, path: '/contact', title: c.contact, description: getLibraryUI(locale).contactIntro });
 }
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -26,15 +28,15 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       <header className="conversation-intro">
         <p className="experience-eyebrow">{c.contactEyebrow}</p>
         <h1>{c.contactTitle}<br /><em>{c.contactAccent}</em></h1>
-        <p className="conversation-lede">{c.contactIntro}</p>
+        <p className="conversation-lede">{getLibraryUI(locale).contactIntro}</p>
       </header>
-      <ContactConversation locale={locale} />
-      <noscript><style>{`.conversation-panel { display: none; }`}</style></noscript>
       <section className="conversation-direct" aria-labelledby="direct-title">
         <h2 id="direct-title">{c.direct}</h2>
         <div><a href={mailtoHref(c.subject)}><Mail size={17} />{CONTACT.email.address}</a><a href={whatsappHref()} target="_blank" rel="noreferrer"><MessageCircle size={17} />{CONTACT.whatsapp.display}</a></div>
-        <Link href={`/${locale}/chapters`}>{c.careerLink}<ArrowUpRight size={16} /></Link>
       </section>
+      <ContactConversation locale={locale} />
+      <Link className="contact-career-link" href={`/${locale}/chapters`}>{getLibraryUI(locale).about}<ArrowUpRight size={16} /></Link>
+      <noscript><style>{`.contact-composer { display: none; }`}</style></noscript>
     </main>
     <Footer locale={locale} />
   </div>;

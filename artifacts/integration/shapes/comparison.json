@@ -1,0 +1,20 @@
+[
+  {
+    "shape": "plane",
+    "triangles": 384,
+    "draws": 1,
+    "geometries": 1
+  },
+  {
+    "shape": "sphere",
+    "triangles": 84500,
+    "draws": 1,
+    "geometries": 1
+  },
+  {
+    "shape": "waterPlane",
+    "triangles": 73728,
+    "draws": 1,
+    "geometries": 1
+  }
+]

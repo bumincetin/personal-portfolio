@@ -1,0 +1,10 @@
+{
+  "pointerParallax": {
+    "before": "11.00,8.50,17.01",
+    "after": "11.36,8.66,17.00"
+  },
+  "transition": "TRANSITIONING",
+  "idleFrames": 0,
+  "contextLoss": true,
+  "chunkFailureDirectRoute": true
+}

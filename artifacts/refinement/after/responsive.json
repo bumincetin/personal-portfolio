@@ -1,0 +1,394 @@
+[
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "en",
+    "volume": 1,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "en",
+    "volume": 2,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "en",
+    "volume": 3,
+    "inspectorHeight": 433.546875,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "en",
+    "volume": 4,
+    "inspectorHeight": 433.546875,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "en",
+    "volume": 5,
+    "inspectorHeight": 433.546875,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "en",
+    "volume": 6,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "en",
+    "volume": 7,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "tr",
+    "volume": 1,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "tr",
+    "volume": 2,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "tr",
+    "volume": 3,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "tr",
+    "volume": 4,
+    "inspectorHeight": 433.546875,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "tr",
+    "volume": 5,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "tr",
+    "volume": 6,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "tr",
+    "volume": 7,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "it",
+    "volume": 1,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "it",
+    "volume": 2,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "it",
+    "volume": 3,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "it",
+    "volume": 4,
+    "inspectorHeight": 433.546875,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "it",
+    "volume": 5,
+    "inspectorHeight": 433.546875,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "it",
+    "volume": 6,
+    "inspectorHeight": 410.296875,
+    "body": 17
+  },
+  {
+    "width": 375,
+    "viewportHeight": 667,
+    "locale": "it",
+    "volume": 7,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 430,
+    "viewportHeight": 932,
+    "locale": "en",
+    "volume": 1,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 430,
+    "viewportHeight": 932,
+    "locale": "en",
+    "volume": 2,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 430,
+    "viewportHeight": 932,
+    "locale": "en",
+    "volume": 3,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 430,
+    "viewportHeight": 932,
+    "locale": "en",
+    "volume": 4,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 430,
+    "viewportHeight": 932,
+    "locale": "en",
+    "volume": 5,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 430,
+    "viewportHeight": 932,
+    "locale": "en",
+    "volume": 6,
+    "inspectorHeight": 414.953125,
+    "body": 17
+  },
+  {
+    "width": 430,
+    "viewportHeight": 932,
+    "locale": "en",
+    "volume": 7,
+    "inspectorHeight": 388.609375,
+    "body": 17
+  },
+  {
+    "width": 1024,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 1,
+    "inspectorHeight": 484.90625,
+    "body": 17
+  },
+  {
+    "width": 1024,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 2,
+    "inspectorHeight": 484.90625,
+    "body": 17
+  },
+  {
+    "width": 1024,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 3,
+    "inspectorHeight": 517.53125,
+    "body": 17
+  },
+  {
+    "width": 1024,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 4,
+    "inspectorHeight": 504.09375,
+    "body": 17
+  },
+  {
+    "width": 1024,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 5,
+    "inspectorHeight": 511.25,
+    "body": 17
+  },
+  {
+    "width": 1024,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 6,
+    "inspectorHeight": 506.59375,
+    "body": 17
+  },
+  {
+    "width": 1024,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 7,
+    "inspectorHeight": 484.90625,
+    "body": 17
+  },
+  {
+    "width": 1366,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 1,
+    "inspectorHeight": 494.078125,
+    "body": 17
+  },
+  {
+    "width": 1366,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 2,
+    "inspectorHeight": 509.53125,
+    "body": 17
+  },
+  {
+    "width": 1366,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 3,
+    "inspectorHeight": 535.875,
+    "body": 17
+  },
+  {
+    "width": 1366,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 4,
+    "inspectorHeight": 513.265625,
+    "body": 17
+  },
+  {
+    "width": 1366,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 5,
+    "inspectorHeight": 535.875,
+    "body": 17
+  },
+  {
+    "width": 1366,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 6,
+    "inspectorHeight": 535.875,
+    "body": 17
+  },
+  {
+    "width": 1366,
+    "viewportHeight": 768,
+    "locale": "en",
+    "volume": 7,
+    "inspectorHeight": 509.53125,
+    "body": 17
+  },
+  {
+    "width": 1920,
+    "viewportHeight": 1080,
+    "locale": "en",
+    "volume": 1,
+    "inspectorHeight": 474.890625,
+    "body": 17
+  },
+  {
+    "width": 1920,
+    "viewportHeight": 1080,
+    "locale": "en",
+    "volume": 2,
+    "inspectorHeight": 523.84375,
+    "body": 17
+  },
+  {
+    "width": 1920,
+    "viewportHeight": 1080,
+    "locale": "en",
+    "volume": 3,
+    "inspectorHeight": 523.84375,
+    "body": 17
+  },
+  {
+    "width": 1920,
+    "viewportHeight": 1080,
+    "locale": "en",
+    "volume": 4,
+    "inspectorHeight": 501.234375,
+    "body": 17
+  },
+  {
+    "width": 1920,
+    "viewportHeight": 1080,
+    "locale": "en",
+    "volume": 5,
+    "inspectorHeight": 550.1875,
+    "body": 17
+  },
+  {
+    "width": 1920,
+    "viewportHeight": 1080,
+    "locale": "en",
+    "volume": 6,
+    "inspectorHeight": 550.1875,
+    "body": 17
+  },
+  {
+    "width": 1920,
+    "viewportHeight": 1080,
+    "locale": "en",
+    "volume": 7,
+    "inspectorHeight": 523.84375,
+    "body": 17
+  }
+]

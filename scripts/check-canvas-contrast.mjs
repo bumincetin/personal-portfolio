@@ -1,3 +1,4 @@
+import { enterShelf } from './library-test-helpers.mjs';
 /**
  * Contrast for the text that sits on top of the WebGL scene.
  *
@@ -102,6 +103,7 @@ const cdp = await context.newCDPSession(page);
  * a check can produce.
  */
 await page.goto(`${BASE}/en`, { waitUntil: 'load' });
+await enterShelf(page);
 await page.waitForTimeout(1200);
 
 let ready = false;
@@ -236,6 +238,11 @@ const sample = (dataUrl, described) =>
 
 const worst = new Map();
 
+for (const width of [1440, 390]) {
+await page.setViewportSize({width,height:900});
+for (let volume = 0; volume < 7; volume += 1) {
+  await page.locator('#markers button').nth(volume).click();
+  await page.waitForTimeout(1900);
 for (let frame = 0; frame < FRAMES; frame += 1) {
   const described = await describe();
 
@@ -255,6 +262,10 @@ for (let frame = 0; frame < FRAMES; frame += 1) {
   }
 
   await page.waitForTimeout(320);
+}
+
+console.log(`Sampled ${width}px volume ${volume + 1}`);
+}
 }
 
 await browser.close();

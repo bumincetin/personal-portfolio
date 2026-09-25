@@ -17,6 +17,9 @@
 /.next
 /.next-*/
 /artifacts/design/
+# Keep generated visual captures and downloaded audit packages local.
+/artifacts/**/*.png
+/artifacts/integration/package-audit/
 /out/
 
 # production

@@ -1,0 +1,10 @@
+import {chromium} from 'playwright';
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const b=await chromium.launch({headless:true,channel:'chromium'}),p=await b.newPage({viewport:{width:1440,height:900}}),out='artifacts/refinement/after';
+await p.goto('http://localhost:3100/en',{waitUntil:'networkidle'});await p.locator('.world-chapter[data-phase=HOME]').waitFor();
+await p.locator('.world-index a').nth(3).click();await p.waitForTimeout(700);await p.locator('.world-read').click();await p.keyboard.press('Escape');await p.waitForTimeout(700);assert(p.url().endsWith('/en'));assert.equal(await p.locator('.world-chapter').getAttribute('data-selected'),'');
+await p.locator('.world-index a').nth(2).click();await p.waitForTimeout(700);await p.locator('.world-return').click();await p.keyboard.press('Escape');await p.locator('.world-index a').nth(1).click();await p.waitForTimeout(700);assert.equal(await p.locator('.world-chapter').getAttribute('data-closing'),null);assert(await p.locator('.world-inspection').isVisible());
+await p.locator('.world-read').click();await p.waitForURL('**/volumes/forecasting');await p.emulateMedia({media:'print'});assert.equal(await p.locator('.sb-running span').evaluate(e=>getComputedStyle(e).color),'rgb(13, 16, 15)');await p.screenshot({path:`${out}/1440-print-reading.png`});
+await p.goto('http://localhost:3100/en/front-matter',{waitUntil:'networkidle'});await p.screenshot({path:`${out}/1440-print-approach.png`});
+await b.close();fs.writeFileSync(`${out}/final-check.json`,JSON.stringify({readingCancellation:true,closeCancellation:true,nextInspection:true,printHeaderContrast:true},null,2));console.log('Reading/close cancellation, subsequent selection, and printed title passed.');

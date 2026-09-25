@@ -1,0 +1,24 @@
+[
+  {
+    "stage": "home",
+    "contexts": 2
+  },
+  {
+    "stage": "optional library open",
+    "contexts": 2
+  },
+  {
+    "stage": "library closed",
+    "contexts": 2
+  },
+  {
+    "stage": "native touch flick and reversal",
+    "down": 285,
+    "up": 50
+  },
+  {
+    "stage": "orientation preserves inspection",
+    "contexts": 2,
+    "volume": 4
+  }
+]

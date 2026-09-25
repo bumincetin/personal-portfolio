@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import type { Locale } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
+import { getLibraryUI } from '@/lib/content/library-ui';
 import { getCaseStudy } from '@/lib/content/case-studies';
 import type { Volume, VolumePage } from '@/lib/content/volume-pages';
 import CaseStudyFigure from '@/app/components/content/CaseStudyFigure';
@@ -13,6 +14,8 @@ import Sketchbook from './Sketchbook';
 import OptimizerLeaf from './OptimizerLeaf';
 import './sketchbook.css';
 import './sketchbook-overrides.css';
+import './article.css';
+import '../experience/editorial-reader.css';
 
 /**
  * A volume, read as a book.
@@ -225,7 +228,7 @@ function PageBody({ page, locale }: { page: VolumePage; locale: Locale }) {
           <h2 className="reader-heading">{block.heading}</h2>
           <ProvenanceBadge kind="synthetic" locale={locale} detail={block.lede} className="reader-provenance" />
           <div className="reader-demo">
-            <OptimizerLeaf />
+            <OptimizerLeaf locale={locale} />
           </div>
         </>
       );
@@ -251,6 +254,16 @@ export default function VolumeReader({ locale, volume }: { locale: Locale; volum
   const ui = getUI(locale);
   const sketchUI = getSketchbookUI(locale);
   const total = volume.pages.length;
+  const copy = getLibraryUI(locale);
+  // Adjacent leaves with the same heading form one readable article section.
+  // The engine returns each original leaf to its section when book mode exits.
+  const groups: { title: string; pages: { page: VolumePage; index: number }[] }[] = [];
+  volume.pages.forEach((page, index) => {
+    const title = leafTitle(page, volume);
+    const last = groups[groups.length - 1];
+    if (last?.title === title) last.pages.push({ page, index });
+    else groups.push({ title, pages: [{ page, index }] });
+  });
 
   return (
     <main>
@@ -258,6 +271,7 @@ export default function VolumeReader({ locale, volume }: { locale: Locale; volum
         locale={locale}
         slug={volume.spine.id}
         kind={volume.spine.kind}
+        contents={<details className="article-contents"><summary>{copy.contents}</summary><ol>{groups.map(group => <li key={group.pages[0].page.id}><a href={`#leaf-${group.pages[0].page.id}`}>{group.title}</a></li>)}</ol></details>}
         head={
           <header className="sb-head">
             <Link href={`/${locale}`} className="sb-back">
@@ -288,13 +302,15 @@ export default function VolumeReader({ locale, volume }: { locale: Locale; volum
           <p className="sb-smallprint">{ui.labels.disclaimer}</p>
         }
       >
-        {volume.pages.map((page, index) => (
+        {groups.map((group, sectionIndex) => <section className="reader-section" data-section={String(sectionIndex).padStart(2, '0')} key={group.pages[0].page.id}>{group.pages.map(({ page, index }, part) => (
           <article
             key={page.id}
             id={`leaf-${page.id}`}
             className="sb-leaf"
             data-title={leafTitle(page, volume)}
             data-folio={index + 1}
+            data-continuation={part > 0 || undefined}
+            data-kind={page.block.kind}
             data-solo={SOLO_KINDS.has(page.block.kind) ? '' : undefined}
           >
             <PageBody page={page} locale={locale} />
@@ -302,7 +318,7 @@ export default function VolumeReader({ locale, volume }: { locale: Locale; volum
               {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
             </p>
           </article>
-        ))}
+        ))}</section>)}
       </Sketchbook>
     </main>
   );

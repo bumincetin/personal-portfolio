@@ -1,0 +1,3 @@
+# Integrity-checked source bytes must survive Windows checkout unchanged.
+vendor/threeui/meng-to-sketchbook.html -text
+scripts/sources/shelf-engine.baseline.txt -text

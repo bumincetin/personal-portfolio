@@ -1,0 +1,29 @@
+[
+  {
+    "test": "shader-chunk",
+    "world": "HOME",
+    "tier": "D",
+    "mode": "static",
+    "quality": "1.00"
+  },
+  {
+    "test": "world-chunk",
+    "world": "FALLBACK",
+    "tier": "D",
+    "mode": "static"
+  },
+  {
+    "test": "save-data",
+    "world": "HOME",
+    "tier": "D",
+    "mode": "static",
+    "quality": "1.00"
+  },
+  {
+    "test": "low-memory",
+    "world": "HOME",
+    "tier": "C",
+    "mode": "shader",
+    "quality": "0.82"
+  }
+]

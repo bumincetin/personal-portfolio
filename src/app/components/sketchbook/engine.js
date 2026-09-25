@@ -56,17 +56,7 @@
 
 /** Strips in the chain. Enough for a smooth curve. Authored value. */
 const N = 18;
-/**
- * Strips during the riffle.
- *
- * A strip is cheap when its face is a background image and expensive when it
- * holds a copy of a live spread, so the opening flourish — which turns every
- * spread in the volume in under two seconds — uses a coarser chain. The source
- * blurs the pages during the riffle (`#sb-mblur-1`/`-2`), so the difference
- * between an 18-strip curve and a 6-strip one is not visible; the difference in
- * how many hundred DOM nodes get built is.
- */
-const N_RIFFLE = 6;
+
 /** Peak curl of the arc, in radians. Authored value. */
 const BETA = 0.6;
 
@@ -87,6 +77,8 @@ const ZOOM_MAX = 1.5;
 const MAG = 2.3;
 
 export function createSketchbook({ root, labels, onFirstTurn }) {
+  let disposed = false;
+  let visible = true;
   const $ = (sel) => root.querySelector(sel);
 
   const wrap = $('#sbWrap');
@@ -113,6 +105,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
    */
   const leaves = Array.from(source.querySelectorAll('.sb-leaf'));
   if (!leaves.length) return () => {};
+  const homes = new Map(leaves.map(leaf => [leaf, leaf.parentElement]));
 
   /**
    * Leaves grouped into spreads.
@@ -168,9 +161,6 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   let idx = 0;
   let turn = null;
   let strips = [];
-  /* Declared up here rather than with the rest of the riffle: `buildCurl` reads
-     it, and `buildCurl` can run before that section's `let`s have executed. */
-  let introOn = false;
   const scrollPositions = new Map();
 
   const el = (t, c) => {
@@ -191,8 +181,25 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   function reclaim() {
     for (const leaf of leaves) {
       leaf.removeAttribute('tabindex');
-      if (leaf.parentElement !== source) source.appendChild(leaf);
+      homes.get(leaf).appendChild(leaf);
     }
+  }
+
+  // Decorative surfaces must never duplicate IDs or a live React instrument.
+  function decorativeCopy(node) {
+    const copy = node.cloneNode(false);
+    if (copy.nodeType === Node.ELEMENT_NODE) {
+      copy.removeAttribute('id');
+      copy.removeAttribute('for');
+      copy.removeAttribute('aria-labelledby');
+      copy.removeAttribute('aria-describedby');
+      if (node.matches('.reader-demo')) {
+        copy.textContent = node.closest('.sb-leaf')?.dataset.title ?? '';
+        return copy;
+      }
+    }
+    for (const child of node.childNodes) copy.appendChild(decorativeCopy(child));
+    return copy;
   }
 
   /**
@@ -223,7 +230,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
       const leaf = SPREADS[i][side === 'left' ? 0 : 1];
       if (leaf) {
         if (decorative) {
-          page.appendChild(leaf.cloneNode(true));
+          page.appendChild(decorativeCopy(leaf));
         } else {
           /*
            * A leaf that can scroll has to be reachable by keyboard.
@@ -278,7 +285,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   function buildCurl(dir, from, to) {
     strips = [];
     const single = singleUp();
-    const n = introOn ? N_RIFFLE : N;
+    const n = N;
     const span = single ? 1 - PAPER_X * 2 : SPAN;
     const c = el('div', `curl ${single ? 'next single-turn' : dir}`);
     c.setAttribute('aria-hidden', 'true');
@@ -486,47 +493,35 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   let last = 0;
 
   function animateTo(target, onDone, stiff, damp) {
-    spring = { kind: 'spring', v: 0, target, done: onDone, k: stiff || 150, c: damp || 22 };
-    kick();
-  }
-  function tweenTo(target, dur, onDone) {
-    spring = { kind: 'tween', from: turn ? turn.t : 0, target, dur, e: 0, done: onDone };
+    spring = { started: performance.now(), v: 0, target, done: onDone, k: stiff || 150, c: damp || 22 };
     kick();
   }
 
   function tick(now) {
     raf = null;
+    if (disposed || document.hidden || !visible) return;
     const dt = Math.min(0.032, (now - last) / 1000 || 0.016);
     last = now;
     if (spring && turn) {
       const s = spring;
-      if (s.kind === 'tween') {
-        s.e += dt;
-        const k = Math.min(1, s.e / s.dur);
-        turn.t = s.from + (s.target - s.from) * k;
-        applyTurn(turn.t);
-        if (k >= 1) {
-          spring = null;
-          s.done?.();
-        }
-      } else {
         const x = turn.t - s.target;
         s.v += (-s.k * x - s.c * s.v) * dt;
         turn.t += s.v * dt;
-        if (Math.abs(turn.t - s.target) < 0.002 && Math.abs(s.v) < 0.02) {
+        // A busy renderer must not stretch a released turn indefinitely. Keep
+        // the curved spring, then settle it within a bounded interaction window.
+        if (now - s.started > 1400 || (Math.abs(turn.t - s.target) < 0.002 && Math.abs(s.v) < 0.02)) {
           turn.t = s.target;
           spring = null;
           applyTurn(turn.t);
           s.done?.();
         } else applyTurn(turn.t);
-      }
     }
     viewSpring();
     const lmoved = loupeEase();
     if ((spring || viewActive || lmoved) && raf === null) raf = requestAnimationFrame(tick);
   }
   function kick() {
-    if (raf === null) {
+    if (!disposed && visible && !document.hidden && raf === null) {
       last = performance.now();
       raf = requestAnimationFrame(tick);
     }
@@ -586,7 +581,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   }
 
   const onPointerMove = (e) => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch' || REDUCED) return;
     tiltTo(e.clientX, e.clientY);
   };
   const onPointerOut = (e) => {
@@ -595,8 +590,8 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   const onBlur = () => setView(0, 0, view.tz);
   const onDblClick = () => setView(view.trx, view.try_, 1);
 
-  addEventListener('pointermove', onPointerMove, { passive: true });
-  addEventListener('pointerout', onPointerOut);
+  stage.addEventListener('pointermove', onPointerMove, { passive: true });
+  stage.addEventListener('pointerleave', onPointerOut);
   addEventListener('blur', onBlur);
   stage.addEventListener('dblclick', onDblClick);
 
@@ -619,7 +614,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
    * turn rather than a click or a selection.
    */
   const onDown = (e) => {
-    if (e.button !== 0 || introOn) return;
+    if (e.button !== 0) return;
     if (!e.target.closest('#sbBook')) return;
     if (e.target.closest('[data-scroll-region], .reader-demo, .reader-figure')) return;
     // A control on the page keeps the gesture. The leaf itself is focusable so
@@ -721,7 +716,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   let reported = false;
   function announce() {
     if (live) live.textContent = `${spreadTitle(idx)} — ${labels.leaf} ${spreadMeta(idx)}`;
-    if (!reported && !introOn) {
+    if (!reported) {
       reported = true;
       onFirstTurn?.();
     }
@@ -779,7 +774,6 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     kick();
   }
   function step(dir) {
-    if (introOn) endIntro();
     if (turn) {
       idx = turn.to;
       turn = null;
@@ -788,7 +782,6 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     commit();
   }
   function goTo(i) {
-    if (introOn) endIntro();
     if (i === idx) return;
     if (turn) {
       idx = turn.to;
@@ -811,6 +804,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
   if (rightBtn) rightBtn.onclick = () => step('next');
 
   const onKeyDown = (e) => {
+    if (e.defaultPrevented || !wrap.contains(e.target)) return;
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const t = e.target;
@@ -821,7 +815,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     hideHint();
     step(e.key === 'ArrowRight' ? 'next' : 'prev');
   };
-  addEventListener('keydown', onKeyDown);
+  root.addEventListener('keydown', onKeyDown);
 
   /* --------------------------------------------------- the loupe and tools */
 
@@ -884,7 +878,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
 
     for (const c of book.children) {
       if (c.classList.contains('sb-zone')) continue;
-      const copy = c.cloneNode(true);
+      const copy = decorativeCopy(c);
       copy.setAttribute('aria-hidden', 'true');
       copy.inert = true;
       zoomInner.appendChild(copy);
@@ -1069,6 +1063,7 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
       meta.textContent = `${labels.leaf} ${String(leaf.dataset.folio ?? i + 1).padStart(2, '0')}`;
       b.append(n, t, meta);
       b.onclick = () => {
+        history.replaceState(history.state, '', `#${leaf.id}`);
         const at = SPREADS.findIndex((pair) => pair.includes(leaf));
         if (at !== -1) goTo(at);
         wrap.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'center' });
@@ -1088,72 +1083,40 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     });
   }
 
-  /* --------------------------------------------------------------- the riffle */
-
-  let riffle = null;
-  let riffleAt = 0;
-
-  function endIntro() {
-    introOn = false;
-    wrap.classList.remove('intro', 'b2');
-  }
-  function riffleStep() {
-    const s = riffle[riffleAt];
-    wrap.classList.toggle('b2', s.bell > 0.55);
-    startTurn('next', 0);
-    tweenTo(1, s.dur, () => {
-      idx = turn.to;
-      turn = null;
-      riffleAt += 1;
-      if (introOn && riffleAt < riffle.length) {
-        paint();
-        riffleStep();
-      } else {
-        endIntro();
-        paint();
-        announce();
-      }
-    });
-  }
-  function startIntro() {
-    const coarse = singleUp() || matchMedia('(pointer: coarse)').matches;
-    if (coarse || REDUCED || M < 3) {
-      paint();
-      return;
-    }
-    // A full riffle, returning to the first spread: the book flips itself open
-    // and settles where it started.
-    const steps = M;
-    riffle = [];
-    for (let r = 0; r < steps; r += 1) {
-      const bell = Math.sin(Math.PI * (r / (steps - 1)));
-      riffle.push({ bell, dur: 0.26 - 0.19 * bell });
-    }
-    riffleAt = 0;
-    introOn = true;
-    wrap.classList.add('intro');
-    riffleStep();
-  }
-
   /* ----------------------------------------------------------------- boot */
 
+  const anchor = root.dataset.startLeaf || location.hash.slice(1);
+  const startAt = SPREADS.findIndex(pair => pair.some(leaf => leaf?.id === anchor));
+  if (startAt >= 0) idx = startAt;
   paint();
   applyView();
   syncZoom();
   restLoupe();
   root.dataset.ready = '1';
 
-  const introTimer = setTimeout(startIntro, 220);
+  // Enter on the selected leaf; an automatic full-volume riffle adds expensive
+  // DOM clones without helping the reader. Page-turn craftsmanship is retained.
+  const onVisibility = () => {
+    if (document.hidden || !visible) { if (raf !== null) cancelAnimationFrame(raf); raf = null; }
+    else kick();
+  };
+  const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; onVisibility(); });
+  observer.observe(stage);
+  document.addEventListener('visibilitychange', onVisibility);
 
   /* --------------------------------------------------------------- teardown */
 
   return function dispose() {
-    clearTimeout(introTimer);
+    if (disposed) return;
+    disposed = true;
+    observer.disconnect();
+    document.removeEventListener('visibilitychange', onVisibility);
+    delete root.dataset.ready;
     if (raf !== null) cancelAnimationFrame(raf);
-    removeEventListener('pointermove', onPointerMove);
-    removeEventListener('pointerout', onPointerOut);
+    stage.removeEventListener('pointermove', onPointerMove);
+    stage.removeEventListener('pointerleave', onPointerOut);
     removeEventListener('blur', onBlur);
-    removeEventListener('keydown', onKeyDown);
+    root.removeEventListener('keydown', onKeyDown);
     removeEventListener('resize', onResize);
     stage.removeEventListener('dblclick', onDblClick);
     stage.removeEventListener('pointerdown', onDown);
@@ -1172,5 +1135,11 @@ export function createSketchbook({ root, labels, onFirstTurn }) {
     // Leave the document as it was found: every leaf back in the source, so
     // React still owns exactly the tree it rendered.
     reclaim();
+    if (plateList) plateList.textContent = '';
+    if (leftBtn) leftBtn.onclick = null;
+    if (rightBtn) rightBtn.onclick = null;
+    if (zInBtn) zInBtn.onclick = null;
+    if (zOutBtn) zOutBtn.onclick = null;
+    if (loupeBtn) loupeBtn.onclick = null;
   };
 }

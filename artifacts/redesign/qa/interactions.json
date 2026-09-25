@@ -1,0 +1,13 @@
+[
+  "Menu Tab/Shift+Tab focus containment, Escape and focus restoration passed",
+  "Keyboard world selection and editorial navigation passed",
+  "Client navigation, back and forward passed",
+  "Book activation, page turn and article restoration passed",
+  "Synthetic optimizer activation passed",
+  "Contact validation, clipboard, email URL, mode persistence and complete guided flow passed; no message sent",
+  "Retained 3D library activation and Escape passed",
+  "World WebGL context loss preserves the direct volume index",
+  "reduced: readable content and orientation change passed",
+  "no-js: readable content and orientation change passed",
+  "no-webgl: readable content and orientation change passed"
+]

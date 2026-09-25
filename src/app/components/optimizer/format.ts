@@ -56,16 +56,16 @@ export const ASSET_COLORS: Record<Ticker, string> = {
   SPY: 'rgb(var(--c-brass-hi))',
   EFA: 'rgb(var(--c-brass))',
   EEM: 'rgb(var(--c-brass-lo))',
-  IEF: 'rgb(var(--c-copper-hi))',
-  TIP: 'rgb(var(--c-copper))',
-  BIL: 'rgb(var(--c-copper-lo))',
-  DBC: 'rgb(var(--c-text-3))',
-  GLD: 'rgb(var(--c-muted))',
+  IEF: 'var(--color-electric-blue)',
+  TIP: 'color-mix(in srgb, var(--color-electric-blue) 60%, var(--color-bone))',
+  BIL: 'color-mix(in srgb, var(--color-muted) 65%, var(--color-carbon))',
+  DBC: 'var(--color-light-muted)',
+  GLD: 'color-mix(in srgb, var(--color-bone) 75%, var(--color-graphite))',
 };
 
 export const STRATEGY_COLORS = {
   adaptive: 'rgb(var(--c-brass))',
-  benchmark: 'rgb(var(--c-copper))',
+  benchmark: 'var(--color-electric-blue)',
   cash: 'rgb(var(--c-muted))',
   paidIn: 'rgb(var(--c-muted-light))',
 } as const;

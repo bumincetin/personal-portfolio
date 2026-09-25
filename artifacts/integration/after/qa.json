@@ -1,0 +1,221 @@
+[
+  {
+    "width": 1920,
+    "height": 1080,
+    "stops": [
+      {
+        "y": 333,
+        "target": 332.625,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "stops": [
+      {
+        "y": 277,
+        "target": 277.1875,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 446,
+        "target": 445.5,
+        "camera": "VOLUME_02",
+        "shader": "1",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 614,
+        "target": 613.796875,
+        "camera": "VOLUME_03",
+        "shader": "2",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 782,
+        "target": 782.09375,
+        "camera": "VOLUME_04",
+        "shader": "3",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 950,
+        "target": 950.390625,
+        "camera": "VOLUME_05",
+        "shader": "4",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 1119,
+        "target": 1118.6875,
+        "camera": "VOLUME_06",
+        "shader": "5",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 1287,
+        "target": 1286.984375,
+        "camera": "VOLUME_07",
+        "shader": "6",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "stops": [
+      {
+        "y": 237,
+        "target": 236.53125,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "stops": [
+      {
+        "y": 237,
+        "target": 236.53125,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "stops": [
+      {
+        "y": 315,
+        "target": 315.390625,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "stops": [
+      {
+        "y": 261,
+        "target": 260.953125,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 393,
+    "height": 852,
+    "stops": [
+      {
+        "y": 239,
+        "target": 238.546875,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 383,
+        "target": 383.390625,
+        "camera": "VOLUME_02",
+        "shader": "1",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 528,
+        "target": 528.234375,
+        "camera": "VOLUME_03",
+        "shader": "2",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 673,
+        "target": 673.078125,
+        "camera": "VOLUME_04",
+        "shader": "3",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 818,
+        "target": 817.90625,
+        "camera": "VOLUME_05",
+        "shader": "4",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 963,
+        "target": 962.75,
+        "camera": "VOLUME_06",
+        "shader": "5",
+        "focus": "world-selection-title"
+      },
+      {
+        "y": 1108,
+        "target": 1107.59375,
+        "camera": "VOLUME_07",
+        "shader": "6",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 812,
+    "stops": [
+      {
+        "y": 227,
+        "target": 227.359375,
+        "camera": "VOLUME_01",
+        "shader": "0",
+        "focus": "world-selection-title"
+      }
+    ],
+    "axe": [],
+    "errors": []
+  },
+  {
+    "behavior": "rapid selection, wheel reversal, keyboard, persistent route canvas, history, visibility and isolated shader failure passed"
+  },
+  {
+    "mode": "reduced",
+    "pass": true
+  },
+  {
+    "mode": "no-js",
+    "pass": true
+  },
+  {
+    "mode": "no-webgl",
+    "pass": true
+  }
+]

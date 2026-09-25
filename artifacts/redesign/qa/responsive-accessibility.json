@@ -1,0 +1,162 @@
+[
+  {
+    "width": 1920,
+    "height": 1080,
+    "overflow": {
+      "width": 1920,
+      "scrollWidth": 1920,
+      "hero": 1080,
+      "scene": "true"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "overflow": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "hero": 900,
+      "scene": "true"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "route": "front-matter",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "route": "volumes/document-intelligence",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "route": "chapters",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "route": "contact",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "overflow": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "hero": 768,
+      "scene": "true"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "overflow": {
+      "width": 1024,
+      "scrollWidth": 1024,
+      "hero": 768,
+      "scene": "true"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "overflow": {
+      "width": 768,
+      "scrollWidth": 768,
+      "hero": 742.53125,
+      "scene": "false"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "overflow": {
+      "width": 430,
+      "scrollWidth": 430,
+      "hero": 751.78125,
+      "scene": "false"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  },
+  {
+    "width": 393,
+    "height": 852,
+    "overflow": {
+      "width": 393,
+      "scrollWidth": 393,
+      "hero": 744.15625,
+      "scene": "false"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  },
+  {
+    "width": 393,
+    "height": 852,
+    "route": "front-matter",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 393,
+    "height": 852,
+    "route": "volumes/document-intelligence",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 393,
+    "height": 852,
+    "route": "chapters",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 393,
+    "height": 852,
+    "route": "contact",
+    "overflow": false,
+    "audit": []
+  },
+  {
+    "width": 375,
+    "height": 812,
+    "overflow": {
+      "width": 375,
+      "scrollWidth": 375,
+      "hero": 741.65625,
+      "scene": "false"
+    },
+    "focusReturn": true,
+    "errors": [],
+    "audit": []
+  }
+]

@@ -1,4 +1,5 @@
 'use client';
+import palette from "@/lib/palette.json";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { motion, useMotionValue, useMotionValueEvent, useScroll, useTransform, type MotionStyle, type MotionValue } from 'motion/react';
@@ -7,7 +8,7 @@ import type { Chapter } from '@/lib/story';
 import type { ExperienceCopy } from '@/lib/experience-copy';
 import CareerArt from './CareerArt';
 
-const ACCENTS = ['#d0b58a', '#88bbb5', '#aabf98', '#b4a1ca', '#d1a17f'];
+const ACCENTS = [palette["light-muted"], palette["light-muted"], palette["light-muted"], palette["light-muted"], palette["light-muted"]];
 
 function ChapterMedia({ chapter, index, position, step, enhanced, ready, reduced, active, copy, onSelect }: {
   chapter: Chapter; index: number; position: MotionValue<number>; step: number;

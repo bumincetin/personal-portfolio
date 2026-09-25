@@ -1,3 +1,4 @@
+import { enterBook, enterShelf, openOptimizer } from './library-test-helpers.mjs';
 /** Browser regressions for Motion gestures and the public UI component integrations. */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
@@ -12,6 +13,7 @@ try {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(`${base}/en`);
+    await enterShelf(page);
     await page.locator('.experience.webgl-ready').waitFor({ timeout: 60000 });
     await page.locator('#loading').waitFor({ state: 'hidden', timeout: 60000 });
     const before = await page.locator('#counter').innerText();
@@ -35,9 +37,11 @@ try {
     console.log(`PASS ${reduced ? 'reduced' : 'full'} motion shelf controls`);
 
     await page.goto(`${base}/en/volumes/portfolio-optimizer`);
+    await enterBook(page);
     await page.locator('.sketchbook-root[data-ready="1"]').waitFor();
     if (await page.locator('#loupeBtn').getAttribute('aria-pressed') === 'true') await page.locator('#loupeBtn').click();
     await page.locator('.plate').nth(19).evaluate(element => element.click());
+    await openOptimizer(page);
     const optimizer = page.locator('#sbBook .sb-full .sb-leaf section[aria-label="Geopolitical portfolio optimizer"]');
     await optimizer.waitFor();
     console.log('Checking allocation chart and profile controls');
@@ -74,6 +78,7 @@ try {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto(`${base}/en`);
+  await enterShelf(page);
   await page.locator('.experience.webgl-ready').waitFor({ timeout: 60000 });
   await page.locator('#loading').waitFor({ state: 'hidden', timeout: 60000 });
   const cdp = await context.newCDPSession(page);

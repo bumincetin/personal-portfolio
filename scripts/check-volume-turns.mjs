@@ -1,3 +1,4 @@
+import { enterBook, enterShelf, openOptimizer } from './library-test-helpers.mjs';
 /** Verify the actual Volumes reader's curved geometry with touch and mouse input. */
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
@@ -26,11 +27,17 @@ try {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     const cdp = await context.newCDPSession(page);
-    const touch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', {
-      type, touchPoints: type === 'touchEnd' || type === 'touchCancel' ? [] : [{ x, y, id: 1 }],
-    });
+    const touch = async (type, x, y) => {
+      await cdp.send('Input.dispatchTouchEvent', {
+        type, touchPoints: type === 'touchEnd' || type === 'touchCancel' ? [] : [{ x, y, id: 1 }],
+      });
+      // Give Chromium a frame to deliver each move instead of coalescing an
+      // entire synthetic swipe into the release event under CPU contention.
+      await page.waitForTimeout(20);
+    };
     for (const locale of ['en', 'tr', 'it']) {
       await page.goto(`${base}/${locale}/volumes/document-intelligence`, { waitUntil: 'networkidle' });
+      await enterBook(page);
       await page.locator('.sketchbook-root[data-ready="1"]').waitFor();
       await page.locator('#sbBook').scrollIntoViewIfNeeded();
       const rect = await page.locator('#sbBook').boundingBox();
@@ -87,6 +94,7 @@ try {
     assert.deepEqual(errors, []);
     if (width === 390) {
       await page.goto(`${base}/en/front-matter`, { waitUntil: 'networkidle' });
+      await enterBook(page);
       await page.locator('.plate').nth(11).evaluate(element => element.click());
       await page.waitForTimeout(600);
       const dense = page.locator(leaf);
@@ -112,8 +120,10 @@ try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
   await page.goto(`${base}/en/volumes/document-intelligence`, { waitUntil: 'networkidle' });
-  await page.waitForTimeout(5000); // Let the opening riffle finish.
+  await enterBook(page);
+  await page.waitForTimeout(500); // Let layout settle before the mouse gesture.
   await page.locator('#loupeBtn').click();
+  await page.locator('#sbBook').scrollIntoViewIfNeeded();
   const rect = await page.locator('#sbBook').boundingBox();
   const x = rect.x + rect.width * .85, y = rect.y + rect.height * .4;
   await page.mouse.move(x, y);
@@ -133,6 +143,7 @@ try {
   const reduced = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
   const staticPage = await reduced.newPage();
   await staticPage.goto(`${base}/en/volumes/document-intelligence`, { waitUntil: 'networkidle' });
+  await enterBook(staticPage);
   await staticPage.locator('#sbRight').click();
   assert.equal(await folio(staticPage), '2');
   assert.equal(await staticPage.locator('#sbBook .curl').count(), 0, 'reduced motion skips the curl');

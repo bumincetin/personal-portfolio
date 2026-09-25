@@ -10,6 +10,7 @@ import ComparisonTable from './ComparisonTable';
 import RiskHud from './RiskHud';
 import { Panel } from './primitives';
 import { fmtMs } from './format';
+import './optimizer.css';
 
 /**
  * Geopolitical Portfolio Optimizer.
@@ -38,7 +39,7 @@ export default function PortfolioOptimizer({ initial, className = '' }: { initia
   useEffect(() => setMounted(true), []);
 
   return (
-    <section className={`w-full text-charcoal ${className}`} aria-label="Geopolitical portfolio optimizer">
+    <section className={`optimizer-publication w-full text-charcoal ${className}`} aria-label="Geopolitical portfolio optimizer">
       {/* Header strip */}
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">
         <div>
@@ -63,7 +64,7 @@ export default function PortfolioOptimizer({ initial, className = '' }: { initia
       </div>
 
       {/* Three-column dashboard */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-start">
+      <div className="optimizer-layout grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-start">
         <div className="md:col-span-1 md:order-2 lg:col-span-3 lg:order-1">
           <ControlPanel inputs={inputs} onChange={onChange} views={alloc.bl.views} />
         </div>

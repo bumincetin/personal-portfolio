@@ -32,9 +32,9 @@ Start each session on `/en` (or `/tr` / `/it`) with no prior explanation.
 > Look at this page for as long as you need. Then tell me, in your own words,
 > what this person does and who they do it for.
 
-**Watching for:** whether they interact with the shelf at all, or scroll past
-it. Whether they read a spine. Whether the "expensive problem" framing lands, or
-reads as vague.
+**Watching for:** whether the principal offer is understandable before exploring
+the books. Whether the service/research/synthetic labels are noticed. Whether
+the optional shelf helps recall without becoming a prerequisite.
 
 **Passes if:** within 60 seconds they can name at least two of the four services
 unprompted, without using the word "AI" as their whole answer.
@@ -63,8 +63,9 @@ whose content then turns out to be about something else.
 
 > Suppose you hired this person for that. What would you receive?
 
-**Watching for:** whether they find the "What you receive" page, and whether the
-book metaphor helps or obstructs — do they turn pages, or try to scroll?
+**Watching for:** whether the catalogue output and article section answer the
+question. If they choose book view, can they return to the article and keep
+reading without losing content?
 
 **Passes if:** they can describe a concrete deliverable, not "a report".
 
@@ -117,13 +118,14 @@ their place.
 > You have decided to make contact. Do that, but do not send anything.
 
 **Watching for:** whether they use the shelf's action, the navigation, or the
-footer. Whether the disabled-form state reads as broken or as honest. Whether
-they notice there is no booking calendar, and whether that bothers them.
+footer. Whether direct contact and the one-screen composer are discoverable.
+Can they use the optional questions, switch back, and keep their answers?
+Do they understand that the site opens a draft and sending happens in the app?
 
 **Passes if:** they reach `/contact` and can say what would happen next.
 
-**Fails if:** they read the disabled form as a bug, or expect an instant calendar
-booking.
+**Fails if:** they believe opening a draft sent a message, cannot find a copy
+fallback, or lose their answers when switching presentation.
 
 ---
 

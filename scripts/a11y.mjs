@@ -18,6 +18,7 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
+import { enterBook, openOptimizer } from './library-test-helpers.mjs';
 
 const require = createRequire(import.meta.url);
 const AXE_SOURCE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -66,6 +67,7 @@ async function scan(page, label) {
     RUN_OPTIONS,
   );
   scans += 1;
+  console.log(`Scanned ${label}`);
 
   for (const violation of result.violations) {
     findings.push({
@@ -99,20 +101,15 @@ try {
 
       for (const route of ROUTES) {
         await page.goto(`${BASE}${route}`, { waitUntil: 'domcontentloaded' });
-        // The shelf keeps rendering, so networkidle never fires on the home
-        // pages; a fixed settle is both sufficient and deterministic here.
-        // The shelf renders continuously and the volumes open with a riffle, so
-        // neither settles on `networkidle`. Scanning mid-animation measures a
-        // transient — a caption at 12% opacity is a frame of a crossfade, not a
-        // contrast failure — so both are given a fixed, deterministic settle.
-        const animated = route === '/en' || route === '/tr' || route.includes('/volumes/') || route.includes('front-matter');
-        await page.waitForTimeout(animated ? 6000 : 1000);
+        // Default routes are static HTML; wait for font layout before scanning.
+        await page.evaluate(() => document.fonts.ready);
+        await page.waitForTimeout(350);
         await scan(page, `${route} [${sizeName}]`);
       }
 
-      // A volume turned past its opening spread. The wait covers the riffle the
-      // book opens with; clicking before it settles would scan a leaf in flight.
+      // Scan the optional book after a page turn.
       await page.goto(`${BASE}/en/volumes/greenwashing-risk-scoring`, { waitUntil: 'domcontentloaded' });
+      await enterBook(page);
       await page.waitForTimeout(5000);
       await page.locator('#sbRight').click();
       // The turn is a spring, not a fixed tween; give it room to settle so the
@@ -122,12 +119,15 @@ try {
 
       // The optimizer, on the spread it has to itself.
       await page.goto(`${BASE}/en/volumes/portfolio-optimizer`, { waitUntil: 'domcontentloaded' });
+      await enterBook(page);
       await page.waitForTimeout(5000);
       await page.evaluate(() => {
         const rows = [...document.querySelectorAll('.plate')];
-        rows[rows.length - 1]?.click();
+        const demo = document.querySelector('[data-kind="demo"]');
+        rows[Number(demo?.dataset.folio)-1]?.click();
       });
       await page.waitForTimeout(3500);
+      await openOptimizer(page);
       await scan(page, `optimizer leaf [${sizeName}]`);
 
       // The mobile navigation dialog.

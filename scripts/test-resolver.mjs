@@ -34,7 +34,7 @@ export async function resolve(specifier, context, nextResolve) {
   // tsconfig path alias: "@/*" -> "./src/*"
   if (specifier.startsWith('@/')) {
     const resolved = firstExisting(path.join(SRC, specifier.slice(2)));
-    if (resolved) return { url: resolved, shortCircuit: true };
+    if (resolved) return { url: resolved, shortCircuit: true, ...(resolved.endsWith('.json') ? { importAttributes: { type: 'json' } } : {}) };
   }
 
   if (specifier.startsWith('./') || specifier.startsWith('../')) {

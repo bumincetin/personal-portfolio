@@ -1,4 +1,7 @@
+import palette from "@/lib/palette.json";
 import * as THREE from 'three';
+import { onExperienceFrame } from '@/app/components/experience/director/clock';
+import { experience } from '@/app/components/experience/director/experience-director';
 
 /** One local scene, no remote assets. Animation stops offscreen and when paused. */
 export function createNeuronScene(canvas: HTMLCanvasElement) {
@@ -10,14 +13,14 @@ export function createNeuronScene(canvas: HTMLCanvasElement) {
   const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 60);
   camera.position.set(4.8, 5.5, 7.8);
   camera.lookAt(0, 0.7, 0);
-  scene.add(new THREE.HemisphereLight(0xffead0, 0x32221d, 2.6));
-  const key = new THREE.DirectionalLight(0xffd9a3, 4); key.position.set(-3, 6, 4); scene.add(key);
-  const rim = new THREE.DirectionalLight(0x83c7c5, 2); rim.position.set(3, 3, -4); scene.add(rim);
+  scene.add(new THREE.HemisphereLight(palette["bone"], palette["surface-elevated"], 2.6));
+  const key = new THREE.DirectionalLight(palette["bone"], 4); key.position.set(-3, 6, 4); scene.add(key);
+  const rim = new THREE.DirectionalLight(palette["light-muted"], 2); rim.position.set(3, 3, -4); scene.add(rim);
   const book = new THREE.Group(); scene.add(book); book.rotation.y = -0.2;
-  const paper = new THREE.MeshStandardMaterial({ color: 0xe9dcca, roughness: 0.88, side: THREE.DoubleSide });
-  const leather = new THREE.MeshStandardMaterial({ color: 0x355c57, roughness: 0.6, metalness: 0.15 });
-  const gilt = new THREE.MeshStandardMaterial({ color: 0xb98c50, roughness: 0.35, metalness: 0.72 });
-  const ink = new THREE.LineBasicMaterial({ color: 0x8a7a66, transparent: true, opacity: 0.38 });
+  const paper = new THREE.MeshStandardMaterial({ color: palette["bone"], roughness: 0.88, side: THREE.DoubleSide });
+  const leather = new THREE.MeshStandardMaterial({ color: palette["graphite"], roughness: 0.6, metalness: 0.15 });
+  const gilt = new THREE.MeshStandardMaterial({ color: palette["muted"], roughness: 0.35, metalness: 0.72 });
+  const ink = new THREE.LineBasicMaterial({ color: palette["muted"], transparent: true, opacity: 0.38 });
   function sheet(side: number, lift: number) {
     const geo = new THREE.PlaneGeometry(2.3, 3.15, 28, 1);
     const pos = geo.attributes.position;
@@ -49,11 +52,11 @@ export function createNeuronScene(canvas: HTMLCanvasElement) {
   spine.rotation.x = Math.PI / 2; spine.position.y = 0.015; book.add(spine);
 
   const neuron = new THREE.Group(); neuron.position.y = 1.6; book.add(neuron);
-  const glowMaterial = new THREE.MeshStandardMaterial({ color: 0xffdca1, emissive: 0xd38c40, emissiveIntensity: 1.3, roughness: 0.4, metalness: 0.25 });
+  const glowMaterial = new THREE.MeshStandardMaterial({ color: palette["bone"], emissive: palette["muted"], emissiveIntensity: 1.3, roughness: 0.4, metalness: 0.25 });
   const nucleus = new THREE.Mesh(new THREE.IcosahedronGeometry(0.31, 3), glowMaterial); neuron.add(nucleus);
-  const membrane = new THREE.Mesh(new THREE.IcosahedronGeometry(0.43, 2), new THREE.MeshBasicMaterial({ color: 0xe8bc79, wireframe: true, transparent: true, opacity: 0.2 })); neuron.add(membrane);
-  const branchMaterial = new THREE.MeshStandardMaterial({ color: 0xc99654, emissive: 0x9a602e, emissiveIntensity: 0.5, roughness: 0.5, metalness: 0.3 });
-  const tipMaterial = new THREE.MeshBasicMaterial({ color: 0xa6e5d4 });
+  const membrane = new THREE.Mesh(new THREE.IcosahedronGeometry(0.43, 2), new THREE.MeshBasicMaterial({ color: palette["light-muted"], wireframe: true, transparent: true, opacity: 0.2 })); neuron.add(membrane);
+  const branchMaterial = new THREE.MeshStandardMaterial({ color: palette["light-muted"], emissive: palette["muted"], emissiveIntensity: 0.5, roughness: 0.5, metalness: 0.3 });
+  const tipMaterial = new THREE.MeshBasicMaterial({ color: palette["bone"] });
   const sparkGeometry = new THREE.SphereGeometry(0.035, 8, 6);
   const sparks: { mesh: THREE.Mesh; curve: THREE.CatmullRomCurve3; offset: number }[] = [];
   const tips: THREE.Mesh[] = [];
@@ -76,8 +79,8 @@ export function createNeuronScene(canvas: HTMLCanvasElement) {
       const node = new THREE.Mesh(new THREE.SphereGeometry(0.048, 8, 6), tipMaterial); node.position.copy(tip); neuron.add(node); tips.push(node);
     }
   }
-  const light = new THREE.PointLight(0xefbc74, 4, 6); light.position.set(0, 1.7, 0); book.add(light);
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.92, 0.008, 6, 100), new THREE.MeshBasicMaterial({ color: 0xc39664, transparent: true, opacity: 0.3 }));
+  const light = new THREE.PointLight(palette["light-muted"], 4, 6); light.position.set(0, 1.7, 0); book.add(light);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.92, 0.008, 6, 100), new THREE.MeshBasicMaterial({ color: palette["light-muted"], transparent: true, opacity: 0.3 }));
   ring.rotation.x = Math.PI / 2; ring.position.y = 0.01; scene.add(ring);
 
   let frame = 0, time = 0, lastTime = 0, progress = 0, paused = false, visible = true, disposed = false;
@@ -100,9 +103,10 @@ export function createNeuronScene(canvas: HTMLCanvasElement) {
     tips.forEach((tip, i) => tip.scale.setScalar(i < (progress + 1) * 6 ? 1.2 : 0.6));
     sparks.forEach(({mesh,curve,offset}) => mesh.position.copy(curve.getPoint((time * 0.22 + offset) % 1)));
     renderer.render(scene, camera);
-    if (moving && visible && !document.hidden && !disposed) frame = requestAnimationFrame(draw);
+    if (moving && visible && !document.hidden && !disposed) frame = 1;
   };
-  const refresh = () => { if (frame) cancelAnimationFrame(frame); frame = 0; if (!disposed && visible && !document.hidden) { lastTime = performance.now(); draw(lastTime); } };
+  const refresh = () => { frame = 0; if (!disposed && visible && !document.hidden) { lastTime = performance.now(); frame = 1; } };
+  const unsubscribe = onExperienceFrame(now => { if (frame && !disposed && visible && !document.hidden && !experience.snapshot.locked) draw(now); });
   const resize = new ResizeObserver(() => { const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); refresh(); });
   resize.observe(canvas);
   const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; refresh(); }); observer.observe(canvas);
@@ -114,7 +118,7 @@ export function createNeuronScene(canvas: HTMLCanvasElement) {
   return {
     update(step: number, stop: boolean) { progress = step; paused = stop; refresh(); },
     dispose() {
-      disposed = true; cancelAnimationFrame(frame); resize.disconnect(); observer.disconnect();
+      disposed = true; unsubscribe(); resize.disconnect(); observer.disconnect();
       canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerleave', reset);
       document.removeEventListener('visibilitychange', refresh); motion.removeEventListener('change', refresh);
       const geometries = new Set<THREE.BufferGeometry>(); const materials = new Set<THREE.Material>();

@@ -17,6 +17,7 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
+import { enterShelf, enterBook, openOptimizer } from './library-test-helpers.mjs';
 
 const BASE = process.argv[2]?.startsWith('http') ? process.argv[2] : 'http://localhost:3112';
 const shotsIndex = process.argv.indexOf('--shots');
@@ -104,6 +105,7 @@ try {
    * The shelf.
    * ---------------------------------------------------------------- */
   await page.goto(`${BASE}/en`, { waitUntil: 'domcontentloaded' });
+  await enterShelf(page);
   await page.waitForTimeout(8000);
 
   record(
@@ -130,21 +132,22 @@ try {
   await page.waitForTimeout(1400);
 
   /* ----------------------------------------------------------------
-   * The home page is the shelf, and only the shelf.
+   * Only explicitly entered immersive mode locks scrolling.
    * ---------------------------------------------------------------- */
   record(
-    'the home page does not scroll',
-    await page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight + 1),
+    'scroll is locked only inside the entered library',
+    await page.evaluate(() => document.body.style.overflow === 'hidden' && !!document.querySelector('dialog[open]')),
   );
   record(
-    'nothing is rendered below the shelf',
-    await page.evaluate(() => !document.querySelector('footer') && document.querySelectorAll('main').length === 1),
+    'the catalogue and contact path remain in the document',
+    await page.evaluate(() => document.querySelectorAll('.library-entry').length === 7 && !!document.querySelector('footer')),
   );
 
   // The shelf must not be the only way on: its wheel gesture browses volumes.
   await page.locator('.shelf-continue').click();
   await page.waitForURL('**/front-matter');
-  // The book riffles itself open before it settles.
+  await enterBook(page);
+  // Let optional book layout settle.
   await page.waitForTimeout(6000);
   /*
    * Leaves live in two places once the book is open: the source container, and
@@ -164,12 +167,13 @@ try {
     'the reading cue opens the front matter',
     (await page.getByText('The expensive part is never the work', { exact: false }).count()) > 0,
   );
-  record('the front matter is a book, not a page', (await countLeaves()) > 8, `${await countLeaves()} leaves`);
+  record('the front matter retains its optional book', (await countLeaves()) > 8, `${await countLeaves()} leaves`);
 
   /* ----------------------------------------------------------------
    * A volume, read as a book.
    * ---------------------------------------------------------------- */
   await page.goto(`${BASE}/en/volumes/greenwashing-risk-scoring`, { waitUntil: 'domcontentloaded' });
+  await enterBook(page);
   await page.waitForTimeout(6000);
 
   const leafCount = await countLeaves();
@@ -206,12 +210,12 @@ try {
 
   const start = await openLeaves();
   await page.locator('#sbRight').click();
-  await page.waitForTimeout(2200);
+  await page.waitForFunction(() => !document.querySelector('#sbBook .curl'));
   const after = await openLeaves();
   record('the page-turn control advances the book', start !== after, `${start} -> ${after}`);
 
   await page.keyboard.press('ArrowRight');
-  await page.waitForTimeout(2200);
+  await page.waitForFunction(() => !document.querySelector('#sbBook .curl'));
   const afterKey = await openLeaves();
   record('arrow keys turn pages', after !== afterKey, `${after} -> ${afterKey}`);
 
@@ -264,6 +268,7 @@ try {
 
   // The optimizer is bound into its own volume rather than a separate page.
   await page.goto(`${BASE}/en/volumes/portfolio-optimizer`, { waitUntil: 'domcontentloaded' });
+  await enterBook(page);
   await page.waitForTimeout(6000);
   await page.evaluate(() => {
     const leaves = [...document.querySelectorAll('#sbSource .sb-leaf, #sbBook .sb-full .sb-leaf')];
@@ -274,6 +279,7 @@ try {
     [...document.querySelectorAll('.plate')][Number(demo?.dataset.folio ?? 1) - 1]?.click();
   });
   await page.waitForTimeout(5000);
+  await openOptimizer(page);
   record(
     'the optimizer runs inside its volume',
     (await page.locator('#sbBook .sb-full .reader-demo').locator('table, svg, canvas').count()) > 0,
@@ -292,7 +298,7 @@ try {
   await page.goto(`${BASE}/en/contact`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(1400);
 
-  record('contact has a guided conversation', await page.locator('#conversation-name').isVisible());
+  record('contact has an immediate message composer', await page.locator('#conversation-idea').isVisible());
   record('contact keeps the CV on its own page', await page.locator('.career-chapter, .colophon-portrait').count() === 0);
   record('the inquiry fields work without a mail provider', await page.locator('#conversation-name').isEnabled());
   record('a direct email fallback is offered', await page.locator('.conversation-direct a[href^="mailto:"]').count() === 1);
@@ -354,11 +360,11 @@ try {
   await noJsPage.goto(`${BASE}/en`, { waitUntil: 'domcontentloaded' });
   record(
     'the shelf falls back to a readable catalogue without JS',
-    await noJsPage.locator('#static-fallback').isVisible(),
+    await noJsPage.locator('#catalogue').isVisible(),
   );
   record(
     'the catalogue lists every volume without JS',
-    (await noJsPage.locator('.fallback-book').count()) === 7,
+    (await noJsPage.locator('.library-entry').count()) === 7,
   );
 
   /*
@@ -390,7 +396,7 @@ try {
   await reducedPage.waitForTimeout(2500);
   record(
     'content is visible under prefers-reduced-motion',
-    await reducedPage.locator('#sbBook .sb-full').getByText('The expensive part is never the work', { exact: false }).first().isVisible(),
+    await reducedPage.locator('#sbSource').getByText('The expensive part is never the work', { exact: false }).first().isVisible(),
   );
   // The riffle is a flourish, and a flourish is the first thing to go.
   record(

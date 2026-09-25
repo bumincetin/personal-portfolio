@@ -1,172 +1,82 @@
 # Launch checklist
 
-Everything that must happen before this site is published, and everything that
-is deliberately switched off until someone decides otherwise.
+Local implementation and preview validation do not authorize publishing. No
+deployment, DNS, credentials or external services were changed during this audit.
 
-Nothing here has been done on the owner's behalf. No deployment has been made,
-no DNS touched, no secret created.
+## 1. Environment and contact
 
----
+The public composer needs no mail-provider configuration. It composes drafts for
+the visitor's chosen app and never calls `/api/contact`. Direct email and
+WhatsApp remain available without JavaScript. No delivery or response-time
+guarantee is made.
 
-## 1. Environment configuration
+The retained endpoint may use `RESEND_API_KEY`, `CONTACT_TO_EMAIL` and
+`CONTACT_FROM_EMAIL` from `.env.example`; missing or partial configuration
+disables **that endpoint**, not the composer. Do not activate it or provision a
+provider just to publish the current UI. A separately authorized delivery change
+would require provider acceptance/delivery testing, reply routing and abuse
+controls. Its current per-isolate limiter is best effort, not a distributed
+security guarantee.
 
-All secrets are server-side. On Cloudflare Workers use `wrangler secret put`, or
-Workers & Pages → the project → Settings → Variables and Secrets. Locally, a
-`.env.local` (git-ignored). See `.env.example`.
+## 2. Contact details
 
-| Variable | Required for | Effect while unset |
-| --- | --- | --- |
-| `RESEND_API_KEY` | contact form delivery | form renders **disabled**, with the verified email address offered instead |
-| `CONTACT_TO_EMAIL` | contact form delivery | same |
-| `CONTACT_FROM_EMAIL` | contact form delivery | same — must be a sender verified on the Resend account |
+- [ ] Confirm `cetinbumink@gmail.com` and +39 348 170 5207 remain current.
+- [ ] Any future domain email must exist before replacing the verified address.
+- [ ] `CONTACT.scheduling` remains null; do not invent a booking destination.
+- [ ] Confirm draft handoff and copy on the owner's intended email/WhatsApp apps
+  using synthetic text, without treating link activation as delivery.
 
-The three are read together: a partial configuration behaves exactly like none,
-so the form can never be shown as working when it is not.
+## 3. Factual sign-off
 
-### Verifying delivery for real
+Keep the open questions in `content-verification.md`: Alvolo role, current
+Bocconi affiliation, engagement dates/status, unpublished outcome evidence,
+ImpactScope details, client publication permission and cross-border professional
+partners. Research and synthetic labels and limitations must remain visible.
 
-This has **not** been done and cannot be done from here. After configuring:
+## 4. Translation and accessibility review
 
-1. Deploy to a preview environment.
-2. Submit one inquiry from the live form.
-3. Confirm it arrives at `CONTACT_TO_EMAIL`, and that replying goes back to the
-   address in the form (the endpoint sets `reply_to`).
-4. Confirm SPF/DKIM are aligned for `CONTACT_FROM_EMAIL`, or the mail will be
-   accepted by the provider and land in spam. The endpoint reports provider
-   *acceptance*; it cannot report delivery, and the success copy says so.
-5. Submit the same message twice in quick succession and confirm only one email
-   arrives — the endpoint sends an `Idempotency-Key`.
+- [ ] Native Turkish and Italian review, especially regulated-work vocabulary.
+- [ ] Keyboard and screen-reader review on the intended device/browser pairs.
+- [ ] Real-phone checks over cellular, including pinch zoom and app handoff.
+- [ ] Optional shelf controls across covers, portrait/landscape and large text.
 
-### Rate limiting
-
-`/api/contact` keeps a per-isolate, best-effort limiter (5/hour). On Workers,
-requests may land on different isolates, so it is a speed bump against a naive
-script, not a security control. If abuse ever justifies it, back it with a
-Durable Object or KV. The honeypot, the 16 kB body cap and server-side
-validation do not depend on it.
-
----
-
-## 2. Contact details to confirm
-
-Held in `src/lib/profile.ts`. Publishing anything not listed there requires
-editing that file, deliberately.
-
-- [ ] **Email.** `cetinbumink@gmail.com` is published site-wide. A domain
-      address (`hello@bumincetin.com` or similar) would suit a consulting
-      practice better. **It is not published anywhere** because it does not
-      exist. Provision it, then change `CONTACT.email.address` — and use it for
-      `CONTACT_TO_EMAIL` too.
-- [ ] **WhatsApp.** +39 348 170 5207 was already in the repository. Confirm it
-      is still current, or remove it.
-- [ ] **Scheduling.** There is no calendar link anywhere, on purpose:
-      `CONTACT.scheduling` is `null` and the contact page says a time gets
-      agreed in the first reply. If a booking calendar is ever set up, fill that
-      field — do not add a "Book a call" button before then.
-
----
-
-## 3. Content sign-off
-
-`docs/content-verification.md` lists ten open questions. These block nothing
-technically, but each is a claim the site currently declines to make:
-
-- [ ] Registered Alvolo role; whether "Co-Founder" is accurate
-- [ ] Whether any current Bocconi affiliation exists
-- [ ] Whether the Alvolo and ImpactScope engagements are ongoing or closed as dated
-- [ ] Evidence behind the "80%" figure, if it is ever to return
-- [ ] Whether the ImpactScope product used RoBERTa, and whether anything is citable
-- [ ] Client permission and measurement for any SME outcome that is real
-- [ ] Named cross-border professional partners, and their agreement to be referred to
-
----
-
-## 4. Translation review
-
-- [ ] **Turkish and Italian copy has not been reviewed by a native speaker.**
-      It was written as part of this work. `npm run test:i18n` proves the three
-      locales are structurally complete; it says nothing about whether they read
-      well or use the right register for a Turkish or Italian business audience.
-- [ ] The financial and legal vocabulary in the cross-border volume is the
-      highest-risk of the three languages. Have it read by someone who works in
-      that field in Italy.
-
----
+Structural locale parity and axe checks support this work but cannot replace it.
 
 ## 5. Analytics
 
-Off by default and deliberately so. `src/lib/analytics.ts` defines the funnel —
-`volume_viewed`, `volume_page_turned`, `inquiry_started`, `inquiry_submitted`,
-`contact_email_clicked` — and routes it to a sink that does nothing.
+The existing analytics sink remains disabled. Do not add a provider without
+authorization and an appropriate consent decision. Event properties must exclude
+names, addresses, message bodies and query strings. Opening/copying a draft is
+not a submitted or delivered inquiry.
 
-To enable:
+## 6. Search and deployment
 
-- [ ] Choose a provider and decide, with advice, whether it needs consent in the
-      EU. **This has not been assessed and no compliance claim is made.**
-- [ ] If consent is needed, add a consent gate before installing the sink.
-- [ ] Call `setAnalyticsSink()` once, client-side.
-- [ ] Confirm the `EventProps` type still permits nothing beyond a topic, a slug
-      and a kind. Names, addresses, form text and query strings must never reach
-      it, and the type is the enforcement.
-- [ ] `inquiry_submitted` fires only on backend acceptance; `contact_email_clicked`
-      is a different event. Do not merge them in a dashboard — a click on an
-      address is not a lead.
+- [ ] Verify the published origin against `PROFILE.siteUrl` after an authorized
+  deploy. Preserve canonicals, hreflang, verified Person schema and `/sitemap.xml`.
+- [ ] Recheck historical 308 redirects at the CDN; `/about` goes to `/chapters`.
+- [ ] Keep `/robots.txt` disallowing `/api/`.
+- [ ] Run `npm run build` to validate the Cloudflare artifact. Publishing is a
+  separate action (`npm run deploy`) and was not performed here.
 
----
+## 7. Assets and licenses
 
-## 6. Search and indexing
+- [ ] Confirm the ThreeUI commercial-use license covers the shelf and artwork.
+  Attribution alone is not a license. Original source hashes/notices stay intact.
+- [ ] Keep Bklit/Kokonut MIT notices and the existing font assets.
+- [ ] The live navbar uses `logo-mark.webp`; the original logo is also a generator
+  input. Do not delete source artwork based only on a `src/` import scan.
+- [ ] Portrait dimensions and Next/Image optimization remain. Unreferenced
+  photographs are not presumed to contribute client transfer and were preserved.
 
-- [ ] Confirm the deployed origin matches `PROFILE.siteUrl`
-      (`https://bumincetin.com`). Canonicals, `hreflang` and the sitemap are all
-      built from it.
-- [ ] After the first deploy, re-crawl the retired URLs and confirm each returns
-      **308** to its volume (`next.config.js`). Verified locally; re-verify in
-      production, where a CDN may cache differently.
-- [ ] Submit `/sitemap.xml`. It lists only live routes — the redirects are
-      deliberately absent.
-- [ ] Confirm `/robots.txt` still disallows `/api/`.
-- [ ] The `Person` structured data on the colophon asserts only name, city,
-      `alumniOf`, languages and profile links. Do not add `jobTitle` or
-      `worksFor` until item 3 above is settled.
+## 8. Production verification
 
----
+Run `npm run verify`, `test:generated`, and the browser suites against the actual
+preview URL: `test:library`, `test:smoke`, `test:mobile`, `test:experience`,
+`test:motion`, `test:a11y`, `test:canvas`, `test:links`, `test:redirects`,
+`test:chapter-pages`, `test:volume-turns`. Counts/outcomes belong in the audit,
+not hard-coded historical checklist claims.
 
-## 7. Assets and licensing
-
-- [ ] **The shelf presentation is ThreeUI's work**, used under whatever licence
-      covers the registered component. `public/shelf/covers.webp` and
-      `wood.webp` are the authored textures, extracted byte-identical from the
-      canonical source. Confirm the licence permits this use on a commercial
-      site before publishing. The static catalogue credits it; the credit is not
-      a substitute for the licence.
-- [ ] `public/portrait.jpg` is 2.27 MB at 2048×2048. Next/Image resizes it, but
-      re-exporting at ~1200 px would cut the source weight.
-- [ ] Delete the unreferenced images in `public/`: `bumin1.webp`, `bumin2.webp`,
-      `bumin3.webp`, `profile.webp`, `BuminLogo.png`, and the Next.js scaffolding
-      SVGs (`next.svg`, `vercel.svg`, `file.svg`, `globe.svg`, `window.svg`).
-      Nothing in `src/` references any of them. They are left in place rather
-      than removed here because they are your photographs and the call is
-      yours; `logo.webp` and `portrait.jpg` *are* used and must stay.
-
----
-
-## 8. Production checks
-
-- [ ] `npm run verify` (lint → types → i18n → contrast → unit → build)
-- [ ] `npm run test:smoke -- <preview-url>` — 42 checks
-- [ ] `npm run test:a11y -- <preview-url>` — 55 scans
-- [ ] `npm run test:canvas -- <preview-url>` — 8 overlay elements over the scene
-- [ ] `npm run test:links -- <preview-url>` — nothing 404s. Worth running against
-      the deployed origin as well as locally: a static asset that resolves from
-      the dev server can still be missing from what actually got uploaded.
-- [ ] `npm run test:redirects -- <preview-url>` — 44 retired URLs. Run this
-      against the **deployed** origin, not just locally: redirects are the one
-      thing that a hosting layer can silently rewrite.
-- [ ] Load the home page on a real mid-range phone over cellular and confirm the
-      WebGL shelf is acceptable there. It has only been exercised in desktop
-      Chrome at a 390 px viewport, which is **not** the same as a real device.
-- [ ] Confirm the static catalogue appears when WebGL is unavailable — force it
-      by disabling hardware acceleration.
-- [ ] **Core Web Vitals have not been measured.** If they matter, gather field
-      data after launch; a single lab run proves nothing about the 75th
-      percentile, and INP cannot be measured without real interactions.
+See `library-audit.md` for reproducible Lighthouse settings and actual local
+measurements. Field mobile/desktop 75th-percentile LCP, INP and CLS remain
+unmeasured. Targets: LCP ≤2.5 s, INP ≤200 ms, CLS ≤0.1. TBT is a lab measure and
+does not establish INP or conversion improvement.

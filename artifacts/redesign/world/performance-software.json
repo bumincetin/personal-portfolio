@@ -1,0 +1,479 @@
+[
+  {
+    "mode": "desktop",
+    "configuration": "1440x900, local unthrottled Chromium",
+    "lcp": 212,
+    "cls": 0.00006816421320408951,
+    "loadLongTasks": [
+      80,
+      95,
+      660,
+      281,
+      316,
+      308,
+      271,
+      231,
+      247
+    ],
+    "totalBlockingMs": 2039,
+    "phases": [
+      {
+        "phase": "LOADING",
+        "time": 27.100000001490116
+      },
+      {
+        "phase": "INTRO",
+        "time": 536.3999999985099
+      },
+      {
+        "phase": "HOME",
+        "time": 2896.699999999255
+      }
+    ],
+    "scene": {
+      "engine": "three.js r165",
+      "camera": "HOME",
+      "draws": "76",
+      "frames": "8",
+      "quality": "0.82",
+      "geometries": "76",
+      "textures": "10",
+      "position": "11.00,8.50,17.00",
+      "width": 1180,
+      "height": 738,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    "idleFrames": 0,
+    "animation": {
+      "frameIntervals": [
+        239.89999999925476,
+        266.60000000000036,
+        250,
+        200,
+        216.69999999999982,
+        233.30000000000018,
+        283.3000000000002
+      ],
+      "scene": {
+        "engine": "three.js r165",
+        "camera": "VOLUME_07",
+        "draws": "76",
+        "frames": "16",
+        "quality": "0.67",
+        "geometries": "76",
+        "textures": "10",
+        "position": "4.70,4.20,13.00"
+      },
+      "elapsed": 2606.3999999992548
+    },
+    "interactionEvents": [
+      {
+        "name": "pointerdown",
+        "duration": 264
+      },
+      {
+        "name": "pointerup",
+        "duration": 264
+      },
+      {
+        "name": "click",
+        "duration": 264
+      },
+      {
+        "name": "keydown",
+        "duration": 296
+      },
+      {
+        "name": "keyup",
+        "duration": 296
+      }
+    ],
+    "jsEncodedBytes": 254031,
+    "fontEncodedBytes": 195768,
+    "imageEncodedBytes": 0,
+    "resources": [
+      {
+        "name": "image?url=%2Flogo-mark.webp&w=32&q=75",
+        "type": "link",
+        "encoded": 663,
+        "transfer": 963,
+        "duration": 10.199999999254942
+      },
+      {
+        "name": "c88a57ddd49b4922.css",
+        "type": "link",
+        "encoded": 8793,
+        "transfer": 9093,
+        "duration": 15.600000001490116
+      },
+      {
+        "name": "b7bf4fb041e8cc33.css",
+        "type": "link",
+        "encoded": 5542,
+        "transfer": 5842,
+        "duration": 16.400000002235174
+      },
+      {
+        "name": "webpack-c44040c0b485d2b6.js",
+        "type": "link",
+        "encoded": 2532,
+        "transfer": 2832,
+        "duration": 14.300000000745058
+      },
+      {
+        "name": "main-app-263780611c38eb6d.js",
+        "type": "script",
+        "encoded": 557,
+        "transfer": 857,
+        "duration": 19.700000002980232
+      },
+      {
+        "name": "255-59971d1efcac0287.js",
+        "type": "script",
+        "encoded": 46436,
+        "transfer": 46736,
+        "duration": 25.400000002235174
+      },
+      {
+        "name": "4bd1b696-c023c6e3521b1417.js",
+        "type": "script",
+        "encoded": 54358,
+        "transfer": 54658,
+        "duration": 27.600000001490116
+      },
+      {
+        "name": "619-ba102abea3e3d0e4.js",
+        "type": "script",
+        "encoded": 3389,
+        "transfer": 3689,
+        "duration": 23.199999999254942
+      },
+      {
+        "name": "356-1143d17a0ca27254.js",
+        "type": "script",
+        "encoded": 5161,
+        "transfer": 5461,
+        "duration": 26.100000001490116
+      },
+      {
+        "name": "layout-d327ff492b722800.js",
+        "type": "script",
+        "encoded": 2808,
+        "transfer": 3108,
+        "duration": 26.699999999254942
+      },
+      {
+        "name": "page-b901fd8d4308c022.js",
+        "type": "script",
+        "encoded": 4129,
+        "transfer": 4429,
+        "duration": 27.699999999254942
+      },
+      {
+        "name": "instrument-serif.woff2",
+        "type": "link",
+        "encoded": 15040,
+        "transfer": 15340,
+        "duration": 13.5
+      },
+      {
+        "name": "e4af272ccee01ff0-s.p.woff2",
+        "type": "css",
+        "encoded": 48432,
+        "transfer": 48732,
+        "duration": 33.5
+      },
+      {
+        "name": "558ca1a6aa3cb55e-s.woff2",
+        "type": "css",
+        "encoded": 31340,
+        "transfer": 31640,
+        "duration": 5.899999998509884
+      },
+      {
+        "name": "instrument-serif-italic.woff2",
+        "type": "css",
+        "encoded": 15684,
+        "transfer": 15984,
+        "duration": 5.899999998509884
+      },
+      {
+        "name": "8e9860b6e62d6359-s.p.woff2",
+        "type": "css",
+        "encoded": 85272,
+        "transfer": 85572,
+        "duration": 44.599999997764826
+      },
+      {
+        "name": "b536a0f1.7974b352d827e310.js",
+        "type": "script",
+        "encoded": 130501,
+        "transfer": 130801,
+        "duration": 22.5
+      },
+      {
+        "name": "375.e3edb66bc3bb5e40.js",
+        "type": "script",
+        "encoded": 1157,
+        "transfer": 1457,
+        "duration": 3.600000001490116
+      },
+      {
+        "name": "296.d2326a25c1f5a28e.js",
+        "type": "script",
+        "encoded": 5535,
+        "transfer": 5835,
+        "duration": 3.199999999254942
+      }
+    ],
+    "heapBytes": 10148068
+  },
+  {
+    "mode": "mobile-4g",
+    "configuration": "393x852, 1.6Mbps down, 150ms latency, 4x CPU slowdown",
+    "lcp": 1800,
+    "cls": 0,
+    "loadLongTasks": [
+      254,
+      472,
+      478,
+      96,
+      51,
+      78,
+      887,
+      533,
+      720,
+      185,
+      170,
+      154,
+      162,
+      158,
+      136,
+      100,
+      115,
+      96
+    ],
+    "totalBlockingMs": 3945,
+    "phases": [
+      {
+        "phase": "LOADING",
+        "time": 260.30000000074506
+      },
+      {
+        "phase": "INTRO",
+        "time": 6122.400000002235
+      },
+      {
+        "phase": "HOME",
+        "time": 8154.199999999255
+      }
+    ],
+    "scene": {
+      "engine": "three.js r165",
+      "camera": "HOME",
+      "draws": "75",
+      "frames": "11",
+      "quality": "0.82",
+      "geometries": "76",
+      "textures": "10",
+      "position": "20.00,23.00,31.00",
+      "width": 322,
+      "height": 698,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    },
+    "idleFrames": 0,
+    "animation": {
+      "frameIntervals": [
+        291.7999999992553,
+        100,
+        116.69999999999891,
+        116.60000000000036,
+        83.39999999999964,
+        99.90000000000146,
+        83.39999999999964,
+        100,
+        99.89999999999964,
+        116.79999999999927,
+        99.90000000000146,
+        100
+      ],
+      "scene": {
+        "engine": "three.js r165",
+        "camera": "VOLUME_07",
+        "draws": "55",
+        "frames": "24",
+        "quality": "0.65",
+        "geometries": "76",
+        "textures": "10",
+        "position": "4.70,6.00,15.00"
+      },
+      "elapsed": 2608.3999999992557
+    },
+    "interactionEvents": [
+      {
+        "name": "pointerdown",
+        "duration": 176
+      },
+      {
+        "name": "pointerup",
+        "duration": 176
+      },
+      {
+        "name": "click",
+        "duration": 176
+      },
+      {
+        "name": "keydown",
+        "duration": 176
+      },
+      {
+        "name": "keyup",
+        "duration": 256
+      },
+      {
+        "name": "pointerdown",
+        "duration": 696
+      },
+      {
+        "name": "pointerup",
+        "duration": 696
+      },
+      {
+        "name": "click",
+        "duration": 696
+      }
+    ],
+    "jsEncodedBytes": 254031,
+    "fontEncodedBytes": 164428,
+    "imageEncodedBytes": 0,
+    "resources": [
+      {
+        "name": "image?url=%2Flogo-mark.webp&w=32&q=75",
+        "type": "link",
+        "encoded": 663,
+        "transfer": 963,
+        "duration": 173.89999999850988
+      },
+      {
+        "name": "c88a57ddd49b4922.css",
+        "type": "link",
+        "encoded": 8793,
+        "transfer": 9093,
+        "duration": 373.3999999985099
+      },
+      {
+        "name": "b7bf4fb041e8cc33.css",
+        "type": "link",
+        "encoded": 5542,
+        "transfer": 5842,
+        "duration": 295.5999999977648
+      },
+      {
+        "name": "webpack-c44040c0b485d2b6.js",
+        "type": "link",
+        "encoded": 2532,
+        "transfer": 2832,
+        "duration": 248.69999999925494
+      },
+      {
+        "name": "4bd1b696-c023c6e3521b1417.js",
+        "type": "script",
+        "encoded": 54358,
+        "transfer": 54658,
+        "duration": 1122.2000000029802
+      },
+      {
+        "name": "255-59971d1efcac0287.js",
+        "type": "script",
+        "encoded": 46436,
+        "transfer": 46736,
+        "duration": 1090.199999999255
+      },
+      {
+        "name": "main-app-263780611c38eb6d.js",
+        "type": "script",
+        "encoded": 557,
+        "transfer": 857,
+        "duration": 417.80000000074506
+      },
+      {
+        "name": "619-ba102abea3e3d0e4.js",
+        "type": "script",
+        "encoded": 3389,
+        "transfer": 3689,
+        "duration": 510.8999999985099
+      },
+      {
+        "name": "356-1143d17a0ca27254.js",
+        "type": "script",
+        "encoded": 5161,
+        "transfer": 5461,
+        "duration": 637.3000000007451
+      },
+      {
+        "name": "layout-d327ff492b722800.js",
+        "type": "script",
+        "encoded": 2808,
+        "transfer": 3108,
+        "duration": 654.9000000022352
+      },
+      {
+        "name": "page-b901fd8d4308c022.js",
+        "type": "script",
+        "encoded": 4129,
+        "transfer": 4429,
+        "duration": 728.5
+      },
+      {
+        "name": "instrument-serif.woff2",
+        "type": "link",
+        "encoded": 15040,
+        "transfer": 15340,
+        "duration": 460.1000000014901
+      },
+      {
+        "name": "e4af272ccee01ff0-s.p.woff2",
+        "type": "css",
+        "encoded": 48432,
+        "transfer": 48732,
+        "duration": 822.5
+      },
+      {
+        "name": "instrument-serif-italic.woff2",
+        "type": "css",
+        "encoded": 15684,
+        "transfer": 15984,
+        "duration": 479.19999999925494
+      },
+      {
+        "name": "8e9860b6e62d6359-s.p.woff2",
+        "type": "css",
+        "encoded": 85272,
+        "transfer": 85572,
+        "duration": 937.8000000007451
+      },
+      {
+        "name": "b536a0f1.7974b352d827e310.js",
+        "type": "script",
+        "encoded": 130501,
+        "transfer": 130801,
+        "duration": 870.1999999992549
+      },
+      {
+        "name": "375.e3edb66bc3bb5e40.js",
+        "type": "script",
+        "encoded": 1157,
+        "transfer": 1457,
+        "duration": 206.29999999701977
+      },
+      {
+        "name": "296.d2326a25c1f5a28e.js",
+        "type": "script",
+        "encoded": 5535,
+        "transfer": 5835,
+        "duration": 237.19999999925494
+      }
+    ],
+    "heapBytes": 12867440
+  }
+]

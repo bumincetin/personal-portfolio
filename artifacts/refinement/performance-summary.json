@@ -1,0 +1,230 @@
+[
+  {
+    "stage": "before",
+    "mode": "desktop",
+    "lcpMs": 444,
+    "cls": 0,
+    "mainThreadSeconds": 2.16,
+    "heapMiB": 13.06,
+    "maxSampledEventMs": 40,
+    "jsBytes": 410201,
+    "raf": {
+      "idle": {
+        "median": 16.7,
+        "p95": 16.9
+      },
+      "camera": {
+        "median": 16.7,
+        "p95": 16.9
+      },
+      "scroll": {
+        "median": 16.7,
+        "p95": 16.9
+      }
+    },
+    "frames": {
+      "idle": {
+        "world": 0,
+        "shader": 61
+      },
+      "camera": {
+        "world": 78,
+        "shader": 49
+      },
+      "scroll": {
+        "world": 87,
+        "shader": 60
+      }
+    }
+  },
+  {
+    "stage": "before",
+    "mode": "mobile-4g",
+    "lcpMs": 1384,
+    "cls": 0,
+    "mainThreadSeconds": 6.283,
+    "heapMiB": 13.03,
+    "maxSampledEventMs": 184,
+    "jsBytes": 410201,
+    "raf": {
+      "idle": {
+        "median": 16.7,
+        "p95": 16.8
+      },
+      "camera": {
+        "median": 16.7,
+        "p95": 33.5
+      },
+      "scroll": {
+        "median": 16.7,
+        "p95": 33.4
+      }
+    },
+    "frames": {
+      "idle": {
+        "world": 0,
+        "shader": 30
+      },
+      "camera": {
+        "world": 61,
+        "shader": 27
+      },
+      "scroll": {
+        "world": 64,
+        "shader": 30
+      }
+    }
+  },
+  {
+    "stage": "after",
+    "mode": "desktop",
+    "lcpMs": 380,
+    "cls": 0.000028920868296682098,
+    "mainThreadSeconds": 1.883,
+    "heapMiB": 11.11,
+    "maxSampledEventMs": 32,
+    "jsBytes": 408966,
+    "raf": {
+      "idle": {
+        "median": 16.7,
+        "p95": 16.9
+      },
+      "camera": {
+        "median": 16.7,
+        "p95": 16.9
+      },
+      "scroll": {
+        "median": 16.7,
+        "p95": 16.9
+      }
+    },
+    "frames": {
+      "idle": {
+        "world": 0,
+        "shader": 60
+      },
+      "camera": {
+        "world": 44,
+        "shader": 40
+      },
+      "scroll": {
+        "world": 87,
+        "shader": 60
+      }
+    }
+  },
+  {
+    "stage": "after",
+    "mode": "mobile-4g",
+    "lcpMs": 1560,
+    "cls": 0,
+    "mainThreadSeconds": 6.228,
+    "heapMiB": 9.64,
+    "maxSampledEventMs": 216,
+    "jsBytes": 408966,
+    "raf": {
+      "idle": {
+        "median": 16.7,
+        "p95": 16.8
+      },
+      "camera": {
+        "median": 16.7,
+        "p95": 33.3
+      },
+      "scroll": {
+        "median": 16.7,
+        "p95": 33.5
+      }
+    },
+    "frames": {
+      "idle": {
+        "world": 0,
+        "shader": 30
+      },
+      "camera": {
+        "world": 35,
+        "shader": 27
+      },
+      "scroll": {
+        "world": 64,
+        "shader": 29
+      }
+    }
+  },
+  {
+    "stage": "repeat",
+    "mode": "desktop",
+    "lcpMs": 392,
+    "cls": 0,
+    "mainThreadSeconds": 2.005,
+    "heapMiB": 16.29,
+    "maxSampledEventMs": 24,
+    "jsBytes": 408966,
+    "raf": {
+      "idle": {
+        "median": 16.7,
+        "p95": 17
+      },
+      "camera": {
+        "median": 16.7,
+        "p95": 16.9
+      },
+      "scroll": {
+        "median": 16.7,
+        "p95": 16.9
+      }
+    },
+    "frames": {
+      "idle": {
+        "world": 0,
+        "shader": 60
+      },
+      "camera": {
+        "world": 43,
+        "shader": 40
+      },
+      "scroll": {
+        "world": 87,
+        "shader": 61
+      }
+    }
+  },
+  {
+    "stage": "repeat",
+    "mode": "mobile-4g",
+    "lcpMs": 1432,
+    "cls": 0,
+    "mainThreadSeconds": 6.049,
+    "heapMiB": 14.47,
+    "maxSampledEventMs": 192,
+    "jsBytes": 408966,
+    "raf": {
+      "idle": {
+        "median": 16.7,
+        "p95": 16.8
+      },
+      "camera": {
+        "median": 16.7,
+        "p95": 33.3
+      },
+      "scroll": {
+        "median": 16.7,
+        "p95": 33.5
+      }
+    },
+    "frames": {
+      "idle": {
+        "world": 0,
+        "shader": 30
+      },
+      "camera": {
+        "world": 29,
+        "shader": 25
+      },
+      "scroll": {
+        "world": 65,
+        "shader": 29
+      }
+    }
+  }
+]

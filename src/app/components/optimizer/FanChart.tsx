@@ -9,7 +9,7 @@ import { PanelTitle } from './primitives';
 const M = { top: 14, right: 64, bottom: 26, left: 52 };
 const HEIGHT = 300;
 
-const useMeasuredWidth = (ref: React.RefObject<HTMLDivElement>, fallback = 640) => {
+const useMeasuredWidth = (ref: React.RefObject<HTMLDivElement | null>, fallback = 640) => {
   const [width, setWidth] = useState(fallback);
   useEffect(() => {
     const el = ref.current;
@@ -167,7 +167,7 @@ export default function FanChart({ sim, pending }: { sim: SimulationOutput; pend
             <path d={pathFor(paidIn)} fill="none" stroke={STRATEGY_COLORS.paidIn} strokeWidth={1} />
             {/* Medians */}
             {series.map((s) => (
-              <path key={s.key} d={pathFor(s.values)} fill="none" stroke={s.color} strokeWidth={s.key === 'adaptive' ? 2 : 1.5} strokeLinejoin="round" strokeLinecap="round" />
+              <path key={s.key} d={pathFor(s.values)} fill="none" stroke={s.color} strokeWidth={s.key === 'adaptive' ? 2 : 1.5} strokeDasharray={s.key === 'benchmark' ? '7 4' : s.key === 'cash' ? '2 4' : undefined} strokeLinejoin="round" strokeLinecap="round" />
             ))}
             {/* End labels */}
             {endLabels.map((l) => (

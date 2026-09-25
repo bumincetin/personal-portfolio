@@ -40,6 +40,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { adaptCSSColors } from './palette-adapter.mjs';
 
 /*
  * The canonical source, kept in the repository.
@@ -173,7 +174,7 @@ const header = `/*
  * e0330548b1ac905cf1b81698163ffa29f8a3a8c39b8d39f9b71ba5b9255b6dd1, verified on
  * download. Regenerate with \`node scripts/port-sketchbook-css.mjs\`.
  *
- * Declarations are the authored ones, unchanged. Only selectors were rewritten,
+ * Authored structure is retained; color declarations use the shared palette. Selectors are scoped,
  * to scope the sheet to \`.sketchbook-root\` instead of \`:root\`/\`html\`/\`body\` —
  * the source is a standalone page and would otherwise repaint the whole site.
  *
@@ -187,5 +188,5 @@ const header = `/*
 const css = header + transform(style).replace(/meng-to-sketchbook\//g, '/sketchbook/') + '\n';
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
-fs.writeFileSync(OUT, css);
+fs.writeFileSync(OUT, adaptCSSColors(css));
 console.log(`${OUT}: ${css.split('\n').length} lines from a verified source`);

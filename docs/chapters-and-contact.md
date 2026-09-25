@@ -15,10 +15,15 @@ keeps the gallery flat and navigates instantly.
 All five chapters remain readable without JavaScript. The print stylesheet exposes the CV and contact identity.
 `/about` redirects here. Both new destinations appear in navigation and sitemap.
 
-`/[locale]/contact` asks for name/company, subject, idea and timing. It compiles
-an editable draft locally. No answers are posted to the server or analytics.
-The visitor chooses the destination and sends the message there. Back navigation
-preserves the answers; returning to review regenerates the draft from them.
+`/[locale]/contact` opens with verified email and WhatsApp links and a simple
+message composer. Only a nonempty message is required. Name, company, subject
+and timing are optional details. The guided questions are an optional second
+presentation of the same state. Switching modes or moving backward preserves
+answers and manual draft edits; replacing those edits from current answers is
+an explicit action. Topic links from services preselect the relevant subject.
+Drafts remain in page memory and are not posted to the server or analytics.
+The visitor opens an email or WhatsApp draft and sends the message in that app.
+Copy is available when no client is installed or a draft exceeds the URL limit.
 
 WhatsApp uses the existing number from `profile.ts` and the documented
 [click-to-chat format](https://faq.whatsapp.com/5913398998672934).
@@ -28,11 +33,12 @@ Desktop uses `mailto:`: the operating system chooses the registered mail app.
 A browser cannot force every visitor's desktop email-app preference. App launch
 also requires installation; the site cannot confirm that a draft was sent.
 
-The contact sculpture is built with Three.js geometry and local lighting. It
+The contact sculpture loads only after explicit activation. It is built with
+Three.js geometry and local lighting. It
 pauses offscreen, in background tabs, under reduced motion, or from its pause
 control. Disposal releases geometry, materials, observers and the renderer.
 The SVG fallback and direct contact links work without WebGL. With JavaScript
-disabled the interactive questionnaire is hidden so native form submission
+disabled the interactive composer is hidden so native form submission
 cannot put answers into the page URL.
 
 `npm run test:experience -- <url>` checks both routes at 360, 768 and 1440 pixels,

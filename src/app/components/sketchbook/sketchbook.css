@@ -16,12 +16,12 @@
  */
 
 .sketchbook-root {
-  --paper:#ece7dc;
-  --ink:#2b2721;
-  --ink-soft:rgba(43,39,33,.58);
-  --ink-faint:rgba(43,39,33,.36);
-  --hairline:rgba(43,39,33,.14);
-  --earth:#9a6a3e;
+  --paper:var(--color-bone);
+  --ink:var(--color-surface-elevated);
+  --ink-soft:rgb(var(--rgb-surface-elevated) / .58);
+  --ink-faint:rgb(var(--rgb-surface-elevated) / .36);
+  --hairline:rgb(var(--rgb-surface-elevated) / .14);
+  --earth:var(--color-muted);
   --display:'Instrument Serif',"New York",Georgia,'Times New Roman',serif;
   --font:'Newsreader',"New York",Georgia,'Times New Roman',serif;
   --track-caps:.24em;
@@ -56,10 +56,10 @@
 
 .sketchbook-root .top:before {
   content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(180deg,rgba(240,236,226,.94),rgba(240,236,226,.7) 48%,rgba(240,236,226,0));
+  background:linear-gradient(180deg,rgb(var(--rgb-bone) / .94),rgb(var(--rgb-bone) / .7) 48%,rgb(var(--rgb-bone) / 0));
   -webkit-backdrop-filter:blur(14px) saturate(.95);backdrop-filter:blur(14px) saturate(.95);
-  -webkit-mask-image:linear-gradient(180deg,#000 46%,transparent);
-  mask-image:linear-gradient(180deg,#000 46%,transparent);
+  -webkit-mask-image:linear-gradient(180deg,var(--color-black) 46%,transparent);
+  mask-image:linear-gradient(180deg,var(--color-black) 46%,transparent);
 }
 
 .sketchbook-root .top .name {
@@ -221,7 +221,7 @@
 .sketchbook-root .sb-cast.ambient {
   left:5%;right:5%;top:27%;bottom:2%;
   background:radial-gradient(50% 50% at 50% 58%,
-    rgba(58,44,26,.34) 0%,rgba(58,44,26,.19) 40%,rgba(58,44,26,0) 74%);
+    rgb(var(--rgb-graphite) / .34) 0%,rgb(var(--rgb-graphite) / .19) 40%,rgb(var(--rgb-graphite) / 0) 74%);
   filter:blur(26px);
   opacity:calc(1 - var(--shade,0) * .42);
 }
@@ -229,7 +229,7 @@
 .sketchbook-root .sb-cast.contact {
   left:9%;right:9%;top:62%;bottom:10%;
   background:radial-gradient(50% 44% at 50% 42%,
-    rgba(44,32,14,.40) 0%,rgba(44,32,14,.17) 48%,rgba(44,32,14,0) 78%);
+    rgb(var(--rgb-surface-elevated) / .40) 0%,rgb(var(--rgb-surface-elevated) / .17) 48%,rgb(var(--rgb-surface-elevated) / 0) 78%);
   filter:blur(11px);
   opacity:calc(1 - var(--shade,0) * .5);
 }
@@ -237,7 +237,7 @@
 .sketchbook-root .sb-cast.hair {
   left:12%;right:12%;top:70%;bottom:17%;
   background:radial-gradient(50% 52% at 50% 40%,
-    rgba(40,28,10,.34) 0%,rgba(40,28,10,0) 76%);
+    rgb(var(--rgb-carbon) / .34) 0%,rgb(var(--rgb-carbon) / 0) 76%);
   filter:blur(4px);
   opacity:calc(1 - var(--shade,0) * .62);
 }
@@ -275,16 +275,16 @@
 .sketchbook-root .gutter-shade {
   position:absolute;top:var(--pg,21.8%);bottom:var(--pg,21.8%);width:46%;
   pointer-events:none;opacity:calc(var(--shade,0) * .62);
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,var(--color-black) 5.2%,var(--color-black) 94.8%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,var(--color-black) 5.2%,var(--color-black) 94.8%,transparent 100%);
 }
 
 .sketchbook-root .gutter-shade.left {
-  right:0;background:linear-gradient(270deg,rgba(52,38,20,.30),rgba(52,38,20,0) 82%)
+  right:0;background:linear-gradient(270deg,rgb(var(--rgb-surface-elevated) / .30),rgb(var(--rgb-surface-elevated) / 0) 82%)
 }
 
 .sketchbook-root .gutter-shade.right {
-  left:0;background:linear-gradient(90deg,rgba(52,38,20,.24),rgba(52,38,20,0) 82%)
+  left:0;background:linear-gradient(90deg,rgb(var(--rgb-surface-elevated) / .24),rgb(var(--rgb-surface-elevated) / 0) 82%)
 }
 
 /* ---- the turning leaf: nested strips forming a curved surface ---- */
@@ -345,25 +345,25 @@
 
 .sketchbook-root .face .sh,
 .sketchbook-root .face .gl {
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,var(--color-black) 5.2%,var(--color-black) 94.8%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,var(--color-black) 5.2%,var(--color-black) 94.8%,transparent 100%);
 }
 
 .sketchbook-root .strip.edge .face .sh,
 .sketchbook-root .strip.edge .face .gl {
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 91%,transparent 100%),var(--hf);
-  mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 91%,transparent 100%),var(--hf);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,var(--color-black) 9%,var(--color-black) 91%,transparent 100%),var(--hf);
+  mask-image:linear-gradient(180deg,transparent 0,var(--color-black) 9%,var(--color-black) 91%,transparent 100%),var(--hf);
   -webkit-mask-composite:source-in;mask-composite:intersect;
 }
 
 .sketchbook-root .curl.next .strip.edge .face.front,
 .sketchbook-root .curl.prev .strip.edge .face.back {
-  --hf:linear-gradient(90deg,#000 0 22%,transparent 96%);
+  --hf:linear-gradient(90deg,var(--color-black) 0 22%,transparent 96%);
 }
 
 .sketchbook-root .curl.next .strip.edge .face.back,
 .sketchbook-root .curl.prev .strip.edge .face.front {
-  --hf:linear-gradient(270deg,#000 0 22%,transparent 96%);
+  --hf:linear-gradient(270deg,var(--color-black) 0 22%,transparent 96%);
 }
 
 .sketchbook-root .face .sh {
@@ -372,17 +372,17 @@
 
 .sketchbook-root .curl.next .face.front .sh,
 .sketchbook-root .curl.prev .face.back .sh {
-  background:linear-gradient(90deg,rgba(58,43,20,var(--a1,0)),rgba(58,43,20,var(--a2,0)));
+  background:linear-gradient(90deg,rgb(var(--rgb-carbon) / var(--a1,0)),rgb(var(--rgb-carbon) / var(--a2,0)));
 }
 
 .sketchbook-root .curl.next .face.back .sh,
 .sketchbook-root .curl.prev .face.front .sh {
-  background:linear-gradient(90deg,rgba(58,43,20,var(--a2,0)),rgba(58,43,20,var(--a1,0)));
+  background:linear-gradient(90deg,rgb(var(--rgb-carbon) / var(--a2,0)),rgb(var(--rgb-carbon) / var(--a1,0)));
 }
 
 .sketchbook-root .face .gl {
   position:absolute;left:0;right:0;top:var(--pg,21.8%);bottom:var(--pg,21.8%);
-  pointer-events:none;background:#fffaf0;
+  pointer-events:none;background:var(--color-soft-white);
   opacity:calc(var(--shade,0) * var(--lit,1) * var(--lit,1) * .20);
 }
 
@@ -410,10 +410,10 @@
   pointer-events:auto;cursor:grab;
   padding:calc(var(--lr,270px) * .058);
   box-shadow:
-    0 1px 2px rgba(58,44,26,.30),
-    0 10px 18px rgba(58,44,26,.24),
-    0 26px 40px rgba(58,44,26,.20),
-    0 48px 66px rgba(58,44,26,.13);
+    0 1px 2px rgb(var(--rgb-graphite) / .30),
+    0 10px 18px rgb(var(--rgb-graphite) / .24),
+    0 26px 40px rgb(var(--rgb-graphite) / .20),
+    0 48px 66px rgb(var(--rgb-graphite) / .13);
 }
 
 /* the bezel is an annulus, so the glass really is see-through */
@@ -421,13 +421,13 @@
 .sketchbook-root .loupe .ring:before {
   content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
   background:linear-gradient(146deg,
-    #fdf7e9 0%,#e6d7b4 14%,#b69d70 32%,#7d6740 50%,
-    #cdbb92 66%,#f4ead3 80%,#9b8459 100%);
+    var(--color-soft-white) 0%,var(--color-bone) 14%,var(--color-light-muted) 32%,var(--color-muted) 50%,
+    var(--color-light-muted) 66%,var(--color-bone) 80%,var(--color-muted) 100%);
   box-shadow:
-    inset 0 1px 1px rgba(255,255,255,.8),
-    inset 0 -2px 3px rgba(70,52,26,.5);
-  -webkit-mask-image:radial-gradient(circle closest-side at 50% 50%,transparent 0 88.2%,#000 89.8% 100%);
-  mask-image:radial-gradient(circle closest-side at 50% 50%,transparent 0 88.2%,#000 89.8% 100%);
+    inset 0 1px 1px rgb(var(--rgb-soft-white) / .8),
+    inset 0 -2px 3px rgb(var(--rgb-graphite) / .5);
+  -webkit-mask-image:radial-gradient(circle closest-side at 50% 50%,transparent 0 88.2%,var(--color-black) 89.8% 100%);
+  mask-image:radial-gradient(circle closest-side at 50% 50%,transparent 0 88.2%,var(--color-black) 89.8% 100%);
 }
 
 /* the handle, drawn before the bezel so the ring covers its inner end */
@@ -440,20 +440,20 @@
   border-radius:calc(var(--lr,270px) * .06);
   pointer-events:auto;cursor:grab;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.46) 0 13%,rgba(255,255,255,0) 44%,
-                    rgba(0,0,0,.26) 100%),
-    linear-gradient(90deg,#d9bd82 0 14%,#a9884e 14% 20%,#6d4c2b 20% 62%,
-                    #5a3d22 62% 92%,#7a563180 92% 100%);
-  box-shadow:0 8px 15px rgba(58,44,26,.26),0 18px 26px rgba(58,44,26,.14);
+    linear-gradient(180deg,rgb(var(--rgb-soft-white) / .46) 0 13%,rgb(var(--rgb-soft-white) / 0) 44%,
+                    rgb(var(--rgb-black) / .26) 100%),
+    linear-gradient(90deg,var(--color-light-muted) 0 14%,var(--color-muted) 14% 20%,var(--color-graphite) 20% 62%,
+                    var(--color-graphite) 62% 92%,rgb(var(--rgb-muted) / 0.502) 92% 100%);
+  box-shadow:0 8px 15px rgb(var(--rgb-graphite) / .26),0 18px 26px rgb(var(--rgb-graphite) / .14);
 }
 
 .sketchbook-root .lens {
   position:relative;display:block;width:100%;height:100%;border-radius:50%;
   background-repeat:no-repeat;overflow:hidden;
   box-shadow:
-    inset 0 0 0 1px rgba(52,40,22,.55),
-    inset 0 4px 12px rgba(40,30,14,.28),
-    inset 0 -7px 16px rgba(255,250,240,.14);
+    inset 0 0 0 1px rgb(var(--rgb-surface-elevated) / .55),
+    inset 0 4px 12px rgb(var(--rgb-surface-elevated) / .28),
+    inset 0 -7px 16px rgb(var(--rgb-soft-white) / .14);
 }
 
 .sketchbook-root .lens .mag {
@@ -489,19 +489,19 @@
 
 .sketchbook-root .lens:before {
   background:radial-gradient(circle at 50% 50%,
-    rgba(0,0,0,0) 54%,rgba(58,44,26,.10) 76%,rgba(46,34,16,.34) 100%);
+    rgb(var(--rgb-black) / 0) 54%,rgb(var(--rgb-graphite) / .10) 76%,rgb(var(--rgb-surface-elevated) / .34) 100%);
   box-shadow:
-    inset 0 0 0 2px rgba(130,162,196,.26),
-    inset 0 0 0 4px rgba(206,158,112,.15);
+    inset 0 0 0 2px rgb(var(--rgb-light-muted) / .26),
+    inset 0 0 0 4px rgb(var(--rgb-light-muted) / .15);
 }
 
 /* the dome: one broad specular and a tight crescent opposite it */
 
 .sketchbook-root .lens:after {
   background:
-    radial-gradient(36% 26% at 29% 19%,rgba(255,255,255,.30),rgba(255,255,255,0) 76%),
-    radial-gradient(24% 16% at 74% 86%,rgba(255,255,255,.12),rgba(255,255,255,0) 80%),
-    linear-gradient(150deg,rgba(255,255,255,.06) 0 18%,rgba(255,255,255,0) 42%);
+    radial-gradient(36% 26% at 29% 19%,rgb(var(--rgb-soft-white) / .30),rgb(var(--rgb-soft-white) / 0) 76%),
+    radial-gradient(24% 16% at 74% 86%,rgb(var(--rgb-soft-white) / .12),rgb(var(--rgb-soft-white) / 0) 80%),
+    linear-gradient(150deg,rgb(var(--rgb-soft-white) / .06) 0 18%,rgb(var(--rgb-soft-white) / 0) 42%);
 }
 
 /* ---- controls ---- */
@@ -509,7 +509,7 @@
 .sketchbook-root .sb-tools {
   display:flex;align-items:center;gap:6px;
   border:1px solid var(--hairline);border-radius:999px;
-  padding:5px 7px;background:rgba(250,246,238,.62);
+  padding:5px 7px;background:rgb(var(--rgb-bone) / .62);
   -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
 }
 
@@ -520,11 +520,11 @@
 }
 
 .sketchbook-root .tool:hover {
-  background:rgba(255,252,244,.9);color:var(--ink)
+  background:rgb(var(--rgb-soft-white) / .9);color:var(--ink)
 }
 
 .sketchbook-root .tool[aria-pressed="true"] {
-  background:rgba(154,106,62,.16);color:var(--earth)
+  background:rgb(var(--rgb-muted) / .16);color:var(--earth)
 }
 
 .sketchbook-root .tool:disabled {
@@ -673,7 +673,7 @@
 }
 
 .sketchbook-root .bio-link {
-  color:var(--ink);text-decoration:underline;text-decoration-color:rgba(43,39,33,.28);
+  color:var(--ink);text-decoration:underline;text-decoration-color:rgb(var(--rgb-surface-elevated) / .28);
   text-underline-offset:4px;transition:text-decoration-color .2s
 }
 
@@ -704,7 +704,7 @@
 
 .sketchbook-root .plate:hover,
 .sketchbook-root .plate[aria-current="true"] {
-  background:rgba(255,252,244,.5);padding-left:12px
+  background:rgb(var(--rgb-soft-white) / .5);padding-left:12px
 }
 
 .sketchbook-root .plate .n {

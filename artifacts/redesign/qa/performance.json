@@ -1,0 +1,429 @@
+[
+  {
+    "mode": "desktop",
+    "configuration": "1440×900; local unthrottled Chromium",
+    "lcp": 328,
+    "cls": 0.00037273629061642657,
+    "longTasks": [
+      115
+    ],
+    "totalBlockingMs": 65,
+    "resources": [
+      {
+        "name": "image?url=%2Flogo-mark.webp&w=32&q=75",
+        "type": "link",
+        "transfer": 963,
+        "encoded": 663,
+        "duration": 113.59999999776483
+      },
+      {
+        "name": "0d8b2b8e302032dd.css",
+        "type": "link",
+        "transfer": 9160,
+        "encoded": 8860,
+        "duration": 70
+      },
+      {
+        "name": "291be9c7c3e6d532.css",
+        "type": "link",
+        "transfer": 4652,
+        "encoded": 4352,
+        "duration": 72.5
+      },
+      {
+        "name": "webpack-746587219bcbb503.js",
+        "type": "link",
+        "transfer": 2813,
+        "encoded": 2513,
+        "duration": 70.39999999850988
+      },
+      {
+        "name": "main-app-263780611c38eb6d.js",
+        "type": "script",
+        "transfer": 857,
+        "encoded": 557,
+        "duration": 78.79999999701977
+      },
+      {
+        "name": "4bd1b696-c023c6e3521b1417.js",
+        "type": "script",
+        "transfer": 54658,
+        "encoded": 54358,
+        "duration": 88.19999999925494
+      },
+      {
+        "name": "255-59971d1efcac0287.js",
+        "type": "script",
+        "transfer": 46736,
+        "encoded": 46436,
+        "duration": 90.39999999850988
+      },
+      {
+        "name": "619-ba102abea3e3d0e4.js",
+        "type": "script",
+        "transfer": 3689,
+        "encoded": 3389,
+        "duration": 84.90000000223517
+      },
+      {
+        "name": "356-1143d17a0ca27254.js",
+        "type": "script",
+        "transfer": 5461,
+        "encoded": 5161,
+        "duration": 85.30000000074506
+      },
+      {
+        "name": "layout-cf18bef4d4e8a91b.js",
+        "type": "script",
+        "transfer": 3099,
+        "encoded": 2799,
+        "duration": 89.19999999925494
+      },
+      {
+        "name": "instrument-serif.woff2",
+        "type": "link",
+        "transfer": 15340,
+        "encoded": 15040,
+        "duration": 64.5
+      },
+      {
+        "name": "page-954e31c6a0a432a2.js",
+        "type": "script",
+        "transfer": 2618,
+        "encoded": 2318,
+        "duration": 90.80000000074506
+      },
+      {
+        "name": "e4af272ccee01ff0-s.p.woff2",
+        "type": "css",
+        "transfer": 48732,
+        "encoded": 48432,
+        "duration": 145.39999999850988
+      },
+      {
+        "name": "instrument-serif-italic.woff2",
+        "type": "css",
+        "transfer": 15984,
+        "encoded": 15684,
+        "duration": 105.19999999925494
+      },
+      {
+        "name": "8e9860b6e62d6359-s.p.woff2",
+        "type": "css",
+        "transfer": 85572,
+        "encoded": 85272,
+        "duration": 83.19999999925494
+      },
+      {
+        "name": "front-matter?_rsc=QjpZXuqgcVyOCyNQ",
+        "type": "fetch",
+        "transfer": 7398,
+        "encoded": 7098,
+        "duration": 49
+      },
+      {
+        "name": "chapters?_rsc=QjpZXuqgcVyOCyNQ",
+        "type": "fetch",
+        "transfer": 9619,
+        "encoded": 9319,
+        "duration": 54
+      },
+      {
+        "name": "tr?_rsc=QjpZXuqgcVyOCyNQ",
+        "type": "fetch",
+        "transfer": 11376,
+        "encoded": 11076,
+        "duration": 60.100000001490116
+      },
+      {
+        "name": "contact?_rsc=QjpZXuqgcVyOCyNQ",
+        "type": "fetch",
+        "transfer": 5313,
+        "encoded": 5013,
+        "duration": 64.5
+      },
+      {
+        "name": "it?_rsc=QjpZXuqgcVyOCyNQ",
+        "type": "fetch",
+        "transfer": 11211,
+        "encoded": 10911,
+        "duration": 65.10000000149012
+      },
+      {
+        "name": "b536a0f1.f86cee035d74653e.js",
+        "type": "script",
+        "transfer": 130956,
+        "encoded": 130656,
+        "duration": 81.30000000074506
+      },
+      {
+        "name": "196.82454531112d4d55.js",
+        "type": "script",
+        "transfer": 1501,
+        "encoded": 1201,
+        "duration": 60.19999999925494
+      },
+      {
+        "name": "c6788cac954f1bd8.css",
+        "type": "link",
+        "transfer": 9218,
+        "encoded": 8918,
+        "duration": 25.599999997764826
+      },
+      {
+        "name": "413-57352441612db2e0.js",
+        "type": "script",
+        "transfer": 6474,
+        "encoded": 6174,
+        "duration": 39.30000000074506
+      },
+      {
+        "name": "page-f636b773c964171d.js",
+        "type": "script",
+        "transfer": 743,
+        "encoded": 443,
+        "duration": 36
+      },
+      {
+        "name": "53f3a11fa2692527.css",
+        "type": "link",
+        "transfer": 4788,
+        "encoded": 4488,
+        "duration": 23.599999997764826
+      },
+      {
+        "name": "7305496a7fce21ea.css",
+        "type": "link",
+        "transfer": 1993,
+        "encoded": 1693,
+        "duration": 29.100000001490116
+      },
+      {
+        "name": "944-6bd5921d4d17dfda.js",
+        "type": "script",
+        "transfer": 44051,
+        "encoded": 43751,
+        "duration": 40.30000000074506
+      },
+      {
+        "name": "197-0092f417c93e5a63.js",
+        "type": "script",
+        "transfer": 5100,
+        "encoded": 4800,
+        "duration": 37.80000000074506
+      },
+      {
+        "name": "page-729d9e9035499a2f.js",
+        "type": "script",
+        "transfer": 4628,
+        "encoded": 4328,
+        "duration": 38.100000001490116
+      },
+      {
+        "name": "e0ed476a99468882.css",
+        "type": "link",
+        "transfer": 2874,
+        "encoded": 2574,
+        "duration": 19.300000000745058
+      },
+      {
+        "name": "page-bd80aa4791bf71eb.js",
+        "type": "script",
+        "transfer": 12716,
+        "encoded": 12416,
+        "duration": 29.200000002980232
+      }
+    ],
+    "jsEncodedBytes": 318787,
+    "fontEncodedBytes": 164428,
+    "idleDraws": 0,
+    "frameIntervals": {
+      "median": 16.699999999999818,
+      "max": 16.800000000000182
+    },
+    "interactionEvents": [
+      {
+        "name": "pointerdown",
+        "duration": 24
+      },
+      {
+        "name": "pointerup",
+        "duration": 24
+      },
+      {
+        "name": "click",
+        "duration": 24
+      },
+      {
+        "name": "keydown",
+        "duration": 24
+      }
+    ],
+    "heapBytes": 7526932,
+    "contactNavigationMs": 175
+  },
+  {
+    "mode": "mobile-4g",
+    "configuration": "393×852; 1.6Mbps down; 150ms latency; 4× CPU slowdown",
+    "lcp": 1624,
+    "cls": 0,
+    "longTasks": [
+      220,
+      561,
+      330
+    ],
+    "totalBlockingMs": 961,
+    "resources": [
+      {
+        "name": "image?url=%2Flogo-mark.webp&w=32&q=75",
+        "type": "link",
+        "transfer": 963,
+        "encoded": 663,
+        "duration": 163.5
+      },
+      {
+        "name": "0d8b2b8e302032dd.css",
+        "type": "link",
+        "transfer": 9160,
+        "encoded": 8860,
+        "duration": 361.19999999925494
+      },
+      {
+        "name": "291be9c7c3e6d532.css",
+        "type": "link",
+        "transfer": 4652,
+        "encoded": 4352,
+        "duration": 260.6000000014901
+      },
+      {
+        "name": "webpack-746587219bcbb503.js",
+        "type": "link",
+        "transfer": 2813,
+        "encoded": 2513,
+        "duration": 226.90000000223517
+      },
+      {
+        "name": "4bd1b696-c023c6e3521b1417.js",
+        "type": "script",
+        "transfer": 54658,
+        "encoded": 54358,
+        "duration": 1125.4000000022352
+      },
+      {
+        "name": "255-59971d1efcac0287.js",
+        "type": "script",
+        "transfer": 46736,
+        "encoded": 46436,
+        "duration": 1110
+      },
+      {
+        "name": "main-app-263780611c38eb6d.js",
+        "type": "script",
+        "transfer": 857,
+        "encoded": 557,
+        "duration": 403.6000000014901
+      },
+      {
+        "name": "619-ba102abea3e3d0e4.js",
+        "type": "script",
+        "transfer": 3689,
+        "encoded": 3389,
+        "duration": 492
+      },
+      {
+        "name": "356-1143d17a0ca27254.js",
+        "type": "script",
+        "transfer": 5461,
+        "encoded": 5161,
+        "duration": 624.8999999985099
+      },
+      {
+        "name": "layout-cf18bef4d4e8a91b.js",
+        "type": "script",
+        "transfer": 3099,
+        "encoded": 2799,
+        "duration": 640.3999999985099
+      },
+      {
+        "name": "instrument-serif.woff2",
+        "type": "link",
+        "transfer": 15340,
+        "encoded": 15040,
+        "duration": 441.19999999925494
+      },
+      {
+        "name": "page-954e31c6a0a432a2.js",
+        "type": "script",
+        "transfer": 2618,
+        "encoded": 2318,
+        "duration": 655.6999999992549
+      },
+      {
+        "name": "instrument-serif-italic.woff2",
+        "type": "css",
+        "transfer": 15984,
+        "encoded": 15684,
+        "duration": 643.3999999985099
+      },
+      {
+        "name": "e4af272ccee01ff0-s.p.woff2",
+        "type": "css",
+        "transfer": 48732,
+        "encoded": 48432,
+        "duration": 833.6999999992549
+      },
+      {
+        "name": "8e9860b6e62d6359-s.p.woff2",
+        "type": "css",
+        "transfer": 85572,
+        "encoded": 85272,
+        "duration": 1293.699999999255
+      },
+      {
+        "name": "tr?_rsc=QjpZXuqgcVyOCyNQ",
+        "type": "fetch",
+        "transfer": 11376,
+        "encoded": 11076,
+        "duration": 274.1000000014901
+      },
+      {
+        "name": "it?_rsc=QjpZXuqgcVyOCyNQ",
+        "type": "fetch",
+        "transfer": 11211,
+        "encoded": 10911,
+        "duration": 287.69999999925494
+      }
+    ],
+    "jsEncodedBytes": 115018,
+    "fontEncodedBytes": 164428,
+    "idleDraws": 0,
+    "frameIntervals": {
+      "median": 16.699999999999818,
+      "max": 166.60000000000036
+    },
+    "interactionEvents": [
+      {
+        "name": "pointerdown",
+        "duration": 392
+      },
+      {
+        "name": "pointerup",
+        "duration": 392
+      },
+      {
+        "name": "click",
+        "duration": 392
+      },
+      {
+        "name": "keydown",
+        "duration": 232
+      },
+      {
+        "name": "keyup",
+        "duration": 24
+      }
+    ],
+    "heapBytes": 6220476,
+    "contactNavigationMs": 933
+  }
+]

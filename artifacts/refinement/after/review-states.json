@@ -1,0 +1,37 @@
+[
+  {
+    "print": "approach",
+    "color": "rgb(13, 16, 15)"
+  },
+  {
+    "print": "cv",
+    "color": "rgb(13, 16, 15)"
+  },
+  {
+    "optimizer": 393,
+    "overflow": false
+  },
+  {
+    "optimizer": 768,
+    "overflow": false
+  },
+  {
+    "optimizer": 1440,
+    "overflow": false
+  },
+  {
+    "bookAxe": []
+  },
+  {
+    "browser": "webkit",
+    "errors": [],
+    "reading": true,
+    "menu": true
+  },
+  {
+    "browser": "firefox",
+    "errors": [],
+    "reading": true,
+    "menu": true
+  }
+]

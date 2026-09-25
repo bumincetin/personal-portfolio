@@ -1,0 +1,16 @@
+import {chromium} from 'playwright';
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const base=process.argv[2]||'http://localhost:3100',dir='artifacts/redesign/world';
+const browser=await chromium.launch({headless:true,channel:"chromium"}),page=await browser.newPage({viewport:{width:1440,height:900}}),results={};
+await page.goto(base+'/en',{waitUntil:'networkidle'});await page.waitForFunction(()=>document.querySelector('.world-chapter').dataset.phase==='HOME');
+const before=await page.locator('.world-canvas').getAttribute('data-position');
+await page.mouse.move(1200,200);await page.waitForTimeout(1300);const after=await page.locator('.world-canvas').getAttribute('data-position');assert.notEqual(before,after);results.pointerParallax={before,after};
+await page.locator('.world-index a').nth(6).click();results.transition=await page.locator('.world-chapter').getAttribute('data-phase');await page.screenshot({path:`${dir}/camera-transition.png`});await page.waitForFunction(()=>document.querySelector('.world-chapter').dataset.phase==='SELECTED');
+await page.locator('.world-return').click();await page.waitForFunction(()=>document.querySelector('.world-chapter').dataset.phase==='HOME');await page.waitForTimeout(500);
+const frames=Number(await page.locator('.world-canvas').getAttribute('data-frames'));await page.waitForTimeout(700);assert.equal(Number(await page.locator('.world-canvas').getAttribute('data-frames')),frames);results.idleFrames=0;
+await page.locator('.world-canvas').evaluate(c=>c.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());await page.waitForFunction(()=>document.querySelector('.world-chapter').dataset.phase==='FALLBACK');assert.equal(await page.locator('.world-marker:visible').count(),0);assert.equal(await page.locator('.world-index a').count(),7);await page.screenshot({path:`${dir}/context-loss.png`});results.contextLoss=true;
+await page.close();
+const runtimeChunk=fs.readdirSync('.next/static/chunks').filter(n=>n.endsWith('.js')).find(n=>fs.readFileSync(`.next/static/chunks/${n}`,'utf8').includes('VOLUME_01'));assert(runtimeChunk);
+const blocked=await browser.newPage({viewport:{width:393,height:852}});await blocked.route(`**/${runtimeChunk}`,route=>route.abort());await blocked.goto(base+'/en',{waitUntil:'networkidle'});await blocked.waitForFunction(()=>document.querySelector('.world-chapter').dataset.phase==='FALLBACK');assert.equal(await blocked.locator('.world-marker:visible').count(),0);assert.equal(await blocked.locator('.world-index a[role=button]').count(),0);await blocked.locator('.world-index a').first().click();await blocked.waitForURL('**/en/volumes/document-intelligence');results.chunkFailureDirectRoute=true;
+await browser.close();fs.writeFileSync(`${dir}/final-check.json`,JSON.stringify(results,null,2));console.log(results);

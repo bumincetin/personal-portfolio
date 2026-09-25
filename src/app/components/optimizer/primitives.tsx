@@ -6,7 +6,7 @@ import type { LucideIcon } from 'lucide-react';
 /** Panel chrome: a terminal-style label row with a hairline underneath. */
 export function PanelTitle({ icon: Icon, title, hint }: { icon: LucideIcon; title: string; hint?: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5">
+    <div className="optimizer-section-title flex items-center justify-between gap-3 px-4 py-2.5">
       <div className="flex items-center gap-2 min-w-0">
         <Icon size={14} className="text-accent shrink-0" aria-hidden="true" />
         <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-charcoal leading-snug">{title}</h3>
@@ -18,7 +18,7 @@ export function PanelTitle({ icon: Icon, title, hint }: { icon: LucideIcon; titl
 
 export function Panel({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-surface border border-border rounded-editorial shadow-hairline flex flex-col ${className}`}>
+    <div className={`optimizer-section flex flex-col ${className}`}>
       {children}
     </div>
   );

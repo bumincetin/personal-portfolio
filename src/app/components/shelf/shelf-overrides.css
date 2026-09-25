@@ -1,73 +1,21 @@
-/*
- * Additions to the authored shelf stylesheet.
- *
- * Kept in a separate file so shelf.css stays a faithful, generated copy of the
- * source. Everything here is either a hosting concern or one of the two content
- * additions the component makes.
+/* Maintained host overrides for the generated shelf.css.
+ * Scoped typography, modal layout, readable controls and responsive reflow.
  */
+.shelf-root .text-button { border-radius: 2px; background: transparent; color: var(--color-citron); border-color: var(--color-muted); }
+.shelf-root .browse-ui { box-shadow: none; border-radius: 2px; }
 
-/*
- * FONT FALLBACKS.
- *
- * The source asks for `"Iowan Old Style", "Baskerville", "Times New Roman"`.
- * Iowan and Baskerville ship with macOS and neither exists on Windows, Android
- * or most Linux, so the authored serif silently became Times New Roman for the
- * majority of visitors — which is not the typeface the design was drawn for.
- *
- * The requested faces stay first, so a Mac still renders exactly as authored.
- * Cormorant Garamond is inserted behind them as a hosted old-style serif with
- * the same high-contrast register, and it is already self-hosted by next/font
- * for this site, so it costs no extra request. Inter likewise resolves to the
- * self-hosted copy instead of a Google Fonts round-trip.
- */
 html[data-shelf],
 .shelf-root {
-  --serif: 'Iowan Old Style', 'Baskerville', var(--font-display), 'Times New Roman', serif;
-  --mono: 'Inter', var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-
-  /*
-   * A WARM ROOM.
-   *
-   * The authored ground is `#171A24` — ultramarine dark, chosen for a cover
-   * palette this site does not use. It made every surface it touched read cold,
-   * and the colophon, which paints itself with `--paper`, was the coldest page
-   * on the site.
-   *
-   * These are the same values as `--c-ground` and its neighbours in
-   * globals.css, so the shelf's chrome, the site's chrome and the 3D room (see
-   * the palettes in `volumes.ts`) are one temperature. Only the ground moves;
-   * the ink, the rule and the accent are the authored ones.
-   */
-  --paper: #1a1511;
-  --paper-deep: #120e0b;
-  --walnut: #3a2118;
-  --walnut-deep: #1c0e0a;
-}
-
-/*
- * ONE TYPOGRAPHY, AND THE SHELF DOES NOT GET ITS OWN.
- *
- * The authored stylesheet asks for `"Iowan Old Style", "Baskerville", "Times New
- * Roman"`. Iowan and Baskerville ship with macOS and exist almost nowhere else,
- * so that stack rendered as two different faces depending on the visitor's
- * machine — and it was applied to `html` and `body`, which meant the navigation
- * changed face on the home page and changed back when you left it. That is the
- * font change you notice when you move between pages.
- *
- * The three roles are the site's, defined in globals.css. `--serif` is the
- * display face, `--mono` is the label face (a sans, despite the authored name),
- * and `--text` is added for the shelf's small prose, which was previously set in
- * the display face at 12px.
- */
-html[data-shelf],
-.shelf-root {
+  --paper: var(--color-carbon);
+  --paper-deep: var(--color-black);
+  --walnut: var(--color-surface-elevated);
+  --walnut-deep: var(--color-black);
   --serif: var(--font-display);
   --text: var(--font-text);
   --mono: var(--font-ui);
   --accent: rgb(var(--c-brass));
 }
 
-/* The document keeps the application's own font; only the shelf is the shelf. */
 html[data-shelf],
 html[data-shelf] body {
   font-family: var(--font-ui);
@@ -77,7 +25,6 @@ html[data-shelf] body {
   font-family: var(--font-text);
 }
 
-/* Decks and notes are prose, not display type. */
 .shelf-root .selection__note,
 .shelf-root .detail-deck,
 .shelf-root .fallback__status,
@@ -85,11 +32,6 @@ html[data-shelf] body {
   font-family: var(--text);
 }
 
-/*
- * The link out of a volume. Styled on the authored `.text-button` so it sits in
- * the same family as the controls beside it, with the underline and larger hit
- * area that distinguish a navigation link from a button.
- */
 .shelf-root .volume-link {
   display: inline-flex;
   align-items: center;
@@ -99,7 +41,7 @@ html[data-shelf] body {
   min-height: 44px;
   padding: 0.55rem 1.1rem;
   border: 1px solid color-mix(in srgb, var(--ink) 34%, transparent);
-  border-radius: 999px;
+  border-radius: 2px;
   color: var(--ink);
   background: color-mix(in srgb, var(--paper) 82%, transparent);
   font-family: var(--mono);
@@ -115,12 +57,6 @@ html[data-shelf] body {
   border-color: var(--accent);
 }
 
-/*
- * Skip link out of the canvas.
- *
- * A WebGL scene must never be the only route past the top of a page. Visually
- * hidden until focused, then placed above the experience.
- */
 .shelf-root .shelf-skip {
   position: absolute;
   left: -9999px;
@@ -132,7 +68,7 @@ html[data-shelf] body {
   left: 1.25rem;
   top: 1.25rem;
   padding: 0.75rem 1.25rem;
-  border-radius: 999px;
+  border-radius: 2px;
   background: var(--ink);
   color: var(--paper);
   font-family: var(--mono);
@@ -140,11 +76,6 @@ html[data-shelf] body {
   text-decoration: none;
 }
 
-/*
- * The static catalogue is the fallback *and* the crawlable form of this
- * section, so its titles are links. The authored rule styles the <strong>
- * itself, which leaves the anchor inside it unstyled.
- */
 .shelf-root .fallback-book strong a {
   color: inherit;
   text-decoration: none;
@@ -156,231 +87,23 @@ html[data-shelf] body {
   text-underline-offset: 3px;
 }
 
-/*
- * REDUCED MOTION.
- *
- * The authored page is a continuously animated scene. Under a reduced-motion
- * preference the shelf still renders and stays fully operable — the engine's own
- * transitions are what get suppressed — and the static catalogue is offered
- * alongside it rather than instead of it.
- */
-@media (prefers-reduced-motion: reduce) {
-  .shelf-root *,
-  .shelf-root *::before,
-  .shelf-root *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
-
-/*
- * TAKEOVER, AS AUTHORED.
- *
- * The source is a standalone page: `.experience` is `position: fixed; inset: 0`
- * and the document is `overflow: hidden`. That is now true here too, and the
- * overrides that used to make the shelf a hero above a scrolling page are gone.
- *
- * The reason is the wheel. The authored gesture browses volumes; a document
- * that also scrolled gave one gesture two meanings, and the reader underneath
- * inherited the same problem — a horizontal page track inside a vertically
- * scrolling document is two scrollbars for one book. Nothing below the shelf
- * scrolls now because there is nothing below the shelf: the argument that used
- * to live there is the front matter, read as pages.
- *
- * `html[data-shelf]` is set by <Shelf /> and by the reader while either is
- * mounted, and removed on unmount, so the contact page — the one route that
- * scrolls — is unaffected.
- */
-
-/* A visible, always-available way into the front matter. */
-.shelf-root .shelf-continue {
-  position: absolute;
-  left: 50%;
-  /* Clear of the browse UI, which owns the bottom band of the viewport. */
-  bottom: clamp(8.5rem, 17vh, 11.5rem);
-  /* Below the browse UI and the detail panel, above the canvas. */
-  z-index: 6;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-  min-height: 44px;
-  padding: 0.5rem 1.1rem;
-  transform: translateX(-50%);
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--paper) 72%, transparent);
-  color: var(--ink-soft);
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  backdrop-filter: blur(8px);
-  transition: color 240ms var(--ease-out), border-color 240ms var(--ease-out);
-}
-
 .shelf-root .shelf-continue:hover,
 .shelf-root .shelf-continue:focus-visible {
   color: var(--ink);
   border-color: var(--ink);
 }
 
-/*
- * SMALL TYPE, RAISED.
- *
- * The authored chrome sets its microcopy at 8-9 px: the browse hint, the volume
- * counter, the collection note and the edition line. Contrast is not the problem
- * — `scripts/check-canvas-contrast.mjs` measures all four between 6.1:1 and
- * 7.6:1 against the scene — but 8 px is hard to read whatever colour it is, and
- * two of these four (the counter and the hint) are the only things that tell a
- * visitor how the shelf is operated.
- *
- * This is a deliberate departure from the source, and the only one that changes
- * a value the design specifies rather than adapting it to its host. It is a step,
- * not a redesign: 8 -> 10 px and 9 -> 10.5 px, letter-spacing left alone, so the
- * proportions of the browse UI are unchanged. Delete this block to get the
- * authored sizes back exactly.
- */
-.shelf-root .browse-ui .microcopy {
-  font-size: 0.625rem;
-}
-
-.shelf-root .counter,
-.shelf-root .editorial-identity span,
-.shelf-root .editorial-index span {
-  font-size: 0.65625rem;
-}
-
-/*
- * TEXT OVER THE SCENE CARRIES ITS OWN GROUND.
- *
- * The authored controls are outline chips: a hairline border, a transparent
- * fill and near-white ink, sitting directly on the 3D scene. That is a good
- * look and an unreliable contrast, because what is behind them is not a colour
- * — it is whichever book has rotated into place. Measured against the composited
- * frame by `scripts/check-canvas-contrast.mjs`, the Open button came out at
- * 3.68:1 and the reading cue at 4.02:1, both under the 4.5:1 that body-sized
- * text needs. Neither is visible in a static screenshot of a good frame, which
- * is exactly why the check samples several.
- *
- * The fix keeps the chip and gives it a floor: a paper scrim dark enough that
- * the ratio is a property of the control rather than of where the shelf happens
- * to have drifted. The border, the radius, the blur and the hover state are the
- * authored ones.
- */
 .shelf-root .browse-actions .text-button,
 .shelf-root .browse-actions .round-button {
   background: color-mix(in srgb, var(--paper) 82%, transparent);
   backdrop-filter: blur(8px);
 }
 
-/*
- * The cue is the way into the argument, so it is set in full ink rather than the
- * soft ink the authored microcopy uses. `--ink-soft` on an 88% scrim measured
- * 4.02:1; `--ink` on the same scrim clears the bar with room to spare.
- */
-.shelf-root .shelf-continue {
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
-  color: var(--ink);
-}
-
-@media (max-width: 720px) {
-  /*
-   * On a phone the browse UI owns the lower band, so the cue moves to the top
-   * rail rather than disappearing. It used to be hidden here, which was
-   * defensible when it only scrolled the page down; it is the way into the
-   * argument now, and hiding the way into the argument on the majority of
-   * devices is not.
-   */
-  .shelf-root .shelf-continue {
-    top: calc(env(safe-area-inset-top, 0px) + 4.75rem);
-    bottom: auto;
-    font-size: 0.6875rem;
-    padding: 0.4rem 0.9rem;
-  }
-}
-
-/*
- * COEXISTING WITH THE SITE NAVIGATION.
- *
- * The source owns the whole viewport, so its editorial header sits at the very
- * top. Here the site's own fixed navigation bar is already there — the two
- * collided, with the collection name printed over the nav links.
- *
- * The shelf header moves below the bar. Its identity block is kept, because
- * "Working Volumes" names the collection rather than the person and the nav
- * carries the person.
- */
-.shelf-root .editorial-header {
-  top: 88px;
-}
-
-@media (max-width: 720px) {
-  .shelf-root .editorial-header {
-    top: 80px;
-  }
-}
-
-/*
- * The navigation bar sits over a near-black scene at the top of this page, and
- * its own palette is the light one. While the shelf is mounted and the bar is
- * still transparent, it borrows the shelf's ink; as soon as it takes its
- * opaque scrolled background it reverts to the site's own colours.
- *
- * `:not(.bg-cream\/85)` keys off the class the bar adds when scrolled, so this
- * needs no extra state plumbing between two unrelated components.
- */
-/*
- * `nav[class*='fixed']` is the top bar specifically. An earlier version matched
- * any labelled <nav>, which also caught the footer's volume index — and gave it
- * bone-coloured links on the light ground, at 1.03:1.
- *
- * The filled primary action is deliberately left alone: `text-cream` already
- * resolves to the right label colour in both palettes (5.0:1 on the light brass,
- * 6.1:1 on the dark one), and overriding it broke the lighter case.
- */
-html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) a:not([class*='bg-accent']),
-html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) button,
-/* The brand link wraps its text in spans that set their own colour, so
-   inheriting from the anchor is not enough. */
-html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) a:not([class*='bg-accent']) > span,
-html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) button > svg {
-  color: #f4eee6;
-}
-
-html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) span[class*='border-border'],
-html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border-border'] {
-  border-color: rgba(244, 238, 230, 0.24);
-}
-
-/*
- * The scroll cue must not sit over the shelf's own controls.
- *
- * It is absolutely positioned at the foot of the hero, which put it on top of
- * the detail panel's close button once a volume was open — the click landed on
- * the cue instead. The engine marks that state with `.mode-detail` on
- * `.experience`, so the cue simply steps aside while a volume is being read.
- */
 .shelf-root .experience.mode-detail .shelf-continue {
   opacity: 0;
   pointer-events: none;
 }
 
-/*
- * NOTHING TO NEGOTIATE ANY MORE.
- *
- * There used to be ~70 lines here re-pointing the application's colour tokens
- * at the shelf's palette whenever a whole page was dark, plus a set of rules
- * that made the navigation bar's brand plate survive over the scene. Both
- * existed because the site had a light ground and the shelf did not.
- *
- * It has one ground now, and it is the shelf's — see the `:root` block in
- * globals.css. The bar, the panels and the form fields are already on it, so
- * they need no correction, and the brand mark is inverted globally through
- * `--brand-filter`.
- */
-/* Editorial hierarchy around the interactive collection. */
 .shelf-root .experience:not(.mode-detail) #scene {
   touch-action: pan-y pinch-zoom !important;
 }
@@ -398,16 +121,6 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
 .shelf-root .editorial-identity {
   gap: 14px;
   max-width: 38rem;
-}
-
-.shelf-root .collection-eyebrow {
-  margin: 0;
-  color: rgb(var(--c-brass-hi));
-  font-family: var(--font-ui);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
 }
 
 .shelf-root .editorial-identity h1 {
@@ -435,6 +148,14 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
 }
 
 .shelf-root .shelf-continue {
+  position: absolute;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  text-decoration: none;
+  transition: color 240ms var(--ease-out), border-color 240ms var(--ease-out);
+  color: var(--ink);
   top: clamp(144px, 19vh, 196px);
   right: var(--page-gutter);
   bottom: auto;
@@ -461,17 +182,6 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
   transform: translateX(4px);
 }
 
-.shelf-root .browse-ui {
-  left: var(--page-gutter);
-  right: var(--page-gutter);
-  bottom: max(28px, env(safe-area-inset-bottom));
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px 32px;
-  padding-top: 22px;
-  border-top: 1px solid rgb(var(--c-text) / 0.18);
-}
-
 .shelf-root .selection {
   grid-row: 1 / 3;
   grid-template-columns: 56px minmax(0, 1fr);
@@ -480,7 +190,7 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
 
 .shelf-root .counter {
   padding-top: 3px;
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.08em;
 }
 
@@ -488,7 +198,7 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
   margin: 0 0 9px;
   color: rgb(var(--c-brass-hi));
   font-family: var(--font-ui);
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -498,13 +208,6 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
   font-size: clamp(2rem, 3vw, 3rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
-}
-
-.shelf-root .selection__note {
-  max-width: 38rem;
-  margin-top: 8px;
-  font-size: 1rem;
-  line-height: 1.5;
 }
 
 .shelf-root .browse-actions {
@@ -546,13 +249,8 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
   padding: 0;
 }
 
-.shelf-root .marker {
-  width: 30px;
-  height: 32px;
-}
-
 .shelf-root .browse-ui .microcopy {
-  font-size: 0.625rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.08em;
 }
 
@@ -565,56 +263,284 @@ html[data-shelf] nav[class*='fixed']:not([class*='bg-cream']) div[class*='border
   letter-spacing: -0.035em;
 }
 
+.shelf-root .browse-ui {
+  left: var(--page-gutter);
+  right: var(--page-gutter);
+  bottom: max(28px, env(safe-area-inset-bottom));
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px 32px;
+  padding-top: 22px;
+  border-top: 1px solid rgb(var(--c-text) / 0.18);
+  background: rgb(var(--rgb-carbon) / 0.929);
+  padding: 18px;
+  border-radius: 3px;
+}
+
+.shelf-root .detail-panel {
+  background: rgb(var(--rgb-carbon) / 0.961);
+  border: 1px solid var(--color-muted);
+  padding: 28px;
+  max-height: calc(100dvh - 84px);
+  overflow-y: auto;
+}
+
+.shelf-root .microcopy {
+  display: block;
+  font-size: .8125rem;
+  letter-spacing: .02em;
+}
+
+.shelf-root .selection__note {
+  max-width: 38rem;
+  margin-top: 8px;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.shelf-root .marker {
+  width: 30px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 44px;
+}
+
+.shelf-root .collection-eyebrow {
+  margin: 0;
+  color: rgb(var(--c-brass-hi));
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: .8125rem;
+}
+
+.shelf-root .meta-list {
+  display: grid;
+}
+
 .shelf-root .detail-deck {
   line-height: 1.6;
+  display: block;
+  -webkit-line-clamp: unset;
+  max-height: none;
 }
+@media (prefers-reduced-motion: reduce) {
 
+.shelf-root *,
+  .shelf-root *::before,
+  .shelf-root *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+}
 @media (max-width: 880px) {
-  .shelf-root .editorial-identity { max-width: 28rem; }
-  .shelf-root .shelf-continue { top: 252px; left: var(--page-gutter); right: auto; }
-  .shelf-root .selection { grid-column: 1; }
-  .shelf-root .selection__note { max-width: 28rem; }
+
+.shelf-root .editorial-identity {
+  max-width: 28rem;
 }
 
+.shelf-root .shelf-continue {
+  top: 252px;
+  left: var(--page-gutter);
+  right: auto;
+}
+
+.shelf-root .selection {
+  grid-column: 1;
+}
+
+.shelf-root .selection__note {
+  max-width: 28rem;
+}
+}
 @media (max-width: 560px) {
-  .shelf-root .editorial-header { top: 102px; }
-  .shelf-root .editorial-identity { gap: 10px; }
-  .shelf-root .editorial-identity h1 { font-size: clamp(2.5rem, 11.5vw, 3.5rem); }
-  .shelf-root .collection-eyebrow { font-size: 0.5625rem; letter-spacing: 0.12em; }
-  .shelf-root .editorial-identity > span { max-width: 18rem; font-size: 1rem; }
-  .shelf-root .shelf-continue { top: 236px; min-height: 44px; font-size: 0.75rem; }
-  .shelf-root .browse-ui { bottom: max(18px, env(safe-area-inset-bottom)); gap: 14px 8px; padding-top: 18px; }
-  .shelf-root .selection { grid-column: 1 / -1; grid-row: auto; grid-template-columns: 42px minmax(0, 1fr); gap: 10px; }
-  .shelf-root .selection__title { font-size: 2rem; }
-  .shelf-root .selection__discipline { font-size: 0.625rem; margin-bottom: 6px; }
-  .shelf-root .selection__note { display: block; font-size: 0.9375rem; line-height: 1.35; }
-  .shelf-root .browse-actions { justify-content: flex-start; gap: 6px; }
-  .shelf-root .browse-actions .text-button { min-width: 60px; padding-inline: 12px; }
-  .shelf-root .browse-actions .text-button span { display: none; }
-  .shelf-root .browse-actions .round-button { width: 44px; height: 44px; }
-  .shelf-root .marker { width: 24px; height: 44px; }
-  .shelf-root .markers { gap: 0; }
-  .shelf-root .marker[aria-current='true']::before { width: 16px; }
-  .shelf-root .index-nav { align-self: center; }
+
+.shelf-root .editorial-header {
+  top: 102px;
 }
 
+.shelf-root .editorial-identity {
+  gap: 10px;
+}
+
+.shelf-root .editorial-identity h1 {
+  font-size: clamp(2.5rem, 11.5vw, 3.5rem);
+}
+
+.shelf-root .collection-eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+}
+
+.shelf-root .editorial-identity > span {
+  max-width: 18rem;
+  font-size: 1rem;
+}
+
+.shelf-root .shelf-continue {
+  top: 236px;
+  min-height: 44px;
+  font-size: 0.8125rem;
+}
+
+.shelf-root .browse-ui {
+  bottom: max(18px, env(safe-area-inset-bottom));
+  gap: 14px 8px;
+  padding-top: 18px;
+}
+
+.shelf-root .selection {
+  grid-column: 1 / -1;
+  grid-row: auto;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.shelf-root .selection__title {
+  font-size: 2rem;
+}
+
+.shelf-root .selection__discipline {
+  font-size: 0.8125rem;
+  margin-bottom: 6px;
+}
+
+.shelf-root .selection__note {
+  display: block;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.shelf-root .browse-actions {
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+.shelf-root .browse-actions .text-button {
+  min-width: 60px;
+  padding-inline: 12px;
+}
+
+.shelf-root .browse-actions .text-button span {
+  display: none;
+}
+
+.shelf-root .browse-actions .round-button {
+  width: 44px;
+  height: 44px;
+}
+
+.shelf-root .marker {
+  width: 24px;
+  height: 44px;
+}
+
+.shelf-root .markers {
+  gap: 0;
+}
+
+.shelf-root .marker[aria-current='true']::before {
+  width: 16px;
+}
+
+.shelf-root .index-nav {
+  align-self: center;
+}
+}
 @media (max-width: 380px) {
-  .shelf-root .browse-ui { column-gap: 4px; }
-  .shelf-root .browse-actions { gap: 0; }
+
+.shelf-root .browse-ui {
+  column-gap: 4px;
 }
 
+.shelf-root .browse-actions {
+  gap: 0;
+}
+
+.shelf-root .index-nav {
+  grid-column: 1 / -1;
+}
+}
+@media(max-width:560px) {
+
+.shelf-root .browse-ui {
+  padding: 14px;
+}
+
+.shelf-root .index-nav {
+  grid-column: 1/-1;
+  justify-self: start;
+}
+
+.shelf-root .selection__title {
+  font-size: 1.75rem;
+}
+
+.shelf-root .detail-panel {
+  top: 78px;
+  bottom: auto;
+  padding: 24px;
+}
+}
+@media(max-height:600px) {
+
+.shelf-root .experience {
+  position: absolute;
+  min-height: 760px;
+}
+
+.shelf-root {
+  min-height: 760px;
+}
+
+.shelf-root .browse-ui {
+  bottom: 24px;
+}
+
+.shelf-root .detail-panel {
+  max-height: none;
+  top: 78px;
+  bottom: auto;
+}
+}
 @media (max-height: 700px) and (min-width: 561px) {
-  .shelf-root .editorial-header { top: 88px; }
-  .shelf-root .editorial-identity { gap: 8px; }
-  .shelf-root .editorial-identity h1 { font-size: 2.75rem; }
-  .shelf-root .shelf-continue { top: 98px; right: var(--page-gutter); left: auto; }
-  .shelf-root .selection__note { display: none; }
-  .shelf-root .browse-ui { bottom: 16px; padding-top: 14px; }
+
+.shelf-root .editorial-header {
+  top: 88px;
 }
 
+.shelf-root .editorial-identity {
+  gap: 8px;
+}
+
+.shelf-root .editorial-identity h1 {
+  font-size: 2.75rem;
+}
+
+.shelf-root .shelf-continue {
+  top: 98px;
+  right: var(--page-gutter);
+  left: auto;
+}
+
+.shelf-root .browse-ui {
+  bottom: 16px;
+  padding-top: 14px;
+}
+}
 @media (max-height: 740px) and (max-width: 560px) {
-  .shelf-root .editorial-header { top: 88px; }
-  .shelf-root .editorial-identity { gap: 7px; }
-  .shelf-root .shelf-continue { top: 209px; }
-  .shelf-root .selection__note { display: none; }
+
+.shelf-root .editorial-header {
+  top: 88px;
+}
+
+.shelf-root .editorial-identity {
+  gap: 7px;
+}
+
+.shelf-root .shelf-continue {
+  top: 209px;
+}
 }

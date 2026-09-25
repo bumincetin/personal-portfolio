@@ -1,0 +1,358 @@
+/* Internal narratives use the same editorial scale with less graphical weight. */
+.chapters-root,
+.conversation-root {
+  background: var(--color-black);
+  color: var(--color-bone);
+}
+.chapters-page {
+  max-width: none;
+  padding: 135px var(--page-padding) 0;
+}
+.chapters-hero {
+  grid-template-columns: 1.5fr 1fr;
+  gap: 7vw;
+  padding-bottom: 90px;
+  align-items: start;
+}
+.chapters-hero h1 {
+  font: 400 clamp(65px, 8vw, 140px) / 0.99 var(--font-ui);
+  letter-spacing: -0.065em;
+}
+.chapters-hero h1 em,
+.chapters-next h2 em {
+  font-family: "Instrument Serif", Georgia, serif;
+  color: var(--color-citron);
+}
+.chapters-eyebrow,
+.conversation-root .experience-eyebrow {
+  color: var(--color-light-muted);
+  font-size: 11px;
+}
+.chapters-lede {
+  font: 400 18px/1.7 var(--font-ui);
+  color: var(--color-light-muted);
+  max-width: 45ch;
+}
+.chapters-portrait {
+  max-width: 420px;
+  width: 100%;
+  margin-top: 16px;
+}
+.chapters-portrait img {
+  aspect-ratio: 4/5;
+  filter: grayscale(1);
+  border-radius: 0;
+  box-shadow: none;
+}
+.chapters-portrait figcaption {
+  font-size: 11px;
+  color: var(--color-light-muted);
+}
+.portrait-edition {
+  right: 14px;
+  top: 20px;
+  color: var(--color-soft-white);
+}
+.career-record {
+  background: var(--color-bone);
+  color: var(--color-black);
+  margin: 0 calc(-1 * var(--page-padding));
+  padding: 75px var(--page-padding);
+  border: 0;
+}
+.career-record h2 {
+  font: 400 clamp(40px, 5.5vw, 88px) / 1.05 var(--font-ui);
+  letter-spacing: -0.06em;
+}
+.career-record-grid {
+  grid-template-columns: 1fr 1.3fr;
+  gap: 8vw;
+}
+.career-record h3,
+.career-record .chapters-eyebrow,
+.record-date,
+.record-institution,
+.career-record header p:not(.chapters-eyebrow),
+.record-detail,
+.career-record article li,
+.career-languages li span {
+  color: var(--color-graphite);
+}
+.career-record article,
+.career-languages {
+  border-color: rgb(var(--rgb-black) / 0.212);
+}
+.career-record h4 {
+  font: 400 25px/1.2 var(--font-ui);
+  letter-spacing: -0.03em;
+}
+.career-record .career-print {
+  border-color: var(--color-muted);
+  color: var(--color-black);
+}
+.record-detail,
+.career-record article li {
+  font-size: 15px;
+}
+.chapters-next {
+  padding: 90px 0;
+  text-align: left;
+}
+.chapters-next h2 {
+  font-size: clamp(40px, 6vw, 96px);
+  letter-spacing: -0.055em;
+}
+.chapters-next a,
+.chapters-hero-links a {
+  color: var(--color-citron);
+  border-color: rgb(var(--rgb-citron) / 0.502);
+}
+.conversation-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 8vw;
+  max-width: none;
+  padding: 135px var(--page-padding) 85px;
+  align-items: start;
+}
+.conversation-intro {
+  grid-column: 1;
+}
+.conversation-intro h1 {
+  font: 400 clamp(48px, 5.6vw, 94px) / 1.02 var(--font-ui);
+  letter-spacing: -0.065em;
+  margin: 32px 0;
+}
+.conversation-intro h1 em {
+  color: var(--color-citron);
+  font:
+    italic 400 1.14em/1.05 "Instrument Serif",
+    Georgia,
+    serif;
+  letter-spacing: -0.025em;
+}
+.conversation-lede {
+  font: 400 16px/1.75 var(--font-ui);
+  color: var(--color-light-muted);
+  max-width: 43ch;
+}
+.conversation-direct {
+  grid-column: 1;
+  margin: 40px 0 0;
+  border-color: rgb(var(--rgb-bone) / 0.212);
+  padding: 24px 0;
+}
+.conversation-direct h2 {
+  font-size: 16px;
+}
+.conversation-direct > div {
+  flex-direction: column;
+  gap: 0;
+}
+.conversation-direct a {
+  color: var(--color-citron);
+}
+.contact-composer {
+  grid-column: 2;
+  grid-row: 1/4;
+  width: 100%;
+  max-width: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+.composer-mode {
+  border-bottom: 1px solid rgb(var(--rgb-bone) / 0.212);
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.composer-mode button {
+  border: 0;
+  border-radius: 0;
+  padding: 12px 0 18px;
+  color: var(--color-light-muted);
+}
+.composer-mode button[aria-pressed="true"] {
+  color: var(--color-citron);
+  background: transparent;
+  border-bottom: 2px solid var(--color-citron);
+}
+.conversation-fields > input,
+.conversation-fields > textarea,
+.conversation-review > textarea,
+.composer-identity input,
+.composer-identity select {
+  background: var(--color-surface);
+  border-color: var(--color-muted);
+  border-radius: 0;
+  color: var(--color-bone);
+  font-family: var(--font-ui);
+  font-size: 16px;
+}
+.conversation-fields > textarea {
+  min-height: 240px;
+  padding: 20px;
+}
+.conversation-fields input::placeholder,
+.conversation-fields textarea::placeholder {
+  color: var(--color-light-muted);
+}
+.composer-options summary,
+.composer-preview summary,
+.contact-optional-scene > button,
+.conversation-alternatives a,
+.conversation-alternatives button,
+.conversation-back {
+  color: var(--color-citron);
+}
+.conversation-primary {
+  border-radius: 0;
+  background: var(--color-citron);
+  color: var(--color-black);
+  border-color: var(--color-citron);
+}
+.conversation-primary:hover {
+  background: var(--color-bone);
+  transform: none;
+}
+.conversation-secondary {
+  border-radius: 0;
+  color: var(--color-bone);
+  border-color: var(--color-muted);
+}
+.conversation-hint,
+.conversation-small,
+.conversation-privacy,
+.composer-identity label span {
+  color: var(--color-light-muted);
+}
+.conversation-privacy,
+.contact-optional-scene {
+  border-color: rgb(var(--rgb-bone) / 0.212);
+}
+.conversation-small,
+.conversation-privacy {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.conversation-panel h2 {
+  font: 400 clamp(28px, 3vw, 44px) / 1.15 var(--font-ui);
+  letter-spacing: -0.035em;
+}
+.conversation-option {
+  border-radius: 0;
+  border-color: var(--color-muted);
+}
+.conversation-option:has(input:checked) {
+  border-color: var(--color-citron);
+  background: rgb(var(--rgb-citron) / 0.063);
+}
+.conversation-progress li {
+  color: var(--color-light-muted);
+}
+.conversation-progress li[data-active="true"],
+.conversation-progress li[data-complete="true"] {
+  color: var(--color-citron);
+  border-color: var(--color-citron);
+}
+.contact-career-link {
+  grid-column: 1;
+  margin-top: 20px;
+  color: var(--color-citron);
+}
+@media (max-width: 1000px) {
+  .conversation-page {
+    column-gap: 40px;
+  }
+  .conversation-intro h1 {
+    font-size: 56px;
+  }
+  .conversation-delivery {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .chapters-hero h1 {
+    font-size: 8vw;
+  }
+}
+@media (max-width: 700px) {
+  .chapters-page {
+    padding-top: 104px;
+  }
+  .chapters-hero {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 48px;
+    gap: 35px;
+  }
+  .chapters-hero h1 {
+    max-width: none;
+    font-size: 57px;
+  }
+  .chapters-lede {
+    font-size: 16px;
+  }
+  .chapters-portrait {
+    position: relative;
+    inset: auto;
+    width: 72%;
+    max-width: 350px;
+    margin: 0 0 0 auto;
+  }
+  .chapters-portrait figcaption {
+    display: flex;
+  }
+  .portrait-edition {
+    display: block;
+  }
+  .chapters-portrait img {
+    box-shadow: none;
+  }
+  .career-record {
+    padding-block: 40px;
+  }
+  .career-record-grid {
+    display: block;
+  }
+  .career-record-grid > section + section {
+    margin-top: 35px;
+  }
+  .career-record header p:not(.chapters-eyebrow) {
+    font-size: 16px;
+  }
+  .chapters-next {
+    padding: 60px 0;
+  }
+  .conversation-page {
+    display: block;
+    padding-top: 105px;
+    padding-bottom: 45px;
+  }
+  .conversation-intro h1 {
+    font-size: 51px;
+  }
+  .conversation-direct {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+  .conversation-fields > textarea {
+    min-height: 200px;
+  }
+  .contact-career-link {
+    margin-top: 32px;
+  }
+}
+@media print {
+  .chapters-page {
+    padding: 0;
+  }
+  .career-record {
+    margin: 0;
+    padding: 20px 0;
+  }
+  .career-record h2 {
+    font-size: 28px;
+  }
+  .chapters-hero h1 {
+    font-size: 36px;
+  }
+}

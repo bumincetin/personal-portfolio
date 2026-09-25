@@ -1,3 +1,4 @@
+import { enterBook, enterShelf, openOptimizer } from './library-test-helpers.mjs';
 ﻿/** Real touch regressions: scrolling must not be mistaken for page turning. */
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
@@ -15,6 +16,7 @@ try {
   const cdp = await context.newCDPSession(page);
   const open = async (route) => {
     await page.goto(`${BASE}${route}`, { waitUntil: 'load' });
+    await enterBook(page);
     await page.locator('.sketchbook-root[data-ready="1"]').waitFor({ state: 'attached' });
   };
   const select = async (index) => {
@@ -40,6 +42,7 @@ try {
   // Stylesheets remain loaded after client navigation. This caught white titles on paper.
   await page.goto(`${BASE}/en/contact`, { waitUntil: 'load' });
   await page.locator('.site-nav a[href="/en/front-matter"]').evaluate(e => e.click());
+  await enterBook(page);
   await page.locator('.sketchbook-root[data-ready="1"]').waitFor({ state: 'attached' });
   assert.equal(await page.locator('#sbBook .reader-title').evaluate(e => getComputedStyle(e).color), 'rgb(43, 39, 33)');
   assert.equal(await page.locator('#zoomWrap').isVisible(), false);
@@ -73,6 +76,7 @@ try {
 
   await open('/en/volumes/portfolio-optimizer');
   await select(19);
+  await openOptimizer(page);
   const comparison = page.locator('#sbBook [aria-label="Strategy comparison"]');
   await comparison.waitFor({ state: 'attached' });
   await swipe(comparison, -130, 0);
@@ -104,6 +108,7 @@ try {
   console.log('PASS page navigation keys with a focused page control');
 
   await page.goto(`${BASE}/en`, { waitUntil: 'load' });
+  await enterShelf(page);
   await page.locator('.experience.webgl-ready').waitFor({ state: 'attached', timeout: 60000 });
   const counter = await page.locator('#counter').innerText();
   await swipe(page.locator('#scene'), -160, 0);

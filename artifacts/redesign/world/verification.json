@@ -1,0 +1,165 @@
+[
+  {
+    "width": 1920,
+    "height": 1080,
+    "webgl": true,
+    "inspections": 1,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "webgl": true,
+    "inspections": 7,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "webgl": true,
+    "inspections": 1,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "webgl": true,
+    "inspections": 1,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "webgl": true,
+    "inspections": 1,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "webgl": true,
+    "inspections": 1,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "width": 393,
+    "height": 852,
+    "webgl": true,
+    "inspections": 7,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "height": 812,
+    "webgl": true,
+    "inspections": 1,
+    "camera": true,
+    "focus": true,
+    "space": true,
+    "scroll": true,
+    "overflow": false,
+    "homeAudit": [],
+    "selectedAudit": [],
+    "errors": []
+  },
+  {
+    "rayHits": [
+      {
+        "index": 0,
+        "x": 385.0291442871094,
+        "y": 448.016845703125
+      },
+      {
+        "index": 1,
+        "x": 686.9882202148438,
+        "y": 450.5785217285156
+      },
+      {
+        "index": 2,
+        "x": 917.5609130859375,
+        "y": 524.0965881347656
+      },
+      {
+        "index": 3,
+        "x": 581.3461303710938,
+        "y": 400.7469482421875
+      },
+      {
+        "index": 4,
+        "x": 757.6107177734375,
+        "y": 381.3597412109375
+      },
+      {
+        "index": 5,
+        "x": 993.82568359375,
+        "y": 437.96624755859375
+      },
+      {
+        "index": 6,
+        "x": 529.4110717773438,
+        "y": 522.0000305175781
+      }
+    ]
+  },
+  {
+    "mode": "reduced",
+    "passed": true
+  },
+  {
+    "mode": "no-js",
+    "passed": true
+  },
+  {
+    "mode": "no-webgl",
+    "passed": true
+  }
+]

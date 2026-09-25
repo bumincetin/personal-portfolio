@@ -9,8 +9,9 @@ a vaguer version of itself and never replaced with an invented substitute.
 
 Nothing in this document names a client or reproduces private material.
 
-**Note on structure.** The site has since been rebuilt as a shelf of seven
-volumes plus a colophon (see `docs/implementation-summary.md`). Page names
+**Note on structure.** The site presents seven volumes in a readable catalogue,
+optional shelf/book views, a separate About / CV route (`/chapters`), and a contact
+composer (see `docs/implementation-summary.md`). Historical page names
 below refer to where a claim *was* published; every one of those pages now
 redirects to the volume that carries its content, and every decision recorded
 here still holds. Two sections describe things that were removed entirely rather

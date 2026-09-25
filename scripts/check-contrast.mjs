@@ -19,24 +19,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const CSS = fs.readFileSync(path.resolve(import.meta.dirname, '..', 'src/app/globals.css'), 'utf8');
-
-/** Pulls the `--c-*` declarations out of one selector block. */
-function readTokens(selector) {
-  const start = CSS.indexOf(`${selector} {`);
-  if (start === -1) throw new Error(`selector not found: ${selector}`);
-  const end = CSS.indexOf('\n}', start);
-  const block = CSS.slice(start, end);
-
-  const tokens = {};
-  for (const match of block.matchAll(/--(c-[a-z0-9-]+):\s*([\d\s]+);/g)) {
-    const channels = match[2].trim().split(/\s+/).map(Number);
-    if (channels.length === 3 && channels.every(Number.isFinite)) tokens[match[1]] = channels;
-  }
-  return tokens;
-}
-
-const tokens = readTokens(':root');
+const palette = JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname, '..', 'src/lib/palette.json'),'utf8'));
+const css = fs.readFileSync(path.resolve(import.meta.dirname, '..', 'src/app/components/experience/palette.css'),'utf8');
+const tokens = {};
+for(const match of css.matchAll(/--c-([\w-]+): var\(--rgb-([\w-]+)\)/g)) tokens['c-'+match[1]]=palette[match[2]].slice(1).match(/../g).map(v=>parseInt(v,16));
 
 const channelLuminance = (value) => {
   const c = value / 255;
