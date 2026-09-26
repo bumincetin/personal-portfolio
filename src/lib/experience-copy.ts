@@ -1,6 +1,7 @@
 import type { Locale } from './translations';
 
 const en = {
+  present: 'Present',
   carouselTitle: 'The story so far.', swipeChapters: 'Swipe to explore', scrollChapters: 'Scroll to explore',
   chapters: 'Chapters', cv: 'Career & curriculum vitae', title: 'A career in', titleAccent: 'five chapters.',
   intro: 'From economics to algorithms. From understanding risk to building something of my own. The experiences that shaped how I work.',
@@ -31,6 +32,7 @@ const en = {
 };
 export type ExperienceCopy = typeof en;
 const tr: ExperienceCopy = {
+  present: 'Günümüz',
   carouselTitle: 'Buraya kadar gelen hikâye.', swipeChapters: 'Keşfetmek için kaydır', scrollChapters: 'Keşfetmek için kaydır',
   chapters: 'Bölümler', cv: 'Kariyer ve özgeçmiş', title: 'Beş bölümde', titleAccent: 'bir kariyer.',
   intro: 'Ekonomiden algoritmalara. Riski anlamaktan kendi işimi kurmaya. Çalışma biçimimi şekillendiren deneyimler.',
@@ -60,6 +62,7 @@ const tr: ExperienceCopy = {
   greeting: 'Merhaba Bumin,', introduction: 'Ben', from: 'şirketinden', interest: 'Görüşmek istediğim konu', timingLabel: 'Zamanlama', closing: 'Sonraki adımları görüşmek için müsait olur musunuz?', subject: 'Proje hakkında görüşme',
 };
 const it: ExperienceCopy = {
+  present: 'Presente',
   carouselTitle: 'La storia, fin qui.', swipeChapters: 'Scorri per esplorare', scrollChapters: 'Scorri per esplorare',
   chapters: 'Capitoli', cv: 'Carriera e curriculum vitae', title: 'Una carriera in', titleAccent: 'cinque capitoli.',
   intro: 'Dall’economia agli algoritmi. Dalla comprensione del rischio alla costruzione di una mia attività. Le esperienze che hanno formato il mio modo di lavorare.',

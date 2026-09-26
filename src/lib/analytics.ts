@@ -21,10 +21,8 @@
  */
 
 export type AnalyticsEvent =
-  /** A volume was opened from the shelf or from a link. */
+  /** A volume was opened from the gallery or from a link. */
   | 'volume_viewed'
-  /** The reader turned at least one page of a volume. */
-  | 'volume_page_turned'
   /** The visitor began filling in the inquiry form. */
   | 'inquiry_started'
   /** The backend accepted the inquiry. Distinct from an email link click. */

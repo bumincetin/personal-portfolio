@@ -1,213 +1,214 @@
-import ExperienceIcon from './ExperienceIcon';
 import Link from "next/link";
+import Image from "next/image";
 import type { Locale } from "@/lib/translations";
 import { getLibraryUI } from "@/lib/content/library-ui";
+import { getPortfolioUI, workType } from "@/lib/content/portfolio-ui";
+import { getWorkVolumes } from "@/lib/content/volumes";
+import { getVolume } from "@/lib/content/volume-pages";
+import { getUI } from "@/lib/content/ui";
 import { PROFILE } from "@/lib/profile";
-import { getShelfBooks } from "../shelf/volumes";
-import { getShelfUI } from "../shelf/shelf-ui";
-import ShelfLauncher from "../shelf/ShelfLauncher";
 import Footer from "@/app/sections/Footer";
+import EvidenceRecord from "../content/EvidenceRecord";
+import WorkGallery from "./WorkGallery";
+import WorkArt from "./WorkArt";
 import WorldExperience from "./world/WorldExperience";
-import SubjectArt from "./SubjectArt";
-import "../shelf/catalogue.css";
-import "./experience.css";
 
-/** Original content, rebuilt as a spatial index and readable narrative chapters. */
 export default function ExperienceHome({ locale }: { locale: Locale }) {
   const copy = getLibraryUI(locale),
-    shelf = getShelfUI(locale),
-    books = getShelfBooks(locale);
+    p = getPortfolioUI(locale),
+    ui = getUI(locale),
+    volumes = getWorkVolumes(locale);
+  const evidence = getVolume(
+    locale,
+    "greenwashing-risk-scoring",
+  )!.pages.flatMap((page) =>
+    page.block.kind === "evidence" ? page.block.entries : [],
+  );
   return (
     <>
-      <main className="atlas-page">
-        <WorldExperience
-          locale={locale}
-          subjects={books}
-          copy={copy}
-          identity={shelf.identity}
-        />
+      <main className="portfolio-home">
         <section
-          className="atlas-context"
-          aria-labelledby="catalogue-title"
-          id="catalogue"
-          data-story-section="editorial"
+          className="portfolio-hero portfolio-hero-world"
+          aria-labelledby="home-title"
         >
-          <div className="atlas-section-label">
-            <span>01 /</span>
-            <p>{copy.collection}</p>
-          </div>
-          <div>
-            <p className="atlas-intro">{copy.intro}</p>
-            <div className="atlas-context-bottom">
-              <h2 id="catalogue-title">{copy.directory}</h2>
-              <p>{copy.collectionNote}</p>
-              <Link href={`/${locale}/front-matter`} className="atlas-link">
-                {copy.approach}
-                <span aria-hidden="true"><ExperienceIcon name="external" /></span>
-              </Link>
+          <div className="world-introduction">
+            <div className="hero-heading">
+              <h1 id="home-title">
+                {p.headline}
+                <br />
+                <em>{p.headlineAccent}</em>
+              </h1>
             </div>
-          </div>
-        </section>
-        <section className="atlas-services" aria-label={copy.service}>
-          {books.slice(0, 4).map((book, index) => (
-            <article
-              className="atlas-service"
-              data-story-section="editorial"
-              data-volume={index}
-              id={`subject-${book.id}`}
-              key={book.id}
-              aria-labelledby={`catalogue-${book.id}`}
-            >
-              <div className="atlas-service-top">
-                <span className="atlas-number">{book.roman}</span>
-                <p className="atlas-meta">
-                  {copy.service} <span aria-hidden="true">/</span>{" "}
-                  {book.discipline}
-                </p>
-              </div>
-              <div className="atlas-service-body">
-                <div className="atlas-service-copy">
-                  <h3 id={`catalogue-${book.id}`}>
-                    <Link href={`/${locale}${book.href}`} prefetch={false}>
-                      {book.title}
-                      <span aria-hidden="true"><ExperienceIcon name="external" /></span>
-                    </Link>
-                  </h3>
-                  <p>{book.note}</p>
-                  <div className="atlas-deliverable">
-                    <span className="atlas-meta">{copy.takeaway}</span>
-                    <p>{book.format}</p>
-                  </div>
-                  {book.id === "cross-border" && (
-                    <p className="atlas-boundary">{copy.boundary}</p>
-                  )}
-                  <Link
-                    href={`/${locale}${book.href}`}
-                    prefetch={false}
-                    className="atlas-link"
-                    aria-label={`${copy.read}: ${book.title}`}
-                  >
-                    {copy.read}
-                    <span aria-hidden="true"><ExperienceIcon name="external" /></span>
-                  </Link>
-                </div>
-                <div className="atlas-service-plate">
-                  <SubjectArt index={index} />
-                  <span className="atlas-plate-number" aria-hidden="true">
-                    0{index + 1}
-                  </span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </section>
-        <section className="atlas-research" aria-label={copy.research}>
-          <div className="atlas-section-label">
-            <span>02 /</span>
-            <p>{copy.research}</p>
-            <span className="atlas-label-right">V — VII</span>
-          </div>
-          {books.slice(4).map((book, i) => (
-            <article
-              className={`atlas-case atlas-case-${i}`}
-              data-story-section="editorial"
-              data-volume={i + 4}
-              id={`subject-${book.id}`}
-              key={book.id}
-              aria-labelledby={`catalogue-${book.id}`}
-            >
-              <Link
-                className="atlas-case-art"
-                href={`/${locale}${book.href}`}
-                prefetch={false}
-                aria-label={`${copy.read}: ${book.title}`}
-              >
-                <SubjectArt index={i + 4} />
-                <span className="atlas-case-roman" aria-hidden="true">
-                  {book.roman}
-                </span>
-                <span className="atlas-case-open" aria-hidden="true">
-                  ↗
-                </span>
-              </Link>
-              <div className="atlas-case-heading">
-                <p className="atlas-meta">
-                  {i === 2 ? copy.synthetic : copy.research} / {book.discipline}
-                </p>
-                <h3 id={`catalogue-${book.id}`}>
-                  <Link href={`/${locale}${book.href}`} prefetch={false}>
-                    {book.title}
-                  </Link>
-                </h3>
-              </div>
-              <div className="atlas-case-description">
-                <p>{book.note}</p>
-                <div className="atlas-deliverable">
-                  <span className="atlas-meta">{copy.takeaway}</span>
-                  <p>{book.format}</p>
-                </div>
-                <Link
-                  className="atlas-link"
-                  href={`/${locale}${book.href}`}
-                  prefetch={false}
-                >
-                  {copy.read}
-                  <span aria-hidden="true"><ExperienceIcon name="external" /></span>
+            <div className="hero-bottom">
+              <p>{copy.intro}</p>
+              <div className="hero-actions">
+                <a className="button-primary" href="#work">
+                  {copy.browse}
+                  <span aria-hidden="true">↓</span>
+                </a>
+                <Link className="text-link" href={`/${locale}/contact`}>
+                  {copy.contact}
+                  <span aria-hidden="true">↗</span>
                 </Link>
               </div>
-            </article>
-          ))}
-        </section>
-        <section
-          className="atlas-explore"
-          data-story-section="explore"
-          aria-labelledby="library-invitation-title"
-        >
-          <div className="atlas-section-label">
-            <span>03 /</span>
-            <p>{copy.collection}</p>
-          </div>
-          <div className="atlas-bindings" aria-hidden="true">
-            {books.map((book, i) => (
-              <div
-                key={book.id}
-                style={{
-                  background: book.color,
-                  transform: `rotate(${(i - 3) * 5}deg) translateY(${Math.abs(i - 3) * 12}px)`,
-                }}
-              >
-                <span>{book.roman}</span>
-                <span>{book.title}</span>
-              </div>
-            ))}
-          </div>
-          <div className="atlas-explore-bottom">
-            <h2 id="library-invitation-title">{copy.shelfTitle}</h2>
-            <div>
-              <p>{copy.shelfNote}</p>
-              <ShelfLauncher locale={locale} copy={copy} />
-              <noscript>
-                <style>{"[data-enter-shelf]{display:none}"}</style>
-              </noscript>
             </div>
           </div>
+          <WorldExperience locale={locale} subjects={volumes} />
         </section>
-        <section className="atlas-conversation" data-story-section="contact" id="conversation">
-          <div className="atlas-section-label">
-            <span>04 /</span>
-            <p>{PROFILE.name}</p>
+        <section
+          id="work"
+          className="work-section"
+          aria-labelledby="work-title"
+        >
+          <div className="section-heading">
+            <p className="eyebrow">01 / {p.work}</p>
+            <h2 id="work-title">{p.galleryNote}</h2>
           </div>
-          <Link className="atlas-contact-title" href={`/${locale}/contact`}>
-            {copy.contact}
-            <span aria-hidden="true"><ExperienceIcon name="external" /></span>
+          <WorkGallery copy={p}>
+            {volumes.map((volume, index) => (
+              <li
+                key={volume.id}
+                className={`gallery-item gallery-item-${index}`}
+              >
+                <Link
+                  className="gallery-card"
+                  draggable={false}
+                  href={`/${locale}${volume.href}`}
+                  prefetch={false}
+                  data-work-type={workType(volume.id)}
+                >
+                  <div className="gallery-visual">
+                    <span className="gallery-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <WorkArt index={index} />
+                    <span className="gallery-caption">{p.illustration}</span>
+                    <span className="gallery-open" aria-hidden="true">
+                      ↗
+                    </span>
+                  </div>
+                  <div className="gallery-meta">
+                    <p>
+                      <span>VOL. {String(index + 1).padStart(2, "0")}</span>
+                      <span>{p[workType(volume.id)]}</span>
+                    </p>
+                    <h3>{volume.title}</h3>
+                    <span>{volume.discipline}</span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </WorkGallery>
+        </section>
+        <section
+          className="problem-section section-shell"
+          aria-labelledby="problems-title"
+        >
+          <div className="section-heading">
+            <p className="eyebrow">02 / {p.work}</p>
+            <h2 id="problems-title">{p.problems}</h2>
+            <p>{copy.collectionNote}</p>
+          </div>
+          <div className="problem-list">
+            {volumes.map((v, i) => (
+              <Link
+                key={v.id}
+                className="problem-row"
+                href={`/${locale}${v.href}`}
+              >
+                <span className="problem-number">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <span className="work-type" data-type={workType(v.id)}>
+                    {p[workType(v.id)]}
+                  </span>
+                  <h3>{v.discipline}</h3>
+                  <p>{v.note}</p>
+                </div>
+                <span className="problem-output">{v.format}</span>
+                <span aria-hidden="true">↗</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+        <section
+          className="selected-evidence section-shell"
+          aria-labelledby="evidence-title"
+        >
+          <div className="section-heading">
+            <p className="eyebrow">03 / {ui.work.sections.evidence}</p>
+            <h2 id="evidence-title">{p.evidence}</h2>
+            <p>{p.evidenceIntro}</p>
+          </div>
+          <div className="evidence-grid">
+            {[evidence[0], evidence[3]].filter(Boolean).map((entry) => (
+              <EvidenceRecord
+                key={entry.metric}
+                entry={entry}
+                locale={locale}
+              />
+            ))}
+          </div>
+          <Link
+            className="text-link"
+            href={`/${locale}/volumes/greenwashing-risk-scoring#leaf-evidence-1`}
+          >
+            {p.full}
+            <span aria-hidden="true">↗</span>
           </Link>
-          <div className="atlas-endnote">
-            <p>{shelf.fallbackNote}</p>
-            <Link className="atlas-link" href={`/${locale}/front-matter`}>
-              {copy.approach}
-              <span aria-hidden="true"><ExperienceIcon name="external" /></span>
+        </section>
+        <section
+          className="method-section section-shell"
+          aria-labelledby="method-title"
+        >
+          <div className="section-heading">
+            <p className="eyebrow">04 / {p.approach}</p>
+            <h2 id="method-title">{p.method}</h2>
+          </div>
+          <ol className="method-grid">
+            {ui.home.process.map((stage, i) => (
+              <li key={stage.stage}>
+                <span>0{i + 1}</span>
+                <h3>{stage.stage}</h3>
+                <p>{stage.body}</p>
+                <p className="method-output">{stage.output}</p>
+              </li>
+            ))}
+          </ol>
+          <Link className="text-link" href={`/${locale}/front-matter`}>
+            Front Matter / {p.approach}
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </section>
+        <section
+          className="about-preview section-shell"
+          aria-labelledby="about-title"
+        >
+          <Image
+            src="/profile.webp"
+            alt={PROFILE.name}
+            width={480}
+            height={480}
+            sizes="(max-width:700px) 80vw, 340px"
+          />
+          <div>
+            <p className="eyebrow">05 / {p.about}</p>
+            <h2 id="about-title">{p.trajectory}</h2>
+            <p>{p.biography}</p>
+            <Link className="text-link" href={`/${locale}/chapters`}>
+              {copy.about}
+              <span aria-hidden="true">↗</span>
             </Link>
           </div>
+        </section>
+        <section className="portfolio-contact section-shell">
+          <p className="eyebrow">06 / {PROFILE.name}</p>
+          <h2>{copy.contact}</h2>
+          <Link className="button-primary" href={`/${locale}/contact`}>
+            {copy.contact}
+            <span aria-hidden="true">↗</span>
+          </Link>
         </section>
       </main>
       <Footer locale={locale} />

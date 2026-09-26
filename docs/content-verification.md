@@ -69,6 +69,13 @@ published.
 
 ### 1.3 Open-ended engagement dates
 
+**Owner update, 26 September 2026.** The owner confirmed that Alvolo Consulting
+is ongoing and requested that it appear first in the CV experience list.
+Its dates are now **March 2025 – Present**, with localized equivalents in
+Turkish and Italian. The career story and CV headings reflect that update.
+ImpactScope keeps its recorded end date. The homepage tagline was also removed
+at the owner's request. This supersedes the earlier Alvolo decision below.
+
 **What was published.** `story.ts` gave the Alvolo chapter as `2025 —`, and the
 hero eyebrow read "Founder, Alvolo Consulting" as a present-tense role. The
 About page's own record dates the engagement **March 2025 – November 2025**, and
@@ -335,7 +342,7 @@ which is the honest reading of it.
 
 1. Registered Alvolo role, and whether "Co-Founder" is accurate.
 2. Whether any current Bocconi affiliation exists.
-3. Whether the Alvolo and ImpactScope engagements are ongoing or closed as dated.
+3. Whether the ImpactScope engagement is ongoing or closed as dated. Alvolo was confirmed as ongoing on 26 September 2026.
 4. Whether the WhatsApp number is still current.
 5. Evidence behind the 80% figure, if it is to be republished.
 6. Whether the ImpactScope product used RoBERTa, and whether anything is citable.

@@ -50,9 +50,10 @@ export function pageMetadata({
   title,
   description,
   index = true,
-  image = '/portrait.jpg',
+  image,
   type = 'website',
 }: PageMetaInput): Metadata {
+  image ??= `/og/${locale}${path.replaceAll('/', '-')}.png`;
   const canonical = `/${locale}${path}`;
   const fullTitle = `${title} | ${PROFILE.name}`;
 

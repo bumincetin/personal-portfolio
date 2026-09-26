@@ -1,40 +1,42 @@
 import palette from "@/lib/palette.json";
 import * as THREE from "three";
+
 export function createMaterials() {
-  const standard = (color: string, roughness = 0.8, metalness = 0.1) =>
+  const matte = (color: string, roughness = 0.8, metalness = 0.05) =>
     new THREE.MeshStandardMaterial({ color, roughness, metalness });
   return {
-    floor: standard(palette["surface-elevated"]),
-    wall: standard(palette["graphite"]),
-    dark: standard(palette["carbon"]),
-    metal: standard(palette["graphite"], 0.42, 0.65),
-    paper: standard(palette["bone"]),
-    ink: standard(palette["carbon"]),
-    brass: standard(palette["muted"], 0.4, 0.6),
-    clay: standard(palette["blue-black"]),
-    blue: standard(palette["muted"]),
+    floor: matte(palette["surface-elevated"]),
+    wall: matte(palette.apricot),
+    dark: matte(palette.coral),
+    metal: matte(palette.graphite, 0.6, 0.25),
+    paper: matte(palette.surface),
+    ink: matte(palette["electric-blue"]),
+    brass: matte(palette.apricot, 0.5, 0.2),
+    clay: matte(palette.coral),
+    blue: matte(palette["electric-blue"]),
     light: new THREE.MeshStandardMaterial({
-      color: palette["bone"],
-      emissive: palette["bone"],
-      emissiveIntensity: 1.6,
+      color: palette.surface,
+      emissive: palette.apricot,
+      emissiveIntensity: 0.35,
     }),
     glass: new THREE.MeshStandardMaterial({
-      color: palette["light-muted"],
+      color: palette.surface,
       transparent: true,
-      opacity: 0.09,
-      roughness: 0.25,
+      opacity: 0.08,
+      roughness: 0.35,
       depthWrite: false,
     }),
   };
 }
 export type Materials = ReturnType<typeof createMaterials>;
-/** Original wayfinding textures, generated locally; no fetched image assets. */
+
+/** Local wayfinding textures; no remote assets or fonts. */
 export function lettering(
   text: string,
   width = 256,
   height = 128,
-  background = palette["carbon"],
-  color = palette["bone"],
+  background = palette.surface,
+  color = palette.bone,
 ) {
   const canvas = document.createElement("canvas");
   canvas.width = width;

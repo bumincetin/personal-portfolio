@@ -1,8 +1,17 @@
-import React from 'react';
-import { FlaskConical, Wrench, Building2, Handshake, Package, Beaker, Info, type LucideIcon } from 'lucide-react';
-import type { Locale } from '@/lib/translations';
-import type { Maturity } from '@/lib/content/case-studies';
-import { getUI } from '@/lib/content/ui';
+import React from "react";
+import {
+  FlaskConical,
+  Wrench,
+  Building2,
+  Handshake,
+  Package,
+  Beaker,
+  Info,
+  type LucideIcon,
+} from "lucide-react";
+import type { Locale } from "@/lib/translations";
+import type { Maturity } from "@/lib/content/case-studies";
+import { getUI } from "@/lib/content/ui";
 
 /**
  * Maturity and provenance labels.
@@ -22,10 +31,10 @@ import { getUI } from '@/lib/content/ui';
 const MATURITY_ICON: Record<Maturity, LucideIcon> = {
   research: FlaskConical,
   prototype: Wrench,
-  'internal-deployment': Building2,
-  'client-engagement': Handshake,
-  'maintained-product': Package,
-  'synthetic-demo': Beaker,
+  "internal-deployment": Building2,
+  "client-engagement": Handshake,
+  "maintained-product": Package,
+  "synthetic-demo": Beaker,
 };
 
 /**
@@ -33,19 +42,19 @@ const MATURITY_ICON: Record<Maturity, LucideIcon> = {
  * the one label whose misreading would be a false claim about client work.
  */
 const MATURITY_TONE: Record<Maturity, string> = {
-  research: 'border-border-dark bg-surface text-charcoal',
-  prototype: 'border-border-dark bg-surface text-charcoal',
-  'internal-deployment': 'border-accent/40 bg-accent/10 text-accent',
-  'client-engagement': 'border-accent/40 bg-accent/10 text-accent',
-  'maintained-product': 'border-positive/40 bg-positive/10 text-positive',
-  'synthetic-demo': 'border-caution/50 bg-caution/10 text-caution',
+  research: "border-border-dark bg-surface text-charcoal",
+  prototype: "border-border-dark bg-surface text-charcoal",
+  "internal-deployment": "border-accent/40 bg-accent/10 text-accent",
+  "client-engagement": "border-accent/40 bg-accent/10 text-accent",
+  "maintained-product": "border-positive/40 bg-positive/10 text-positive",
+  "synthetic-demo": "border-caution/50 bg-caution/10 text-caution",
 };
 
 export function MaturityBadge({
   maturity,
   locale,
   showDescription = false,
-  className = '',
+  className = "",
 }: {
   maturity: Maturity;
   locale: Locale;
@@ -65,12 +74,16 @@ export function MaturityBadge({
         <Icon size={13} aria-hidden="true" />
         {entry.label}
       </span>
-      {showDescription && <span className="mt-2 block text-[0.8125rem] leading-relaxed text-muted">{entry.description}</span>}
+      {showDescription && (
+        <span className="mt-2 block text-[0.8125rem] leading-relaxed text-muted">
+          {entry.description}
+        </span>
+      )}
     </span>
   );
 }
 
-export type ProvenanceKind = 'synthetic' | 'interactive' | 'recorded' | 'live';
+export type ProvenanceKind = "synthetic" | "interactive" | "recorded" | "live";
 
 /**
  * How a number on screen came to exist. Applied to every demo, chart and
@@ -81,7 +94,7 @@ export function ProvenanceBadge({
   kind,
   locale,
   detail,
-  className = '',
+  className = "",
 }: {
   kind: ProvenanceKind;
   locale: Locale;
@@ -92,16 +105,21 @@ export function ProvenanceBadge({
   const ui = getUI(locale);
 
   const label =
-    kind === 'synthetic'
+    kind === "synthetic"
       ? ui.labels.synthetic
-      : kind === 'interactive'
+      : kind === "interactive"
         ? ui.labels.interactiveCalculation
-        : kind === 'recorded'
+        : kind === "recorded"
           ? ui.labels.recordedExample
           : ui.labels.liveData;
 
   const hint =
-    detail ?? (kind === 'synthetic' ? ui.labels.syntheticHint : kind === 'interactive' ? ui.labels.interactiveHint : '');
+    detail ??
+    (kind === "synthetic"
+      ? ui.labels.syntheticHint
+      : kind === "interactive"
+        ? ui.labels.interactiveHint
+        : "");
 
   return (
     <span
@@ -111,7 +129,9 @@ export function ProvenanceBadge({
         <Info size={12} aria-hidden="true" className="text-accent" />
         {label}
       </span>
-      {hint && <span className="text-[0.8125rem] leading-snug text-muted">{hint}</span>}
+      {hint && (
+        <span className="text-[0.8125rem] leading-snug text-muted">{hint}</span>
+      )}
     </span>
   );
 }

@@ -17,30 +17,28 @@ const nextConfig = {
    * The variable still wins when it is set, which is what the smoke and
    * accessibility runs use to point a second server at a build of their own.
    */
-  distDir: process.env.NEXT_DIST_DIR || (process.env.NODE_ENV === 'development' ? '.next-dev' : '.next'),
+  distDir:
+    process.env.NEXT_DIST_DIR ||
+    (process.env.NODE_ENV === "development" ? ".next-dev" : ".next"),
 
   images: {
     // Serve modern formats first; the source art in /public is already WebP.
-    formats: ['image/avif', 'image/webp'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    formats: ["image/avif", "image/webp"],
+    // All portfolio media is local; no arbitrary remote image proxy.
+    remotePatterns: [],
   },
 
   // Rewrites barrel imports to per-icon/per-export paths so a single `import
   // { ArrowRight }` does not pull the whole library into the client bundle.
   experimental: {
-    optimizePackageImports: ['lucide-react', 'motion/react'],
+    optimizePackageImports: ["lucide-react", "motion/react"],
   },
 
   compiler: {
     removeConsole:
-      process.env.NODE_ENV === 'production'
+      process.env.NODE_ENV === "production"
         ? {
-            exclude: ['error', 'warn'],
+            exclude: ["error", "warn"],
           }
         : false,
   },
@@ -70,7 +68,7 @@ const nextConfig = {
     });
 
     return [
-      { source: '/', destination: '/en', permanent: true },
+      { source: "/", destination: "/en", permanent: true },
 
       /*
        * The icon iOS asks for before it has read the document.
@@ -80,44 +78,100 @@ const nextConfig = {
        * anything that does not parse it first still asks for these two paths by
        * convention, and both answered 404 in production. They cost two lines.
        */
-      { source: '/apple-touch-icon.png', destination: '/apple-icon.png', permanent: true },
-      { source: '/apple-touch-icon-precomposed.png', destination: '/apple-icon.png', permanent: true },
+      {
+        source: "/apple-touch-icon.png",
+        destination: "/apple-icon.png",
+        permanent: true,
+      },
+      {
+        source: "/apple-touch-icon-precomposed.png",
+        destination: "/apple-icon.png",
+        permanent: true,
+      },
 
       // Service pages -> the four service volumes.
-      volume('/services/ai-nlp', 'document-intelligence'),
-      volume('/services/financial-analytics', 'forecasting'),
-      volume('/services/business-intelligence', 'reporting'),
-      volume('/services/financial-consultancy', 'cross-border'),
+      volume("/services/ai-nlp", "document-intelligence"),
+      volume("/services/financial-analytics", "forecasting"),
+      volume("/services/business-intelligence", "reporting"),
+      volume("/services/financial-consultancy", "cross-border"),
 
       // Case studies -> the three evidence volumes.
-      volume('/assets/greenwashing-risk-scoring', 'greenwashing-risk-scoring'),
-      volume('/assets/parliamentary-seat-forecast', 'parliamentary-seat-forecast'),
-      volume('/assets/portfolio-optimizer', 'portfolio-optimizer'),
-      volume('/assets/statement-review', 'document-intelligence'),
+      volume("/assets/greenwashing-risk-scoring", "greenwashing-risk-scoring"),
+      volume(
+        "/assets/parliamentary-seat-forecast",
+        "parliamentary-seat-forecast",
+      ),
+      volume("/assets/portfolio-optimizer", "portfolio-optimizer"),
+      volume("/assets/statement-review", "document-intelligence"),
 
       /*
        * Indexes and the retired pages go to the shelf, which is where their
        * subject matter now lives. The SME page's argument survives as the
        * "what it costs" section of the home page; the demo portal is retired.
        */
-      { source: '/:locale(en|tr|it)/services', destination: '/:locale', permanent: true },
-      { source: '/:locale(en|tr|it)/methodology', destination: '/:locale', permanent: true },
-      { source: '/:locale(en|tr|it)/assets', destination: '/:locale', permanent: true },
-      { source: '/:locale(en|tr|it)/why-sme', destination: '/:locale', permanent: true },
-      { source: '/:locale(en|tr|it)/portal', destination: '/:locale', permanent: true },
+      {
+        source: "/:locale(en|tr|it)/services",
+        destination: "/:locale",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|tr|it)/methodology",
+        destination: "/:locale",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|tr|it)/assets",
+        destination: "/:locale",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|tr|it)/why-sme",
+        destination: "/:locale",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|tr|it)/portal",
+        destination: "/:locale",
+        permanent: true,
+      },
 
       // The biography and CV have their own home, separate from inquiries.
-      { source: '/:locale(en|tr|it)/about', destination: '/:locale/chapters', permanent: true },
+      {
+        source: "/:locale(en|tr|it)/about",
+        destination: "/:locale/chapters",
+        permanent: true,
+      },
     ];
   },
 
   async headers() {
     return [
       {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "DENY" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+          },
+        ],
+      },
+      {
         // The build-time image pipeline gives these content-hashed output, and
         // they are only replaced by a redeploy.
-        source: '/:file(.*\\.(?:webp|png|jpg|jpeg|svg|ico))',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+        source: "/:file(.*\\.(?:webp|png|jpg|jpeg|svg|ico))",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, must-revalidate",
+          },
+        ],
       },
     ];
   },

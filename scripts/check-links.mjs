@@ -19,7 +19,6 @@
  */
 
 import { chromium } from 'playwright';
-import { enterShelf, enterBook, openOptimizer } from './library-test-helpers.mjs';
 
 const BASE = (process.argv[2]?.startsWith('http') ? process.argv[2] : 'http://localhost:3000').replace(/\/$/, '');
 const LOCALES = ['en', 'tr', 'it'];
@@ -119,16 +118,9 @@ for (const route of RENDERED) {
   }
 }
 
-await page.goto(`${BASE}/en`, { waitUntil: 'load' });
-await enterShelf(page);
 await page.goto(`${BASE}/en/volumes/portfolio-optimizer`, { waitUntil: 'load' });
-await enterBook(page);
-const demo = await page.locator('#leaf-demo').getAttribute('data-folio');
-await page.locator('.plate').nth(Number(demo) - 1).click();
-await openOptimizer(page);
-await page.goto(`${BASE}/en/contact`, { waitUntil: 'load' });
-await page.locator('.contact-optional-scene > button').click();
-await page.locator('.neuron-book[data-ready="true"]').waitFor({timeout:60000});
+await page.locator('[data-open-optimizer]').click();
+await page.locator('section[aria-label="Geopolitical portfolio optimizer"]').waitFor();
 await browser.close();
 
 /* ──────────────────────────────────────────────── 2. routes and links ────── */

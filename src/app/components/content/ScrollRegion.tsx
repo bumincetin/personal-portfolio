@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * A horizontally scrollable region a keyboard can actually reach.
@@ -15,7 +15,7 @@ import React from 'react';
  */
 export default function ScrollRegion({
   label,
-  className = '',
+  className = "",
   children,
 }: {
   /** What the region contains. It is announced, so it must be meaningful. */
@@ -24,7 +24,13 @@ export default function ScrollRegion({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`scroll-x ${className}`} data-scroll-region tabIndex={0} role="group" aria-label={label}>
+    <div
+      className={`scroll-x ${className}`}
+      data-scroll-region
+      tabIndex={0}
+      role="group"
+      aria-label={label}
+    >
       {children}
     </div>
   );

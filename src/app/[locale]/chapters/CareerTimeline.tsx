@@ -130,7 +130,7 @@ export default function CareerTimeline({ chapters, copy }: { chapters: Chapter[]
     aria-label={copy.chapters} style={{ '--chapter-count': chapters.length, '--active-accent': ACCENTS[active] } as CSSProperties}>
     <noscript><style>{'.career-arrows,.career-card-select{display:none}.career-story-details .career-chapter{margin-bottom:32px}'}</style></noscript>
     <div className="career-film">
-      <header className="career-film-top"><div><p className="chapters-eyebrow">{copy.chapters} <span>/ 2020 - 2025</span></p><h2>{copy.carouselTitle}</h2></div><span className="career-counter"><strong>{String(active + 1).padStart(2, '0')}</strong><span>/ {String(chapters.length).padStart(2, '0')}</span></span></header>
+      <header className="career-film-top"><div><p className="chapters-eyebrow">{copy.chapters} <span>/ 2020 - {copy.present}</span></p><h2>{copy.carouselTitle}</h2></div><span className="career-counter"><strong>{String(active + 1).padStart(2, '0')}</strong><span>/ {String(chapters.length).padStart(2, '0')}</span></span></header>
       <div className="career-stage">
         <div className="career-spotlight" aria-hidden="true" />
         <div ref={track} className="career-track" tabIndex={0} role="group" aria-label={copy.chapters}

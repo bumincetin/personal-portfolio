@@ -4,7 +4,7 @@ import { locales, isLocale } from '@/lib/translations';
 import { getFrontMatter } from '@/lib/content/volume-pages';
 import { getUI } from '@/lib/content/ui';
 import { pageMetadata } from '@/lib/seo';
-import VolumeReader from '@/app/components/sketchbook/VolumeReader';
+import VolumeReader from '@/app/components/content/VolumeReader';
 
 /**
  * The front matter, read as a book.

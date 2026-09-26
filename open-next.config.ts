@@ -7,7 +7,7 @@ import { defineCloudflareConfig } from '@opennextjs/cloudflare';
  * is ever added, wire up r2IncrementalCache here and add the
  * NEXT_INC_CACHE_R2_BUCKET binding in wrangler.jsonc.
  */
-export default {
+const config = {
   ...defineCloudflareConfig(),
 
   /*
@@ -23,3 +23,5 @@ export default {
    */
   buildCommand: 'npx next build',
 };
+
+export default config;

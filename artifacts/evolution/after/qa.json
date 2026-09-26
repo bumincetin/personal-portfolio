@@ -1,0 +1,498 @@
+[
+  {
+    "label": "en/ 320",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 1,
+    "violations": []
+  },
+  {
+    "label": "en/front-matter 320",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/chapters 320",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/contact 320",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/document-intelligence 320",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/greenwashing-risk-scoring 320",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/ 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 1,
+    "violations": []
+  },
+  {
+    "label": "en/front-matter 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/chapters 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/contact 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/document-intelligence 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/forecasting 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/reporting 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/cross-border 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/greenwashing-risk-scoring 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/parliamentary-seat-forecast 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/portfolio-optimizer 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/ 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 1,
+    "violations": []
+  },
+  {
+    "label": "tr/front-matter 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/chapters 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/contact 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/volumes/document-intelligence 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/volumes/forecasting 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/volumes/reporting 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/volumes/cross-border 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/volumes/greenwashing-risk-scoring 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/volumes/parliamentary-seat-forecast 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "tr/volumes/portfolio-optimizer 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/ 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 1,
+    "violations": []
+  },
+  {
+    "label": "it/front-matter 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/chapters 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/contact 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/volumes/document-intelligence 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/volumes/forecasting 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/volumes/reporting 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/volumes/cross-border 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/volumes/greenwashing-risk-scoring 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/volumes/parliamentary-seat-forecast 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "it/volumes/portfolio-optimizer 390",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/ 768",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 1,
+    "violations": []
+  },
+  {
+    "label": "en/front-matter 768",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/chapters 768",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/contact 768",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/document-intelligence 768",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/greenwashing-risk-scoring 768",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/ 1024",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 1,
+    "violations": []
+  },
+  {
+    "label": "en/front-matter 1024",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/chapters 1024",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/contact 1024",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/document-intelligence 1024",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/greenwashing-risk-scoring 1024",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/ 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 1,
+    "violations": []
+  },
+  {
+    "label": "en/front-matter 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/chapters 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/contact 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/document-intelligence 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/forecasting 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/reporting 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/cross-border 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/greenwashing-risk-scoring 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/parliamentary-seat-forecast 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  },
+  {
+    "label": "en/volumes/portfolio-optimizer 1440",
+    "h1": 1,
+    "ids": [],
+    "overflow": false,
+    "canvas": 0,
+    "violations": []
+  }
+]

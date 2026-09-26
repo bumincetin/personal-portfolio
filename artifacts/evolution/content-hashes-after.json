@@ -1,0 +1,29 @@
+[
+  {
+    "file": "src/lib/content/volume-pages.ts",
+    "unchanged": false,
+    "note": "Imports and taxonomy names migrated; all original content blocks pass exact baseline comparison."
+  },
+  {
+    "file": "src/lib/content/evidence.ts",
+    "unchanged": true
+  },
+  {
+    "file": "src/lib/content/case-studies.ts",
+    "unchanged": true
+  },
+  {
+    "file": "src/lib/content/services.ts",
+    "unchanged": true
+  },
+  {
+    "file": "src/lib/story.ts",
+    "unchanged": true
+  },
+  {
+    "file": "src/lib/profile.ts",
+    "unchanged": false,
+    "normalizedContentUnchanged": true,
+    "note": "Only line endings differ from the captured bytes; no meaningful Git diff."
+  }
+]

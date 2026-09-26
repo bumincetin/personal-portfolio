@@ -1,0 +1,90 @@
+{
+  "results": [
+    {
+      "check": "desktop interactive room",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "seven keyboard selections, canonical links, Escape, idle/offscreen, still/3D toggle, context-loss recovery",
+      "scroll": 240
+    },
+    {
+      "check": "en 320px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "en 390px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "en 768px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "tr 320px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "tr 390px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "tr 768px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "it 320px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "it 390px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "it 768px",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "no-js",
+      "overflow": false,
+      "h1": 1,
+      "violations": null
+    },
+    {
+      "check": "no-webgl",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "save-data",
+      "overflow": false,
+      "h1": 1,
+      "violations": []
+    },
+    {
+      "check": "reduced motion, live preference changes, touch scrolling, no-JS/WebGL fallback, data-saving opt-in"
+    }
+  ],
+  "errors": []
+}

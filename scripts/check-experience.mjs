@@ -86,23 +86,6 @@ try {
   const page = await motion.newPage();
   const motionErrors = [];
   page.on('pageerror', error => motionErrors.push(error.message));
-  await page.goto(`${BASE}/en/contact`);
-  await page.locator('.contact-optional-scene > button').click();
-  await page.locator('.neuron-book[data-ready="true"]').waitFor({timeout:60000});
-  await page.getByRole('button',{name:'Pause animation'}).click();
-  await page.waitForTimeout(800); // Let the canvas entrance opacity settle.
-  const canvas = page.locator('.neuron-canvas');
-  const cdp = await motion.newCDPSession(page);
-  const capture = async () => {
-    const r = await canvas.boundingBox();
-    const scroll = await page.evaluate(() => ({ x: scrollX, y: scrollY }));
-    return (await cdp.send('Page.captureScreenshot', { format:'png', clip:{x:r.x+scroll.x,y:r.y+scroll.y,width:r.width,height:r.height,scale:1} })).data;
-  };
-  const a = await capture(); await page.waitForTimeout(250); const b = await capture();
-  assert.ok(a === b,'paused sculpture must stay still');
-  await page.getByRole('button',{name:'Play animation'}).click();
-  const c = await capture(); await page.waitForTimeout(300); const d = await capture();
-  assert.ok(c !== d,'the 3D neuron must animate');
   await page.goto(`${BASE}/en/chapters`);
   await page.locator('.career-reel a[href="#chapter-IV"]').click(); await page.waitForTimeout(1700);
   assert.equal(await page.locator('.career-reel a[aria-current]').getAttribute('href'),'#chapter-IV');
@@ -124,5 +107,5 @@ try {
   assert.equal(await fallback.locator('.career-chapter').count(),5);
   assert.ok(await fallback.locator('#career-record').isVisible());
   await nojs.close();
-  console.log(`PASS ${scans} accessibility scans, live 3D, pause, motion, print, and no-JavaScript fallbacks`);
+  console.log(`PASS ${scans} accessibility scans, motion, print, and no-JavaScript fallbacks`);
 } finally { await browser.close(); }

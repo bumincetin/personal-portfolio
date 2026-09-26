@@ -3,11 +3,9 @@ import type { Locale } from './translations';
 /**
  * The biographical record, as the colophon prints it.
  *
- * One entry per stage of the background, in order. Each is dated exactly as the
- * record states it — every engagement has an end date, nothing says "present",
- * and no title appears that the record does not carry. That is deliberate: the
- * site previously showed three different titles for the same engagement and an
- * affiliation that read as current employment. See docs/content-verification.md.
+ * One entry per stage of the background, in chronological order. Alvolo is
+ * ongoing, as confirmed by the owner on 26 September 2026. Other stages keep
+ * their recorded dates and titles. See docs/content-verification.md.
  *
  * This file holds no figures and no claims about outcomes. Where the work
  * produced a number worth quoting, the number lives in
@@ -74,7 +72,7 @@ const STORIES: Record<Locale, Story> = {
       },
       {
         numeral: "V",
-        years: "2025",
+        years: "2025 — Present",
         place: "Milan",
         institution: "Alvolo Consulting",
         role: "Founder",
@@ -124,7 +122,7 @@ const STORIES: Record<Locale, Story> = {
       },
       {
         numeral: "V",
-        years: "2025",
+        years: "2025 — Günümüz",
         place: "Milano",
         institution: "Alvolo Consulting",
         role: "Kurucu",
@@ -174,7 +172,7 @@ const STORIES: Record<Locale, Story> = {
       },
       {
         numeral: "V",
-        years: "2025",
+        years: "2025 — Presente",
         place: "Milano",
         institution: "Alvolo Consulting",
         role: "Fondatore",

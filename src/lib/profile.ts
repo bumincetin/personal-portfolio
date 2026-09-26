@@ -12,10 +12,9 @@
  *    bumincetin.com would be better; it is recorded as a launch task rather
  *    than published before it exists.
  *
- *  - No open-ended role claims. The record available in this repository dates
- *    every engagement with an end. Nothing here says "present", and no title is
- *    asserted that the record does not carry (see `docs/content-verification.md`
- *    for the three conflicting Alvolo titles and what was done about them).
+ *  - Role dates follow the owner's record. Alvolo Consulting is ongoing,
+ *    confirmed by the owner on 26 September 2026. Other engagements retain
+ *    their recorded end dates (see `docs/content-verification.md`).
  *
  *  - Regulated work is attributed, not implied. `RESPONSIBILITY` is what keeps
  *    the cross-border page from reading as one person offering notary, tax and
@@ -79,7 +78,7 @@ export const CONTACT = {
 export const RESPONSIBILITY = {
   /** Performed personally. */
   firstParty: 'first-party',
-  /** Alvolo Consulting as an organisation. Dates are closed in the record. */
+  /** Alvolo Consulting, the owner's ongoing advisory practice. */
   alvolo: 'alvolo',
   /** Referred to, and performed by, a licensed professional. */
   partner: 'partner',

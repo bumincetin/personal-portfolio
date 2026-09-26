@@ -1,6 +1,6 @@
-import React from 'react';
-import { CONTACT, PROFILE } from '@/lib/profile';
-import { SITE_URL } from '@/lib/seo';
+import React from "react";
+import { CONTACT, PROFILE } from "@/lib/profile";
+import { SITE_URL } from "@/lib/seo";
 
 /**
  * Person structured data, on the About page only.
@@ -19,20 +19,20 @@ import { SITE_URL } from '@/lib/seo';
  */
 export default function PersonSchema({ path }: { path: string }) {
   const data = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
+    "@context": "https://schema.org",
+    "@type": "Person",
     name: PROFILE.name,
     url: `${SITE_URL}${path}`,
     address: {
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       addressLocality: PROFILE.city,
-      addressCountry: 'IT',
+      addressCountry: "IT",
     },
     alumniOf: {
-      '@type': 'CollegeOrUniversity',
-      name: 'Bocconi University',
+      "@type": "CollegeOrUniversity",
+      name: "Bocconi University",
     },
-    knowsLanguage: ['en', 'it', 'tr'],
+    knowsLanguage: ["en", "it", "tr"],
     sameAs: [CONTACT.linkedin.url, CONTACT.github.url],
   };
 
@@ -40,7 +40,9 @@ export default function PersonSchema({ path }: { path: string }) {
     <script
       type="application/ld+json"
       // Serialised from a literal built above; no user input reaches it.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
     />
   );
 }

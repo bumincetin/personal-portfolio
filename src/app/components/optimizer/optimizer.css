@@ -1,19 +1,75 @@
-.optimizer-publication { container-type: inline-size; font: 14px/1.5 var(--font-ui); }
-.sketchbook-root .optimizer-publication button { font: 14px/1.4 var(--font-ui); }
-.sketchbook-root .optimizer-publication table button { font: 12px/1.4 var(--font-mono); white-space: nowrap; }
-.optimizer-publication .optimizer-layout { display: grid; grid-template-columns: minmax(0,1fr); gap: var(--space-6); }
-.optimizer-publication .optimizer-layout > div { grid-column: auto; order: initial; min-width: 0; }
-.optimizer-section { border-top: 1px solid var(--line-dark); background: transparent; box-shadow: none; border-radius: 0; }
-.optimizer-section-title { padding: var(--space-4) 0 var(--space-3); flex-wrap: wrap; }
-.optimizer-section-title h3 { font-size: 12px; letter-spacing: .07em; }
-.optimizer-section > div > .p-4, .optimizer-section > .p-4 { padding-inline: 0; }
-.optimizer-publication > div:first-child > div:last-child > span { border: 0; background: transparent; padding-inline: 0; }
-.optimizer-publication .optimizer-layout input:not([type=range]) { min-width: 0; }
+.optimizer-publication {
+  container-type: inline-size;
+  font: 14px/1.5 var(--font-ui);
+}
+.volume-page .optimizer-publication button {
+  font: 14px/1.4 var(--font-ui);
+}
+.volume-page .optimizer-publication table button {
+  font: 12px/1.4 var(--font-mono);
+  white-space: nowrap;
+}
+.optimizer-publication .optimizer-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+}
+.optimizer-publication .optimizer-layout > div {
+  grid-column: auto;
+  order: initial;
+  min-width: 0;
+}
+.optimizer-section {
+  border-top: 1px solid var(--line-dark);
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+.optimizer-section-title {
+  padding: var(--space-4) 0 var(--space-3);
+  flex-wrap: wrap;
+}
+.optimizer-section-title h3 {
+  font-size: 12px;
+  letter-spacing: 0.07em;
+}
+.optimizer-section > div > .p-4,
+.optimizer-section > .p-4 {
+  padding-inline: 0;
+}
+.optimizer-publication > div:first-child > div:last-child > span {
+  border: 0;
+  background: transparent;
+  padding-inline: 0;
+}
+.optimizer-publication .optimizer-layout input:not([type="range"]) {
+  min-width: 0;
+}
 @container (min-width: 720px) {
-  .optimizer-publication .optimizer-layout { grid-template-columns: minmax(220px,.7fr) minmax(0,1.5fr); }
-  .optimizer-publication .optimizer-layout > div:last-child { grid-column: 1 / -1; }
+  .optimizer-publication .optimizer-layout {
+    grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.5fr);
+  }
+  .optimizer-publication .optimizer-layout > div:last-child {
+    grid-column: 1 / -1;
+  }
 }
 @container (min-width: 1100px) {
-  .optimizer-publication .optimizer-layout { grid-template-columns: 260px minmax(0,1fr) 260px; }
-  .optimizer-publication .optimizer-layout > div:last-child { grid-column: auto; }
+  .optimizer-publication .optimizer-layout {
+    grid-template-columns: 260px minmax(0, 1fr) 260px;
+  }
+  .optimizer-publication .optimizer-layout > div:last-child {
+    grid-column: auto;
+  }
+}
+
+.optimizer-publication table button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.optimizer-publication input[type="range"] {
+  min-height: 44px;
+}
+.optimizer-publication [class*="text-[10px]"],
+.optimizer-publication [class*="text-[11px]"] {
+  font-size: 12px;
 }

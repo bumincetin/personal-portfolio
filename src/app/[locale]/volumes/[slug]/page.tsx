@@ -1,9 +1,10 @@
+import { getPortfolioUI, workType } from '@/lib/content/portfolio-ui';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { locales, isLocale } from '@/lib/translations';
 import { getVolume, volumeSlugs } from '@/lib/content/volume-pages';
 import { pageMetadata } from '@/lib/seo';
-import VolumeReader from '@/app/components/sketchbook/VolumeReader';
+import VolumeReader from '@/app/components/content/VolumeReader';
 import TrackView from '@/app/components/content/TrackView';
 
 /**
@@ -49,7 +50,7 @@ export async function generateMetadata(props: {
     path: `/volumes/${slug}`,
     // The problem, not the technique — the same rule the shelf follows.
     title: `${volume.title} — ${volume.discipline}`,
-    description: volume.deck,
+    description: `${getPortfolioUI(locale)[workType(slug)]}. ${volume.deck}`,
     type: 'article',
   });
 }

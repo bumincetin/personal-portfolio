@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { locales, isLocale, getTranslation } from '@/lib/translations';
 import { getExperienceCopy } from '@/lib/experience-copy';
+import { getLibraryUI } from '@/lib/content/library-ui';
+import { getPortfolioUI } from '@/lib/content/portfolio-ui';
 import { getStory } from '@/lib/story';
 import { CONTACT, PROFILE } from '@/lib/profile';
 import { pageMetadata } from '@/lib/seo';
@@ -31,9 +33,10 @@ export default async function ChaptersPage({ params }: { params: Promise<{ local
     <main className="chapters-page">
       <p className="chapters-print-identity">{PROFILE.name} · {CONTACT.email.address} · {CONTACT.whatsapp.display}</p>
       <header className="chapters-hero">
-        <div><p className="chapters-eyebrow">{c.cv} <span>2020 — 2025</span></p><h1>{c.title}<br /><em>{c.titleAccent}</em></h1><p className="chapters-lede">{c.intro}</p><div className="chapters-hero-links"><a href="#career-story">{c.scroll}<ArrowDown size={16} /></a><a href="#career-record">{c.record}<ArrowUpRight size={16} /></a></div></div>
+        <div><p className="chapters-eyebrow">{c.cv} <span>2020 — {c.present}</span></p><h1>{c.title}<br /><em>{c.titleAccent}</em></h1><p className="chapters-lede">{c.intro}</p><div className="chapters-hero-links"><a href="#career-story">{c.scroll}<ArrowDown size={16} /></a><a href="#career-record">{c.record}<ArrowUpRight size={16} /></a></div></div>
         <figure className="chapters-portrait"><Image src="/portrait.jpg" alt={PROFILE.name} width={720} height={720} priority sizes="(max-width: 700px) 72vw, 420px" /><figcaption><span>{PROFILE.name}</span><span>{PROFILE.city}, {PROFILE.country}</span></figcaption><span className="portrait-edition" aria-hidden="true">BKÇ / 01</span></figure>
       </header>
+      <section className="current-practice"><p className="eyebrow">{getPortfolioUI(locale).current}</p><h2>{getLibraryUI(locale).about}</h2><p>{getPortfolioUI(locale).currentNote}</p></section>
       <CareerTimeline chapters={story.chapters} copy={c} />
       <section id="career-record" className="career-record" aria-labelledby="record-title">
         <header><div><p className="chapters-eyebrow">Curriculum vitae</p><h2 id="record-title">{c.record}</h2><p>{c.recordNote}</p></div><PrintCV label={c.print} /></header>

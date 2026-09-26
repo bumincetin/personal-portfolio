@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "locale": "en",
+      "status": 200,
+      "room": "ready"
+    },
+    {
+      "locale": "tr",
+      "status": 200,
+      "room": "ready"
+    },
+    {
+      "locale": "it",
+      "status": 200,
+      "room": "ready"
+    },
+    {
+      "check": "forced desktop WebGL startup failure",
+      "fallback": true
+    }
+  ],
+  "errors": []
+}

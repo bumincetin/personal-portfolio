@@ -12,10 +12,9 @@ export type Locale = (typeof locales)[number];
  *
  * Two rules this file follows, and `docs/content-verification.md` explains why:
  *
- *  - **Dates are stated as the record states them.** Every engagement below has
- *    an end date. Nothing says "present", and no title appears that the record
- *    does not carry — the site previously showed three different Alvolo titles
- *    and an affiliation that read as current employment.
+ *  - **Dates follow the owner's record.** Alvolo Consulting is ongoing,
+ *    confirmed by the owner on 26 September 2026. Other engagements retain
+ *    their recorded end dates and titles.
  *  - **No unsourced figure.** The "80% reduction in manual review time" that
  *    used to appear in the ImpactScope entry had no baseline, sample, method or
  *    date behind it, and was removed rather than softened.
@@ -83,6 +82,17 @@ export const translations: Record<Locale, TranslationType> = {
       ],
       experienceData: [
         {
+          company: "ALVOLO CONSULTING",
+          role: "Founder",
+          location: "Milan, Italy",
+          period: "March 2025 - Present",
+          highlights: [
+            "Founded financial advisory hub in Italy helping clients achieve their financial goals",
+            "Mastered Italian financial system to provide accurate information and guidance",
+            "Managed full customer lifecycle from acquisition to retention",
+          ],
+        },
+        {
           company: "IMPACTSCOPE",
           role: "AI Specialist | NLP Researcher",
           location: "Remote, Switzerland",
@@ -91,17 +101,6 @@ export const translations: Record<Locale, TranslationType> = {
             "Built a data product that scores greenwashing risk in corporate sustainability claims, so reviewers can triage a queue instead of reading it in order",
             "Developed a semantic contradiction index (SCI) using stance detection and sentiment drift",
             "Cross-referenced sentiment-based ESG risk scores with historical greenwashing controversies",
-          ],
-        },
-        {
-          company: "ALVOLO CONSULTING",
-          role: "Founder",
-          location: "Milan, Italy",
-          period: "March 2025 - November 2025",
-          highlights: [
-            "Founded financial advisory hub in Italy helping clients achieve their financial goals",
-            "Mastered Italian financial system to provide accurate information and guidance",
-            "Managed full customer lifecycle from acquisition to retention",
           ],
         },
         {
@@ -164,6 +163,17 @@ export const translations: Record<Locale, TranslationType> = {
       ],
       experienceData: [
         {
+          company: "ALVOLO CONSULTING",
+          role: "Kurucu",
+          location: "Milano, İtalya",
+          period: "Mart 2025 - Günümüz",
+          highlights: [
+            "İtalya'da, Türkiye-İtalya koridorunda çalışan işletmeler için bir danışmanlık pratiği kurdum",
+            "Hangi adımların lisanslı meslek mensubu gerektirdiğini belirleyerek İtalyan finansal ve idari sistemini kapsamlandırmayı öğrendim",
+            "Edinimden sürdürmeye kadar müşteri ilişkisini yönettim ve tarafların doğru uzmanlara ulaşmasını koordine ettim",
+          ],
+        },
+        {
           company: "IMPACTSCOPE",
           role: "Yapay Zeka Uzmanı & NLP Araştırmacısı",
           location: "Uzaktan, İsviçre",
@@ -172,17 +182,6 @@ export const translations: Record<Locale, TranslationType> = {
             "Kurumsal sürdürülebilirlik iddialarındaki greenwashing riskini puanlayan bir veri ürünü geliştirdim; böylece inceleyiciler bir kuyruğu sırayla okumak yerine önceliklendirebiliyor",
             "Duruş tespiti ve duygu kayması kullanarak anlamsal çelişki endeksi (SCI) geliştirdim",
             "Duygu tabanlı ESG risk puanlarını geçmiş \"greenwashing\" tartışmalarıyla çapraz referanslayarak, kamuoyu duygu kutupluluğu ile greenwashing suçlamaları arasında güçlü bir korelasyon olduğunu gösterdim.",
-          ],
-        },
-        {
-          company: "ALVOLO CONSULTING",
-          role: "Kurucu",
-          location: "Milano, İtalya",
-          period: "Mart 2025 - Kasım 2025",
-          highlights: [
-            "İtalya'da, Türkiye-İtalya koridorunda çalışan işletmeler için bir danışmanlık pratiği kurdum",
-            "Hangi adımların lisanslı meslek mensubu gerektirdiğini belirleyerek İtalyan finansal ve idari sistemini kapsamlandırmayı öğrendim",
-            "Edinimden sürdürmeye kadar müşteri ilişkisini yönettim ve tarafların doğru uzmanlara ulaşmasını koordine ettim",
           ],
         },
         {
@@ -245,6 +244,17 @@ export const translations: Record<Locale, TranslationType> = {
       ],
       experienceData: [
         {
+          company: "ALVOLO CONSULTING",
+          role: "Fondatore",
+          location: "Milano, Italia",
+          period: "Marzo 2025 - Presente",
+          highlights: [
+            "Fondato hub di consulenza finanziaria in Italia aiutando i clienti a raggiungere i loro obiettivi finanziari",
+            "Padroneggiato il sistema finanziario italiano per fornire informazioni e guida accurate",
+            "Gestito l'intero ciclo di vita del cliente dall'acquisizione alla fidelizzazione",
+          ],
+        },
+        {
           company: "IMPACTSCOPE",
           role: "Specialista AI | Ricercatore NLP",
           location: "Remoto, Svizzera",
@@ -253,17 +263,6 @@ export const translations: Record<Locale, TranslationType> = {
             "Sviluppato un prodotto dati che valuta il rischio di greenwashing nelle dichiarazioni di sostenibilità aziendali, così chi rivede può dare priorità invece di leggere una coda in ordine",
             "Sviluppato indice di contraddizione semantica (SCI) utilizzando rilevamento di posizione e deriva del sentiment",
             "Confrontato punteggi di rischio ESG basati sul sentiment con storiche controversie di greenwashing",
-          ],
-        },
-        {
-          company: "ALVOLO CONSULTING",
-          role: "Fondatore",
-          location: "Milano, Italia",
-          period: "Marzo 2025 - Novembre 2025",
-          highlights: [
-            "Fondato hub di consulenza finanziaria in Italia aiutando i clienti a raggiungere i loro obiettivi finanziari",
-            "Padroneggiato il sistema finanziario italiano per fornire informazioni e guida accurate",
-            "Gestito l'intero ciclo di vita del cliente dall'acquisizione alla fidelizzazione",
           ],
         },
         {

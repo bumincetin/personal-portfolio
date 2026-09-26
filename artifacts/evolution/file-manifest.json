@@ -1,0 +1,1142 @@
+[
+  {
+    "status": "M",
+    "file": "README.md",
+    "reason": "Document the current gallery architecture, commands, content and deployment."
+  },
+  {
+    "status": "M",
+    "file": "next.config.js",
+    "reason": "Restrict image proxy hosts; add security headers; set revalidating public image caching."
+  },
+  {
+    "status": "M",
+    "file": "open-next.config.ts",
+    "reason": "Name the exported configuration to clear the lint warning."
+  },
+  {
+    "status": "M",
+    "file": "package-lock.json",
+    "reason": "Resolve the updated dependency graph, including the Next 15 security patch."
+  },
+  {
+    "status": "M",
+    "file": "package.json",
+    "reason": "Remove obsolete dependencies and scripts; add gallery verification and safe dependency overrides."
+  },
+  {
+    "status": "M",
+    "file": "public/_headers",
+    "reason": "Avoid year-long immutable caching for replaceable public media."
+  },
+  {
+    "status": "D",
+    "file": "public/bumin1.webp",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "public/bumin2.webp",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "public/bumin3.webp",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "public/file.svg",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "public/globe.svg",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "public/next.svg",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "public/shelf/covers.webp",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "public/shelf/wood.webp",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "public/sketchbook/divider.png",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "public/sketchbook/instrument-serif-italic.woff2",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "public/sketchbook/instrument-serif.woff2",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "public/sketchbook/newsreader.woff2",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "public/vercel.svg",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "public/window.svg",
+    "reason": "Remove an unused image, starter icon or retired font asset."
+  },
+  {
+    "status": "D",
+    "file": "scripts/a11y.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/capture-library.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/check-canvas-contrast.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "M",
+    "file": "scripts/check-experience.mjs",
+    "reason": "Keep contact, career, print and fallback checks; remove assertions for the retired sculpture."
+  },
+  {
+    "status": "M",
+    "file": "scripts/check-i18n.mjs",
+    "reason": "Validate new portfolio copy; remove imports for deleted presentation labels."
+  },
+  {
+    "status": "D",
+    "file": "scripts/check-library-failures.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/check-library.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "M",
+    "file": "scripts/check-links.mjs",
+    "reason": "Check the current semantic routes and optional optimizer without shelf activation."
+  },
+  {
+    "status": "D",
+    "file": "scripts/check-mobile.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/check-motion.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/check-volume-turns.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/inspect-reference-interactions.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/inspect-reference.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-browsers.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-fallbacks.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-final-check.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-lifecycle.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-preview.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-profile.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-qa.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-raycast.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-shape-probe.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/integration-summary.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/library-test-helpers.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/measure-library.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "M",
+    "file": "scripts/optimize-images.mjs",
+    "reason": "Stop regenerating retired portrait illustrations."
+  },
+  {
+    "status": "D",
+    "file": "scripts/palette-adapter.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/port-shelf-engine.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/port-sketchbook-css.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-audit.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-baseline.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-cross-browser.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-interactions.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-mobile-routes.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-performance.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-qa.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/redesign-regression.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-final-check.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-finish-source.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-gallery.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-interactions.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-legacy-css.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-migrate.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-mobile-routes.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-probe.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-profile.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-qa.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-regression-setup.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-regression.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-report.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-responsive.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/refinement-review-states.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/reproduce-library-baseline.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/shelf-adapter.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/smoke.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/sources/shelf-engine.baseline.txt",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/world-final-check.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/world-gpu-probe.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/world-layout-debug.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/world-performance.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/world-preview.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/world-qa.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/write-content-manifest.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/write-integration-gallery.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/write-integration-report.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/write-world-gallery.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "D",
+    "file": "scripts/write-world-report.mjs",
+    "reason": "Retire tooling tied to the deleted world, shelf, page-turn engine or historical migration."
+  },
+  {
+    "status": "M",
+    "file": "src/app/[locale]/chapters/chapters.css",
+    "reason": "Keep the short-viewport timeline correction and repair print contrast for the light palette."
+  },
+  {
+    "status": "M",
+    "file": "src/app/[locale]/chapters/page.tsx",
+    "reason": "Add About/CV orientation and a factual current-practice note without inventing employment."
+  },
+  {
+    "status": "M",
+    "file": "src/app/[locale]/contact/ContactConversation.tsx",
+    "reason": "Retire the optional 3D sculpture; preserve message validation, editing and explicit draft handoff."
+  },
+  {
+    "status": "D",
+    "file": "src/app/[locale]/contact/NeuronBook.tsx",
+    "reason": "Remove the unused visual component or legacy stylesheet."
+  },
+  {
+    "status": "D",
+    "file": "src/app/[locale]/contact/neuron-scene.ts",
+    "reason": "Remove the unused visual component or legacy stylesheet."
+  },
+  {
+    "status": "M",
+    "file": "src/app/[locale]/front-matter/page.tsx",
+    "reason": "Use the migrated canonical taxonomy and new reader while retaining route/metadata behavior."
+  },
+  {
+    "status": "M",
+    "file": "src/app/[locale]/layout.tsx",
+    "reason": "Remove the scroll director; load two font families; share navigation, palette and skip target."
+  },
+  {
+    "status": "M",
+    "file": "src/app/[locale]/volumes/[slug]/page.tsx",
+    "reason": "Use the migrated canonical taxonomy and new reader while retaining route/metadata behavior."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/Navbar.tsx",
+    "reason": "Remove the unused visual component or legacy stylesheet."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/content/Badges.tsx",
+    "reason": "Format retained content helper consistently."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/content/CaseStudyFigure.tsx",
+    "reason": "Format retained content helper consistently."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/content/PersonSchema.tsx",
+    "reason": "Escape less-than characters in the static JSON-LD serializer."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/content/ScrollRegion.tsx",
+    "reason": "Format retained content helper consistently."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/content/TrackView.tsx",
+    "reason": "Format retained content helper consistently."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/experience/ExperienceHome.tsx",
+    "reason": "Compose hero, seven-item gallery, problem directory, evidence, method, profile and contact."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/experience/ExperienceNavigation.tsx",
+    "reason": "Use functional navigation labels, equivalent locale routes, modal focus and active-page states."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/SubjectArt.tsx",
+    "reason": "Remove the unused visual component or legacy stylesheet."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/atmosphere/ShaderAtmosphere.tsx",
+    "reason": "Remove the unused ShaderGradient/WebGL atmosphere."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/atmosphere/ShaderRenderer.tsx",
+    "reason": "Remove the unused ShaderGradient/WebGL atmosphere."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/atmosphere/atmosphere.css",
+    "reason": "Remove the unused ShaderGradient/WebGL atmosphere."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/atmosphere/shader-presets.ts",
+    "reason": "Remove the unused ShaderGradient/WebGL atmosphere."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/atmosphere/shader-state.ts",
+    "reason": "Remove the unused ShaderGradient/WebGL atmosphere."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/director/ScrollProvider.tsx",
+    "reason": "Remove shared scroll interception and its retired scene state/tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/director/clock.ts",
+    "reason": "Remove shared scroll interception and its retired scene state/tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/director/experience-director.ts",
+    "reason": "Remove shared scroll interception and its retired scene state/tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/director/narrative.test.ts",
+    "reason": "Remove shared scroll interception and its retired scene state/tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/director/narrative.ts",
+    "reason": "Remove shared scroll interception and its retired scene state/tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/editorial-reader.css",
+    "reason": "Remove the unused visual component or legacy stylesheet."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/experience.css",
+    "reason": "Remove the unused visual component or legacy stylesheet."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/experience/palette.css",
+    "reason": "Regenerate shared variables from the palette JSON."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/experience/refinement.css",
+    "reason": "Remove dead scene and book selectors while preserving shared career/contact styles."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/WorldExperience.tsx",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/camera.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/copy.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/environment.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/exhibits.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/geometry.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/interaction.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/materials.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/optimize.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/runtime.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/state.test.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/state.ts",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/experience/world/world.css",
+    "reason": "Remove the Three.js archive runtime, camera, geometry, interaction and related tests."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/AllocationChart.tsx",
+    "reason": "Apply localized instrument copy and readable controls within the single reader; numerical engine unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/ComparisonTable.tsx",
+    "reason": "Apply localized instrument copy and readable controls within the single reader; numerical engine unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/ControlPanel.tsx",
+    "reason": "Apply localized instrument copy and readable controls within the single reader; numerical engine unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/FanChart.tsx",
+    "reason": "Apply localized instrument copy and readable controls within the single reader; numerical engine unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/PortfolioOptimizer.tsx",
+    "reason": "Apply localized instrument copy and readable controls within the single reader; numerical engine unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/RiskHud.tsx",
+    "reason": "Apply localized instrument copy and readable controls within the single reader; numerical engine unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/format.ts",
+    "reason": "Format retained optimizer helpers consistently; calculations remain unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/optimizer.css",
+    "reason": "Apply localized instrument copy and readable controls within the single reader; numerical engine unchanged."
+  },
+  {
+    "status": "M",
+    "file": "src/app/components/optimizer/primitives.tsx",
+    "reason": "Format retained optimizer helpers consistently; calculations remain unchanged."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/Catalogue.tsx",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/Shelf.tsx",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/ShelfLauncher.tsx",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/catalogue.css",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/engine.js",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/shelf-overrides.css",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/shelf-palette.css",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/shelf-runtime.ts",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/shelf-ui.ts",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/shelf.css",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/shelf/volumes.ts",
+    "reason": "Remove the literal shelf renderer, associated presentation code or textures; content moved to lib/content."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/OptimizerLeaf.tsx",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/Sketchbook.tsx",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/VolumeReader.tsx",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/article.css",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/engine.js",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/sketchbook-overrides.css",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/sketchbook-ui.ts",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/sketchbook/sketchbook.css",
+    "reason": "Remove page-turn presentation; prose and optimizer now render through the single content reader. Retained fonts moved to public/fonts."
+  },
+  {
+    "status": "D",
+    "file": "src/app/components/ui/GrainOverlay.tsx",
+    "reason": "Remove the unused visual component or legacy stylesheet."
+  },
+  {
+    "status": "M",
+    "file": "src/app/globals.css",
+    "reason": "Retire Newsreader and unused grain roles; retain shared accessible base styles."
+  },
+  {
+    "status": "M",
+    "file": "src/app/sections/Footer.tsx",
+    "reason": "Keep shared localized footer within the new palette and taxonomy."
+  },
+  {
+    "status": "M",
+    "file": "src/lib/analytics.ts",
+    "reason": "Remove the obsolete page-turn event; retain the disabled privacy-conscious adapter."
+  },
+  {
+    "status": "M",
+    "file": "src/lib/content/library-ui.ts",
+    "reason": "Remove unused shelf, book-view and sculpture UI labels; retain canonical proposition and contact copy."
+  },
+  {
+    "status": "M",
+    "file": "src/lib/content/volume-pages.ts",
+    "reason": "Redirect content imports to the presentation-independent taxonomy; preserve every original block."
+  },
+  {
+    "status": "M",
+    "file": "src/lib/palette.json",
+    "reason": "Define the warm surfaces, readable ink and restrained technical accent colors."
+  },
+  {
+    "status": "M",
+    "file": "src/lib/seo.ts",
+    "reason": "Choose a localized, route-specific Open Graph image."
+  },
+  {
+    "status": "D",
+    "file": "vendor/threeui/meng-to-sketchbook.html",
+    "reason": "Remove the unused ThreeUI source snapshot; historical provenance stays in docs."
+  },
+  {
+    "status": "A",
+    "file": "docs/evolution-baseline.md",
+    "reason": "Record the audit, implementation evidence or historical status."
+  },
+  {
+    "status": "A",
+    "file": "docs/scroll-review.md",
+    "reason": "Record the audit, implementation evidence or historical status."
+  },
+  {
+    "status": "A",
+    "file": "public/fonts/InstrumentSerif-OFL.txt",
+    "reason": "Relocate the retained font unchanged, or include its upstream SIL OFL notice."
+  },
+  {
+    "status": "A",
+    "file": "public/fonts/Inter-OFL.txt",
+    "reason": "Relocate the retained font unchanged, or include its upstream SIL OFL notice."
+  },
+  {
+    "status": "A",
+    "file": "public/fonts/instrument-serif-italic.woff2",
+    "reason": "Relocate the retained font unchanged, or include its upstream SIL OFL notice."
+  },
+  {
+    "status": "A",
+    "file": "public/fonts/instrument-serif.woff2",
+    "reason": "Relocate the retained font unchanged, or include its upstream SIL OFL notice."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-chapters.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-contact.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-front-matter.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-volumes-cross-border.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-volumes-document-intelligence.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-volumes-forecasting.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-volumes-greenwashing-risk-scoring.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-volumes-parliamentary-seat-forecast.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-volumes-portfolio-optimizer.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en-volumes-reporting.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/en.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-chapters.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-contact.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-front-matter.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-volumes-cross-border.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-volumes-document-intelligence.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-volumes-forecasting.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-volumes-greenwashing-risk-scoring.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-volumes-parliamentary-seat-forecast.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-volumes-portfolio-optimizer.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it-volumes-reporting.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/it.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-chapters.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-contact.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-front-matter.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-volumes-cross-border.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-volumes-document-intelligence.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-volumes-forecasting.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-volumes-greenwashing-risk-scoring.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-volumes-parliamentary-seat-forecast.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-volumes-portfolio-optimizer.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr-volumes-reporting.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "public/og/tr.png",
+    "reason": "Generated 1200 x 630 localized social card for this route."
+  },
+  {
+    "status": "A",
+    "file": "scripts/capture-evolution.mjs",
+    "reason": "Capture matching final screenshots, resource sizes and response headers."
+  },
+  {
+    "status": "A",
+    "file": "scripts/check-enhancements.mjs",
+    "reason": "Add reproducible browser assertions for the new gallery, responsive routes and progressive enhancement."
+  },
+  {
+    "status": "A",
+    "file": "scripts/check-portfolio.mjs",
+    "reason": "Add reproducible browser assertions for the new gallery, responsive routes and progressive enhancement."
+  },
+  {
+    "status": "A",
+    "file": "scripts/generate-og.mjs",
+    "reason": "Generate the localized social-image system from canonical work metadata."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/content/EvidenceRecord.tsx",
+    "reason": "Reuse source/method/date/baseline/limitations presentation and explicit evidence states."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/content/OptimizerLeaf.tsx",
+    "reason": "Defer the instrument until activation and supply its locale."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/content/QuickRead.tsx",
+    "reason": "Derive problem, audience, output, limits and CTA from canonical content."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/content/VolumeReader.tsx",
+    "reason": "Render one full semantic reading tree with retained anchors, grouped sections and print support."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/experience/WorkArt.tsx",
+    "reason": "Draw seven original illustrative system diagrams with semantic content outside the SVG."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/experience/WorkGallery.tsx",
+    "reason": "Implement slow transform motion over one accessible list, native fallbacks, pause and pointer/keyboard controls."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/experience/portfolio.css",
+    "reason": "Style the new gallery, reading pages, evidence and responsive warm visual system."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/optimizer/copy.ts",
+    "reason": "Translate instrument controls, assumptions, labels and explanatory text into Turkish and Italian."
+  },
+  {
+    "status": "A",
+    "file": "src/app/components/optimizer/locale.ts",
+    "reason": "Small locale context, independent of the deferred translation dictionary."
+  },
+  {
+    "status": "A",
+    "file": "src/lib/content/editorial-ui.ts",
+    "reason": "Retain localized canonical editorial labels used by long-form content."
+  },
+  {
+    "status": "A",
+    "file": "src/lib/content/portfolio-ui.ts",
+    "reason": "Add aligned EN/TR/IT labels, evidence states, gallery controls and orientation copy."
+  },
+  {
+    "status": "A",
+    "file": "src/lib/content/portfolio.test.ts",
+    "reason": "Verify canonical-block preservation, accurate classification and optimizer translation coverage."
+  },
+  {
+    "status": "A",
+    "file": "src/lib/content/volumes.ts",
+    "reason": "Move localized work metadata out of the retired shelf renderer."
+  },
+  {
+    "status": "A",
+    "file": "docs/evolution-files.md",
+    "reason": "Record the final audit and file inventory."
+  },
+  {
+    "status": "A",
+    "file": "docs/evolution-report.md",
+    "reason": "Record the final audit and file inventory."
+  },
+  {
+    "status": "A",
+    "file": "public/fonts/inter-portfolio.woff2",
+    "reason": "Reproducible local font subsetting and licensed subset output."
+  },
+  {
+    "status": "A",
+    "file": "scripts/subset-font.py",
+    "reason": "Reproducible local font subsetting and licensed subset output."
+  }
+]

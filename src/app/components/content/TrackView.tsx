@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { track, type AnalyticsEvent, type EventProps } from '@/lib/analytics';
+import { useEffect } from "react";
+import { track, type AnalyticsEvent, type EventProps } from "@/lib/analytics";
 
 /**
  * Fires one funnel event on mount and renders nothing.
@@ -15,7 +15,13 @@ import { track, type AnalyticsEvent, type EventProps } from '@/lib/analytics';
  * The props are the analytics module's narrow `EventProps`, so nothing a
  * visitor typed can be passed through here even by accident.
  */
-export default function TrackView({ event, props }: { event: AnalyticsEvent; props?: EventProps }) {
+export default function TrackView({
+  event,
+  props,
+}: {
+  event: AnalyticsEvent;
+  props?: EventProps;
+}) {
   useEffect(() => {
     track(event, props);
     // `props` is a fresh object literal on each render; serialising it keeps the

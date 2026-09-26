@@ -19,13 +19,6 @@ const SOURCE_DIR = join(process.cwd(), 'assets', 'source-images');
 const PUBLIC_DIR = join(process.cwd(), 'public');
 
 const TARGETS = [
-  // Only bumin1 sits on a flat white studio backdrop, so only it is knocked
-  // out. bumin2/bumin3 are shot against a textured grey wall that is part of
-  // the composition -- cutting those would chew holes in the subject.
-  { from: 'bumin1.png', to: 'bumin1.webp', width: 1100, cutout: { opaqueBelow: 120, clearAbove: 238 } },
-  { from: 'bumin2.png', to: 'bumin2.webp', width: 1100 },
-  { from: 'bumin3.png', to: 'bumin3.webp', width: 1100 },
-  { from: 'Bumin_resmi.jpeg', to: 'portrait.webp', width: 1000 },
   { from: 'profile.jpg', to: 'profile.webp', width: 1000 },
   { from: 'BuminLogo.png', to: 'logo.webp', width: 256, inPublic: true },
 ];

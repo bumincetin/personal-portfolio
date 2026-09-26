@@ -1,0 +1,24 @@
+[
+  {
+    "check": "skip link, native wheel, offscreen and hidden pause",
+    "scroll": 240
+  },
+  {
+    "check": "200% CSS zoom: homepage, contact, service article"
+  },
+  {
+    "check": "reduced: desktop static gallery"
+  },
+  {
+    "check": "limited: desktop static gallery"
+  },
+  {
+    "check": "en: localized optimizer, axe, mobile overflow"
+  },
+  {
+    "check": "tr: localized optimizer, axe, mobile overflow"
+  },
+  {
+    "check": "it: localized optimizer, axe, mobile overflow"
+  }
+]

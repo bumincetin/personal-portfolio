@@ -1,5 +1,5 @@
 "use client";
-import ExperienceIcon from './ExperienceIcon';
+import ExperienceIcon from "./ExperienceIcon";
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/translations";
 import type { UIStrings } from "@/lib/content/ui";
 import { CONTACT, PROFILE } from "@/lib/profile";
-import { experience } from './director/experience-director';
+import { getPortfolioUI } from "@/lib/content/portfolio-ui";
 
 type Props = {
   locale: Locale;
@@ -38,6 +38,7 @@ export default function ExperienceNavigation({
     trigger = useRef<HTMLButtonElement>(null),
     id = useId();
   const [open, setOpen] = useState(false);
+  const portfolio = getPortfolioUI(locale);
   const suffix = pathname.replace(/^\/(en|tr|it)(?=\/|$)/, "");
   useEffect(() => {
     setOpen(false);
@@ -48,7 +49,6 @@ export default function ExperienceNavigation({
       previous = document.body.style.overflow,
       returnTo = trigger.current;
     document.body.style.overflow = "hidden";
-    const unlock = experience.lock('navigation');
     modal?.showModal();
     const containFocus = (event: KeyboardEvent) => {
       if (event.key !== "Tab" || !modal) return;
@@ -70,7 +70,6 @@ export default function ExperienceNavigation({
       modal?.removeEventListener("keydown", containFocus);
       modal?.close();
       document.body.style.overflow = previous;
-      unlock();
       returnTo?.focus({ preventScroll: true });
     };
   }, [open]);
@@ -79,10 +78,18 @@ export default function ExperienceNavigation({
       href={`/${locale}${path}`}
       prefetch={false}
       onClick={() => setOpen(false)}
-      aria-current={suffix === path ? "page" : undefined}
+      aria-current={
+        suffix === path
+          ? "page"
+          : path === "" && suffix.startsWith("/volumes/")
+            ? "location"
+            : undefined
+      }
     >
       {label}
-      <span aria-hidden="true"><ExperienceIcon name="external" /></span>
+      <span aria-hidden="true">
+        <ExperienceIcon name="external" />
+      </span>
     </Link>
   );
   return (
@@ -98,6 +105,7 @@ export default function ExperienceNavigation({
           <span>{PROFILE.name}</span>
         </Link>
         <div className="atlas-nav-links">
+          {link("", portfolio.work)}
           {link("/front-matter", nav.frontMatter)}
           {link("/chapters", about)}
           {link("/contact", nav.contact)}
@@ -115,7 +123,7 @@ export default function ExperienceNavigation({
                 prefetch={false}
                 hrefLang={l}
                 lang={l}
-                aria-label={languages[l]}
+                aria-label={`${l.toUpperCase()} / ${languages[l]}`}
                 aria-current={l === locale ? "true" : undefined}
               >
                 {l.toUpperCase()}
@@ -130,7 +138,7 @@ export default function ExperienceNavigation({
             aria-label={nav.menu}
             className="atlas-menu-trigger"
           >
-            <span>{nav.volumes}</span>
+            <span>{nav.menu}</span>
             <span aria-hidden="true" className="atlas-menu-symbol">
               <ExperienceIcon name="menu" />
             </span>
@@ -145,12 +153,18 @@ export default function ExperienceNavigation({
         onCancel={() => setOpen(false)}
       >
         <div className="atlas-menu-top">
-          <Link href={`/${locale}`} prefetch={false} onClick={() => setOpen(false)}>
+          <Link
+            href={`/${locale}`}
+            prefetch={false}
+            onClick={() => setOpen(false)}
+          >
             {PROFILE.name}
           </Link>
           <button onClick={() => setOpen(false)} aria-label={nav.closeMenu}>
             {nav.closeMenu}
-            <span aria-hidden="true"><ExperienceIcon name="close" /></span>
+            <span aria-hidden="true">
+              <ExperienceIcon name="close" />
+            </span>
           </button>
         </div>
         <div className="atlas-menu-body">
@@ -165,6 +179,7 @@ export default function ExperienceNavigation({
             {books.map((book) => (
               <Link
                 key={book.id}
+                aria-current={suffix === book.href ? "page" : undefined}
                 href={`/${locale}${book.href}`}
                 onClick={() => setOpen(false)}
                 prefetch={false}
@@ -174,7 +189,9 @@ export default function ExperienceNavigation({
                   <strong>{book.title}</strong>
                   <small>{book.discipline}</small>
                 </span>
-                <span aria-hidden="true"><ExperienceIcon name="external" /></span>
+                <span aria-hidden="true">
+                  <ExperienceIcon name="external" />
+                </span>
               </Link>
             ))}
           </nav>

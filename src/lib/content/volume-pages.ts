@@ -4,8 +4,8 @@ import { getLibraryUI } from './library-ui';
 import { getCaseStudy, getCaseStudyCopy, type CaseStudySpine } from './case-studies';
 import { getAllServiceCopy, getService } from './services';
 import { getEvidence, type EvidenceKey } from './evidence';
-import { VOLUMES, getShelfBooks, type VolumeSpine } from '@/app/components/shelf/volumes';
-import { getShelfUI } from '@/app/components/shelf/shelf-ui';
+import { VOLUMES, getWorkVolumes, type VolumeSpine } from '@/lib/content/volumes';
+import { getEditorialUI } from './editorial-ui';
 
 /**
  * Turns each volume's content into the pages of a book.
@@ -190,7 +190,7 @@ function prosePages(id: string, heading: string, body: string): VolumePage[] {
 }
 
 /** Pages for one of the four service volumes. */
-function servicePages(locale: Locale, spine: VolumeSpine, book: ReturnType<typeof getShelfBooks>[number]): VolumePage[] {
+function servicePages(locale: Locale, spine: VolumeSpine, book: ReturnType<typeof getWorkVolumes>[number]): VolumePage[] {
   const ui = getUI(locale);
   const service = getService(spine.id as never);
   const copy = getAllServiceCopy(locale)[spine.id as never] as ReturnType<typeof getAllServiceCopy>['forecasting'];
@@ -278,7 +278,7 @@ function servicePages(locale: Locale, spine: VolumeSpine, book: ReturnType<typeo
 function evidencePages(
   locale: Locale,
   spine: VolumeSpine,
-  book: ReturnType<typeof getShelfBooks>[number],
+  book: ReturnType<typeof getWorkVolumes>[number],
   study: CaseStudySpine,
 ): VolumePage[] {
   const ui = getUI(locale);
@@ -431,7 +431,7 @@ function evidencePages(
  */
 function frontMatterPages(locale: Locale): VolumePage[] {
   const ui = getUI(locale);
-  const shelf = getShelfUI(locale);
+  const shelf = getEditorialUI(locale);
 
   const pages: VolumePage[] = [
     page('title', {
@@ -526,14 +526,14 @@ export function getFrontMatter(locale: Locale): Volume {
 
   return {
     spine: { ...borrowed, id: 'front-matter', href: '/front-matter' },
-    title: getShelfUI(locale).staticTitle,
+    title: getEditorialUI(locale).staticTitle,
     discipline: ui.home.costLabel,
     note: ui.home.heroLede,
     deck: ui.home.costLede,
     theme: ui.home.costLabel,
     binding: ui.home.costLabel,
     format: ui.home.processLabel,
-    roman: getShelfUI(locale).frontMatter,
+    roman: getEditorialUI(locale).frontMatter,
     pages: frontMatterPages(locale),
   };
 }
@@ -542,7 +542,7 @@ export function getVolume(locale: Locale, slug: string): Volume | undefined {
   const spine = VOLUMES.find((volume) => volume.id === slug);
   if (!spine) return undefined;
 
-  const book = getShelfBooks(locale).find((entry) => entry.id === slug)!;
+  const book = getWorkVolumes(locale).find((entry) => entry.id === slug)!;
   const study = getCaseStudy(slug);
 
   const pages =

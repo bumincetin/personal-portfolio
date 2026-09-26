@@ -6,7 +6,6 @@ import { getExperienceCopy } from '@/lib/experience-copy';
 import { getLibraryUI } from '@/lib/content/library-ui';
 import { composeInquiry, outlookHref, type ConversationAnswers } from '@/lib/contact/draft';
 import { mailtoHref, whatsappHref } from '@/lib/profile';
-import NeuronBook from './NeuronBook';
 
 const topicKeys = ['document-intelligence', 'forecasting', 'reporting', 'cross-border', 'other'];
 
@@ -20,7 +19,6 @@ export default function ContactConversation({ locale }: { locale: Locale }) {
   const [editedDraft, setEditedDraft] = useState<string|null>(null);
   const [error, setError] = useState('');
   const [copyStatus, setCopyStatus] = useState('');
-  const [scene, setScene] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const moved = useRef(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
@@ -111,6 +109,5 @@ export default function ContactConversation({ locale }: { locale: Locale }) {
       </>}
       <p className="conversation-privacy">{c.privacy}</p>
     </div>
-    <div className="contact-optional-scene"><button type="button" aria-expanded={scene} onClick={() => setScene(s => !s)}>{scene ? ui.closeScene : ui.scene} <span aria-hidden="true">{scene ? '−' : '+'}</span></button>{scene && <NeuronBook step={mode === 'guided' ? step : 0} copy={c}/>}</div>
   </section>;
 }

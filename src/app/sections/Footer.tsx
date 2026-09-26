@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Github, Linkedin, Mail, MapPin, MessageCircle } from 'lucide-react';
 import { type Locale } from '@/lib/translations';
 import { getUI } from '@/lib/content/ui';
-import { VOLUMES, getShelfBooks } from '@/app/components/shelf/volumes';
+import { VOLUMES, getWorkVolumes } from '@/lib/content/volumes';
 import { CONTACT, PROFILE, mailtoHref, whatsappHref } from '@/lib/profile';
 import { getExperienceCopy } from '@/lib/experience-copy';
 
@@ -13,7 +13,7 @@ import { getExperienceCopy } from '@/lib/experience-copy';
 
 export default function Footer({ locale }: { locale: Locale }) {
   const ui = getUI(locale);
-  const books = getShelfBooks(locale);
+  const books = getWorkVolumes(locale);
   const year = new Date().getFullYear();
 
   return (

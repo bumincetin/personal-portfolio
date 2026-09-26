@@ -1,0 +1,116 @@
+[
+  {
+    "name": "home",
+    "route": "/en",
+    "width": 1440,
+    "height": 1000,
+    "h1": 1,
+    "canvas": 0,
+    "jsEncodedBytes": 129755,
+    "jsDecodedBytes": 418650,
+    "overflow": false,
+    "errors": [],
+    "securityHeaders": {
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  },
+  {
+    "name": "mobile-home",
+    "route": "/en",
+    "width": 390,
+    "height": 844,
+    "h1": 1,
+    "canvas": 0,
+    "jsEncodedBytes": 129755,
+    "jsDecodedBytes": 418650,
+    "overflow": false,
+    "errors": [],
+    "securityHeaders": {
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  },
+  {
+    "name": "approach",
+    "route": "/en/front-matter",
+    "width": 1440,
+    "height": 1000,
+    "h1": 1,
+    "canvas": 0,
+    "jsEncodedBytes": 123875,
+    "jsDecodedBytes": 400893,
+    "overflow": false,
+    "errors": [],
+    "securityHeaders": {
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  },
+  {
+    "name": "chapters",
+    "route": "/en/chapters",
+    "width": 1440,
+    "height": 1000,
+    "h1": 1,
+    "canvas": 0,
+    "jsEncodedBytes": 170857,
+    "jsDecodedBytes": 545540,
+    "overflow": false,
+    "errors": [],
+    "securityHeaders": {
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  },
+  {
+    "name": "service",
+    "route": "/en/volumes/document-intelligence",
+    "width": 1440,
+    "height": 1000,
+    "h1": 1,
+    "canvas": 0,
+    "jsEncodedBytes": 133987,
+    "jsDecodedBytes": 427786,
+    "overflow": false,
+    "errors": [],
+    "securityHeaders": {
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  },
+  {
+    "name": "research",
+    "route": "/en/volumes/greenwashing-risk-scoring",
+    "width": 1440,
+    "height": 1000,
+    "h1": 1,
+    "canvas": 0,
+    "jsEncodedBytes": 133987,
+    "jsDecodedBytes": 427786,
+    "overflow": false,
+    "errors": [],
+    "securityHeaders": {
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    }
+  }
+]

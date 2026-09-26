@@ -1,0 +1,38 @@
+[
+  {
+    "path": "/en",
+    "status": 200,
+    "csp": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "path": "/tr/contact",
+    "status": 200,
+    "csp": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "path": "/it/volumes/greenwashing-risk-scoring",
+    "status": 200,
+    "csp": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "path": "/og/tr-volumes-greenwashing-risk-scoring.png",
+    "status": 200,
+    "csp": null,
+    "type": "image/png"
+  },
+  {
+    "path": "/robots.txt",
+    "status": 200,
+    "csp": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+    "type": "text/plain"
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": 200,
+    "csp": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+    "type": "application/xml"
+  }
+]

@@ -1,151 +1,69 @@
 # bumincetin.com
 
-A readable library of four services, two research projects and a synthetic
-demonstration, with an optional 3D shelf and book reader. The career timeline and
-printable CV have their own route. Contact starts with direct links and a message
-composer; guided questions and the animated sculpture are optional.
+A multilingual working portfolio: four services, two research projects and one synthetic demonstration. An interactive 3D working room opens the homepage, followed by a slow, semantic work gallery and complete reading pages with Quick Read summaries and sourced evidence. Next.js 15 App Router, React, TypeScript and Cloudflare Workers via OpenNext.
 
-Next.js 15 (App Router) · TypeScript · Tailwind · Three.js r165 ·
-Cloudflare Workers via OpenNext · English, Turkish, Italian.
+## Run
 
-Motion (`motion/react`) powers shelf dragging, hover feedback and layout
-transitions, with system reduced-motion preferences respected. The optimizer
-uses a Kokonut UI Smooth Tab adaptation for its selectors and Bklit UI pie
-primitives for allocation. Public source references and MIT notices are in
-`vendor/kokonutui/` and `vendor/bklit/`.
-
----
-
-## Running it
-
-```bash
-npm install
-npm run dev            # http://localhost:3000/en
+```sh
+npm ci
+npm run dev
 ```
 
-The dev server writes to `.next-dev` rather than `.next`, so it can run
-alongside a production build without the two corrupting each other's assets:
+Open `/en`, `/tr` or `/it`. Development uses `.next-dev`; production uses `.next`, so the servers can coexist.
 
-```bash
-npm run build:next     # writes .next
-npx next start -p 3112 # serve the production build while dev keeps running
+```sh
+npm run build:next
+npm run start -- --port 3113
 ```
 
-## Checks
+## Verify
 
-```bash
-npm run verify         # lint → types → i18n → contrast → unit → build
+```sh
+npm run verify
+npm run test:generated
+npm run test:e2e -- http://localhost:3113
+npm run test:experience -- http://localhost:3113
+npm run test:chapter-pages -- http://localhost:3113
+npm run test:enhancements -- http://localhost:3113
+npm run test:world -- http://localhost:3113
+npm run test:links -- http://localhost:3113
+npm run test:redirects -- http://localhost:3113
+npm audit
 ```
 
-Individually:
+`verify` runs ESLint, TypeScript, locale completeness, contrast checks, Node unit tests and the production Next build. Browser suites use Playwright and installed Chrome. They inspect contact drafts without sending messages. The gallery suite covers routes, metadata, five viewport widths, axe accessibility, keyboard, pointer, touch, no JavaScript and reduced motion.
 
-| Command | What it checks |
-| --- | --- |
-| `npm run lint` | ESLint 9, flat config |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm run test` | unit tests, via Node's built-in runner — no framework |
-| `npm run test:i18n` | en/tr/it are structurally identical, with no empty strings |
-| `npm run test:contrast` | 20 static token pairs, against WCAG 2.2 AA |
-| `npm run test:smoke -- <url>` | the real build in a real browser |
-| `npm run test:mobile -- <url>` | native touch scrolling, shelf swipes, reader zoom, and every reader leaf at phone and tablet widths |
-| `npm run test:experience -- <url>` | Chapters and Contact in three languages; 3D, motion, accessible forms, message encoding, print and fallbacks |
-| `npm run test:motion -- <url>` | Mouse/touch dragging, cancellation, reduced motion, chart rendering and keyboard selection |
-| `npm run test:a11y -- <url>` | axe-core over every route at three viewports |
-| `npm run test:canvas -- <url>` | the shelf's overlay text against the rendered scene — the one thing axe cannot measure |
-| `npm run test:library -- <url>` | default HTML, network gates, keyboard link, canceled initialization, runtime locales, view switching and WebKit |
-| `npm run test:library-failures -- <url>` | failed optional downloads, clipboard fallback and draft privacy |
-| `npm run test:redirects -- <url>` | every retired URL still resolves to its replacement |
-| `npm run test:links -- <url>` | renders every route and checks links, assets and sitemap entries |
+## Content and presentation
 
-`scripts/port-sketchbook-css.mjs` regenerates the reader's stylesheet from the
-verified ThreeUI source in `vendor/threeui/`, and refuses to run if that file's
-SHA-256 no longer matches.
+- `src/lib/content/volumes.ts`: seven work records and localized editorial metadata.
+- `services.ts`, `case-studies.ts`, `evidence.ts`, `volume-pages.ts`: canonical long-form content, research values, citations and limitations. Unit tests compare every original block against `artifacts/evolution/before/content.json`.
+- `portfolio-ui.ts`: localized labels and new orientation copy.
+- `experience/world/`: the original seven procedural exhibits, with cream, coral, apricot and cobalt materials. Desktop loads Three.js after the first paint. Phones, touch screens, data-saving browsers and low-memory devices start with a local room image; selecting an exhibit or choosing “Explore in 3D” loads the interactive scene. The room renders only when a camera, hover or size changes. Native wheel/touch scrolling never drives the camera. HTML buttons expose every exhibit to keyboard users. Reduced motion changes views immediately. A still-view toggle, unavailable WebGL and no JavaScript retain the room image and complete work links.
+- `WorkGallery.tsx`: one semantic list, no clones. Fine-pointer desktop moves at 18px/s through direct transforms. Hover, focus, pause, background tabs and offscreen state stop motion. Mobile, reduced-motion and constrained devices retain native horizontal scrolling. Vertical scroll remains native everywhere.
+- `VolumeReader.tsx`: one complete article tree with existing anchors, section index and print support. Quick Read consumes canonical service/research fields.
+- `EvidenceRecord.tsx`: source, method, date, baseline and limitations. Services without published client outcomes are explicitly labelled.
+- The career timeline and optional optimizer retain Motion. The optimizer loads only when opened. Bklit and Kokonut components retain their MIT notices in `vendor/`.
 
-The browser suites need a running server and use the installed Chrome:
+## Design assets
 
-```bash
-npx next start -p 3112 &
-npm run test:smoke     -- http://localhost:3112
-npm run test:a11y      -- http://localhost:3112
-npm run test:redirects -- http://localhost:3112
-```
+`src/lib/palette.json` owns color tokens; run `node scripts/generate-palette.mjs` after editing it. Inter and Instrument Serif live in `public/fonts/`. Inter is a 56 kB variable-font subset covering current source characters; `scripts/subset-font.py` regenerates it from the upstream TTF when new characters are added. Upstream SIL Open Font License notices are included alongside the fonts. Original SVG diagrams are illustrative, never measured customer outputs.
 
-The guided contact flow works without a mail provider. Its browser checks inspect
-the completed WhatsApp and email links without opening them or sending anything:
+Run `npm run generate:og` to create the 33 localized 1200×630 social images from the work metadata. Do not hand-edit generated palette CSS or OG files.
 
-```bash
-npm run test:experience -- http://localhost:3112
-```
+## Deployment and security
 
-There is also `node scripts/find-orphans.mjs`, which reports source modules no
-route can reach.
+`npm run build` emits the Cloudflare worker and assets. `npm run preview` runs the worker locally; `npm run deploy` publishes it. Deployment bindings are in `wrangler.jsonc`.
 
-## Configuration
+The visible contact flow creates user-reviewed email/WhatsApp/Outlook drafts locally. It does not submit them. The retained API validates bounded input, escapes HTML, includes a honeypot and approximate isolate-local rate limiting, and returns an unconfigured response without mail credentials. Secrets belong in the deployment secret store, never public variables. No analytics provider or third-party tracking was added.
 
-Nothing is required for the contact conversation. Destinations live in
-`src/lib/profile.ts`; answers stay in React state until the visitor opens an app.
-The retained `/api/contact` endpoint can still use the optional mail-provider
-configuration in `.env.example`, but the guided contact page does not call it.
+Security headers restrict framing, object content and sensitive browser permissions. Remote image proxy hosts are disabled. Next remains on major version 15; targeted PostCSS and brace-expansion overrides resolve transitive advisories. Recheck overrides when upgrading dependencies.
 
----
+## Redesign evidence
 
-## How it fits together
+- `docs/world-restoration.md`: current 3D landing restoration and its verification. This supersedes the earlier report's retirement of the 3D homepage.
+- `docs/evolution-baseline.md`: original architecture and baseline.
+- `docs/evolution-report.md`: completion report, checks, measurements and limitations.
+- `docs/evolution-files.md`: file-level change inventory.
+- `artifacts/evolution/before/` and `after/`: local screenshots and machine-readable results. Screenshots are ignored by Git.
 
-```
-src/app/[locale]/page.tsx              HTML catalogue + optional 3D shelf
-src/app/[locale]/front-matter/         approach, in article/book views
-src/app/[locale]/volumes/[slug]/       one content source, article/book views
-src/app/[locale]/chapters/             cinematic career timeline and printable CV
-src/app/[locale]/contact/              composer + optional guide and sculpture
-src/app/api/contact/route.ts           the only endpoint
-
-src/lib/profile.ts                     identity and contact channels
-src/lib/experience-copy.ts             Chapters and Contact vocabulary, three locales
-src/lib/contact/draft.ts               localised message templates and Outlook links
-src/lib/content/evidence.ts            every published number, with provenance
-src/lib/content/services.ts            service spine + localised prose
-src/lib/content/case-studies.ts        evidence spine + localised prose
-src/lib/content/volume-pages.ts        binds the above into book pages
-src/lib/content/ui.ts                  UI vocabulary, three locales
-
-src/app/components/shelf/              catalogue and optional ThreeUI shelf
-src/app/components/sketchbook/         shared article/book reader
-```
-
-Two rules the codebase enforces rather than documents:
-
-- **Content modules hold no facts.** `ui.ts`, `services.ts` and
-  `case-studies.ts` hold prose; `profile.ts` and `evidence.ts` hold the facts,
-  and every published number carries its source, method, baseline, date and
-  limitations. A figure with no entry in `evidence.ts` does not get rendered.
-- **Every key exists in all three locales.** `npm run test:i18n` fails the build
-  otherwise, which is why the language switcher can offer any route without
-  risking a half-English page.
-
-## The shelf
-
-The presentation is a port of ThreeUI's `CompleteShelfLandingPage`. The historical
-canonical source hash is preserved. Its original HTML generator was absent from
-this checkout; `scripts/port-shelf-engine.mjs` now reproduces the generated engine
-from the hash-checked repository port plus `scripts/shelf-adapter.mjs`. Edit that
-adapter and regenerate; `--check` verifies parity. Do not hand-edit the generated
-engine or base CSS. Styles belong in maintained overrides. See the precise
-provenance and Windows byte-integrity notes in `docs/library-audit.md`.
-
-`docs/implementation-summary.md` lists every deviation from the authored source
-and why each one was necessary.
-
-## Documentation
-
-| File | What it is |
-| --- | --- |
-| `docs/content-verification.md` | every disputed claim, the evidence, and what was removed |
-| `docs/implementation-summary.md` | architecture, the port, and what was actually verified |
-| `docs/launch-checklist.md` | what must happen before this goes live |
-| `docs/usability-test-script.md` | a script for testing with real prospects |
-| `docs/library-audit.md` | reproducible baseline, measured comparison, regressions and limits |
-
-## Deploying
-
-Not done from here. `npm run deploy` runs the OpenNext build and deploys to
-Cloudflare; read `docs/launch-checklist.md` first.
+Older redesign/library reports document historical implementations; they do not describe the current runtime.

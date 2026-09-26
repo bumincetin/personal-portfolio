@@ -12,19 +12,20 @@
  * visitor lands on it.
  */
 
-import { register } from 'node:module';
-import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { register } from "node:module";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 
-register('./test-resolver.mjs', import.meta.url);
+register("./test-resolver.mjs", import.meta.url);
 
-const ROOT = path.resolve(import.meta.dirname, '..');
-const load = (relative) => import(pathToFileURL(path.join(ROOT, relative)).href);
+const ROOT = path.resolve(import.meta.dirname, "..");
+const load = (relative) =>
+  import(pathToFileURL(path.join(ROOT, relative)).href);
 
-const LOCALES = ['en', 'tr', 'it'];
+const LOCALES = ["en", "tr", "it"];
 
 /** Collects every leaf path in an object, with array indices as `[]`. */
-function collectPaths(value, prefix = '', out = new Set()) {
+function collectPaths(value, prefix = "", out = new Set()) {
   if (value === null || value === undefined) {
     out.add(prefix);
     return out;
@@ -32,10 +33,12 @@ function collectPaths(value, prefix = '', out = new Set()) {
   if (Array.isArray(value)) {
     // Compare arrays by shape and length, since a missing bullet is a real gap.
     out.add(`${prefix}[len=${value.length}]`);
-    value.forEach((item, index) => collectPaths(item, `${prefix}[${index}]`, out));
+    value.forEach((item, index) =>
+      collectPaths(item, `${prefix}[${index}]`, out),
+    );
     return out;
   }
-  if (typeof value === 'object') {
+  if (typeof value === "object") {
     for (const key of Object.keys(value)) {
       collectPaths(value[key], prefix ? `${prefix}.${key}` : key, out);
     }
@@ -46,16 +49,18 @@ function collectPaths(value, prefix = '', out = new Set()) {
 }
 
 /** Leaf paths whose value is an empty string — a gap that would render blank. */
-function collectEmpty(value, prefix = '', out = []) {
-  if (typeof value === 'string') {
-    if (value.trim() === '') out.push(prefix);
+function collectEmpty(value, prefix = "", out = []) {
+  if (typeof value === "string") {
+    if (value.trim() === "") out.push(prefix);
     return out;
   }
   if (Array.isArray(value)) {
-    value.forEach((item, index) => collectEmpty(item, `${prefix}[${index}]`, out));
+    value.forEach((item, index) =>
+      collectEmpty(item, `${prefix}[${index}]`, out),
+    );
     return out;
   }
-  if (value && typeof value === 'object') {
+  if (value && typeof value === "object") {
     for (const key of Object.keys(value)) {
       collectEmpty(value[key], prefix ? `${prefix}.${key}` : key, out);
     }
@@ -69,14 +74,16 @@ function compare(label, byLocale, { allowEmpty = [] } = {}) {
   const reference = collectPaths(byLocale.en);
 
   for (const locale of LOCALES) {
-    if (locale === 'en') continue;
+    if (locale === "en") continue;
     const actual = collectPaths(byLocale[locale]);
 
     for (const key of reference) {
-      if (!actual.has(key)) problems.push(`${label}: "${key}" is missing from ${locale}`);
+      if (!actual.has(key))
+        problems.push(`${label}: "${key}" is missing from ${locale}`);
     }
     for (const key of actual) {
-      if (!reference.has(key)) problems.push(`${label}: "${key}" exists in ${locale} but not in en`);
+      if (!reference.has(key))
+        problems.push(`${label}: "${key}" exists in ${locale} but not in en`);
     }
   }
 
@@ -88,28 +95,24 @@ function compare(label, byLocale, { allowEmpty = [] } = {}) {
   }
 }
 
-const { translations } = await load('src/lib/translations.ts');
-const { UI } = await load('src/lib/content/ui.ts');
-// The book's own furniture is localised too, and was not covered until the
-// sketchbook was built — an English "Zoom in" on the Italian route is exactly
-// the silent gap this script exists to catch.
-const { SHELF_UI } = await load('src/app/components/shelf/shelf-ui.ts');
-const { SKETCHBOOK_UI } = await load('src/app/components/sketchbook/sketchbook-ui.ts');
-const { EXPERIENCE_COPY } = await load('src/lib/experience-copy.ts');
-const { LIBRARY_UI } = await load('src/lib/content/library-ui.ts');
-const services = await load('src/lib/content/services.ts');
-const caseStudies = await load('src/lib/content/case-studies.ts');
+const { translations } = await load("src/lib/translations.ts");
+const { UI } = await load("src/lib/content/ui.ts");
+// Shared localized navigation, contact and career copy.
+const { EXPERIENCE_COPY } = await load("src/lib/experience-copy.ts");
+const { LIBRARY_UI } = await load("src/lib/content/library-ui.ts");
+const services = await load("src/lib/content/services.ts");
+const caseStudies = await load("src/lib/content/case-studies.ts");
 
-compare('translations', translations);
-compare('ui', UI);
-compare('shelf-ui', SHELF_UI);
-compare('sketchbook-ui', SKETCHBOOK_UI);
-compare('experience-copy', EXPERIENCE_COPY);
-compare('library-ui', LIBRARY_UI);
+compare("translations", translations);
+compare("ui", UI);
+compare("experience-copy", EXPERIENCE_COPY);
+compare("library-ui", LIBRARY_UI);
 
 compare(
-  'services',
-  Object.fromEntries(LOCALES.map((locale) => [locale, services.getAllServiceCopy(locale)])),
+  "services",
+  Object.fromEntries(
+    LOCALES.map((locale) => [locale, services.getAllServiceCopy(locale)]),
+  ),
 );
 
 // `baseline` is intentionally empty where a project has no legitimate baseline
@@ -117,16 +120,35 @@ compare(
 for (const slug of caseStudies.caseStudySlugs) {
   compare(
     `case-study:${slug}`,
-    Object.fromEntries(LOCALES.map((locale) => [locale, caseStudies.getCaseStudyCopy(locale, slug)])),
-    { allowEmpty: ['baseline'] },
+    Object.fromEntries(
+      LOCALES.map((locale) => [
+        locale,
+        caseStudies.getCaseStudyCopy(locale, slug),
+      ]),
+    ),
+    { allowEmpty: ["baseline"] },
   );
 }
 
+const { PORTFOLIO_UI } = await load("src/lib/content/portfolio-ui.ts");
+compare("portfolio-ui", PORTFOLIO_UI);
+const { getWorldCopy } = await load(
+  "src/app/components/experience/world/copy.ts",
+);
+compare(
+  "world-ui",
+  Object.fromEntries(LOCALES.map((locale) => [locale, getWorldCopy(locale)])),
+);
+
 if (problems.length > 0) {
-  console.error(`\nLocalisation check failed with ${problems.length} problem(s):\n`);
+  console.error(
+    `\nLocalisation check failed with ${problems.length} problem(s):\n`,
+  );
   for (const problem of problems) console.error(`  - ${problem}`);
-  console.error('');
+  console.error("");
   process.exit(1);
 }
 
-console.log(`Localisation check passed: ${LOCALES.join(', ')} are structurally identical and complete.`);
+console.log(
+  `Localisation check passed: ${LOCALES.join(", ")} are structurally identical and complete.`,
+);

@@ -84,8 +84,8 @@ html:has(.chapters-root), body:has(.chapters-root) { overflow-x: clip; overflow-
 .career-story[data-enhanced="true"] .career-card-slot { position: absolute; top: 30px; left: calc(50% - var(--card-step) / 2); }
 .career-story[data-enhanced="true"] .career-stage { flex: 0 0 auto; }
 @media (min-width: 1100px) and (max-height: 950px) {
-  .career-story[data-enhanced="true"] { --media-width: 540px; }
-  .career-story[data-enhanced="true"] .career-track { height: 365px; }
+  .career-story[data-enhanced="true"] { --media-width: min(540px, 58svh); }
+  .career-story[data-enhanced="true"] .career-track { height: calc(var(--media-width) / 1.78 + 60px); }
 }
 @keyframes chapter-details-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .career-story { --card-step: calc(var(--media-width) + 20px); } }
@@ -159,10 +159,10 @@ html:has(.chapters-root), body:has(.chapters-root) { overflow-x: clip; overflow-
 @media (prefers-reduced-motion: reduce) { .chapters-root *, .chapters-root *::before { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 @media print {
   .chapters-print-identity { display: block; font-size: 14px; font-weight: 500; margin-bottom: 16px; }
-  body:has(.chapters-root), .chapters-root { background: white !important; color: var(--color-carbon) !important; }
+  body:has(.chapters-root), .chapters-root { background: white !important; color: var(--color-bone) !important; }
   body:has(.chapters-root) .site-nav, body:has(.chapters-root) footer, .chapters-hero-links, .career-story, .career-print, .chapters-next, .chapters-portrait, body:has(.chapters-root) .pointer-events-none { display: none !important; }
   .chapters-page { padding: 0; max-width: none; } .chapters-hero { display: block; padding: 0 0 12px; }
-  .chapters-hero h1 { font-size: 32px; margin: 12px 0; } .chapters-root * { color: var(--color-carbon) !important; }
+  .chapters-hero h1 { font-size: 32px; margin: 12px 0; } .chapters-root * { color: var(--color-bone) !important; }
   .chapters-lede { max-width: none; font-size: 12px; } .career-record { margin: 0; padding-top: 16px; }
   .career-record > header { margin-bottom: 20px; } .career-record h2 { font-size: 24px; }
   .career-record-grid { gap: 28px; } .career-record h4 { font-size: 18px; }
